@@ -1,6 +1,6 @@
 <?php
 
-namespace ITHilbert\LaravelKit\;
+namespace ITHilbert\LaravelKit;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
@@ -24,48 +24,17 @@ class LaravelKitServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerTranslations();
+        /* $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->registerFactories();
+        $this->registerFactories(); */
         //$this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
 
         //$path = module_path($this->moduleName);
 
         //Dateien kopieren
         $this->publishes([
-            //##################
-            //# public
-            //##################
-
-
-            //Json
-            //$path .'Publish/public/DataTable_DE.json' => public_path('css/DataTable_DE.json'),
-
-/*             //CSS Files
-            $path .'Publish/public/css/app.css' => resource_path('views/Lvkit/app.css'),
-            $path .'Publish/public/css/custom.css' => public_path('css/custom.php'),
-            $path .'Publish/public/css/datatables.css' => public_path('css/datatables.php'),
-            $path .'Publish/public/css/datatables.min.css' => public_path('css/datatables.min.php'),
-            $path .'Publish/public/css/jquery-ui.combobox.css' => public_path('css/jquery-ui.combobox.php'),
-            $path .'Publish/public/css/jquery-ui.css' => public_path('css/jquery-ui.php'),
-            $path .'Publish/public/css/jquery-ui.structure.css' => public_path('css/jquery-ui.structure.php'),
-            $path .'Publish/public/css/jquery-ui.theme.css' => public_path('css/jquery-ui.theme.php'),
-            $path .'Publish/public/css/LaravelKit.css' => public_path('css/LaravelKit.php'),
-
-            //JS Files
-            $path .'Publish/public/js/app.js' => public_path('css/app.js'),
-            $path .'Publish/public/js/datatables.js' => public_path('css/datatables.js'),
-            $path .'Publish/public/js/datatables.min.js' => public_path('css/datatables.min.js'),
-            $path .'Publish/public/js/jquery-ui.combobox.js' => public_path('css/jquery-ui.combobox.js'),
-            $path .'Publish/public/js/jquery-ui.js' => public_path('css/jquery-ui.js'),
-            $path .'Publish/public/js/jquery-ui.min.js' => public_path('css/jquery-ui.min.js'),
-            $path .'Publish/public/js/laravelKit.js' => public_path('css/laravelKit.js'), */
-
-
-            //$path .'/Publish/public/css/app.css' => config_path('contact.php'),
-            //$path .'/ressources/views/laravelKit' => resource_path('views/laravelKit'),
-            //$path .'/ressources/lang/de' => resource_path('lang/de')
+            __DIR__ .'/Publish/public/DataTable_DE.json' => public_path('css/DataTable_DE.json'),
         ]);
 
     }
@@ -77,7 +46,7 @@ class LaravelKitServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(RouteServiceProvider::class);
+        //$this->app->register(RouteServiceProvider::class);
     }
 
     /**
@@ -151,7 +120,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         return [];
     }
 
-    private function getPublishableViewPaths(): array
+    private function getPublishableViewPaths() //: array
     {
         /* $paths = [];
         foreach (\Config::get('view.paths') as $path) {

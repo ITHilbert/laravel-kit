@@ -9,10 +9,14 @@
     }],
     "minimum-stability": "dev",
     "require": {},
-    "autoload": {},
+    "autoload": {
+        "psr-4": {
+            "ITHilbert\\LaravelKit\\": ""
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ITHilbert\\LaravelKit\\": "/"
+            "ITHilbert\\LaravelKit\\": ""
         }
     },
     "extra": {
