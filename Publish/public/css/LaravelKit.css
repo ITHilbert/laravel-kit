@@ -1,0 +1,40 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24.06.2019, 16:16:26
+    Author     : joerg
+*/
+
+.input-int{
+    text-align: right;
+}
+
+.input-euro{
+    text-align: right;
+}
+
+.input-prozent{
+    text-align: right;
+}
+
+.input-zahl{
+    text-align: right;
+}
+
+
+.hidden{
+    visibility : hidden;
+    display: none;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.center{
+    text-align: center;
+    align-items: center;
+}

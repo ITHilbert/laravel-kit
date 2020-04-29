@@ -1,0 +1,26 @@
+{
+    "name": "ithilbert/laravel-kit",
+    "type": "lib",
+    "description": "Tools für das Programmieren mit Laravel",
+    "authors": [{
+        "name": "Jörg Hilbert",
+        "homepage": "https://www.it-hilbert.com",
+        "role": "Developer"
+    }],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "ITHilbert\\LaravelKit\\": "/"
+        }
+    }
+
+}
