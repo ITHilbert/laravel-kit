@@ -32,9 +32,11 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         //$path = module_path($this->moduleName);
 
-        //Dateien kopieren
+        //Public files
         $this->publishes([
-            __DIR__ .'/Publish/public/DataTable_DE.json' => public_path('css/DataTable_DE.json'),
+            __DIR__ .'/Public/DataTable_DE.json' => public_path('DataTable_DE.json'),
+            __DIR__ .'/Public/css' => public_path('vendor/laravelkit/css'),
+            __DIR__ .'/Public/js' => public_path('vendor/laravelkit/js'),
         ]);
 
         //Lang Files
@@ -55,6 +57,7 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Ressources/js' => resource_path('js/vendor/laravelkit'),
             __DIR__.'/Ressources/scss' => resource_path('scss/vendor/laravelkit'),
         ]);
+
 
 
     }
