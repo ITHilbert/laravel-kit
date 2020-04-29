@@ -39,17 +39,17 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__ .'/Public/js' => public_path('vendor/laravelkit/js'),
         ]);
 
-        //Lang Files
+        //Resources Lang Files
         $this->publishes([
-            __DIR__.'/Ressources/land/de/master.php' => resource_path('lang/de/master.php'),
-            __DIR__.'/Ressources/land/de/pagination.php' => resource_path('lang/de/pagination.php'),
-            __DIR__.'/Ressources/land/de/validation.php' => resource_path('lang/de/validation.php'),
+            __DIR__.'/Resources/lang/de/master.php' => resource_path('lang/de/master.php'),
+            __DIR__.'/Resources/lang/de/pagination.php' => resource_path('lang/de/pagination.php'),
+            __DIR__.'/Resources/lang/de/validation.php' => resource_path('lang/de/validation.php'),
         ]);
 
         //Ressources
         $this->publishes([
-            __DIR__.'/Ressources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
-            __DIR__.'/Ressources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
+            __DIR__.'/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
+            __DIR__.'/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
         ]);
 
         //Ressources js und sass
