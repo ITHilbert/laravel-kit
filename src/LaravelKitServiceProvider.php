@@ -37,6 +37,26 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__ .'/Publish/public/DataTable_DE.json' => public_path('css/DataTable_DE.json'),
         ]);
 
+        //Lang Files
+        $this->publishes([
+            __DIR__.'/Ressources/land/de/master.php' => resource_path('lang/de/master.php'),
+            __DIR__.'/Ressources/land/de/pagination.php' => resource_path('lang/de/pagination.php'),
+            __DIR__.'/Ressources/land/de/validation.php' => resource_path('lang/de/validation.php'),
+        ]);
+
+        //Ressources
+        $this->publishes([
+            __DIR__.'/Ressources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
+            __DIR__.'/Ressources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
+        ]);
+
+        //Ressources js und sass
+        $this->publishes([
+            __DIR__.'/Ressources/js' => resource_path('js/vendor/laravelkit'),
+            __DIR__.'/Ressources/scss' => resource_path('scss/vendor/laravelkit'),
+        ]);
+
+
     }
 
     /**
