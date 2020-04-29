@@ -54,8 +54,8 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         //Ressources js und sass
         $this->publishes([
-            __DIR__.'/Ressources/js' => resource_path('js/vendor/laravelkit'),
-            __DIR__.'/Ressources/scss' => resource_path('scss/vendor/laravelkit'),
+            __DIR__.'/Resources/js' => resource_path('js/vendor/laravelkit'),
+            __DIR__.'/Resources/scss' => resource_path('scss/vendor/laravelkit'),
         ]);
 
 
