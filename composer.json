@@ -11,12 +11,12 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "ITHilbert\\LaravelKit\\": ""
+            "ITHilbert\\LaravelKit\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ITHilbert\\LaravelKit\\": ""
+            "ITHilbert\\LaravelKit\\": "src/"
         }
     },
     "extra": {
