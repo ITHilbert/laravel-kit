@@ -39,7 +39,7 @@ Vue.component('group', require('./components/group.vue').default);
 
 //Comobobox
 Vue.component('combobox', require('./components/input/combobox.vue').default);
-Vue.component('cb', require('./components/input/cb.vue').default);
+Vue.component('search', require('./components/input/search.vue').default);
 
 //Input
 Vue.component('input-text', require('./components/input/input-text.vue').default);
