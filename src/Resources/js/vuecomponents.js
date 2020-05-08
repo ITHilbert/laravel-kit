@@ -28,6 +28,7 @@ window.Vue = require('vue');
 //import { ToggleButton } from 'vue-js-toggle-button';
 //Vue.component('ToggleButton', ToggleButton);
 
+Vue.component('editor', require('./components/editor.vue').default);
 
 
 /**
