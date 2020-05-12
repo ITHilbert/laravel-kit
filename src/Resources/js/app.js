@@ -40,6 +40,7 @@ Vue.component('group', require('./components/group.vue').default);
 //Comobobox
 Vue.component('combobox', require('./components/input/combobox.vue').default);
 Vue.component('search', require('./components/input/search.vue').default);
+Vue.component('input-list', require('./components/input/input-list.vue').default);
 
 //Input
 Vue.component('input-text', require('./components/input/input-text.vue').default);
@@ -54,6 +55,7 @@ Vue.component('text-area', require('./components/input/text-area.vue').default);
 Vue.component('checkbox', require('./components/input/checkbox.vue').default);
 Vue.component('radiobox', require('./components/input/radiobox.vue').default);
 Vue.component('input-hidden', require('./components/input/input-hidden.vue').default);
+Vue.component('input-color', require('./components/input/input-color.vue').default);
 Vue.component('hlabel', require('./components/input/hlabel.vue').default);
 
 
