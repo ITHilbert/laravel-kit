@@ -2,7 +2,7 @@
 
 namespace ITHilbert\LaravelKit\Traits;
 
-use ITHilbert\LaravelKit\Entit\Models\ComboBox;
+use ITHilbert\LaravelKit\Entities\ComboBox;
 
 /*
  * Some functions for the vue combobox

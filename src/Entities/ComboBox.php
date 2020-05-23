@@ -1,6 +1,6 @@
 <?php
 
-namespace ITHilbert\LaravelKit\Entit\Models;
+namespace ITHilbert\LaravelKit\Entities;
 
 //use Illuminate\Database\Eloquent\Model;
 
