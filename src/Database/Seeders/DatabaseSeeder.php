@@ -5,7 +5,7 @@ namespace ITHilbert\LaravelKit\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class LaravelKitDatabaseSeeder extends Seeder
+class DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,8 @@ class LaravelKitDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
+        //Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(AnredeTableSeeder::class);
     }
 }

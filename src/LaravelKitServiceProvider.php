@@ -17,6 +17,8 @@ class LaravelKitServiceProvider extends ServiceProvider
      */
     protected $moduleNameLower = 'laravelkit';
 
+    protected $loadFromPackage = true;
+
     /**
      * Boot the application events.
      *
@@ -28,7 +30,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories(); */
-        //$this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
 
         //$path = module_path($this->moduleName);
 
@@ -58,6 +60,10 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Resources/scss' => resource_path('scss/vendor/laravelkit'),
         ]);
 
+        
+
+
+
 
 
     }
@@ -71,6 +77,10 @@ class LaravelKitServiceProvider extends ServiceProvider
     {
         //$this->app->register(RouteServiceProvider::class);
     }
+
+    
+
+
 
     /**
      * Register config.

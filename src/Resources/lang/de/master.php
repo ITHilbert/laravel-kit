@@ -14,4 +14,7 @@ return [
     'btn-back'   => 'Zurück',
     'btn-save'   => 'Speichern',
     'btn-edit'   => 'Bearbeiten',
+
+
+    'anrede'    =>  'Anrede',
 ];
