@@ -73,9 +73,9 @@ Vue.component('button-reset', require('./components/buttons/button-reset.vue').d
 
 
 //Show
-Vue.component('txt', require('./components/show/text.vue').default);
-Vue.component('euro', require('./components/show/euro.vue').default);
-Vue.component('datum', require('./components/show/date.vue').default);
+Vue.component('show-txt', require('./components/show/show-text.vue').default);
+Vue.component('show-euro', require('./components/show/show-euro.vue').default);
+Vue.component('show-date', require('./components/show/show-date.vue').default);
 
 //Dialoge
 Vue.component('dialog-delete', require('./components/dialog/delete.vue').default);

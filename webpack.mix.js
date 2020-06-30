@@ -9,7 +9,7 @@ require('laravel-mix-merge-manifest');
 mix.js(__dirname + '/src/Resources/js/startscript.js', __dirname + '/src/Public/js/startscript.js')
     .js(__dirname + '/src/Resources/js/vuecomponents.js', __dirname + '/src/Public/js/vuecomponents.js')
     .js(__dirname + '/src/Resources/js/laravelkit.js', __dirname + '/src/Public/js/laravelkit.js')
-    .sass(__dirname + '/src/Resources/scss/laravelkit.scss', __dirname + '/src/Public/css/laravelkit.css');
+    .sass(__dirname + '/src/Resources/sass/laravelkit.scss', __dirname + '/src/Public/css/laravelkit.css');
 
 /* if (mix.inProduction()) {
     mix.version();

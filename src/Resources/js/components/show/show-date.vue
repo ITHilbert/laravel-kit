@@ -1,5 +1,5 @@
 <template>
-    <div :value="value" style="padding-top: 8px;">
+    <div :value="value" class="show-date">
         {{ formatValue(value) }}
     </div>
 </template>
@@ -14,8 +14,8 @@
         },
         methods:{
             formatValue(value) {
-                let val = (value/1).toFixed(2).replace('.', ',');
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' €';
+                var tmp = value.split('-');
+                return tmp[2] + "." + tmp[1] + "." + tmp[0];
             }
         }
     }

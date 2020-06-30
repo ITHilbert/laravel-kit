@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-top: 8px;">
+    <div class="show-txt">
         {{ value }}
         <slot></slot>
     </div>

@@ -23,7 +23,7 @@
 @import 'lib/jquery-ui.combobox.css';
 //datatables
 @import 'lib/datatables.css';
-//forms input 
+//forms input
 @import 'lib/input.css';
 //Meine Vue Buttons
 @import 'buttons/btn-back.scss';
@@ -35,3 +35,7 @@
 @import 'buttons/btn-save.scss';
 @import 'buttons/btn-show.scss';
 @import 'buttons/btn-submit.scss';
+//Show-Elemente
+@import 'show/show-date.scss';
+@import 'show/show-euro.scss';
+@import 'show/show-txt.scss';
