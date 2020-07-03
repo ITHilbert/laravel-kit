@@ -9,7 +9,7 @@ class Log extends Model
 {
     protected $table ='log';
     protected $fillable = ['log'];
-    public $timestamps = false;
+    public $timestamps = true;
 
     public static function write($text){
         $log = new Log;
