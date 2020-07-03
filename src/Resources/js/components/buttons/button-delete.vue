@@ -21,11 +21,11 @@
                 default: 'Löschen'
             }
         },
-        methods: {
+        /* methods: {
             OpenDeleteForm: function () {
                 deleteID = this.value;
                 $('#myModalDelete').modal('show');
             }
-  }
+        } */
     }
 </script>
