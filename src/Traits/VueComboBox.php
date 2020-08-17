@@ -14,6 +14,8 @@ trait VueComboBox
     //Dadurch stehen die Attribute cbKey und cbCaption zur Verfgung
     //protected  $appends[] = array('cbKey', 'cbCaption');
     public function __construct() {
+        parent::__construct();
+
         $this->appends[] = 'cbKey';
         $this->appends[] = 'cbCaption';
     }

@@ -40,3 +40,7 @@ php artisan db:seed --class="ITHilbert\LaravelKit\Database\Seeders\DatabaseSeede
 <script src="{{ asset('js/datatables.min.js') }}"></script>
 <script src="{{ asset('vendor/laravelkit/js/deleteform.js') }}"></script>
 ```
+
+### ToDo
+- Vue Componente für Tooltips (i)
+- hform überarbeiten bezüglich Token lesen
