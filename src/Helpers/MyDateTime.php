@@ -30,6 +30,7 @@ class MyDateTime{
   ************************************************************************/
   public function __construct($datumZeit='NULL'){
     $this->setDateTime($datumZeit);
+    return $this;
   }
 
   /**

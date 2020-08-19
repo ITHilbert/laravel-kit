@@ -11,6 +11,25 @@
 |
 */
 
-Route::prefix('laravelkit')->group(function() {
-    Route::get('/', 'LaravelKitController@index');
+//root
+Route::any('/', function () {
+    if(Auth::check()){
+        return view('home');
+    }
+    else{
+        return redirect()->route('login');
+    }
+})->name('root');
+
+
+Route::group([
+    'middleware' => ['web', 'auth']], function(){
+
+    Route::any('vue', 'VueController@vue')->name('vue');
+    Route::post('vue-submit', 'VueController@vuesubmit')->name('vue-submit');
 });
+
+
+Route::get('/home', function() {
+    return view('home');
+})->name('home')->middleware('auth');

@@ -42,14 +42,13 @@ Vue.component('editor', require('./components/editor.vue').default);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('card', require('./components/Card.vue').default);
 Vue.component('hform', require('./components/HForm.vue').default);
 Vue.component('group', require('./components/group.vue').default);
 
 //Comobobox
 Vue.component('combobox', require('./components/input/combobox.vue').default);
-Vue.component('cb', require('./components/input/cb.vue').default);
+Vue.component('search', require('./components/input/search.vue').default);
 
 //Input
 Vue.component('input-text', require('./components/input/input-text.vue').default);
@@ -81,9 +80,9 @@ Vue.component('button-reset', require('./components/buttons/button-reset.vue').d
 
 
 //Show
-Vue.component('txt', require('./components/show/text.vue').default);
-Vue.component('euro', require('./components/show/euro.vue').default);
-Vue.component('datum', require('./components/show/date.vue').default);
+Vue.component('txt', require('./components/show/show-text.vue').default);
+Vue.component('euro', require('./components/show/show-euro.vue').default);
+Vue.component('datum', require('./components/show/show-date.vue').default);
 
 //Dialoge
 Vue.component('dialog-delete', require('./components/dialog/delete.vue').default);

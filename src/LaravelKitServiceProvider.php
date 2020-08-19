@@ -26,6 +26,7 @@ class LaravelKitServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerCommands();
         /* $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
@@ -34,6 +35,26 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         //$path = module_path($this->moduleName);
 
+        //Config files
+        $this->publishes([
+            config_path('adminlte.php') => config_path('adminlte-org.php'),
+            __DIR__ .'/Config/adminlte.php' => config_path('adminlte.php'),
+            __DIR__ .'/Config/database.php' => config_path('database.php'),
+        ]);
+
+
+        //Models
+        $this->publishes([
+            app_path('User.php') => app_path('User-org.php'),
+            __DIR__ .'/App/User.php' => app_path('User.php'),
+        ]);
+
+        //Routes
+        $this->publishes([
+            base_path('routes/web.php') => base_path('routes/web-org.php'),
+            __DIR__ .'/Routes/web.php' => base_path('routes/web.php'),
+        ]);
+
         //Public files
         $this->publishes([
             __DIR__ .'/Public/DataTable_DE.json' => public_path('DataTable_DE.json'),
@@ -41,17 +62,19 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__ .'/Public/js' => public_path('vendor/laravelkit/js'),
         ]);
 
-        //Resources Lang Files
+        //Lang Files
         $this->publishes([
             __DIR__.'/Resources/lang/de/master.php' => resource_path('lang/de/master.php'),
             __DIR__.'/Resources/lang/de/pagination.php' => resource_path('lang/de/pagination.php'),
             __DIR__.'/Resources/lang/de/validation.php' => resource_path('lang/de/validation.php'),
         ]);
 
-        //Ressources
+        //Views
         $this->publishes([
             __DIR__.'/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
             __DIR__.'/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
+            __DIR__.'/Resources/views/layouts' => resource_path('views/layouts'),
+            __DIR__.'/Resources/views/welcome.blade.php' => resource_path('views/welcome.blade.php'),
         ]);
 
         //Ressources js und sass
@@ -60,13 +83,21 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Resources/sass' => resource_path('sass/vendor/laravelkit'),
         ]);
 
-
-
-
-
-
-
     }
+
+
+    /**
+     * Register commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\install::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\paths::class );
+    }
+
+
 
     /**
      * Register the service provider.
