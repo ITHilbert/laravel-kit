@@ -1,6 +1,6 @@
 {
-    "/src/Public/js/laravelkit.js": "/src/Public/js/laravelkit.js",
-    "/src/Public/js/startscript.js": "/src/Public/js/startscript.js",
-    "/src/Public/css/laravelkit.css": "/src/Public/css/laravelkit.css",
+    "/src/Public/js/app.js": "/src/Public/js/app.js",
+    "/src/Public/css/app.css": "/src/Public/css/app.css",
+    "/src/Public/css/vuecomponents.css": "/src/Public/css/vuecomponents.css",
     "/src/Public/js/vuecomponents.js": "/src/Public/js/vuecomponents.js"
 }

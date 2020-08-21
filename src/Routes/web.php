@@ -22,13 +22,13 @@ Route::any('/', function () {
 })->name('root');
 
 
-Route::group([
-    'middleware' => ['web', 'auth']], function(){
+Route::group(['namespace' => '\ITHilbert\LaravelKit\Http\Controllers',
+              'middleware' => ['web', 'auth']], function () {
 
     Route::any('vue', 'VueController@vue')->name('vue');
     Route::post('vue-submit', 'VueController@vuesubmit')->name('vue-submit');
-});
 
+});
 
 Route::get('/home', function() {
     return view('home');

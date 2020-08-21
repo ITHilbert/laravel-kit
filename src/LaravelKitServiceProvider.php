@@ -60,6 +60,9 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__ .'/Public/DataTable_DE.json' => public_path('DataTable_DE.json'),
             __DIR__ .'/Public/css' => public_path('vendor/laravelkit/css'),
             __DIR__ .'/Public/js' => public_path('vendor/laravelkit/js'),
+
+            __DIR__ .'/Public/images' => public_path('images'),
+            __DIR__ .'/Public/fonts' => public_path('fonts'),
         ]);
 
         //Lang Files
@@ -75,12 +78,18 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
             __DIR__.'/Resources/views/layouts' => resource_path('views/layouts'),
             __DIR__.'/Resources/views/welcome.blade.php' => resource_path('views/welcome.blade.php'),
+
+            __DIR__.'/Resources/views/vendor/adminlte/master.blade.php' => resource_path('views/vendor/adminlte/master.blade.php'),
+
         ]);
 
         //Ressources js und sass
         $this->publishes([
             __DIR__.'/Resources/js' => resource_path('js/vendor/laravelkit'),
             __DIR__.'/Resources/sass' => resource_path('sass/vendor/laravelkit'),
+
+            __DIR__.'/Public/css/app.css' => public_path('css/app.css'),
+            __DIR__.'/Public/js/app.js' => public_path('js/app.js'),
         ]);
 
     }
@@ -95,6 +104,8 @@ class LaravelKitServiceProvider extends ServiceProvider
     {
         $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\install::class );
         $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\paths::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\copyfiles::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\npm::class );
     }
 
 

@@ -45,20 +45,12 @@ php artisan db:seed --class="ITHilbert\LaravelKit\Database\Seeders\DatabaseSeede
 ```
 
 ## Im Template
-###Header
+### Header
 ```
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{{-- Base Stylesheets --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/laravelkit/css/vuecomponents.css') }}">
 
-
-<script>
-	var Laravel = {
-	    'csrfToken' : '{{csrf_token()}}'
-	};
-</script>
-
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 ```
 
 ### Body end
@@ -66,16 +58,17 @@ php artisan db:seed --class="ITHilbert\LaravelKit\Database\Seeders\DatabaseSeede
 <!-- Wichtig zum löschen von Daten -->
 @include('include.formdelete')
 
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/datatables.min.js') }}"></script>
-<script src="{{ asset('vendor/laravelkit/js/deleteform.js') }}"></script>
+{{-- Base Scripts --}}
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('vendor/laravelkit/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('vendor/laravelkit/js/vuecomponents.js') }}"></script>
+    <script src="{{ asset('vendor/laravelkit/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('vendor/laravelkit/js/myFunctions.js') }}"></script>
 ```
 
 ### ToDo
-- edit master js, css ...
-- Copy master
+
 - Vue Componente für Tooltips (i)
-- hform überarbeiten bezüglich Token lesen
 
 
 ### Links

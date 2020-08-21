@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-//require('./bootstrap');
+window.Vue = require('vue');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -14,22 +14,6 @@
 
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-window.Vue = require('vue');
-
-///*****v-select components
-// * https://vue-select.org/ *****/
-//import vselect from 'vue-select';
-//Vue.component('v-select', vselect);
-//import "vue-select/src/scss/vue-select.scss";
-//
-///*****vue-js-toggle-button
-// * https://github.com/euvl/vue-js-toggle-button *****/
-//import { ToggleButton } from 'vue-js-toggle-button';
-//Vue.component('ToggleButton', ToggleButton);
-
-Vue.component('editor', require('./components/editor.vue').default);
-
 
 /**
  * The following block of code may be used to automatically register your
@@ -42,6 +26,9 @@ Vue.component('editor', require('./components/editor.vue').default);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
+
+//Design
 Vue.component('card', require('./components/Card.vue').default);
 Vue.component('hform', require('./components/HForm.vue').default);
 Vue.component('group', require('./components/group.vue').default);
@@ -64,7 +51,7 @@ Vue.component('checkbox', require('./components/input/checkbox.vue').default);
 Vue.component('radiobox', require('./components/input/radiobox.vue').default);
 Vue.component('input-hidden', require('./components/input/input-hidden.vue').default);
 Vue.component('hlabel', require('./components/input/hlabel.vue').default);
-
+Vue.component('editor', require('./components/editor.vue').default);
 
 //Buttons
 Vue.component('hbutton', require('./components/buttons/HButton.vue').default);
