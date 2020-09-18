@@ -1,5 +1,11 @@
 <?php
 
 return [
-    'name' => 'LaravelKit'
+    'name' => 'LaravelKit',
+
+
+    'replaces' => [
+        'CLASS' => ''
+    ]
+
 ];

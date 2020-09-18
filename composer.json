@@ -34,14 +34,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider",
-                "Yajra\\DataTables\\DataTablesServiceProvider",
-                "Orangehill\\Iseed\\IseedServiceProvider",
-                "Barryvdh\\Debugbar\\ServiceProvider"
+                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider"
             ],
             "aliases": {
-                "DataTables": "Yajra\\DataTables\\Facades\\DataTables",
-                "Debugbar": "Barryvdh\\Debugbar\\Facade"
+                "DataTables": "Yajra\\DataTables\\Facades\\DataTables"
             }
         }
     }

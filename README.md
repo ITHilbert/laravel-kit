@@ -29,6 +29,17 @@ composer require ithilbert/laravel-kit
 //Componenten installieren und Dateien kopieren
 php artisan laravelkit:install
 
+
+/config/app.php
+providers:
+Yajra\DataTables\DataTablesServiceProvider:class,
+Orangehill\Iseed\IseedServiceProvider:class,
+Barryvdh\Debugbar\ServiceProvider:class,
+
+alias:
+"Debugbar": "Barryvdh\\Debugbar\\Facade"
+
+
 ----
 Alt
 ----
