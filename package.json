@@ -24,7 +24,7 @@
         "@fortawesome/fontawesome-free": "^5.14.0",
         "@tinymce/tinymce-vue": "^3.2.1",
         "@types/datatables.net": "^1.10.19",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "datatables.net": "^1.10.20",
         "icheck-bootstrap": "^3.0.1",
         "jquery": "^3.5.1",
