@@ -18,7 +18,7 @@
         "homepage": "https://www.it-hilbert.com",
         "role": "Developer"
     }],
-    "homepage": "https://github.com/spatie/laravel-permission",
+    "homepage": "https://www.it-hilbert.com",
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
@@ -30,20 +30,7 @@
         "psr-4": {
             "ITHilbert\\LaravelKit\\": "src/"
         }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider",
-                "Yajra\\DataTables\\DataTablesServiceProvider",
-                "Orangehill\\Iseed\\IseedServiceProvider",
-                "Barryvdh\\Debugbar\\ServiceProvider"
-            ],
-            "aliases": {
-                "DataTables": "Yajra\\DataTables\\Facades\\DataTables",
-                "Debugbar": "Barryvdh\\Debugbar\\Facade"
-            }
-        }
     }
+
 
 }

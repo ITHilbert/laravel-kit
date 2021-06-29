@@ -1,6 +1,6 @@
 <?php
 
-namespace ITHilbert\NewProject;
+namespace ITHilbert\LaravelKit;
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;

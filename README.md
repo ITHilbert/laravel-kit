@@ -78,3 +78,19 @@ php artisan db:seed --class="ITHilbert\LaravelKit\Database\Seeders\DatabaseSeede
 [Mailtrap - Mail testen](https://mailtrap.io) 
 
 
+
+
+"extra": {
+        "laravel": {
+            "providers": [
+                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider",
+                "Yajra\\DataTables\\DataTablesServiceProvider",
+                "Orangehill\\Iseed\\IseedServiceProvider",
+                "Barryvdh\\Debugbar\\ServiceProvider"
+            ],
+            "aliases": {
+                "DataTables": "Yajra\\DataTables\\Facades\\DataTables",
+                "Debugbar": "Barryvdh\\Debugbar\\Facade"
+            }
+        }
+    }
