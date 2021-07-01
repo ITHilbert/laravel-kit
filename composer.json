@@ -30,7 +30,19 @@
         "psr-4": {
             "ITHilbert\\LaravelKit\\": "src/"
         }
-    }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider"
+            ],
+            "aliases": {
+                "HButton": "ITHilbert\\LaravelKit\\Helpers\\HButton",
+                "HForm": "ITHilbert\\LaravelKit\\Helpers\\HForm"
+            }
+        }
+    },
+
 
 
 }

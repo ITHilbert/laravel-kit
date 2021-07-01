@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         //Model::unguard();
 
-        $this->call(AnredeTableSeeder::class);
+        //$this->call(AnredeTableSeeder::class);
     }
 }
