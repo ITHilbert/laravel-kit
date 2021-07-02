@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\ComposerScripts;
 
 
-class LaravelKitInstall extends Command
+class LaravelKitInstallAll extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'laravelkit:install';
+    protected $signature = 'install:all';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installiert Komponenten für ein neues Project';
+    protected $description = 'Installiert alle Komponenten für ein neues Project';
 
     /**
      * Create a new command instance.
