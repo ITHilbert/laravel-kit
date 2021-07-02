@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\ComposerScripts;
 
 
-class install extends Command
+class LaravelKitInstall extends Command
 {
     /**
      * The name and signature of the console command.
@@ -39,12 +39,6 @@ class install extends Command
      */
     public function handle()
     {
-        //Laravel UI
-        $this->info('Install laravel/ui');
-        exec('composer require laravel/ui');
-        exec('php artisan ui:controllers');         // AdminLTE
-        exec('php artisan ui:auth');                //UserAuth
-
         //ISeed
         $this->info('Install orangehill/iseed');
         exec('composer require orangehill/iseed');

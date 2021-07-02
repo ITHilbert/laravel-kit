@@ -1,12 +1,9 @@
 <?php
-
 namespace ITHilbert\LaravelKit\App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
 
-
-class paths extends Command
+class LaravelKitPaths extends Command
 {
     /**
      * The name and signature of the console command.

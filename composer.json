@@ -5,13 +5,7 @@
     "description": "Tools für das Programmieren mit Laravel",
     "keywords": [
         "it-hilbert",
-        "laravel",
-        "permission",
-        "permissions",
-        "roles",
-        "acl",
-        "rbac",
-        "security"
+        "laravel"
     ],
     "authors": [{
         "name": "Jörg Hilbert",

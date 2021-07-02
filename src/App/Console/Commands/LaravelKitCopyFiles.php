@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\ComposerScripts;
 
 
-class copyfiles extends Command
+class LaravelKitCopyFiles extends Command
 {
     /**
      * The name and signature of the console command.
