@@ -13,6 +13,8 @@ composer require ithilbert/laravel-kit
 //Componenten installieren und Dateien kopieren
 php artisan laravelkit:install
 
+php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --force
+
 
 /config/app.php
 providers:
