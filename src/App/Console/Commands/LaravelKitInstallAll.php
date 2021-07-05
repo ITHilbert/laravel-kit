@@ -64,6 +64,15 @@ class LaravelKitInstallAll extends Command
         exec('composer require ithilbert/user-auth:dev-master');
         exec('php artisan vendor:publish --provider="ITHilbert\UserAuth\UserAuthServiceProvider"');
 
+        //Vue
+        $this->info('Install ithilbert/vue');
+        exec('composer require ithilbert/vue');
+        exec('php artisan vue:install"');
+
+        //TypeScript
+        $this->info('Install ithilbert/typescript');
+        exec('composer require ithilbert/typescript');
+        exec('php artisan typescript:install"');
 
         //LaravelKit Dateien kopieren
         exec('php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --force');
