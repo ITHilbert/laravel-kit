@@ -20,11 +20,6 @@
             "ITHilbert\\LaravelKit\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "ITHilbert\\LaravelKit\\": "src/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [

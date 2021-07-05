@@ -56,12 +56,12 @@ class LaravelKitInstallAll extends Command
         //Template Adminlte
         $this->info('Install jeroennoten/laravel-adminlte');
         exec('composer require jeroennoten/laravel-adminlte');
-        exec('php artisan adminlte:install');
-        exec('php artisan adminlte:install --only=main_views');  //Copy Views
+        exec('php artisan adminlte:install --force');
+        exec('php artisan adminlte:install --only=main_views --force');  //Copy Views
 
         //UserAuth
         $this->info('Install ithilbert/user-auth');
-        exec('composer require ithilbert/user-auth');
+        exec('composer require ithilbert/user-auth:dev-master');
         exec('php artisan vendor:publish --provider="ITHilbert\UserAuth\UserAuthServiceProvider"');
 
 
