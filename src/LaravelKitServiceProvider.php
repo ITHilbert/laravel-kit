@@ -24,9 +24,10 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         //Public files
         $this->publishes([
-            __DIR__ .'/Public/DataTable_DE.json' => public_path('DataTable_DE.json'),
+            __DIR__ .'/Public' => public_path('vendor/laravelkit')
+            /* __DIR__ .'/Public/DataTable_DE.json' => public_path('DataTable_DE.json'),
             __DIR__ .'/Public/images' => public_path('images'),
-            __DIR__ .'/Public/fonts' => public_path('fonts'),
+            __DIR__ .'/Public/fonts' => public_path('fonts'), */
         ]);
 
         //Lang Files
@@ -40,7 +41,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
             __DIR__.'/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
-            __DIR__.'/Resources/views/master.blade.php' => resource_path('views/master.blade.php')
+            __DIR__.'/Resources/views/layouts' => resource_path('views/layouts')
         ]);
     }
 
