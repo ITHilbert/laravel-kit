@@ -67,12 +67,12 @@ class LaravelKitInstallAll extends Command
         //Vue
         $this->info('Install ithilbert/vue');
         exec('composer require ithilbert/vue');
-        exec('php artisan vue:install"');
+        exec('php artisan vue:copyfiles"');
 
         //TypeScript
         $this->info('Install ithilbert/typescript');
         exec('composer require ithilbert/typescript');
-        exec('php artisan typescript:install"');
+        exec('php artisan typescript:copyfiles"');
 
         //LaravelKit Dateien kopieren
         exec('php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --force');
