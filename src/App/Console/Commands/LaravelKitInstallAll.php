@@ -39,46 +39,53 @@ class LaravelKitInstallAll extends Command
      */
     public function handle()
     {
-        //ISeed
-        $this->info('Install orangehill/iseed');
-        exec('composer require orangehill/iseed');
-
-        //Datatables
-        $this->info('Install yajra/laravel-datatables-oracle');
-        exec('composer require yajra/laravel-datatables-oracle:"~9.0"');
-        exec('php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider"');
-
-        //Debugbar
-        $this->info('Install barryvdh/laravel-debugbar');
-        exec('composer require barryvdh/laravel-debugbar --dev');
-        exec('php artisan vendor:publish --provider="Barryvdh\\Debugbar\\ServiceProvider"');
-
         //Template Adminlte
-        $this->info('Install jeroennoten/laravel-adminlte');
-        exec('composer require jeroennoten/laravel-adminlte');
-        exec('php artisan adminlte:install --force');
-        exec('php artisan adminlte:install --only=main_views --force');  //Copy Views
-
-        //UserAuth
-        $this->info('Install ithilbert/user-auth');
-        exec('composer require ithilbert/user-auth:dev-master');
-        exec('php artisan vendor:publish --provider="ITHilbert\UserAuth\UserAuthServiceProvider"');
-
-        //Vue
-        $this->info('Install ithilbert/vue');
-        exec('composer require ithilbert/vue');
-        exec('php artisan vue:copyfiles');
-
+        $this->info('Install Template AdminLte');
+        $this->info('php artisan install:AdminLte');
+        exec('php artisan install:AdminLte');
+        //Datatables
+        $this->info('Install Datatables');
+        $this->info('php artisan install:DataTables');
+        exec('php artisan install:DataTables');
+        //Debugbar
+        $this->info('Install Debugbar');
+        $this->info('php artisan install:Debugbar');
+        exec('php artisan install:Debugbar');
+        //iSeed
+        $this->info('Install iSeed');
+        $this->info('php artisan install:iSeed');
+        exec('php artisan install:iSeed');
         //TypeScript
         $this->info('Install ithilbert/typescript');
-        exec('composer require ithilbert/typescript');
-        exec('php artisan typescript:copyfiles');
-
+        $this->info('php artisan install:typescript');
+        exec('php artisan install:typescript');
+        //UserAuth
+        $this->info('Install ithilbert/userauth');
+        $this->info('php artisan install:userauth');
+        exec('php artisan install:userauth');
+        //Vue
+        $this->info('Install ithilbert/vue');
+        $this->info('php artisan install:vue');
+        exec('php artisan install:vue');
         //LaravelKit Dateien kopieren
-        exec('php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --force');
+        $this->info('LaravelKit Daten kopieren');
+        $this->info('php artisan install:copyfiles');
+        exec('php artisan laravelkit:copyfiles');
+        //Site
+        $this->info('Erstelle Package Site');
+        $this->info('php artisan install:site');
+        exec('php artisan install:site');
 
+        //Daten in die Datenbank eintragen
+        $this->info('Daten in die Datenbank eintragen');
+        $this->info('php artisan migrate');
         exec('php artisan migrate');
+        $this->info('php artisan db:seed --class="ITHilbert\UserAuth\Database\Seeders\DatabaseSeeder"');
         exec('php artisan db:seed --class="ITHilbert\UserAuth\Database\Seeders\DatabaseSeeder"');
+
+        $this->info('Composer.json um folgende im Punkt autoload -> psr-4 erweitern');
+        $this->info('"ITHilbert\\Site\\": "src/"');
+
 
         return 0;
     }

@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\ComposerScripts;
 
 
-class LaravelKitInstallAdminLte extends Command
+class LaravelKitInstallVue extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'install:AdminLte';
+    protected $signature = 'install:vue';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installiert das Template AdminLte';
+    protected $description = 'Installiert meine Vue Komponenten';
 
     /**
      * Create a new command instance.
@@ -39,11 +39,9 @@ class LaravelKitInstallAdminLte extends Command
      */
     public function handle()
     {
-        //Template Adminlte
-        $this->info('Install jeroennoten/laravel-adminlte');
-        exec('composer require jeroennoten/laravel-adminlte');
-        exec('php artisan adminlte:install --force');
-        exec('php artisan adminlte:install --only=main_views --force');  //Copy Views
+        $this->info('Install ithilbert/vue');
+        exec('composer require ithilbert/vue');
+        exec('php artisan vue:copyfiles');
 
         return 0;
     }

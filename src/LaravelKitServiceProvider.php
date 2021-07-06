@@ -60,6 +60,10 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstallDataTables::class );
         $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstallDebugbar::class );
         $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstalliSeed::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstallSite::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstallTypeScript::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstallUserAuth::class );
+        $this->commands( \ITHilbert\LaravelKit\App\Console\Commands\LaravelKitInstallVue::class );
     }
 
 

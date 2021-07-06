@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\ComposerScripts;
 
 
-class LaravelKitInstallAdminLte extends Command
+class LaravelKitInstallTypeScript extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'install:AdminLte';
+    protected $signature = 'install:typescript';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installiert das Template AdminLte';
+    protected $description = 'Installiert meine TypeScript funktionen';
 
     /**
      * Create a new command instance.
@@ -39,11 +39,10 @@ class LaravelKitInstallAdminLte extends Command
      */
     public function handle()
     {
-        //Template Adminlte
-        $this->info('Install jeroennoten/laravel-adminlte');
-        exec('composer require jeroennoten/laravel-adminlte');
-        exec('php artisan adminlte:install --force');
-        exec('php artisan adminlte:install --only=main_views --force');  //Copy Views
+        //TypeScript
+        $this->info('Install ithilbert/typescript');
+        exec('composer require ithilbert/typescript');
+        exec('php artisan typescript:copyfiles');
 
         return 0;
     }

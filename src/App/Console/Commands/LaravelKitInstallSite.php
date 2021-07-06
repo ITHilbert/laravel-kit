@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\ComposerScripts;
 
 
-class LaravelKitInstallAdminLte extends Command
+class LaravelKitInstallSite extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'install:AdminLte';
+    protected $signature = 'install:site';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installiert das Template AdminLte';
+    protected $description = 'Installiert Site als neues Packages';
 
     /**
      * Create a new command instance.
@@ -39,11 +39,10 @@ class LaravelKitInstallAdminLte extends Command
      */
     public function handle()
     {
-        //Template Adminlte
-        $this->info('Install jeroennoten/laravel-adminlte');
-        exec('composer require jeroennoten/laravel-adminlte');
-        exec('php artisan adminlte:install --force');
-        exec('php artisan adminlte:install --only=main_views --force');  //Copy Views
+        $this->info('Install ithilbert/site');
+        exec('git clone https://github.com/ITHilbert/Site.git ./packages/site');
+        $this->info('Composer.json um folgende im Punkt autoload -> psr-4 erweitern');
+        $this->info('"ITHilbert\\Site\\": "src/"');
 
         return 0;
     }
