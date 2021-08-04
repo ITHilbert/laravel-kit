@@ -1,5 +1,5 @@
 <?php
-namespace ITHilbert\LaravelKit\Helpers;
+namespace ITHilbert\App\Helpers;
 
 use Illuminate\Support\HtmlString;
 
