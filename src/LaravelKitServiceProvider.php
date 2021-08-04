@@ -19,12 +19,12 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         //Config files
         $this->publishes([
-            __DIR__ .'/Config/database.php' => config_path('database.php')
+            __DIR__ .'/Publish/Config/database.php' => config_path('database.php')
         ]);
 
         //Public files
         $this->publishes([
-            __DIR__ .'/Public' => public_path('vendor/laravelkit')
+            __DIR__ .'/Publish/Public' => public_path('vendor/laravelkit')
             /* __DIR__ .'/Public/DataTable_DE.json' => public_path('DataTable_DE.json'),
             __DIR__ .'/Public/images' => public_path('images'),
             __DIR__ .'/Public/fonts' => public_path('fonts'), */
@@ -32,18 +32,24 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         //Lang Files
         $this->publishes([
-            __DIR__.'/Resources/lang/de/master.php' => resource_path('lang/de/master.php'),
-            __DIR__.'/Resources/lang/de/pagination.php' => resource_path('lang/de/pagination.php'),
-            __DIR__.'/Resources/lang/de/validation.php' => resource_path('lang/de/validation.php'),
+            __DIR__.'/Publish/Resources/lang/de/master.php' => resource_path('lang/de/master.php'),
+            __DIR__.'/Publish/Resources/lang/de/pagination.php' => resource_path('lang/de/pagination.php'),
+            __DIR__.'/Publish/Resources/lang/de/validation.php' => resource_path('lang/de/validation.php'),
         ]);
 
         //Views
         $this->publishes([
-            __DIR__.'/publish/App/Helpers/HButton.php' => app_path('Helpers/HButton.php'),
-
+            __DIR__.'/Publish/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
+            __DIR__.'/Publish/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
+            __DIR__.'/Publish/Resources/views/layouts/app.blade.php' => resource_path('views/layouts/app.blade.php'),
+            __DIR__.'/Publish/Resources/views/vendor/adminlte/master.blade.php' => resource_path('views/vendor/adminlte/master.blade.php'),
         ]);
 
-        //Publish
+        //App/Helpers
+        $this->publishes([
+            __DIR__.'/Publish/App/Helpers/HButton.php' => app_path('Helpers/HButton.php'),
+
+        ]);
     }
 
 
