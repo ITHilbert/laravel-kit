@@ -3,7 +3,7 @@
 ## Installation
 ```
 //Laravel-Kit installieren
-composer require ithilbert/laravel-kit
+composer require ithilbert/laravel-kit:dev-master
 
 //config DB connection in .env
 
@@ -11,10 +11,7 @@ composer require ithilbert/laravel-kit
 'locale' => 'de',
 
 //Componenten installieren und Dateien kopieren
-php artisan laravelkit:install
-
-php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --force
-
+php artisan install:all
 
 /config/app.php
 providers:

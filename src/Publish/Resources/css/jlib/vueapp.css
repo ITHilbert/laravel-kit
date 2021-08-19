@@ -1,0 +1,42 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+/*
+    Created on : 24.06.2019, 16:16:26
+    Author     : joerg
+*/
+
+.input-int {
+    text-align: right;
+}
+
+.input-euro {
+    text-align: right;
+}
+
+.input-percent {
+    text-align: right;
+}
+
+.input-zahl {
+    text-align: right;
+}
+
+.hidden {
+    visibility: hidden;
+    display: none;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.center {
+    text-align: center;
+    align-items: center;
+}
+.btn-back{background-color:#ffc105;border-color:#ffc107;box-shadow:none;color:#1f2d3d;margin-right:.2rem}.btn-back:hover{background-color:#e0a800;border-color:#d39e00;color:#1f2d3d}.btn-cancel{background-color:#ffc105;border-color:#ffc107;box-shadow:none;color:#1f2d3d;margin-right:.2rem}.btn-cancel:hover{background-color:#e0a800;border-color:#d39e00;color:#1f2d3d}.btn-create{background-color:#28a745;border-color:#28a745;box-shadow:none;color:#fff;margin-right:.2rem}.btn-create:hover{background-color:#218838;border-color:#1e7e34;color:#fff}.btn-delete{background-color:#dc3545;border-color:#dc3545;box-shadow:none;color:#fff;margin-right:.2rem}.btn-delete:hover{background-color:#c82333;border-color:#bd2130;color:#fff}.btn-edit{background-color:#17a2b8;border-color:#17a2b8;box-shadow:none;color:#fff;margin-right:.2rem}.btn-edit:hover{background-color:#138496;border-color:#117a8b;color:#fff}.btn-reset{background-color:#dc3545;border-color:#dc3545;box-shadow:none;color:#fff;margin-right:.2rem}.btn-reset:hover{background-color:#c82333;border-color:#bd2130;color:#fff}.btn-save{background-color:#28a745;border-color:#28a745;box-shadow:none;color:#fff;margin-right:.2rem}.btn-save:hover{background-color:#218838;border-color:#1e7e34;color:#fff}.btn-show{background-color:#ffc105;border-color:#ffc107;box-shadow:none;color:#1f2d3d;margin-right:.2rem}.btn-show:hover{background-color:#e0a800;border-color:#d39e00;color:#1f2d3d}.btn-submit{background-color:#17a2b8;border-color:#17a2b8;box-shadow:none;color:#fff;margin-right:.2rem}.btn-submit:hover{background-color:#138496;border-color:#117a8b;color:#fff}
