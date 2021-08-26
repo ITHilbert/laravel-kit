@@ -27,7 +27,7 @@ require('./vendor/adminlte/dist/js/adminlte.min.js');
 require('./vendor/laravelkit/deleteform.js')
 
 //Meine Vue Components
-require('./vendor/vue/vuecomponents.js')
+require('./vueapp.js')
 
 
 
