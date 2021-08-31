@@ -38,6 +38,7 @@ class LaravelKitServiceProvider extends ServiceProvider
 
             //Ressourcen nach Ressourcen
             __DIR__ .'/Publish/Resources/css' => resource_path('css/vendor'),
+            __DIR__ .'/Publish/Resources/css/custom.css' => resource_path('css/custom.css'),
             __DIR__ .'/Publish/Resources/images' => resource_path('images/vendor'),
             __DIR__ .'/Publish/Resources/js' => resource_path('js/vendor'),
             __DIR__ .'/Publish/Resources/js/vueapp.js' => resource_path('js/vueapp.js'),
