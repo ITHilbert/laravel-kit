@@ -23,13 +23,11 @@ require('overlayscrollbars/js/jquery.overlayScrollbars');
 //AdminLTE
 require('./vendor/adminlte/dist/js/adminlte.min.js');
 
-//Delete Forms
-require('./vendor/laravelkit/deleteform.js')
-
-//Meine Vue Components
-require('./vendor/vue/vuecomponents.js')
-
-
+//Forms
+require('./vendor/laravelkit/myform.js')
 
 //Delete Forms
 //require('./vendor/laravelkit/myFunctions.js')
+
+//Meine Vue Components
+require('./vueapp.js')
