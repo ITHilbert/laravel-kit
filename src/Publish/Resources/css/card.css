@@ -1,0 +1,22 @@
+.content-wrapper {    /* Hintergrundfarbe des Main-Wrappers */
+    background-color: #e6e9ec;
+}
+
+.container-fluid {    /* Abstand oben & unten der Haupt-Card */
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+#auftragID {        /* Hintergrundfarbe und Box-Shadow der Haupt-Card */
+  background-color: #f9f9f9;
+      box-shadow: rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 15%) 0px 10px 10px -5px;
+      -webkit-box-shadow: rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 15%) 0px 10px 10px -5px;
+      -moz-box-shadow: rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 15%) 0px 10px 10px -5px;
+}
+
+.card {            /* Hintergrundfarbe und Box-Shadow der einzelnen Cards auf der Haupt-Card */
+  background-color: #fdfdfd;
+  box-shadow: rgb(0 0 0 / 10%) 0px 10px 20px -5px, rgb(0 0 0 / 15%) 0px 5px 5px -5px;
+  -webkit-box-shadow: rgb(0 0 0 / 10%) 0px 10px 20px -5px, rgb(0 0 0 / 15%) 0px 5px 5px -5px;
+  -moz-box-shadow: rgb(0 0 0 / 10%) 0px 10px 20px -5px, rgb(0 0 0 / 15%) 0px 5px 5px -5px;
+}

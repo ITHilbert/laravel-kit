@@ -1,0 +1,31 @@
+//Variables
+$wrapper-background: #e6e9ec;
+$main-card-background:#f9f9f9;
+$main-card-shadow:rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.15) 0px 10px 10px -5px;
+$content-card-background: #fdfdfd;
+$content-card-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px -5px, rgba(0, 0, 0, 0.15) 0px 5px 5px -5px;
+
+.content {
+  &-wrapper {  /* Hintergrundfarbe des Main-Wrappers */
+    background-color: $wrapper-background;
+  }
+  &-fluid {   /* Abstand oben & unten der Haupt-Card */
+    padding-top: 15px;
+    padding-bottom: 5px;
+  }
+}
+
+#auftragID {        /* Hintergrundfarbe und Box-Shadow der Haupt-Card */
+  background-color: $main-card-background;
+      box-shadow: $main-card-shadow;
+      -webkit-box-shadow: $main-card-shadow;
+      -moz-box-shadow: $main-card-shadow;
+}
+
+.card {            /* Hintergrundfarbe und Box-Shadow der einzelnen Cards auf der Haupt-Card */
+  background-color: $content-card-background;
+  box-shadow: $content-card-shadow;
+  -webkit-box-shadow: $content-card-shadow;
+  -moz-box-shadow: $content-card-shadow;
+}
+
