@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use \ITHilbert\LaravelKit\Controllers\VueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,9 @@ Route::any('/', function () {
 Route::get('/home', function() {
     return view('home');
 })->name('home')->middleware('auth');
+
+
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('vue', [VueController::class, 'vue'])->name('vue');
+    Route::get('vue-submit', [VueController::class, 'vuesubmit'])->name('vue-submit');
+});
