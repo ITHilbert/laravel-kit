@@ -16,6 +16,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        //$this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
 
         //Config File
         $this->publishes([
