@@ -56,7 +56,7 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__ .'/Publish/Public/images' => public_path('images'),
             __DIR__ .'/Publish/Public/js' => public_path('js'),
             __DIR__ .'/Publish/Public/webfonts' => public_path('webfonts'),
-            __DIR__ .'/Publish/Public/DataTable_DE.json' => public_path('vendor/laravelkit/DataTable_DE.json'),
+            __DIR__ .'/Publish/Public/laravelkit' => public_path('vendor'),
        ]);
 
     }
