@@ -16,6 +16,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        //$this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
 
         //Config File
         $this->publishes([
@@ -35,6 +36,8 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Publish/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
             __DIR__.'/Publish/Resources/views/layouts' => resource_path('views/layouts'),
             __DIR__.'/Publish/Resources/views/vendor/adminlte/master.blade.php' => resource_path('views/vendor/adminlte/master.blade.php'),
+            __DIR__.'/Publish/Resources/views/vue.blade.php' => resource_path('views/vue.blade.php'),
+            __DIR__.'/Publish/Resources/views/vue-submit.blade.php' => resource_path('views/vue-submit.blade.php'),
 
             //Ressourcen nach Ressourcen
             __DIR__ .'/Publish/Resources/css' => resource_path('css/vendor'),
@@ -56,7 +59,7 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__ .'/Publish/Public/images' => public_path('images'),
             __DIR__ .'/Publish/Public/js' => public_path('js'),
             __DIR__ .'/Publish/Public/webfonts' => public_path('webfonts'),
-            __DIR__ .'/Publish/Public/DataTable_DE.json' => public_path('vendor/laravelkit/DataTable_DE.json'),
+            __DIR__ .'/Publish/Public/laravelkit' => public_path('vendor/laravelkit'),
        ]);
 
     }

@@ -1,12 +1,7 @@
-// Fonts
-//@import './adminlte/fonts.css';
-@import '~@fortawesome/fontawesome-free/css/all.css';
-// OverlayScrollbars
-@import '~overlayscrollbars/css/OverlayScrollbars.css';
-// iCheck
-@import '~icheck-bootstrap/icheck-bootstrap.css';
-// AdminLTE
-@import './adminlte/adminlte.min.css';
-// Bootstrap
-// Already imported by AdminLTE
-//@import '~bootstrap/scss/bootstrap';
+@import 'admin-lte/plugins/fontawesome-free/css/all.css';
+@import 'admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.css';
+@import 'admin-lte/dist/css/adminlte.css';
+@import 'datatables.net-dt/css/jquery.dataTables.css';
+@import './datatable.scss';
+@import './card.scss';
+@import './adminlte/fonts.css';
