@@ -51,8 +51,8 @@ Vue.component('card-img-bottom', require("@ithilbert/jlib/src/vue/card/card-img-
 Vue.component('card-img-top', require("@ithilbert/jlib/src/vue/card/card-img-top.vue").default);
 Vue.component('card-text', require("@ithilbert/jlib/src/vue/card/card-text.vue").default);
 Vue.component('card-title', require("@ithilbert/jlib/src/vue/card/card-title.vue").default);
-Vue.component('card', require("@ithilbert/jlib/src/vue/card/card.vue").default);
-Vue.component('j-card', require("@ithilbert/jlib/src/vue/card/jCard.vue").default);
+Vue.component('jcard', require("@ithilbert/jlib/src/vue/card/card.vue").default);
+Vue.component('card', require("@ithilbert/jlib/src/vue/card/jCard.vue").default);
 
 //Dialoge
 Vue.component('dialog-delete', require('@ithilbert/jlib/src/vue/dialog/delete.vue').default);
