@@ -45,6 +45,7 @@ Vue.component('card-body', require("@ithilbert/jlib/src/vue/card/card-body.vue")
 Vue.component('card-columns', require("@ithilbert/jlib/src/vue/card/card-columns.vue").default);
 Vue.component('card-deck', require("@ithilbert/jlib/src/vue/card/card-deck.vue").default);
 Vue.component('card-footer', require("@ithilbert/jlib/src/vue/card/card-footer.vue").default);
+Vue.component('card-bottom', require("@ithilbert/jlib/src/vue/card/card-bottom.vue").default);
 Vue.component('card-group', require("@ithilbert/jlib/src/vue/card/card-group.vue").default);
 Vue.component('card-header', require("@ithilbert/jlib/src/vue/card/card-header.vue").default);
 Vue.component('card-img-bottom', require("@ithilbert/jlib/src/vue/card/card-img-bottom.vue").default);
