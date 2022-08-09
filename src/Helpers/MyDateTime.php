@@ -1,11 +1,15 @@
 <?php
+
+
 namespace ITHilbert\LaravelKit\Helpers;
+
+use DateTime;
+use Exception;
 
 //Sprach-/Gebietsschema festlegen
 setlocale(LC_TIME, "de_DE.utf8");
 date_default_timezone_set("Europe/Berlin");
 
-//use DateTime;
 
 /**
 * Meine Datumsklasse für Datum/Zeit als Datentyp
@@ -28,15 +32,14 @@ class MyDateTime{
   /************************************************************************
   * Konstruktor
   ************************************************************************/
-  public function __construct($datumZeit='NULL'){
+  public function __construct($datumZeit=''){
     $this->setDateTime($datumZeit);
-    return $this;
   }
 
   /**
-  * Datum und oder Zeit setzen
+    Datum und oder Zeit setzen
   **/
-  public function setDateTime($datumZeit = 'NULL'){
+  public function setDateTime($datumZeit = ''){
     if($datumZeit == 'now'){
       $this->timestamp = time();
     }elseif($datumZeit == 'NULL'){
@@ -285,7 +288,7 @@ class MyDateTime{
     if($this->timestamp != 0){
       return date('Ymd', $this->timestamp);
     }else{
-      return 'NULL';
+      return '0000-00-00';
     }
   }
 
@@ -310,7 +313,11 @@ class MyDateTime{
   * @return string
   **/
   public function getTimeDB(){
-   return date('H:i', $this->timestamp);
+    if($this->timestamp != 0){
+      return date('H:i', $this->timestamp);
+    }else{
+      return '00:00';
+    }
   }
 
   /**
@@ -442,15 +449,12 @@ class MyDateTime{
    **/
     public function isTimestamp($string)
     {
-        if ($string != ''){
-            try {
-                new \DateTime('@' . $string);
-                return true;
-            } catch(Exception $e) {
-                return false;
-            }
+        try {
+            new DateTime('@' . $string);
+        } catch(Exception $e) {
+            return false;
         }
-        return false;
+        return true;
     }
 
 
@@ -459,7 +463,7 @@ class MyDateTime{
   * @return int
   **/
   public function isSchaltJahr(){
-    return date('L', $this->timestamp);
+   return date('L', $this->timestamp);
   }
 
   /**
@@ -688,11 +692,13 @@ class MyDateTime{
   }
 
 
-  public function getAlter(){
-     $alter = $this->diff(new MyDateTime('now') , '%y');
-     return $alter;
-  }
+    public function getAlter(){
+        try {
+          $alter = $this->diff(new MyDateTime('now') , '%y');
+        } catch (Exception $exc) {
+          $alter = 'na';
+        }
 
-
+        return $alter;
+    }
 }
-?>

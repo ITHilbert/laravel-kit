@@ -1,5 +1,5 @@
 <?php
-namespace ITHilbert\LaravelKit\App\Classes;
+namespace ITHilbert\LaravelKit\Classes;
 
 class MyEnv
 {

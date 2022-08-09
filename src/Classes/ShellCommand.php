@@ -1,5 +1,5 @@
 <?php
-namespace ITHilbert\LaravelKit\App\Classes;
+namespace ITHilbert\LaravelKit\Classes;
 
 use Exception;
 use Symfony\Component\Process\Process;

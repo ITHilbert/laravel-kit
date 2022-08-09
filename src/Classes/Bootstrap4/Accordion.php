@@ -1,5 +1,5 @@
 <?php
-Namespace ITHilbert\LaravelKit\App\Classes\Bootstrap4;
+Namespace ITHilbert\LaravelKit\Classes\Bootstrap4;
 
 /**
 * Diese Klasse erstellt ein Accordion - die Entsprechende JS Datei wird benötigt

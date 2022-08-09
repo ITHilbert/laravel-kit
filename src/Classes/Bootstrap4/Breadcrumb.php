@@ -1,5 +1,5 @@
 <?php
-Namespace ITHilbert\LaravelKit\App\Classes\Bootstrap4;
+Namespace ITHilbert\LaravelKit\Classes\Bootstrap4;
 
 /**
 *  Erstellt einen Breadcrumb

@@ -2,9 +2,6 @@
 
 namespace ITHilbert\LaravelKit\Helpers;
 
-/**
- * Klasse erstellt das JavaScript für die DataTable
- */
 class DataTableScript{
 
     //Einstellungen
@@ -13,13 +10,14 @@ class DataTableScript{
     public $languageJsonPath = "vendor/laravelkit/DataTable_DE.json";        //Deutsche Bezeichnungen für die Tabelle
     public $processing = "true";
     public $serverSide = "true";
-    public $pageLength = 15;             //Anzahl der Zeilen in der Liste
-    public $ordercolumn = 1;             //Spalte nach der Sortiert werden soll
-
+    public $pageLength;                 //Anzahl der Zeilen in der Liste
+    public $sortcolumn = 1;             //Spalte nach der Sortiert werden soll
+    public $sortArt = 'asc';             //Reihenfolge beim Sortieren
 
     public $filterScript = true;         //Soll das Filter Script mit ausgeben werden
 
     public $columns = array();          //Spalten der Tabelle
+
     public $route;                      //Woher sollen die Daten geladen werden
 
     /**
@@ -29,6 +27,7 @@ class DataTableScript{
      */
     public function __construct($route){
         $this->route= $route;
+        $this->pageLength = 10;
     }
 
     /**
@@ -37,8 +36,22 @@ class DataTableScript{
      * @param [string] $column
      * @return void
      */
-    public function addColumn($column){
-        $this->columns[] = $column;
+    public function addColumn($data, $name = ''){
+        if($name == '') $name = $data;
+
+        $this->columns[] = (object) ['name' => $name, 'data' => $data];
+    }
+
+    /**
+     * Sortiert die Daten
+     *
+     * @param [type] $spalte
+     * @param string $reihenfolge
+     * @return void
+     */
+    public function setOrder($spalte, $reihenfolge = 'asc'){
+        $this->sortcolumn = $spalte;
+        $this->sortArt = $reihenfolge;
     }
 
     /**
@@ -78,8 +91,8 @@ class DataTableScript{
         $ausgabe .= 'bFilter: '. $this->bFilter  .','."\n";
         $ausgabe .= 'bLengthChange: ' . $this->bLengthChange .','."\n";
         $ausgabe .= 'language: { url: "'. asset($this->languageJsonPath).'" },'."\n";
-        //$ausgabe .= 'pageLength: '. $this->pageLength .",\n";
-        //$ausgabe .= 'order: [[ '.$this->ordercolumn.", 'asc' ]],\n";
+        $ausgabe .= 'pageLength: '. $this->pageLength .",\n";
+        $ausgabe .= 'order: [[ '.$this->sortcolumn.', "'. $this->sortArt .'"]],'."\n";
         $ausgabe .= 'searching: true,'."\n";
 
         return $ausgabe;
@@ -91,10 +104,10 @@ class DataTableScript{
      * @return string
      */
     public function getFilterScript(){
-        //DataTable Filtern
+        //DataTable Filtern Allgemein
         $ausgabe = "$( '.filter' ).on( 'keyup change', function () {\n";
         $ausgabe .=  "    let i = $(this).attr('data-column')-1\n";
-        $ausgabe .=  "    console.log(i + ' - ' + this.value)\n";
+        //$ausgabe .=  "    console.log(i + ' - ' + this.value)\n";
         $ausgabe .=  "    if ( table.column(i).search() !== this.value ) {\n";
         $ausgabe .=  "    table\n";
         $ausgabe .=  "        .column(i)\n";
@@ -103,9 +116,28 @@ class DataTableScript{
         $ausgabe .=  "    }\n";
         $ausgabe .=  "} );\n";
 
+        //DataTable Filtern Exact
+        $ausgabe .= "$( '.filterExact' ).on( 'keyup change', function () {\n";
+        $ausgabe .=  "    let i = $(this).attr('data-column')-1\n";
+        //$ausgabe .=  "    console.log(i + ' - ' + this.value)\n";
+        $ausgabe .=  "    if ( table.column(i).search() !== this.value ) {\n";
+        $ausgabe .=  "      if ( this.value == '' ) {\n";
+        $ausgabe .=  "          regex = '';\n";
+        $ausgabe .=  "      }else{\n";
+        $ausgabe .=  "          regex = '^' + this.value + '$';\n";
+        $ausgabe .=  "      }\n";
+        $ausgabe .=  "      table\n";
+        $ausgabe .=  "        .column(i)\n";
+        $ausgabe .=  "        .search( regex, true, false )\n";
+        $ausgabe .=  "        .draw();\n";
+        $ausgabe .=  "    }\n";
+        $ausgabe .=  "} );\n";
+
+
         //Filter zurücksetzen
         $ausgabe .=  "$('.filterclear').on('click', function(){\n";
         $ausgabe .=  "    $('.filter').val('').change();\n";
+        $ausgabe .=  "    $('.filterExact').val('').change();\n";
         $ausgabe .=  "});\n";
 
         return $ausgabe;
@@ -118,14 +150,8 @@ class DataTableScript{
      * @return void
      */
     private function getScriptDataRow($column){
-        $row = "        { data: '".$column."', name: '".$column ."' },\n";
-        /* if($column->orderable == false ){
-            $row .= ", orderable: false";
-        }
-        if($column->searchable == false ){
-            $row .= ", searchable: false";
-        } */
-        //$row .= " }, \n";
+        //dd($column);
+        $row = "        { data: '".$column->data ."', name: '".$column->name ."', defaultContent: ''},\n";
 
         return $row;
     }

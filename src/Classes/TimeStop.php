@@ -1,5 +1,5 @@
 <?php
-namespace ITHilbert\LaravelKit\App\Classes;
+namespace ITHilbert\LaravelKit\Classes;
 
 use Illuminate\Support\Facades\Cache;
 

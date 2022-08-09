@@ -1,5 +1,5 @@
 <?php
-namespace ITHilbert\LaravelKit\App\Helpers;
+namespace ITHilbert\LaravelKit\Helpers;
 
 use Exception;
 
