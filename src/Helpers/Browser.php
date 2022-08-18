@@ -130,6 +130,23 @@ class Browser{
         return $browser;
     }
 
+    public static function isGoogleAdsCheck() {
+
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
+        $allows = array(
+        '/Google-AdWords-Express/i',
+        '/Google-AdWords/i',
+        );
+
+        foreach ($allows as $regex ) {
+            if (preg_match($regex, $user_agent)) { return true; }
+        }
+
+        return false;
+    }
+
+
     public static function getURL(){
         $url = url()->current() ?? 'N/A';
         if($url == 'http://localhost:8000'){
