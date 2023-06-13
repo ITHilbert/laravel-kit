@@ -5,13 +5,9 @@
 //Laravel-Kit installieren
 composer require ithilbert/laravel-kit:dev-master
 
-//config DB connection in .env
 
-//config/app.php set
-'locale' => 'de',
-
-//Componenten installieren und Dateien kopieren
-php artisan install:all
+//copy config file
+php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --tag=config 
 
 /config/app.php
 providers:

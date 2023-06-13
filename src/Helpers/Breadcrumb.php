@@ -7,8 +7,9 @@ class Breadcrumb
 
     public function __construct($rootActive = false)
     {
-        if($rootActive === true) $this->add('Startseite');
-        else $this->add('Startseite', '/');
+        $rootName = config('laravelkit.breadcrumb.root_name', 'Startseite');
+        if($rootActive === true) $this->add($rootName);
+        else $this->add($rootName, '/');
     }
 
     public function add($title, $url = '#')
