@@ -34,6 +34,7 @@ class LaravelKitServiceProvider extends ServiceProvider
             //Views
             __DIR__.'/Publish/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
             __DIR__.'/Publish/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
+            __DIR__.'/Publish/Resources/views/include/breadcrumb.blade.php' => resource_path('views/include/breadcrumb.blade.php'),
             __DIR__.'/Publish/Resources/views/layouts' => resource_path('views/layouts'),
             __DIR__.'/Publish/Resources/views/vendor/adminlte/master.blade.php' => resource_path('views/vendor/adminlte/master.blade.php'),
             __DIR__.'/Publish/Resources/views/vue.blade.php' => resource_path('views/vue.blade.php'),
