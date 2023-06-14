@@ -10,9 +10,12 @@ class DataTableScript{
     public $languageJsonPath = "vendor/laravelkit/DataTable_DE.json";        //Deutsche Bezeichnungen für die Tabelle
     public $processing = "true";
     public $serverSide = "true";
+    public $responsive = "true";
     public $pageLength;                 //Anzahl der Zeilen in der Liste
     public $sortcolumn = 1;             //Spalte nach der Sortiert werden soll
     public $sortArt = 'asc';             //Reihenfolge beim Sortieren
+    public $paging = true;                 //Paging true oder false
+    public $orderable = true;           //Datensätze sortierbar
 
     public $filterScript = true;         //Soll das Filter Script mit ausgeben werden
 
@@ -36,10 +39,10 @@ class DataTableScript{
      * @param [string] $column
      * @return void
      */
-    public function addColumn($data, $name = ''){
+    public function addColumn($data, $name = '', $param = ''){
         if($name == '') $name = $data;
 
-        $this->columns[] = (object) ['name' => $name, 'data' => $data];
+        $this->columns[] = (object) ['name' => $name, 'data' => $data, 'param' => $param];
     }
 
     /**
@@ -88,10 +91,22 @@ class DataTableScript{
     public function getSettings(){
         $ausgabe =  'processing: '. $this->processing .','."\n";
         $ausgabe .= 'serverSide: '. $this->serverSide .','."\n";
+        $ausgabe .= 'responsive: '. $this->responsive .','."\n";
         $ausgabe .= 'bFilter: '. $this->bFilter  .','."\n";
-        $ausgabe .= 'bLengthChange: ' . $this->bLengthChange .','."\n";
         $ausgabe .= 'language: { url: "'. asset($this->languageJsonPath).'" },'."\n";
-        $ausgabe .= 'pageLength: '. $this->pageLength .",\n";
+        //Paging
+        if($this->paging){
+            $ausgabe .= 'bLengthChange: ' . $this->bLengthChange .','."\n";
+            $ausgabe .= 'pageLength: '. $this->pageLength .",\n";
+        }else{
+            $ausgabe .= "paging: false,\n";
+            $ausgabe .= "bInfo: false, \n";
+        }
+
+        //Sortierung (Ordering) Default on
+        if(!$this->orderable){
+            $ausgabe .= "ordering: false, \n";
+        }
         $ausgabe .= 'order: [[ '.$this->sortcolumn.', "'. $this->sortArt .'"]],'."\n";
         $ausgabe .= 'searching: true,'."\n";
 
@@ -151,7 +166,11 @@ class DataTableScript{
      */
     private function getScriptDataRow($column){
         //dd($column);
-        $row = "        { data: '".$column->data ."', name: '".$column->name ."', defaultContent: ''},\n";
+        $row = "        { data: '".$column->data ."', name: '".$column->name ."'";
+        if($column->param != ''){
+            $row .= ', ' . $column->param;
+        }
+        $row .= "},\n";
 
         return $row;
     }
