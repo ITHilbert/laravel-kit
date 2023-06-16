@@ -3,6 +3,8 @@
 namespace ITHilbert\LaravelKit;
 
 use Illuminate\Support\ServiceProvider;
+//use Illuminate\View\Compilers\BladeCompiler;
+//use ITHilbert\LaravelKit\Helpers\DataTableScript;
 
 class LaravelKitServiceProvider extends ServiceProvider
 {
@@ -16,12 +18,38 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->publishAssets();
         //$this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+    }
 
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+       /*  $this->app->register(RouteServiceProvider::class); */
+       $this->registerBladeExtensions();
+       $this->setAliase();
+    }
+
+    public function setAliase(){
+        //$this->app->alias(\ITHilbert\LaravelKit\Helpers\DataTableScript::class, 'DataTableScript');
+    }
+
+    /**
+     * Dateien kopieren/veröffentlichen
+     *
+     * @return void
+     */
+    public function publishAssets()
+    {
         //Config File
         $this->publishes([
             //Config files
-            __DIR__ .'/Config/config.php' => config_path('laravelkit.php'),
+            __DIR__ .'/Config/laravelkit.php' => config_path('laravelkit.php'),
+            __DIR__ .'/Config/datatables.php' => config_path('datatables.php'),
         ], 'config');
 
         //###################################
@@ -37,9 +65,9 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Publish/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
             __DIR__.'/Publish/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
             __DIR__.'/Publish/Resources/views/include/breadcrumb.blade.php' => resource_path('views/include/breadcrumb.blade.php'),
-            __DIR__.'/Publish/Resources/views/layouts' => resource_path('views/layouts'),
-            __DIR__.'/Publish/Resources/views/vue.blade.php' => resource_path('views/vue.blade.php'),
-            __DIR__.'/Publish/Resources/views/vue-submit.blade.php' => resource_path('views/vue-submit.blade.php'),
+            //__DIR__.'/Publish/Resources/views/layouts' => resource_path('views/layouts'),
+            //__DIR__.'/Publish/Resources/views/vue.blade.php' => resource_path('views/vue.blade.php'),
+            //__DIR__.'/Publish/Resources/views/vue-submit.blade.php' => resource_path('views/vue-submit.blade.php'),
 
             //Ressourcen nach Ressourcen
             __DIR__ .'/Publish/Resources/css' => resource_path('css/vendor'),
@@ -76,6 +104,8 @@ class LaravelKitServiceProvider extends ServiceProvider
     }
 
 
+
+
     /**
      * Register commands.
      *
@@ -94,6 +124,27 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallSite::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallMix::class );
+    }
+
+    /**
+     * Eigende Blade function (Directive)
+     *
+     * @return void
+     */
+    protected function registerBladeExtensions()
+    {
+        /* $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
+
+            // dataTable
+            $bladeCompiler->directive('dataTable', function ($role, $guard= '') {
+                return "<?php \$dt = new " . DataTableScript::class . "(); ?>";
+            });
+            // enddataTable
+            $bladeCompiler->directive('enddataTable', function ($role, $guard= '') {
+                return " ?>";
+            });
+
+        }); */
     }
 
 

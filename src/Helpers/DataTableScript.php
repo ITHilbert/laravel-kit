@@ -5,32 +5,56 @@ namespace ITHilbert\LaravelKit\Helpers;
 class DataTableScript{
 
     //Einstellungen
-    public $bFilter = "true";             //Filtern erlauben
-    public $bLengthChange = "false";      //Anzahl der Datensätze ändern
-    public $languageJsonPath = "vendor/laravelkit/DataTable_DE.json";        //Deutsche Bezeichnungen für die Tabelle
+    public $tableID = "data-table";     //Die Id der Tabelle auf die sich das Script bezieht
+    public $bFilter = "true";           //Filtern erlauben
+    public $filterScript = true;        //Soll das Filter Script mit ausgeben werden
+    public $bLengthChange = "false";    //Anzahl der Datensätze ändern
+    public $pageLength;                 //Anzahl der Zeilen in der Liste
     public $processing = "true";
     public $serverSide = "true";
     public $responsive = "true";
-    public $pageLength;                 //Anzahl der Zeilen in der Liste
     public $sortcolumn = 1;             //Spalte nach der Sortiert werden soll
-    public $sortArt = 'asc';             //Reihenfolge beim Sortieren
-    public $paging = true;                 //Paging true oder false
+    public $sortArt = 'asc';            //Reihenfolge beim Sortieren
     public $orderable = true;           //Datensätze sortierbar
+    public $paging = true;              //Paging true oder false
 
-    public $filterScript = true;         //Soll das Filter Script mit ausgeben werden
-
+    public $languageJsonPath = "vendor/laravelkit/DataTable_DE.json";        //Deutsche Bezeichnungen für die Tabelle
     public $columns = array();          //Spalten der Tabelle
-
     public $route;                      //Woher sollen die Daten geladen werden
 
+
     /**
-     * Constructor
+     * Erstellt eine neue Instanz des DataTableScript-Objekts.
      *
-     * @param [strin] $route
+     * @param [string] $route
+     * @return DataTableScript
+     */
+    public static function make($route)
+    {
+        return new self($route);
+    }
+
+
+    /**
+     * Constructor -lädt die Werte aus der config/datatables.php
+     *
+     * @param [string] $route
      */
     public function __construct($route){
         $this->route= $route;
-        $this->pageLength = 10;
+
+         $this->bFilter = config('datatables.bFilter', true);
+         $this->filterScript = config('datatables.filterScript', true);
+         $this->bLengthChange = config('datatables.bLengthChange', false);
+         $this->pageLength = config('datatables.pageLength', 10);
+         $this->processing = config('datatables.processing', true);
+         $this->serverSide = config('datatables.serverSide', true);
+         $this->responsive = config('datatables.responsive', true);
+         $this->sortcolumn = config('datatables.sortcolumn', 1);
+         $this->sortArt = config('datatables.sortArt', 'asc');
+         $this->orderable = config('datatables.orderable', true);
+         $this->paging = config('datatables.paging', true);
+         $this->languageJsonPath = config('datatables.languageJsonPath', 'vendor/laravelkit/DataTable_DE.json');
     }
 
     /**
@@ -63,7 +87,7 @@ class DataTableScript{
      * @return string
      */
     public function getScript(){
-        $ausgabe = "var table = $('.data-table').DataTable({\n";
+        $ausgabe = "var table = $('#". $this->tableID ."').DataTable({\n";
         $ausgabe .= $this->getSettings();
         $ausgabe .= "    ajax: '" . $this->route . "',\n";
         $ausgabe .= "    columns: [\n";
@@ -84,19 +108,19 @@ class DataTableScript{
 
 
     /**
-     * Liefert die Einstellungen der globalen DataTabel einstellungen aus App\Helpers\DataTableScript
+     * Liefert die Einstellungen der globalen DataTabel einstellungen aus config/datatables.php
      *
      * @return string
      */
-    public function getSettings(){
-        $ausgabe =  'processing: '. $this->processing .','."\n";
-        $ausgabe .= 'serverSide: '. $this->serverSide .','."\n";
-        $ausgabe .= 'responsive: '. $this->responsive .','."\n";
-        $ausgabe .= 'bFilter: '. $this->bFilter  .','."\n";
+    private function getSettings(){
+        $ausgabe =  'processing: ' . ($this->processing ? 'true' : 'false') . ",\n";
+        $ausgabe .= 'serverSide: '. ($this->serverSide ? 'true' : 'false') .','."\n";
+        $ausgabe .= 'responsive: '. ($this->responsive ? 'true' : 'false') .','."\n";
+        $ausgabe .= 'bFilter: '. ($this->bFilter ? 'true' : 'false') .','."\n";
         $ausgabe .= 'language: { url: "'. asset($this->languageJsonPath).'" },'."\n";
         //Paging
         if($this->paging){
-            $ausgabe .= 'bLengthChange: ' . $this->bLengthChange .','."\n";
+            $ausgabe .= 'bLengthChange: ' . ($this->bLengthChange ? 'true' : 'false') .','."\n";
             $ausgabe .= 'pageLength: '. $this->pageLength .",\n";
         }else{
             $ausgabe .= "paging: false,\n";
@@ -118,7 +142,7 @@ class DataTableScript{
      *
      * @return string
      */
-    public function getFilterScript(){
+    private function getFilterScript(){
         //DataTable Filtern Allgemein
         $ausgabe = "$( '.filter' ).on( 'keyup change', function () {\n";
         $ausgabe .=  "    let i = $(this).attr('data-column')-1\n";
@@ -165,7 +189,6 @@ class DataTableScript{
      * @return void
      */
     private function getScriptDataRow($column){
-        //dd($column);
         $row = "        { data: '".$column->data ."', name: '".$column->name ."'";
         if($column->param != ''){
             $row .= ', ' . $column->param;

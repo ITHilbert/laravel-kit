@@ -14,29 +14,15 @@ providers:
 "ITHilbert\\LaravelKit\\LaravelKitServiceProvider"
 
 alias:
-"HButton": "ITHilbert\\LaravelKit\\Helpers\\HButton",
-"HForm": "ITHilbert\\LaravelKit\\Helpers\\HForm"
+'DataTableScript' => \ITHilbert\LaravelKit\Helpers\DataTableScript::class,
+```
 
 ## Im Template
-### Header
-```
-{{-- Base Stylesheets --}}
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/vue/vuecomponents.css') }}">
-
-```
 
 ### Body end
 ```
 <!-- Wichtig zum löschen von Daten -->
 @include('include.formdelete')
-
-{{-- Base Scripts --}}
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('vendor/laravelkit/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('vendor/vue/vuecomponents.js') }}"></script>
-    <script src="{{ asset('vendor/laravelkit/datatables.min.js') }}"></script>
-    <script src="{{ asset('vendor/laravelkit/myFunctions.js') }}"></script>
 ```
 
 ### ToDo
