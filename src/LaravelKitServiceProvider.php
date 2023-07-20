@@ -49,7 +49,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->publishes([
             //Config files
             __DIR__ .'/Config/laravelkit.php' => config_path('laravelkit.php'),
-            __DIR__ .'/Config/datatables.php' => config_path('datatables.php'),
+            __DIR__ .'/Config/datatablescript.php' => config_path('datatablescript.php'),
         ], 'config');
 
         //###################################

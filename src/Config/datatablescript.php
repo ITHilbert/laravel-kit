@@ -3,6 +3,8 @@
  * Einstellungen zu den DataTables
  */
 return [
+
+    'tableID' => '.data-table',       //Die Id der Tabelle oder Klasse auf die sich das Script bezieht
     'bFilter' => true,                //Filtern erlauben
     'filterScript' => true,           //Soll das Filter Script mit ausgeben werden
 

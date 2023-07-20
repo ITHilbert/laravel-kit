@@ -5,7 +5,7 @@ namespace ITHilbert\LaravelKit\Helpers;
 class DataTableScript{
 
     //Einstellungen
-    public $tableID = "data-table";     //Die Id der Tabelle auf die sich das Script bezieht
+    public $tableID = ".data-table";    //Die Id der Tabelle oder Klasse auf die sich das Script bezieht
     public $bFilter = "true";           //Filtern erlauben
     public $filterScript = true;        //Soll das Filter Script mit ausgeben werden
     public $bLengthChange = "false";    //Anzahl der Datensätze ändern
@@ -43,18 +43,19 @@ class DataTableScript{
     public function __construct($route){
         $this->route= $route;
 
-         $this->bFilter = config('datatables.bFilter', true);
-         $this->filterScript = config('datatables.filterScript', true);
-         $this->bLengthChange = config('datatables.bLengthChange', false);
-         $this->pageLength = config('datatables.pageLength', 10);
-         $this->processing = config('datatables.processing', true);
-         $this->serverSide = config('datatables.serverSide', true);
-         $this->responsive = config('datatables.responsive', true);
-         $this->sortcolumn = config('datatables.sortcolumn', 1);
-         $this->sortArt = config('datatables.sortArt', 'asc');
-         $this->orderable = config('datatables.orderable', true);
-         $this->paging = config('datatables.paging', true);
-         $this->languageJsonPath = config('datatables.languageJsonPath', 'vendor/laravelkit/DataTable_DE.json');
+        $this->tableID = config('datatablescript.tableID', '.data-table');
+        $this->bFilter = config('datatablescript.bFilter', true);
+        $this->filterScript = config('datatablescript.filterScript', true);
+        $this->bLengthChange = config('datatablescript.bLengthChange', false);
+        $this->pageLength = config('datatablescript.pageLength', 10);
+        $this->processing = config('datatablescript.processing', true);
+        $this->serverSide = config('datatablescript.serverSide', true);
+        $this->responsive = config('datatablescript.responsive', true);
+        $this->sortcolumn = config('datatablescript.sortcolumn', 1);
+        $this->sortArt = config('datatablescript.sortArt', 'asc');
+        $this->orderable = config('datatablescript.orderable', true);
+        $this->paging = config('datatablescript.paging', true);
+        $this->languageJsonPath = config('datatablescript.languageJsonPath', 'vendor/laravelkit/DataTable_DE.json');
     }
 
     /**
@@ -87,7 +88,7 @@ class DataTableScript{
      * @return string
      */
     public function getScript(){
-        $ausgabe = "var table = $('#". $this->tableID ."').DataTable({\n";
+        $ausgabe = "var table = $('". $this->tableID ."').DataTable({\n";
         $ausgabe .= $this->getSettings();
         $ausgabe .= "    ajax: '" . $this->route . "',\n";
         $ausgabe .= "    columns: [\n";
