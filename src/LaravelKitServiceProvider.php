@@ -3,6 +3,7 @@
 namespace ITHilbert\LaravelKit;
 
 use Illuminate\Support\ServiceProvider;
+use ITHilbert\LaravelKit\Components\Datenschutz;
 
 class LaravelKitServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,15 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
         //$this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+
+
+        //Components
+        $this->loadViewComponentsAs('laravelkit', [
+            'datenschutz' => Datenschutz::class,
+        ]);
+
 
         //Config File
         $this->publishes([
