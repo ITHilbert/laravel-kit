@@ -12,9 +12,16 @@ class AGB extends Component
 
     public function __construct()
     {
-        $client = new Client();
-        $response = $client->request('GET', 'https://center.it-hilbert.com/api/agb');
-        $this->agbInhalt = json_decode($response->getBody()->getContents(), true);
+        try
+        {
+            $client = new Client();
+            $response = $client->request('GET', 'https://center.it-hilbert.com/api/agb');
+            $this->agbInhalt = json_decode($response->getBody()->getContents(), true);
+        }
+        catch (\Exception $e)
+        {
+            //$this->agbInhalt = ['error' => $e->getMessage()];
+        }
     }
 
     /**

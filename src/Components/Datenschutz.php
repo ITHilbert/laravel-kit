@@ -12,9 +12,13 @@ class Datenschutz extends Component
 
     public function __construct()
     {
-        $client = new Client();
-        $response = $client->request('GET', 'https://center.it-hilbert.com/api/datenschutz');
-        $this->datenschutzInhalt = json_decode($response->getBody()->getContents(), true);
+        try {
+            $client = new Client();
+            $response = $client->request('GET', 'https://center.it-hilbert.com/api/datenschutz');
+            $this->datenschutzInhalt = json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            //$this->datenschutzInhalt = ['error' => $e->getMessage()];
+        }
     }
 
     /**
