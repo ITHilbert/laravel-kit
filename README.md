@@ -25,6 +25,13 @@ alias:
 @include('include.formdelete')
 ```
 
+### Componenten
+x-laravelkit-agb
+x-laravelkit-cookies
+x-laravelkit-datenschutz
+x-laravelkit-impressum
+
+
 ### ToDo
 
 
