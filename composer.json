@@ -27,7 +27,8 @@
             ],
             "aliases": {
                 "HButton": "ITHilbert\\LaravelKit\\Helpers\\HButton",
-                "HForm": "ITHilbert\\LaravelKit\\Helpers\\HForm"
+                "HForm": "ITHilbert\\LaravelKit\\Helpers\\HForm",
+                "DataTableScript": "ITHilbert\\LaravelKit\\Helpers\\DataTableScript"
             }
         }
     }

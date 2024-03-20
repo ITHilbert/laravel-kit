@@ -40,9 +40,9 @@ class LaravelKitInstallAll extends Command
     public function handle()
     {
         //Template Adminlte
-        $this->info('Install Template AdminLte');
-        $this->info('php artisan install:AdminLte');
-        exec('php artisan install:AdminLte');
+        //$this->info('Install Template AdminLte');
+        //$this->info('php artisan install:AdminLte');
+        //exec('php artisan install:AdminLte');
         //Datatables
         $this->info('Install Datatables');
         $this->info('php artisan install:DataTables');
