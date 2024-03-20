@@ -113,11 +113,6 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallMix::class );
     }
 
-    /**
-     * Eigende Blade function (Directive)
-     *
-     * @return void
-     */
     protected function registerBladeExtensions()
     {
         /* $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
