@@ -24,6 +24,6 @@ class CookieRichtlinie extends Component
      */
     public function render()
     {
-        return view('components.cookie-richtlinie');
+        return view('laravelkit::components.cookie-richtlinie');
     }
 }

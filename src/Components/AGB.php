@@ -24,6 +24,6 @@ class AGB extends Component
      */
     public function render()
     {
-        return view('components.agb');
+        return view('laravelkit::components.agb');
     }
 }

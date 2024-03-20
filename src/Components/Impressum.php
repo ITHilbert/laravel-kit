@@ -24,6 +24,6 @@ class Impressum extends Component
      */
     public function render()
     {
-        return view('components.impressum');
+        return view('laravelkit::components.impressum');
     }
 }

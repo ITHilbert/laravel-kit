@@ -24,6 +24,6 @@ class Datenschutz extends Component
      */
     public function render()
     {
-        return view('components.datenschutz');
+        return view('laravelkit::components.datenschutz');
     }
 }
