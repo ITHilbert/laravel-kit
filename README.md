@@ -1,60 +1,20 @@
-# Laravel-Kit
+# ITHilbert Laravel Kit
+
+**Beschreibung**: Tools für das Programmieren mit Laravel.
+
+## Dokumentation
+
+Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
+- [Kontext & Zielsetzung](docs/00_README_Kontext.md)
+- [Architekturübersicht](docs/01_Architekturübersicht.md)
+- [Modulstruktur](docs/07_Modulstruktur.md)
+- [API-Definitionen](docs/02_API-Definitionen.md)
 
 ## Installation
-```
-//Laravel-Kit installieren
-composer require ithilbert/laravel-kit:dev-master
 
-
-//copy config file
-php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --tag=config 
-
-/config/app.php
-providers:
-"ITHilbert\\LaravelKit\\LaravelKitServiceProvider"
-
-alias:
-'DataTableScript' => \ITHilbert\LaravelKit\Helpers\DataTableScript::class,
+```bash
+composer require ithilbert/laravel-kit
 ```
 
-## Im Template
-
-### Body end
-```
-<!-- Wichtig zum löschen von Daten -->
-@include('include.formdelete')
-```
-
-### Componenten
-x-laravelkit-agb
-x-laravelkit-cookies
-x-laravelkit-datenschutz
-x-laravelkit-impressum
-
-
-### ToDo
-
-
-### Links
-
-[Laravel Packages](https://laravelpackage.com/) 
-[Icons - material-icons](https://materializecss.com/icons.html) 
-[Mailtrap - Mail testen](https://mailtrap.io) 
-
-
-
-
-"extra": {
-        "laravel": {
-            "providers": [
-                "ITHilbert\\LaravelKit\\LaravelKitServiceProvider",
-                "Yajra\\DataTables\\DataTablesServiceProvider",
-                "Orangehill\\Iseed\\IseedServiceProvider",
-                "Barryvdh\\Debugbar\\ServiceProvider"
-            ],
-            "aliases": {
-                "DataTables": "Yajra\\DataTables\\Facades\\DataTables",
-                "Debugbar": "Barryvdh\\Debugbar\\Facade"
-            }
-        }
-    }
+## Namespace
+`ITHilbert\LaravelKit`
