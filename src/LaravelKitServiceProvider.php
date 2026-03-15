@@ -3,10 +3,6 @@
 namespace ITHilbert\LaravelKit;
 
 use Illuminate\Support\ServiceProvider;
-use ITHilbert\LaravelKit\Components\Datenschutz;
-use ITHilbert\LaravelKit\Components\AGB;
-use ITHilbert\LaravelKit\Components\CookieRichtlinie;
-use ITHilbert\LaravelKit\Components\Impressum;
 //use Illuminate\View\Compilers\BladeCompiler;
 //use ITHilbert\LaravelKit\Helpers\DataTableScript;
 
@@ -25,14 +21,6 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
         $this->publishAssets();
         //$this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
-
-        //Components
-        $this->loadViewComponentsAs('laravelkit', [
-            'agb' => AGB::class,
-            'cookies' => CookieRichtlinie::class,
-            'datenschutz' => Datenschutz::class,
-            'impressum' => Impressum::class,
-        ]);
 
     }
 
