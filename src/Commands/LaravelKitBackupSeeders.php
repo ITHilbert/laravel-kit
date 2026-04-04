@@ -39,14 +39,27 @@ class LaravelKitBackupSeeders extends Command
             $tables = DB::connection($connection)->getDoctrineSchemaManager()->listTableNames();
         }
 
+        $dbName = DB::connection($connection)->getDatabaseName();
+
         // Ignorierte Tabellen laden
         // Wenn keine Config gefunden wird, nehmen wir ein leeres Array
         $ignoreTables = config('laravelkit.backup_seeders.ignore_tables', []);
 
         $exportTables = [];
         foreach ($tables as $table) {
-            if (!in_array($table, $ignoreTables)) {
-                $exportTables[] = $table;
+            $cleanTable = $table;
+            
+            // Bereinigung von schema-präfigierten Tabellen (z.B. "aktienhandel.users")
+            if (strpos($table, '.') !== false) {
+                if (strpos($table, $dbName . '.') !== 0) {
+                    continue; // Tabelle gehört zu einer anderen Datenbank (z.B. Aktienhandel)
+                }
+                // Prefix abschneiden (z.B. "hetzner." entfernen)
+                $cleanTable = substr($table, strlen($dbName) + 1);
+            }
+
+            if (!in_array($cleanTable, $ignoreTables)) {
+                $exportTables[] = $cleanTable;
             }
         }
 

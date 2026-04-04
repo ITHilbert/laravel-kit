@@ -32,6 +32,8 @@ class LaravelKitServiceProvider extends ServiceProvider
     public function register()
     {
        /*  $this->app->register(RouteServiceProvider::class); */
+       $this->mergeConfigFrom(__DIR__.'/Config/mcp_remote.php', 'mcp_remote');
+       
        $this->registerBladeExtensions();
        $this->setAliase();
        
@@ -43,6 +45,8 @@ class LaravelKitServiceProvider extends ServiceProvider
         // Wenn Laravel Boost installiert ist, hängen wir unser Tool dynamisch an
         $tools = config('boost.mcp.tools.include', []);
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\BackupSeedersTool::class;
+        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteExecuteTool::class;
+        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteSyncTool::class;
         config(['boost.mcp.tools.include' => $tools]);
     }
 
@@ -57,6 +61,7 @@ class LaravelKitServiceProvider extends ServiceProvider
             //Config files
             __DIR__ .'/Config/laravelkit.php' => config_path('laravelkit.php'),
             __DIR__ .'/Config/datatablescript.php' => config_path('datatablescript.php'),
+            __DIR__ .'/Config/mcp_remote.php' => config_path('mcp_remote.php'),
         ], 'config');
 
         //###################################
@@ -116,6 +121,8 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallSite::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallMix::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\OpenFtp::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\OpenSsh::class );
     }
 
     protected function registerBladeExtensions()
