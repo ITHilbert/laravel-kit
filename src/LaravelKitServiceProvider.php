@@ -94,6 +94,7 @@ class LaravelKitServiceProvider extends ServiceProvider
 
     protected function registerCommands()
     {
+        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitBackupSeeders::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitPaths::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitCopyFiles::class );
         //$this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallAdminLte::class );
