@@ -34,6 +34,16 @@ class LaravelKitServiceProvider extends ServiceProvider
        /*  $this->app->register(RouteServiceProvider::class); */
        $this->registerBladeExtensions();
        $this->setAliase();
+       
+       $this->registerMcpTools();
+    }
+
+    protected function registerMcpTools()
+    {
+        // Wenn Laravel Boost installiert ist, hängen wir unser Tool dynamisch an
+        $tools = config('boost.mcp.tools.include', []);
+        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\BackupSeedersTool::class;
+        config(['boost.mcp.tools.include' => $tools]);
     }
 
     public function setAliase(){
