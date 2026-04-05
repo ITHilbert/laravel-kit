@@ -38,6 +38,7 @@ class LaravelKitServiceProvider extends ServiceProvider
        $this->setAliase();
        
        $this->registerMcpTools();
+       $this->registerAiDatabaseConnection();
     }
 
     protected function registerMcpTools()
@@ -47,7 +48,23 @@ class LaravelKitServiceProvider extends ServiceProvider
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\BackupSeedersTool::class;
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteExecuteTool::class;
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteSyncTool::class;
+        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiTaskCreateTool::class;
+        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiTaskStatusTool::class;
         config(['boost.mcp.tools.include' => $tools]);
+    }
+
+    protected function registerAiDatabaseConnection()
+    {
+        $config = $this->app['config']->get('database.connections.ai_sqlite');
+
+        if (is_null($config)) {
+            $this->app['config']->set('database.connections.ai_sqlite', [
+                'driver' => 'sqlite',
+                'database' => storage_path('devtools_ai.sqlite'),
+                'prefix' => '',
+                'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            ]);
+        }
     }
 
     public function setAliase(){
@@ -123,6 +140,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallMix::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\OpenFtp::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\OpenSsh::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AiWatcherCommand::class );
     }
 
     protected function registerBladeExtensions()

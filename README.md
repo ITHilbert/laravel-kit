@@ -9,6 +9,7 @@ Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
 - [Architekturübersicht](docs/01_Architekturübersicht.md)
 - [Modulstruktur](docs/07_Modulstruktur.md)
 - [API-Definitionen](docs/02_API-Definitionen.md)
+- [KI-Zusammenarbeit & Autonome Pipeline](docs/ki-zusammenarbeit-architektur.md)
 
 ## Installation
 
