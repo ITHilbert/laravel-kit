@@ -34,5 +34,10 @@ abstract class AbstractAiJob implements ShouldQueue
         ]);
     }
 
+    public function middleware()
+    {
+        return [new \ITHilbert\LaravelKit\Jobs\Ai\Middleware\CheckAiQueuePause];
+    }
+
     abstract protected function getJobType(): string;
 }

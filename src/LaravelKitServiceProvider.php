@@ -20,7 +20,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
         $this->publishAssets();
-        //$this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
 
     }
 

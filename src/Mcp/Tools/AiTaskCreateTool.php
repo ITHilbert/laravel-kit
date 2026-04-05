@@ -23,6 +23,8 @@ class AiTaskCreateTool extends Tool
         $module = $request->input('module', 'Core');
         $dependsOn = $request->input('depends_on_task_id');
 
+        $isUrgent = $request->input('is_urgent', false);
+
         try {
             $task = AiTask::create([
                 'title' => $title,
@@ -33,11 +35,19 @@ class AiTaskCreateTool extends Tool
             ]);
 
             // Dispatch the Job Chain
-            Bus::chain([
+            $chain = Bus::chain([
                 new RunCursorBuilderJob($task, 1),
                 new RunPhpUnitJob($task, 1),
                 new RunCriticReviewJob($task, 1),
-            ])->dispatch();
+            ]);
+
+            if ($isUrgent) {
+                $chain->onQueue('ai_pipeline_high');
+            } else {
+                $chain->onQueue('ai_pipeline');
+            }
+
+            $chain->dispatch();
 
             return Response::text("Erfolg! AI-Task #{$task->id} wurde in die Queue eingereiht.");
         } catch (\Exception $e) {
@@ -52,6 +62,7 @@ class AiTaskCreateTool extends Tool
             'description' => $schema->string()->description('Ausführliche Instruktionen für Cursor')->required(),
             'module' => $schema->string()->description('Betroffenes Modul (z.B. Invoice, Frontend) oder Core')->required(),
             'depends_on_task_id' => $schema->integer()->description('ID des vorherigen Tasks (falls dieser Task auf einem anderen aufbaut)')->nullable(),
+            'is_urgent' => $schema->boolean()->description('True setzen, um den Task zur High-Priority Queue hinzuzufügen')->default(false)->nullable(),
         ];
     }
 }

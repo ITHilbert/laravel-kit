@@ -1,37 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use \ITHilbert\LaravelKit\Controllers\VueController;
+use ITHilbert\LaravelKit\Controllers\AiDashboardController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-//root
-Route::any('/', function () {
-    if(Auth::check()){
-        return view('home');
-    }
-    else{
-        return redirect()->route('login');
-    }
-})->name('root');
-
-
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware('auth');
-
-
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('vue', [VueController::class, 'vue'])->name('vue');
-    Route::get('vue-submit', [VueController::class, 'vuesubmit'])->name('vue-submit');
+Route::middleware(['web'])->group(function () {
+    Route::prefix('devtools/ai')->group(function () {
+        Route::get('/', [AiDashboardController::class, 'index'])->name('ai.dashboard');
+        Route::post('/pause', [AiDashboardController::class, 'togglePause'])->name('ai.pause');
+        Route::delete('/{id}', [AiDashboardController::class, 'destroy'])->name('ai.destroy');
+        Route::post('/', [AiDashboardController::class, 'store'])->name('ai.store');
+    });
 });
