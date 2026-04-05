@@ -23,6 +23,11 @@ return [
             'telescope_entries_tags',
             'telescope_monitoring',
         ]
+    ],
+
+    'ai' => [
+        'openai_api_key' => env('OPENAI_API_KEY'),
+        'model' => env('LARAVELKIT_AI_MODEL', 'gpt-4o'),
     ]
 
 ];

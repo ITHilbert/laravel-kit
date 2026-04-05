@@ -49,6 +49,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteExecuteTool::class;
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteSyncTool::class;
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiTaskCreateTool::class;
+        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiExpertReviewTool::class;
         $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiTaskStatusTool::class;
         config(['boost.mcp.tools.include' => $tools]);
     }
