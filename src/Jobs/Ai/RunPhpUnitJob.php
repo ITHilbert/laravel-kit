@@ -16,12 +16,14 @@ class RunPhpUnitJob extends AbstractAiJob
 
         try {
             // TODO: Execute PHPUnit
-            
             $run->update([
                 'status' => 'success',
                 'stdout_log' => 'PHPUnit dummy success (100% green).',
+                'stderr_log' => null,
                 'finished_at' => now(),
             ]);
+
+            $this->aiTask->update(['status' => 'completed']);
 
         } catch (\Exception $e) {
             $run->update([

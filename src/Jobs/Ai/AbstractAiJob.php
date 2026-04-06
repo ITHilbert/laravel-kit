@@ -16,6 +16,13 @@ abstract class AbstractAiJob implements ShouldQueue
 
     public $aiTask;
     public $runNo;
+    
+    /**
+     * Da AI-Bots lange Zeit zum Denken und Schreiben von Code benötigen,
+     * heben wir das Timeout für alle Queue-Jobs dieser Klasse auf 1 Stunde an.
+     */
+    public $timeout = 3600;
+
 
     public function __construct(AiTask $aiTask, int $runNo)
     {

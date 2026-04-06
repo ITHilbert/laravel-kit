@@ -9,15 +9,15 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Evaluiert als Senior Architekt einen Code-Draft über die OpenAI API auf Clean Code, Pattern und Security.')]
+#[Description('Evaluiert als Senior Architekt Architektur-Diskussionen oder Notizen (.md) über die OpenAI API und gibt Optimierungsvorschläge.')]
 class AiExpertReviewTool extends Tool
 {
     public function handle(Request $request): Response
     {
         $content = $request->input('content');
         
-        $apiKey = config('laravelkit.ai.openai_api_key');
-        $model = config('laravelkit.ai.model', 'gpt-4o');
+        $apiKey = config('ai.openai.api_key');
+        $model = config('ai.openai.model', 'gpt-4o');
 
         if (empty($apiKey)) {
             return Response::text("Fehler: OPENAI_API_KEY fehlt in der .env des Projekts.");

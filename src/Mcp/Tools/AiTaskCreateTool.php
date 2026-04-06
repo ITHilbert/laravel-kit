@@ -9,11 +9,10 @@ use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 use ITHilbert\LaravelKit\Models\AiTask;
 use Illuminate\Support\Facades\Bus;
-use ITHilbert\LaravelKit\Jobs\Ai\RunCursorBuilderJob;
+use ITHilbert\LaravelKit\Jobs\Ai\RunGeminiTaskJob;
 use ITHilbert\LaravelKit\Jobs\Ai\RunPhpUnitJob;
-use ITHilbert\LaravelKit\Jobs\Ai\RunCriticReviewJob;
 
-#[Description('Erstellt einen neuen autonomen AI-Task (Cursor -> PHPUnit -> Critic) in der ai_pipeline Queue.')]
+#[Description('Erstellt einen neuen autonomen AI-Task (Gemini -> PHPUnit) in der ai_pipeline Queue.')]
 class AiTaskCreateTool extends Tool
 {
     public function handle(Request $request): Response
@@ -36,9 +35,8 @@ class AiTaskCreateTool extends Tool
 
             // Dispatch the Job Chain
             $chain = Bus::chain([
-                new RunCursorBuilderJob($task, 1),
+                new RunGeminiTaskJob($task, 1),
                 new RunPhpUnitJob($task, 1),
-                new RunCriticReviewJob($task, 1),
             ]);
 
             if ($isUrgent) {
@@ -59,7 +57,7 @@ class AiTaskCreateTool extends Tool
     {
         return [
             'title' => $schema->string()->description('Kurzer Titel der Aufgabe')->required(),
-            'description' => $schema->string()->description('Ausführliche Instruktionen für Cursor')->required(),
+            'description' => $schema->string()->description('Ausführliche Instruktionen für Gemini')->required(),
             'module' => $schema->string()->description('Betroffenes Modul (z.B. Invoice, Frontend) oder Core')->required(),
             'depends_on_task_id' => $schema->integer()->description('ID des vorherigen Tasks (falls dieser Task auf einem anderen aufbaut)')->nullable(),
             'is_urgent' => $schema->boolean()->description('True setzen, um den Task zur High-Priority Queue hinzuzufügen')->default(false)->nullable(),

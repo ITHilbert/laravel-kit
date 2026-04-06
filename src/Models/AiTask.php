@@ -19,6 +19,7 @@ class AiTask extends Model
         'depends_on_task_id',
         'module',
         'tags',
+        'rueckfrage',
     ];
 
     public function casts(): array

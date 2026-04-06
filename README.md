@@ -17,6 +17,18 @@ Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
 composer require ithilbert/laravel-kit
 ```
 
+### AI Developer CLI Tools (Voraussetzung für KI Agenten)
+Damit die KI-Tools und die asynchrone AI-Pipeline (Hintergrund-Worker) korrekt funktionieren, müssen die entsprechenden CLI-Tools auf dem System installiert sein:
+
+```bash
+# OpenAI Codex CLI für das CodexReviewTool installieren:
+sudo npm i -g @openai/codex
+
+# Gemini CLI für die Haupt-Agent-Pipeline installieren:
+npm install -g gemini-chat-cli  # (Oder das entsprechende von dir genutzte NPM-Package für Gemini)
+```
+*(Stelle sicher, dass im jeweiligen Laravel-Projekt in der `.env` Datei die entsprechenden Variablen wie z.B. `OPENAI_API_KEY` oder `GEMINI_API_KEY` gesetzt sind.)*
+
 ## Namespace
 `ITHilbert\LaravelKit`
 

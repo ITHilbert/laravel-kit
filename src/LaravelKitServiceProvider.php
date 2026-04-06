@@ -3,6 +3,7 @@
 namespace ITHilbert\LaravelKit;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Response;
 //use Illuminate\View\Compilers\BladeCompiler;
 //use ITHilbert\LaravelKit\Helpers\DataTableScript;
 
@@ -21,7 +22,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
         $this->publishAssets();
         $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
-
+        $this->registerResponseMacros();
     }
 
     /**
@@ -78,6 +79,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->publishes([
             //Config files
             __DIR__ .'/Config/laravelkit.php' => config_path('laravelkit.php'),
+            __DIR__ .'/Config/ai.php' => config_path('ai.php'),
             __DIR__ .'/Config/datatablescript.php' => config_path('datatablescript.php'),
             __DIR__ .'/Config/mcp_remote.php' => config_path('mcp_remote.php'),
         ], 'config');
@@ -142,6 +144,8 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\OpenFtp::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\OpenSsh::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiWatcherCommand::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AiTaskCreateCommand::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AiUpdateTaskCommand::class );
     }
 
     protected function registerBladeExtensions()
@@ -161,5 +165,26 @@ class LaravelKitServiceProvider extends ServiceProvider
     }
 
 
+    protected function registerResponseMacros()
+    {
+        Response::macro('apiSuccess', function ($data = null, $message = 'Success', $status = 200) {
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'data' => $data,
+            ], $status);
+        });
 
+        Response::macro('apiError', function ($message = 'Error', $status = 400, $errors = null) {
+            return response()->json([
+                'success' => false,
+                'message' => $message,
+                'errors' => $errors,
+            ], $status);
+        });
+
+        Response::macro('apiNoContent', function () {
+            return response()->noContent();
+        });
+    }
 }

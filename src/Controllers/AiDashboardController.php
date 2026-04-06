@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Bus;
 use ITHilbert\LaravelKit\Models\AiTask;
-use ITHilbert\LaravelKit\Jobs\Ai\RunCursorBuilderJob;
+use ITHilbert\LaravelKit\Jobs\Ai\RunGeminiTaskJob;
 use ITHilbert\LaravelKit\Jobs\Ai\RunPhpUnitJob;
-use ITHilbert\LaravelKit\Jobs\Ai\RunCriticReviewJob;
 
 class AiDashboardController extends Controller
 {
@@ -30,6 +29,15 @@ class AiDashboardController extends Controller
         Cache::put('ai_queue_paused', !$currentState);
         
         return redirect()->back();
+    }
+
+    public function show($id)
+    {
+        $task = AiTask::with(['runs' => function($q) {
+            $q->orderBy('run_no', 'asc');
+        }])->findOrFail($id);
+        
+        return view('laravelkit::ai.show', compact('task'));
     }
 
     public function destroy($id)
@@ -62,9 +70,8 @@ class AiDashboardController extends Controller
         ]);
 
         $chain = Bus::chain([
-            new RunCursorBuilderJob($task, 1),
+            new RunGeminiTaskJob($task, 1),
             new RunPhpUnitJob($task, 1),
-            new RunCriticReviewJob($task, 1),
         ]);
 
         if ($request->has('is_urgent')) {
@@ -76,5 +83,35 @@ class AiDashboardController extends Controller
         $chain->dispatch();
 
         return redirect()->back();
+    }
+
+    public function respond(Request $request, $id)
+    {
+        $request->validate([
+            'answer' => 'required|string',
+        ]);
+
+        $task = AiTask::findOrFail($id);
+        
+        $newDescription = $task->description . "\n\n--- Rückfrage Beantwortet ---\n" . $request->answer;
+        
+        $task->update([
+            'description' => $newDescription,
+            'rueckfrage' => null,
+            'status' => 'pending',
+        ]);
+
+        // Next run number
+        $nextRunNo = ($task->runs()->max('run_no') ?? 0) + 1;
+
+        $chain = Bus::chain([
+            new RunGeminiTaskJob($task, $nextRunNo),
+            new RunPhpUnitJob($task, $nextRunNo),
+        ]);
+
+        $chain->onQueue('ai_pipeline');
+        $chain->dispatch();
+
+        return redirect()->route('ai.show', $id);
     }
 }

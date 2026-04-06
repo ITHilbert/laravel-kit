@@ -5,7 +5,7 @@ return [
     'breadcrumb' => [
         'root_name' => env('APP_NAME'),
     ],
-    
+
     'backup_seeders' => [
         'ignore_tables' => [
             'jobs',
@@ -24,10 +24,4 @@ return [
             'telescope_monitoring',
         ]
     ],
-
-    'ai' => [
-        'openai_api_key' => env('OPENAI_API_KEY'),
-        'model' => env('LARAVELKIT_AI_MODEL', 'gpt-4o'),
-    ]
-
 ];

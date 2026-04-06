@@ -26,7 +26,7 @@ class AiWatcherCommand extends Command
         $this->info('Listening for AI Tasks on queues: [ai_pipeline_high, ai_pipeline]...');
         
         // Wir übergeben das Terminal an den native queue worker, damit Logs live gestreamt werden
-        passthru('php artisan queue:work --queue=ai_pipeline_high,ai_pipeline --stop-when-empty=false');
+        passthru('php artisan queue:work --queue=ai_pipeline_high,ai_pipeline');
         
         return Command::SUCCESS;
     }
