@@ -17,7 +17,7 @@
                     class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 mb-3 transition-colors">
                     <span aria-hidden="true">←</span> Zurück zur Startseite
                 </a>
-                <h1 class="text-2xl font-bold text-gray-900">🚀 AI Pipeline <span class="text-blue-600">Radar</span></h1>
+                <h1 class="text-2xl font-bold text-gray-900">🚀 AI Pipeline <span class="text-red-500">Radar</span></h1>
                 <p class="text-sm text-gray-500">Autonomous Gemini Task Management</p>
             </div>
             <div>
