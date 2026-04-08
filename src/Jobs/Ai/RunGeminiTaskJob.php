@@ -100,7 +100,7 @@ class RunGeminiTaskJob extends AbstractAiJob
                 unset($env['GEMINI_API_KEY']);
             }
 
-            $startTime = microtime(true);
+            file_put_contents(base_path("job_args.log"), json_encode($processArgs)); $startTime = microtime(true);
             $output = '';
             $errorOutput = '';
             
@@ -121,7 +121,8 @@ class RunGeminiTaskJob extends AbstractAiJob
                 });
 
             if (! $result->successful()) {
-                throw new \Exception("ProcessFailed:\n" . $errorOutput);
+                $exitCode = $result->exitCode();
+                throw new \Exception("ProcessFailed with exit code {$exitCode}:\n--- STDOUT ---\n{$output}\n--- STDERR ---\n{$errorOutput}");
             }
             
             $finalLog = trim($output) ?: trim($result->output());
@@ -170,9 +171,17 @@ class RunGeminiTaskJob extends AbstractAiJob
             }
 
         } catch (\Exception $e) {
+            $errorDetails = $e->getMessage();
+            if (isset($output) && trim($output) !== '' && !str_contains($errorDetails, '--- STDOUT ---')) {
+                $errorDetails .= "\n\nCaptured STDOUT before crash:\n" . $output;
+            }
+            if (isset($errorOutput) && trim($errorOutput) !== '' && !str_contains($errorDetails, '--- STDERR ---')) {
+                $errorDetails .= "\n\nCaptured STDERR before crash:\n" . $errorOutput;
+            }
+
             $run->update([
                 'status' => 'failed',
-                'stderr_log' => $e->getMessage(),
+                'stderr_log' => $errorDetails,
                 'finished_at' => now(),
             ]);
             $this->aiTask->update(['status' => 'failed']);

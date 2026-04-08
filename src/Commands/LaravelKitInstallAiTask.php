@@ -43,8 +43,8 @@ class LaravelKitInstallAiTask extends Command
         $this->info('Starte Datenbank-Migrationen für Task-Tabellen...');
         exec('php artisan migrate');
 
-        $this->info('Installiere lokales NPM Paket für @gemini-cli/gemini...');
-        exec('npm install -D @gemini-cli/gemini');
+        $this->info('Installiere lokales NPM Paket für @google/gemini-cli...');
+        exec('npm install -D @google/gemini-cli');
 
         $this->info('Konfiguriere .env für Daemon Ausführung...');
         $this->updateEnvironmentFile();

@@ -91,8 +91,12 @@ class AiDaemonWorkerCommand extends Command
                 $processArgs[] = base_path('routes');
                 $processArgs[] = '--include-directories';
                 $processArgs[] = base_path('config');
-                $processArgs[] = '--include-directories';
-                $processArgs[] = base_path('vendor/ithilbert/' . $targetPkg);
+                
+                $vendorPkgPath = base_path('vendor/ithilbert/' . $targetPkg);
+                if (is_dir($vendorPkgPath)) {
+                    $processArgs[] = '--include-directories';
+                    $processArgs[] = $vendorPkgPath;
+                }
 
                 $startTime = microtime(true);
                 $output = '';
@@ -115,7 +119,8 @@ class AiDaemonWorkerCommand extends Command
                 });
 
                 if (! $result->successful()) {
-                    throw new \Exception("ProcessFailed:\n" . $errorOutput);
+                    $exitCode = $result->exitCode();
+                    throw new \Exception("ProcessFailed with exit code {$exitCode}:\n--- STDOUT ---\n{$output}\n--- STDERR ---\n{$errorOutput}");
                 }
                 
                 $finalLog = trim($output);
@@ -142,9 +147,18 @@ class AiDaemonWorkerCommand extends Command
                 $this->info("Task #{$task->id} abgeschlossen in {$totalTime}s.");
 
             } catch (\Exception $e) {
+                $errorDetails = $e->getMessage();
+                // Falls die Exception VOR den output-Variablen geflogen ist (z.B. PHP-Fehler davor)
+                if (isset($output) && trim($output) !== '' && !str_contains($errorDetails, '--- STDOUT ---')) {
+                    $errorDetails .= "\n\nCaptured STDOUT before crash:\n" . $output;
+                }
+                if (isset($errorOutput) && trim($errorOutput) !== '' && !str_contains($errorDetails, '--- STDERR ---')) {
+                    $errorDetails .= "\n\nCaptured STDERR before crash:\n" . $errorOutput;
+                }
+
                 $run->update([
                     'status' => 'failed',
-                    'stderr_log' => $e->getMessage(),
+                    'stderr_log' => $errorDetails,
                     'finished_at' => now(),
                 ]);
                 $task->update(['status' => 'failed']);
