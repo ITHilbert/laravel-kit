@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!file_exists(config('database.connections.ai_sqlite.database'))) return;
+
         Schema::connection('ai_sqlite')->table('ai_tasks', function (Blueprint $table) {
             $table->text('rueckfrage')->nullable();
         });
@@ -21,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (!file_exists(config('database.connections.ai_sqlite.database'))) return;
+
         Schema::connection('ai_sqlite')->table('ai_tasks', function (Blueprint $table) {
             $table->dropColumn('rueckfrage');
         });

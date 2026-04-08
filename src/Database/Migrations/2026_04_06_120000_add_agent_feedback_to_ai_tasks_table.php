@@ -10,6 +10,8 @@ return new class extends Migration
 
     public function up()
     {
+        if (!file_exists(config('database.connections.ai_sqlite.database'))) return;
+
         Schema::table('ai_tasks', function (Blueprint $table) {
             $table->text('agent_feedback')->nullable()->after('tags');
         });
@@ -17,6 +19,8 @@ return new class extends Migration
 
     public function down()
     {
+        if (!file_exists(config('database.connections.ai_sqlite.database'))) return;
+
         Schema::table('ai_tasks', function (Blueprint $table) {
             $table->dropColumn('agent_feedback');
         });

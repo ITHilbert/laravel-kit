@@ -10,6 +10,11 @@ return new class extends Migration
 
     public function up()
     {
+        $dbPath = config('database.connections.ai_sqlite.database');
+        if (!file_exists($dbPath)) {
+            return;
+        }
+
         Schema::create('ai_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -40,6 +45,11 @@ return new class extends Migration
 
     public function down()
     {
+        $dbPath = config('database.connections.ai_sqlite.database');
+        if (!file_exists($dbPath)) {
+            return;
+        }
+
         Schema::dropIfExists('ai_task_runs');
         Schema::dropIfExists('ai_tasks');
     }
