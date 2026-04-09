@@ -25,7 +25,7 @@ class AuditRunCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $auditPaperId = $this->argument('audit_paper_id');
         $auditRevisionId = $this->argument('audit_revision_id');
@@ -55,12 +55,7 @@ class AuditRunCommand extends Command
 
         $this->info("Starte Audit-Lauf für Paper #{$auditPaperId} / Revision #".($auditRevisionId ?? 'NEWEST')." via {$apiUrl}");
 
-        // Endpoint: Startet Run (z.B. POST /api/v1/audit/revisions/{id}/runs)
-        // Wenn Revision nicht angegeben, müssen wir die neueste herausfinden
-
-        // Da das Backend z.Zt. so aufgebaut ist, dass man revision_id für den Run braucht,
-        // implementieren wir hier eine weiche Fallback-Logik oder senden die PaperId und das Backend löst es auf.
-        $postUrl = "{$apiUrl}/api/v1/audit/runs";
+        $postUrl = "{$apiUrl}/api/v1/audit/papers/{$auditPaperId}/runs";
 
         $response = Http::withToken($apiToken)->post($postUrl, [
             'audit_paper_id' => $auditPaperId,

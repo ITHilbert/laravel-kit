@@ -20,7 +20,7 @@ class AuditFeedbackCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Holt das KI-Feedback für ein Audit-Paper. Startet ggf. einen neuen Audit-Run und speichert das Ergebnis als storage/audit/feedback.txt.';
+    protected $description = 'Holt das KI-Feedback für ein Audit-Paper. Startet ggf. einen neuen Audit-Run und speichert das Ergebnis als storage/audit/feedback.md.';
 
     /**
      * Execute the console command.
@@ -118,11 +118,11 @@ class AuditFeedbackCommand extends Command
             File::makeDirectory($auditDir, 0755, true);
         }
 
-        $filePath = storage_path('audit/feedback.txt');
+        $filePath = storage_path('audit/feedback.md');
         File::put($filePath, $markdown);
 
         $findingCount = count($findings);
-        $this->info("✅ Feedback mit {$findingCount} Finding(s) gespeichert unter: storage/audit/feedback.txt");
+        $this->info("✅ Feedback mit {$findingCount} Finding(s) gespeichert unter: storage/audit/feedback.md");
 
         return Command::SUCCESS;
     }
