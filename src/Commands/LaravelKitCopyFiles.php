@@ -3,8 +3,6 @@
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitCopyFiles extends Command
 {
@@ -39,12 +37,13 @@ class LaravelKitCopyFiles extends Command
      */
     public function handle()
     {
-        //Laravel UI
+        // Laravel UI
         $this->info('Dateien werden kopiert');
 
-        //LaravelKit Dateien kopieren
+        // LaravelKit Dateien kopieren
         $erg = exec('php artisan vendor:publish --provider="ITHilbert\LaravelKit\LaravelKitServiceProvider" --force');
         $this->info($erg);
+
         return 0;
     }
 }

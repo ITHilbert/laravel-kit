@@ -32,18 +32,19 @@ class OpenSsh extends Command
 
         if (empty($host) || empty($user)) {
             $this->error('Fehler: MCP-Remote Konfiguration fehlt. Bitte LIVE_SERVER_HOST und LIVE_SERVER_USER in der .env setzen.');
+
             return Command::FAILURE;
         }
 
         $this->info("Verbinde via SSH mit {$user}@{$host} auf Port {$port}...");
-        
+
         $cmd = "ssh -p {$port} {$user}@{$host}";
-        
+
         // Wechsel direkt in den Projektpfad, falls angegeben. (-t zwingt interaktives PTY)
-        if (!empty($path)) {
+        if (! empty($path)) {
             $cmd .= " -t 'cd {$path} && exec bash -l'";
         }
-        
+
         // passthru übergibt In/Out/Error an den realen Terminal-Prozess
         passthru($cmd);
 

@@ -1,9 +1,8 @@
 <?php
+
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitInstallUserAuth extends Command
 {
@@ -38,7 +37,7 @@ class LaravelKitInstallUserAuth extends Command
      */
     public function handle()
     {
-        //UserAuth
+        // UserAuth
         $this->info('Install ithilbert/user-auth');
         exec('composer require ithilbert/user-auth:dev-master');
         exec('php artisan vendor:publish --provider="ITHilbert\UserAuth\UserAuthServiceProvider"');

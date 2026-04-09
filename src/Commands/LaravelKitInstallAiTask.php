@@ -67,7 +67,7 @@ class LaravelKitInstallAiTask extends Command
         if (file_exists($envPath)) {
             $envContent = file_get_contents($envPath);
             if (strpos($envContent, 'AI_EXECUTION_MODE=') === false) {
-                file_put_contents($envPath, $envContent . "\nAI_EXECUTION_MODE=daemon\n");
+                file_put_contents($envPath, $envContent."\nAI_EXECUTION_MODE=daemon\n");
                 $this->info(' -> AI_EXECUTION_MODE=daemon erfolgreich in .env eingetragen.');
             } else {
                 $this->info(' -> AI_EXECUTION_MODE existiert bereits in der .env.');

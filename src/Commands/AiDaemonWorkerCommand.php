@@ -6,12 +6,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use ITHilbert\LaravelKit\Models\AiTask;
 use ITHilbert\LaravelKit\Models\AiTaskRun;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\InputStream;
 
 class AiDaemonWorkerCommand extends Command
 {
     protected $signature = 'ai:daemon';
+
     protected $description = 'Langlaufender Daemon-Worker für AI-Tasks (behält die LLM Session alive).';
 
     /**
@@ -34,7 +33,7 @@ class AiDaemonWorkerCommand extends Command
 
     public function handle()
     {
-        $this->info("Starte AI Daemon Worker...");
+        $this->info('Starte AI Daemon Worker...');
 
         $env = $_ENV;
         $env['GOOGLE_API_KEY'] = config('services.gemini.key', env('GEMINI_API_KEY'));
@@ -51,12 +50,13 @@ class AiDaemonWorkerCommand extends Command
             // Heartbeat an die App (Fallback in Job weiß, dass Daemon aktiv ist)
             Cache::put('ai_daemon_last_ping', now(), 600);
 
-            /** @var \ITHilbert\LaravelKit\Models\AiTask|null $task */
+            /** @var AiTask|null $task */
             // Behandle 'quota_paused' wie 'pending' – wird beim nächsten Run automatisch aufgegriffen
             $task = AiTask::whereIn('status', ['pending', self::STATUS_QUOTA_PAUSED])->first();
 
             if (! $task) {
                 sleep(3);
+
                 continue;
             }
 
@@ -94,7 +94,7 @@ class AiDaemonWorkerCommand extends Command
                 $this->warn("Task #{$task->id}: Tägliches API-Quota erschöpft. Task wird geparkt und beim nächsten Start automatisch fortgesetzt.");
                 $run->update([
                     'status' => 'quota_paused',
-                    'stderr_log' => "Tägliches Quota erschöpft (Versuch {$attempt}). Task automatisch geparkt.\n" . $e->getMessage(),
+                    'stderr_log' => "Tägliches Quota erschöpft (Versuch {$attempt}). Task automatisch geparkt.\n".$e->getMessage(),
                     'finished_at' => now(),
                 ]);
                 // WICHTIG: Status 'quota_paused' wird beim Daemon-Start wie 'pending' behandelt!
@@ -108,7 +108,7 @@ class AiDaemonWorkerCommand extends Command
                     $this->error("Task #{$task->id}: Alle {$attempt} RPM-Retry-Versuche erschöpft. Task wird geparkt.");
                     $run->update([
                         'status' => 'quota_paused',
-                        'stderr_log' => "RPM-Fehler nach {$attempt} Versuchen erschöpft:\n" . $e->getMessage(),
+                        'stderr_log' => "RPM-Fehler nach {$attempt} Versuchen erschöpft:\n".$e->getMessage(),
                         'finished_at' => now(),
                     ]);
                     $task->update(['status' => self::STATUS_QUOTA_PAUSED]);
@@ -117,12 +117,12 @@ class AiDaemonWorkerCommand extends Command
                 }
 
                 $this->warn("Task #{$task->id}: Transient API Fehler (Versuch {$attempt}). Warte {$retryDelay}s vor Retry...");
-                $this->warn("Fehlerdetail: " . substr($e->getMessage(), 0, 200));
+                $this->warn('Fehlerdetail: '.substr($e->getMessage(), 0, 200));
 
                 // Run-Status auf 'retrying' setzen mit Info
                 $run->update([
                     'status' => 'processing',
-                    'stderr_log' => "Versuch {$attempt} fehlgeschlagen (transient). Retry in {$retryDelay}s.\n" . $e->getMessage(),
+                    'stderr_log' => "Versuch {$attempt} fehlgeschlagen (transient). Retry in {$retryDelay}s.\n".$e->getMessage(),
                 ]);
 
                 sleep($retryDelay);
@@ -136,7 +136,7 @@ class AiDaemonWorkerCommand extends Command
                     'finished_at' => now(),
                 ]);
                 $task->update(['status' => 'failed']);
-                $this->error("Task #{$task->id} fatal fehlgeschlagen: " . $e->getMessage());
+                $this->error("Task #{$task->id} fatal fehlgeschlagen: ".$e->getMessage());
 
                 return;
             }
@@ -179,7 +179,7 @@ class AiDaemonWorkerCommand extends Command
         $processArgs[] = '--include-directories';
         $processArgs[] = base_path('config');
 
-        $pkgPath = 'vendor/ithilbert/' . $targetPkg;
+        $pkgPath = 'vendor/ithilbert/'.$targetPkg;
         if (file_exists(base_path($pkgPath))) {
             $processArgs[] = '--include-directories';
             $processArgs[] = base_path($pkgPath);
@@ -197,7 +197,7 @@ class AiDaemonWorkerCommand extends Command
                 if ($type === 'err') {
                     $lines = explode("\n", rtrim($buffer, "\n"));
                     foreach ($lines as $line) {
-                        $errorOutput .= "[+{$elapsed}s] " . $line . "\n";
+                        $errorOutput .= "[+{$elapsed}s] ".$line."\n";
                     }
                 } else {
                     $output .= $buffer;
@@ -219,7 +219,7 @@ class AiDaemonWorkerCommand extends Command
             // Update Log every 5 seconds
             if ($currentTime - $lastLogUpdate >= 5) {
                 $run->update([
-                    'stdout_log' => "Gemini CLI Daemon Run (Streaming...){$attemptLabel}\n\n" . $output,
+                    'stdout_log' => "Gemini CLI Daemon Run (Streaming...){$attemptLabel}\n\n".$output,
                     'stderr_log' => $errorOutput,
                 ]);
                 $lastLogUpdate = $currentTime;
@@ -246,12 +246,12 @@ class AiDaemonWorkerCommand extends Command
         // Fehler-Klassifizierung: Daily-Quota > Transient > Fatal
         if (! $result->successful() && ! str_contains($output, 'DAEMON_TASK_FINISHED') && ! str_contains($output, '# FEEDBACK_REQUIRED')) {
             if ($this->isDailyQuotaExhausted($errorOutput)) {
-                throw new DailyQuotaExhaustedException("Tägliches Quota erschöpft:\n" . $errorOutput);
+                throw new DailyQuotaExhaustedException("Tägliches Quota erschöpft:\n".$errorOutput);
             }
             if ($this->isTransientError($errorOutput)) {
-                throw new TransientApiException("ProcessFailed (Transient/RPM):\n" . $errorOutput);
+                throw new TransientApiException("ProcessFailed (Transient/RPM):\n".$errorOutput);
             }
-            throw new \Exception("ProcessFailed (Fatal):\n" . $errorOutput);
+            throw new \Exception("ProcessFailed (Fatal):\n".$errorOutput);
         }
 
         $finalLog = trim($output);
@@ -271,7 +271,7 @@ class AiDaemonWorkerCommand extends Command
         $totalTime = round(microtime(true) - $startTime, 1);
         $run->update([
             'status' => $rueckfrage ? 'needs_info' : 'success',
-            'stdout_log' => "Gemini CLI Daemon Run in {$totalTime}s{$attemptLabel}\n\n" . $finalLog,
+            'stdout_log' => "Gemini CLI Daemon Run in {$totalTime}s{$attemptLabel}\n\n".$finalLog,
             'finished_at' => now(),
         ]);
 

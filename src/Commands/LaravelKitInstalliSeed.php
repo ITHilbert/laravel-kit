@@ -3,8 +3,6 @@
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitInstalliSeed extends Command
 {
@@ -39,7 +37,7 @@ class LaravelKitInstalliSeed extends Command
      */
     public function handle()
     {
-        //ISeed
+        // ISeed
         $this->info('Install orangehill/iseed');
         exec('composer require orangehill/iseed');
     }

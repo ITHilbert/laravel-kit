@@ -30,7 +30,7 @@ class LaravelKitBackupSeeders extends Command
     {
         // Alle Tabellen aus der Datenbank abrufen
         $connection = config('database.default');
-        
+
         $tables = [];
         try {
             $tables = Schema::connection($connection)->getTableListing();
@@ -48,27 +48,28 @@ class LaravelKitBackupSeeders extends Command
         $exportTables = [];
         foreach ($tables as $table) {
             $cleanTable = $table;
-            
+
             // Bereinigung von schema-präfigierten Tabellen (z.B. "aktienhandel.users")
             if (strpos($table, '.') !== false) {
-                if (strpos($table, $dbName . '.') !== 0) {
+                if (strpos($table, $dbName.'.') !== 0) {
                     continue; // Tabelle gehört zu einer anderen Datenbank (z.B. Aktienhandel)
                 }
                 // Prefix abschneiden (z.B. "hetzner." entfernen)
                 $cleanTable = substr($table, strlen($dbName) + 1);
             }
 
-            if (!in_array($cleanTable, $ignoreTables)) {
+            if (! in_array($cleanTable, $ignoreTables)) {
                 $exportTables[] = $cleanTable;
             }
         }
 
         if (count($exportTables) === 0) {
             $this->warn('Keine Tabellen zum Exportieren gefunden.');
+
             return;
         }
 
-        $this->info('Starte Export für: ' . count($exportTables) . ' Tabellen...');
+        $this->info('Starte Export für: '.count($exportTables).' Tabellen...');
 
         $tableString = implode(',', $exportTables);
 

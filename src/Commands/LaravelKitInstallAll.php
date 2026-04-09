@@ -3,8 +3,6 @@
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitInstallAll extends Command
 {
@@ -39,37 +37,36 @@ class LaravelKitInstallAll extends Command
      */
     public function handle()
     {
-        //Template Adminlte
-        //$this->info('Install Template AdminLte');
-        //$this->info('php artisan install:AdminLte');
-        //exec('php artisan install:AdminLte');
-        //Datatables
+        // Template Adminlte
+        // $this->info('Install Template AdminLte');
+        // $this->info('php artisan install:AdminLte');
+        // exec('php artisan install:AdminLte');
+        // Datatables
         $this->info('Install Datatables');
         $this->info('php artisan install:DataTables');
         exec('php artisan install:DataTables');
-        //Debugbar
+        // Debugbar
         $this->info('Install Debugbar');
         $this->info('php artisan install:Debugbar');
         exec('php artisan install:Debugbar');
-        //iSeed
+        // iSeed
         $this->info('Install iSeed');
         $this->info('php artisan install:iSeed');
         exec('php artisan install:iSeed');
-        //UserAuth
+        // UserAuth
         $this->info('Install ithilbert/userauth');
         $this->info('php artisan install:userauth');
         exec('php artisan install:userauth');
-        //LaravelKit Dateien kopieren
+        // LaravelKit Dateien kopieren
         $this->info('LaravelKit Daten kopieren');
         $this->info('php artisan install:copyfiles');
         exec('php artisan laravelkit:copyfiles');
-        //Site clonen
+        // Site clonen
         $this->info('Site Daten kopieren nach packages');
         $this->info('php artisan install:site');
         exec('php artisan install:site');
 
-
-        //Daten in die Datenbank eintragen
+        // Daten in die Datenbank eintragen
         $this->info('Daten in die Datenbank eintragen');
         $this->info('php artisan migrate');
         exec('php artisan migrate');
@@ -78,7 +75,6 @@ class LaravelKitInstallAll extends Command
 
         $this->info('Composer.json um folgende im Punkt autoload -> psr-4 erweitern');
         $this->info('"ITHilbert\\Site\\": "src/"');
-
 
         return 0;
     }

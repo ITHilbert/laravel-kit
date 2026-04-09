@@ -1,9 +1,8 @@
 <?php
+
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitInstallMix extends Command
 {
@@ -38,11 +37,11 @@ class LaravelKitInstallMix extends Command
      */
     public function handle()
     {
-        //Template Adminlte
+        // Template Adminlte
         $this->info('Install NPM Ressources');
         exec('npm install jquery');
         exec('npm install jquery-ui');
-        //exec('npm install webpack-jquery-ui');
+        // exec('npm install webpack-jquery-ui');
         $this->info('jquery Okay');
 
         exec('npm install datatables.net');
@@ -60,8 +59,8 @@ class LaravelKitInstallMix extends Command
         $this->info('Overlay Scrollbars Okay');
 
         exec('npm install vue@^2.6.14');
-        //exec('npm install vue-loader');
-       // exec('npm install tinymce/tinymce-vue');
+        // exec('npm install vue-loader');
+        // exec('npm install tinymce/tinymce-vue');
         $this->info('VUE.js Okay');
 
         exec('npm i @ithilbert/jlib');

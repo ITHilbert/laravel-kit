@@ -32,19 +32,20 @@ class OpenFtp extends Command
 
         if (empty($host) || empty($user)) {
             $this->error('Fehler: MCP-Remote Konfiguration fehlt. Bitte LIVE_SERVER_HOST und LIVE_SERVER_USER in der .env setzen.');
+
             return Command::FAILURE;
         }
 
         $target = "{$user}@{$host}";
-        if (!empty($path)) {
+        if (! empty($path)) {
             // Mit :pfad springt SFTP nach dem Login direkt ins richtige Projektverzeichnis
             $target .= ":{$path}";
         }
 
         $this->info("Verbinde via SFTP mit {$target} auf Port {$port}...");
-        
+
         $cmd = "sftp -P {$port} {$target}";
-        
+
         // passthru gibt die Kontrolle über Standard-In/Out direkt ans Terminal des Users weiter
         passthru($cmd);
 

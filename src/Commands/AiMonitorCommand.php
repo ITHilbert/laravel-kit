@@ -9,11 +9,12 @@ use ITHilbert\LaravelKit\Models\AiTaskRun;
 class AiMonitorCommand extends Command
 {
     protected $signature = 'ai:monitor';
+
     protected $description = 'Überwacht laufende AI-Tasks und setzt abgestürzte auf failed.';
 
     public function handle()
     {
-        $this->info("Prüfe auf abgestürzte AI-Tasks...");
+        $this->info('Prüfe auf abgestürzte AI-Tasks...');
 
         $timeout = now()->subSeconds(120);
 
@@ -21,13 +22,13 @@ class AiMonitorCommand extends Command
         $zombieTasks = AiTask::where('status', 'running')
             ->where(function ($query) use ($timeout) {
                 $query->where('last_heartbeat_at', '<', $timeout)
-                      ->orWhereNull('last_heartbeat_at');
+                    ->orWhereNull('last_heartbeat_at');
             })
             ->get();
 
         foreach ($zombieTasks as $task) {
             $this->warn("Task #{$task->id} ist ein Zombie (kein Heartbeat > 120s). Setze auf failed.");
-            
+
             $task->update([
                 'status' => 'failed',
                 'agent_feedback' => 'Task durch ai:monitor als failed markiert (Heartbeat Timeout).',
@@ -42,7 +43,7 @@ class AiMonitorCommand extends Command
             if ($lastRun) {
                 $lastRun->update([
                     'status' => 'failed',
-                    'stderr_log' => "Abgebrochen durch Monitor: Kein Heartbeat seit 120 Sekunden.\n" . $lastRun->stderr_log,
+                    'stderr_log' => "Abgebrochen durch Monitor: Kein Heartbeat seit 120 Sekunden.\n".$lastRun->stderr_log,
                     'finished_at' => now(),
                 ]);
             }

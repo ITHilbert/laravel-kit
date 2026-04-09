@@ -138,7 +138,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallDataTables::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallDebugbar::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstalliSeed::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallSite::class );
+        //$this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallSite::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallMix::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\OpenFtp::class );
@@ -150,6 +150,9 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\AiUpdateTaskCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiTaskReadCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallAiTask::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AuditRunCommand::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AuditFetchCommand::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AuditFeedbackCommand::class );
     }
 
     protected function registerBladeExtensions()

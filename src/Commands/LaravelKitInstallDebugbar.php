@@ -3,8 +3,6 @@
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitInstallDebugbar extends Command
 {
@@ -39,7 +37,7 @@ class LaravelKitInstallDebugbar extends Command
      */
     public function handle()
     {
-        //Debugbar
+        // Debugbar
         $this->info('Install barryvdh/laravel-debugbar');
         exec('composer require barryvdh/laravel-debugbar --dev');
         exec('php artisan vendor:publish --provider="Barryvdh\\Debugbar\\ServiceProvider"');

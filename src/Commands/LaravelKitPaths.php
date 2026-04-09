@@ -1,4 +1,5 @@
 <?php
+
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
@@ -36,21 +37,22 @@ class LaravelKitPaths extends Command
      */
     public function handle()
     {
-        $this->info('pwd: ' . exec('pwd'));
-        $this->info('base_path: ' . base_path());
-        $this->info('app_path: ' . app_path());
-        $this->info('config_path: ' . config_path());
-        $this->info('storage_path: ' . storage_path() );
-        $this->info('__DIR__: ' . __DIR__ );
-        $this->info('$this->package_path: ' . $this->package_path() );
+        $this->info('pwd: '.exec('pwd'));
+        $this->info('base_path: '.base_path());
+        $this->info('app_path: '.app_path());
+        $this->info('config_path: '.config_path());
+        $this->info('storage_path: '.storage_path());
+        $this->info('__DIR__: '.__DIR__);
+        $this->info('$this->package_path: '.$this->package_path());
 
         return 0;
     }
 
-    public function package_path(){
+    public function package_path()
+    {
         $path = __DIR__;
         $path = str_replace('/App/Console/Commands', '', $path);
+
         return $path;
     }
-
 }

@@ -3,8 +3,8 @@
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use ITHilbert\LaravelKit\Models\AiTask;
 use ITHilbert\LaravelKit\Jobs\Ai\RunPhpUnitJob;
+use ITHilbert\LaravelKit\Models\AiTask;
 
 class AiUpdateTaskCommand extends Command
 {
@@ -33,17 +33,18 @@ class AiUpdateTaskCommand extends Command
 
         $task = AiTask::find($id);
 
-        if (!$task) {
+        if (! $task) {
             $this->error("Task #{$id} nicht gefunden.");
+
             return Command::FAILURE;
         }
 
         $task->update(['status' => $status]);
-        
+
         $this->info("Task #{$id} wurde erfolgreich auf Status '{$status}' gesetzt.");
 
         if ($log) {
-            $this->info("Log gespeichert (Optionales Handling).");
+            $this->info('Log gespeichert (Optionales Handling).');
             // Optional: Log an den Task anhängen
         }
 

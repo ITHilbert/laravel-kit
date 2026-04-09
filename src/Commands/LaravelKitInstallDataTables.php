@@ -3,8 +3,6 @@
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Foundation\ComposerScripts;
-
 
 class LaravelKitInstallDataTables extends Command
 {
@@ -39,7 +37,7 @@ class LaravelKitInstallDataTables extends Command
      */
     public function handle()
     {
-        //Datatables
+        // Datatables
         $this->info('Install yajra/laravel-datatables-oracle');
         exec('composer require yajra/laravel-datatables-oracle:"~9.0"');
         exec('php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider"');

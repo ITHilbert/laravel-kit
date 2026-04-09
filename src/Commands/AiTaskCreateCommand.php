@@ -4,9 +4,9 @@ namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;
-use ITHilbert\LaravelKit\Models\AiTask;
 use ITHilbert\LaravelKit\Jobs\Ai\RunGeminiTaskJob;
 use ITHilbert\LaravelKit\Jobs\Ai\RunPhpUnitJob;
+use ITHilbert\LaravelKit\Models\AiTask;
 
 class AiTaskCreateCommand extends Command
 {
@@ -58,9 +58,11 @@ class AiTaskCreateCommand extends Command
             $chain->dispatch();
 
             $this->info("Erfolg: Task #{$task->id} ('{$title}') wurde in die Queue übergeben!");
+
             return Command::SUCCESS;
         } catch (\Exception $e) {
-            $this->error("Fehler beim Erstellen des AI-Tasks: " . $e->getMessage());
+            $this->error('Fehler beim Erstellen des AI-Tasks: '.$e->getMessage());
+
             return Command::FAILURE;
         }
     }
