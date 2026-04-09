@@ -145,6 +145,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\OpenSsh::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiWatcherCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiDaemonWorkerCommand::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\AiMonitorCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiTaskCreateCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiUpdateTaskCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AiTaskReadCommand::class );

@@ -24,12 +24,14 @@ class AiTaskRun extends Model
         'stderr_log',
         'result_diff',
         'finished_at',
+        'last_heartbeat_at',
     ];
 
     public function casts(): array
     {
         return [
             'finished_at' => 'datetime',
+            'last_heartbeat_at' => 'datetime',
         ];
     }
 

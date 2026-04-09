@@ -18,8 +18,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!file_exists(config('database.connections.ai_sqlite.database'))) return;
-
         Schema::table('ai_tasks', function (Blueprint $table) {
             if (!Schema::hasColumn('ai_tasks', 'prompt')) {
                 $table->text('prompt')->nullable()->after('module');
@@ -44,8 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (!file_exists(config('database.connections.ai_sqlite.database'))) return;
-
         Schema::table('ai_tasks', function (Blueprint $table) {
             $table->dropColumn([
                 'prompt',

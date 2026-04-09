@@ -11,14 +11,22 @@ return new class extends Migration
     public function up()
     {
         Schema::table('ai_tasks', function (Blueprint $table) {
-            $table->text('agent_feedback')->nullable()->after('tags');
+            $table->timestamp('last_heartbeat_at')->nullable()->after('status');
+        });
+
+        Schema::table('ai_task_runs', function (Blueprint $table) {
+            $table->timestamp('last_heartbeat_at')->nullable()->after('status');
         });
     }
 
     public function down()
     {
         Schema::table('ai_tasks', function (Blueprint $table) {
-            $table->dropColumn('agent_feedback');
+            $table->dropColumn('last_heartbeat_at');
+        });
+
+        Schema::table('ai_task_runs', function (Blueprint $table) {
+            $table->dropColumn('last_heartbeat_at');
         });
     }
 };

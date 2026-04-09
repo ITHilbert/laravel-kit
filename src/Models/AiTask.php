@@ -43,6 +43,7 @@ class AiTask extends Model
         'depends_on_task_id',
         'tags',
         'rueckfrage',
+        'last_heartbeat_at',
     ];
 
     /**
@@ -55,6 +56,7 @@ class AiTask extends Model
         return [
             'is_urgent' => 'boolean',
             'tags' => 'array',
+            'last_heartbeat_at' => 'datetime',
         ];
     }
 
