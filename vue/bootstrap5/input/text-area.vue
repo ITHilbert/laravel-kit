@@ -26,11 +26,13 @@
 
         methods: {
             getDefaultValue() {
-                if (this.$slots.default && this.$slots.default.length) {
-                    return this.$slots.default[0].text
+                if (this.$slots.default) {
+                    let defaultSlot = typeof this.$slots.default === 'function' ? this.$slots.default() : this.$slots.default;
+                    if (defaultSlot && defaultSlot.length > 0) {
+                        return defaultSlot[0].children || defaultSlot[0].text || '';
+                    }
                 }
-
-                return this.value
+                return this.value;
             }
         },
     }

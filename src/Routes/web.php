@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use ITHilbert\LaravelKit\Controllers\AiDashboardController;
 
-Route::middleware(['web'])->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     Route::prefix('devtools/ai')->group(function () {
         Route::get('/', [AiDashboardController::class, 'index'])->name('ai.dashboard');
         Route::post('/pause', [AiDashboardController::class, 'togglePause'])->name('ai.pause');

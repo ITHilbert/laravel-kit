@@ -1,5 +1,5 @@
 <template>
-    <div :class="['input-token flex items-center w-full rounded-md border border-gray-300 bg-white transition-colors focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 dark:bg-gray-700 dark:border-gray-600', $attrs.class, addClass]">
+    <div :class="['input-token flex items-center w-full rounded-md border border-gray-300 bg-white transition-colors focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500 dark:bg-gray-700 dark:border-gray-600', $attrs.class, addClass]">
         <input 
             :type="showCleartext ? 'text' : 'password'" 
             :id="name" 
