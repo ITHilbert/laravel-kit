@@ -153,6 +153,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\AuditRunCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AuditFetchCommand::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\AuditFeedbackCommand::class );
+        $this->commands( \ITHilbert\LaravelKit\Commands\ChangelogShowCommand::class );
     }
 
     protected function registerBladeExtensions()
