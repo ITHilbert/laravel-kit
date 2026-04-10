@@ -1,0 +1,41 @@
+/* =====================================================
+ * accordion.css — Styles für das Accordion System
+ * ===================================================== */
+
+.accordion {
+    @apply space-y-2;
+}
+
+.accordion-item {
+    @apply border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg overflow-hidden;
+}
+
+.accordion-header {
+    @apply m-0;
+}
+
+.accordion-button {
+    @apply relative flex items-center w-full px-5 py-4 text-left bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.accordion-button.collapsed {
+    @apply bg-white dark:bg-gray-800;
+}
+
+.accordion-button::after {
+    content: "";
+    @apply flex-shrink-0 w-5 h-5 ml-auto text-gray-500 dark:text-gray-400 bg-no-repeat bg-center transition-transform duration-200 ease-in-out;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236b7280'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.accordion-button:not(.collapsed)::after {
+    @apply transform -rotate-180;
+}
+
+.accordion-collapse {
+    @apply overflow-hidden transition-all duration-300 ease-in-out;
+}
+
+.accordion-body {
+    @apply p-5 text-gray-700 dark:text-gray-300;
+}

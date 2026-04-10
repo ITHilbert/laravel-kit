@@ -1,39 +1,26 @@
 <template>
-    <div :class="[paneClasses, $attrs.class]" :id="navLinkId" aria-labelledby="labelby" v-bind="$attrs">
-        <div class="accordion-body pt-0">
+    <div 
+        :id="navLinkId" 
+        :class="['accordion-collapse', { 'block': active, 'hidden': !active }, $attrs.class]" 
+        :aria-labelledby="labelby" 
+        v-bind="$attrs"
+    >
+        <div class="accordion-body">
             <slot></slot>
         </div>
     </div>
 </template>
 
+<script setup lang="ts">
+import { computed } from 'vue';
 
-<script>
-    export default {
-        inheritAttrs: false,
-        props: {
-            'name': {
-                type: String,
-                required: true
-            },
-            'active': {
-                type: Boolean,
-                default: false
-            }
-        },
-        computed: {
-            navLinkId() {
-                return `${this.name}-accordion-body`
-            },
-            labelby(){
-                return `${this.name}-accordion-header`
-            },
-            paneClasses() {
-                return {
-                    'accordion-collapse': true,
-                    'collapse': true,
-                    'show': this.active,
-                }
-            }
-        },
-    }
+const props = defineProps<{
+    name: string;
+    active?: boolean;
+}>();
+
+defineOptions({ inheritAttrs: false });
+
+const navLinkId = computed(() => `${props.name}-accordion-body`);
+const labelby = computed(() => `${props.name}-accordion-header`);
 </script>

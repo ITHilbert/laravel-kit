@@ -1,6 +1,5 @@
-<!-- https://getbootstrap.com/docs/5.0/components/modal/ -->
 <template>
-    <div class="modal" tabindex="-1" :id="id">
+    <div class="modal" tabindex="-1" :id="id" v-bind="$attrs">
         <div class="modal-dialog">
             <div class="modal-content">
                 <slot></slot>
@@ -9,13 +8,10 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        id: {
-            type: String,
-            required: true
-        }
-    }
-}
+<script setup lang="ts">
+defineProps<{
+    id: string;
+}>();
+
+defineOptions({ inheritAttrs: false });
 </script>

@@ -1,3 +1,7 @@
-<template >
-    <label class="text-sm text-gray-900 dark:text-gray-300" v-bind="$attrs"><slot></slot></label>
+<template>
+    <label class="hlabel" v-bind="$attrs"><slot></slot></label>
 </template>
+
+<script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+</script>

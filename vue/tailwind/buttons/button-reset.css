@@ -1,0 +1,13 @@
+/* button-reset.css — Styles für .btn-reset */
+
+.btn-reset {
+    @apply bg-orange-100 text-orange-700;
+
+    &:hover {
+        @apply bg-orange-500 text-white;
+    }
+
+    &:focus {
+        @apply ring-2 ring-orange-400 ring-offset-2;
+    }
+}

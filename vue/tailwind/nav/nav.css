@@ -1,0 +1,19 @@
+/* =====================================================
+ * nav.css — Styles für Navigation System
+ * ===================================================== */
+
+.nav-group {
+    @apply flex flex-col mb-2 pb-1 pl-0 list-none;
+}
+
+.nav-item {
+    @apply block;
+}
+
+.nav-link {
+    @apply block px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-gray-900 dark:text-gray-100;
+}
+
+.nav-link-icon {
+    @apply mr-2 text-gray-900 dark:text-gray-100;
+}

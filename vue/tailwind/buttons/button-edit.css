@@ -1,0 +1,13 @@
+/* button-edit.css — Styles für .btn-edit */
+
+.btn-edit {
+    @apply bg-amber-100 text-amber-700;
+
+    &:hover {
+        @apply bg-amber-500 text-white;
+    }
+
+    &:focus {
+        @apply ring-2 ring-amber-400 ring-offset-2;
+    }
+}

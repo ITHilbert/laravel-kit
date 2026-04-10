@@ -1,0 +1,5 @@
+/* hlabel.css — Styles für .hlabel */
+
+.hlabel {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+}

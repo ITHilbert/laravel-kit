@@ -1,16 +1,16 @@
 <template>
-    <div class="show-txt">
+    <div class="show-txt" v-bind="$attrs">
         {{ value }}
         <slot></slot>
     </div>
 </template>
 
-<script>
-    export default {
-        props: {
-            'value': {
-                default: ''
-            }
-        },
-    }
+<script setup lang="ts">
+withDefaults(defineProps<{
+    value?: string | number;
+}>(), {
+    value: ''
+});
+
+defineOptions({ inheritAttrs: false });
 </script>

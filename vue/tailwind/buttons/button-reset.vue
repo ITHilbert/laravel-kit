@@ -1,22 +1,16 @@
 <template>
-    <a v-if="type === 'link'" v-bind:href="route" class="inline-flex items-center justify-center px-4 py-2 font-medium text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors btn-reset" data-toggle="tooltip" :title="tooltip"><i class="fas fa-undo"></i> <slot></slot></a>
-    <button v-else v-bind:type="type" class="inline-flex items-center justify-center px-4 py-2 font-medium text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors btn-reset" data-toggle="tooltip" :title="tooltip"><i class="fas fa-undo"></i> <slot></slot></button>
+    <a v-if="type === 'link'" :href="route" class="btn btn-reset" :title="tooltip">
+        <i class="fas fa-undo"></i> <slot />
+    </a>
+    <button v-else :type="type" class="btn btn-reset" :title="tooltip">
+        <i class="fas fa-undo"></i> <slot />
+    </button>
 </template>
 
-
-
-<script>
-    export default {
-        props: {
-            'route': {
-                default: '#'
-            },
-            'type': {
-                default: 'reset'
-            },
-            'tooltip': {
-                default: 'Zurücksetzen'
-            }
-        }
-    }
+<script setup lang="ts">
+defineProps({
+    route:   { type: String, default: '#' },
+    type:    { type: String, default: 'reset' },
+    tooltip: { type: String, default: 'Zurücksetzen' },
+});
 </script>

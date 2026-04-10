@@ -1,0 +1,13 @@
+/* button-back.css — Styles für .btn-back */
+
+.btn-back {
+    @apply bg-gray-100 text-gray-600;
+
+    &:hover {
+        @apply bg-gray-200 text-gray-800;
+    }
+
+    &:focus {
+        @apply ring-2 ring-gray-400 ring-offset-2;
+    }
+}

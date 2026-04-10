@@ -1,40 +1,33 @@
 <template>
-    <h2 class="accordion-header" id="navLinkId">
-        <button :class="[paneClasses, $attrs.class]" type="button" data-bs-toggle="collapse" :data-bs-target="target" :aria-expanded="active" :aria-controls="controls">
+    <h2 class="accordion-header" :id="navLinkId">
+        <button 
+            type="button" 
+            :class="['accordion-button', { 'collapsed': !active }, $attrs.class]" 
+            :aria-expanded="active" 
+            :aria-controls="controls"
+            @click="toggle"
+        >
             <slot></slot>
         </button>
-        </h2>
+    </h2>
 </template>
 
-<script>
-    export default {
-        inheritAttrs: false,
-        props: {
-            'name': {
-                type: String,
-                required: true
-            },
-            'active': {
-                type: Boolean,
-                default: false
-            }
-        },
-        computed: {
-            navLinkId() {
-                return `${this.name}-accordion-header`
-            },
-            target(){
-                return `#${this.name}-accordion-body`
-            },
-            controls(){
-                return `${this.name}-accordion-body`
-            },
-            paneClasses() {
-                return {
-                    'accordion-button': true,
-                    'collapsed': !this.active,
-                }
-            }
-        },
-    }
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps<{
+    name: string;
+    active?: boolean;
+}>();
+
+const emit = defineEmits(['toggle']);
+
+defineOptions({ inheritAttrs: false });
+
+const navLinkId = computed(() => `${props.name}-accordion-header`);
+const controls = computed(() => `${props.name}-accordion-body`);
+
+function toggle() {
+    emit('toggle');
+}
 </script>

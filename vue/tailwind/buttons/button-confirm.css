@@ -1,0 +1,13 @@
+/* button-confirm.css — Styles für .btn-confirm */
+
+.btn-confirm {
+    @apply bg-green-100 text-green-700;
+
+    &:hover {
+        @apply bg-green-600 text-white;
+    }
+
+    &:focus {
+        @apply ring-2 ring-green-500 ring-offset-2;
+    }
+}

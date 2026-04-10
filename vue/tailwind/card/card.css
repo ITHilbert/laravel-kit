@@ -1,0 +1,59 @@
+/* =====================================================
+ * card.css — Styles für das Cards System
+ * ===================================================== */
+
+.card {
+    @apply bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col mb-6;
+}
+
+.card-main {
+    @apply bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col mb-6;
+}
+
+.card-body {
+    @apply p-6 md:p-5 flex-auto;
+}
+
+.card-bottom {
+    /* Basic Wrapper */
+}
+
+.card-columns {
+    /* Basic Wrapper */
+}
+
+.card-deck {
+    /* Basic Wrapper */
+}
+
+.card-footer {
+    @apply px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg;
+}
+
+.card-group {
+    /* Basic Wrapper */
+}
+
+.card-header {
+    @apply px-6 py-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-t-lg font-bold text-gray-900 dark:text-white;
+}
+
+.card-main-header {
+    @apply px-6 py-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-t-lg font-bold text-gray-900 dark:text-white;
+}
+
+.card-img-bottom {
+    @apply w-full object-cover rounded-b-lg;
+}
+
+.card-img-top {
+    @apply w-full object-cover rounded-t-lg;
+}
+
+.card-text {
+    @apply text-gray-700 dark:text-gray-300;
+}
+
+.card-title {
+    @apply text-lg font-bold text-gray-900 dark:text-gray-100 mb-2;
+}

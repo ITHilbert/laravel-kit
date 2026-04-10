@@ -1,33 +1,24 @@
 <template>
-    <div :class="[paneClasses, $attrs.class]" :id="name" role="tabpanel" :aria-labelledby="navLinkId" v-bind="$attrs"><slot></slot></div>
+    <div 
+        :class="['tab-body', { 'active': active, 'show': active }, $attrs.class]" 
+        :id="name" 
+        role="tabpanel" 
+        :aria-labelledby="navLinkId" 
+        v-bind="$attrs"
+    >
+        <slot></slot>
+    </div>
 </template>
 
-<script>
-    export default {
-        inheritAttrs: false,
-        props: {
-            'name': {
-                type: String,
-                required: true
-            },
-            'active': {
-                type: Boolean,
-                default: false
-            }
-        },
-        computed: {
-            navLinkId() {
-                return `${this.name}-tab`
-            },
-            paneClasses() {
-                return {
-                    'tab-body': true,
-                    'tab-pane': true,
-                    'fade': true,
-                    'show': this.active,
-                    'active': this.active
-                }
-            }
-        },
-    }
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps<{
+    name: string;
+    active?: boolean;
+}>();
+
+defineOptions({ inheritAttrs: false });
+
+const navLinkId = computed(() => `${props.name}-tab`);
 </script>

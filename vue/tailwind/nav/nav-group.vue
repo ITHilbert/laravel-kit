@@ -1,3 +1,7 @@
 <template>
-    <ul class="flex flex-wrap pl-0 mb-0 list-none flex flex-col mb-2 pb-1"><slot></slot></ul>
+    <ul class="nav-group" v-bind="$attrs"><slot></slot></ul>
 </template>
+
+<script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+</script>

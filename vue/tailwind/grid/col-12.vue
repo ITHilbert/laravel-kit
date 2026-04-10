@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full px-6" v-bind="$attrs">
-        <slot></slot>
-    </div>
+    <div class="col-12" v-bind="$attrs"><slot></slot></div>
 </template>
+<script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+</script>

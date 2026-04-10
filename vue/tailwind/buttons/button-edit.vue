@@ -1,21 +1,16 @@
 <template>
-    <a v-if="type === 'link'" v-bind:href="route" class="inline-flex items-center justify-center px-4 py-2 font-medium text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors btn-edit" data-toggle="tooltip" :title="tooltip"><i class="fas fa-pencil-alt"></i> <slot></slot></a>
-    <button v-else v-bind:type="type" class="inline-flex items-center justify-center px-4 py-2 font-medium text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors btn-edit" data-toggle="tooltip" :title="tooltip"><i class="fas fa-pencil-alt"></i> <slot></slot></button>
+    <a v-if="type === 'link'" :href="route" class="btn btn-edit" :title="tooltip">
+        <i class="fas fa-pencil-alt"></i> <slot />
+    </a>
+    <button v-else :type="type" class="btn btn-edit" :title="tooltip">
+        <i class="fas fa-pencil-alt"></i> <slot />
+    </button>
 </template>
 
-
-<script>
-    export default {
-        props: {
-            'route': {
-                default: '#'
-            },
-            'type': {
-                default: 'link'
-            },
-            'tooltip': {
-                default: 'Bearbeiten'
-            }
-        }
-    }
+<script setup lang="ts">
+defineProps({
+    route:   { type: String, default: '#' },
+    type:    { type: String, default: 'link' },
+    tooltip: { type: String, default: 'Bearbeiten' },
+});
 </script>

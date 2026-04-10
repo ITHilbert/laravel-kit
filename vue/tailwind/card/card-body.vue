@@ -1,5 +1,9 @@
 <template>
-    <div class="p-6 md:p-5 flex-auto" v-bind="$attrs">
+    <div class="card-body" v-bind="$attrs">
         <slot></slot>
     </div>
 </template>
+
+<script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+</script>

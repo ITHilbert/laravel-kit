@@ -1,0 +1,24 @@
+/* =====================================================
+ * grid.css — Styles für das Grid System
+ * ===================================================== */
+
+.row {
+    @apply flex flex-wrap -mx-4;
+}
+
+[class*="col-"] {
+    @apply px-4 w-full;
+}
+
+.col-1 { @apply sm:w-1/12; }
+.col-2 { @apply sm:w-2/12; }
+.col-3 { @apply sm:w-3/12; }
+.col-4 { @apply sm:w-4/12; }
+.col-5 { @apply sm:w-5/12; }
+.col-6 { @apply sm:w-6/12; }
+.col-7 { @apply sm:w-7/12; }
+.col-8 { @apply sm:w-8/12; }
+.col-9 { @apply sm:w-9/12; }
+.col-10 { @apply sm:w-10/12; }
+.col-11 { @apply sm:w-11/12; }
+.col-12 { @apply w-full; }

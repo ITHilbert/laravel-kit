@@ -1,0 +1,28 @@
+/* =====================================================
+ * tabs.css — Styles für das Tabs System
+ * ===================================================== */
+
+.tabs-header {
+    @apply flex flex-wrap pl-0 mb-0 list-none border-b border-gray-200 dark:border-gray-700;
+}
+
+.tab-header {
+    @apply block px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors cursor-pointer;
+}
+
+.tab-header.active {
+    @apply border-t border-r border-l border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800;
+}
+
+.tabs-body {
+    /* Base Container for Tab contents */
+}
+
+.tab-body {
+    @apply hidden transition-opacity duration-300 ease-in-out opacity-0;
+}
+
+.tab-body.active,
+.tab-body.show {
+    @apply block opacity-100;
+}

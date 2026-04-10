@@ -1,0 +1,13 @@
+/* button-create.css — Styles für .btn-create */
+
+.btn-create {
+    @apply bg-green-600 text-white;
+
+    &:hover {
+        @apply bg-green-700;
+    }
+
+    &:focus {
+        @apply ring-2 ring-green-500 ring-offset-2;
+    }
+}

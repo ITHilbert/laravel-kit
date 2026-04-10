@@ -1,178 +1,410 @@
 /**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-//window.Vue = require('vue');
-import Vue from 'vue'
-import 'livewire-vue'
-
-window.Vue = Vue //this is important! Do not use require('vue')
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- * (Moved to bootstrap.js)
- */
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
+ * laravel-kit Vue 3 Komponenten-Plugin (Tailwind)
  *
- * Eg. components/ExampleComponent.vue -> <example-component></example-component>
+ * Verwendung im Projekt:
+ *   import LaravelKit from '.../laravel-kit/vue/vueapp_TW.js';
+ *   app.use(LaravelKit);
+ *
+ * Oder selektiv:
+ *   import { ButtonCancel, ButtonSave } from '.../laravel-kit/vue/vueapp_TW.js';
+ *   app.component('button-cancel', ButtonCancel);
  */
 
-// const files = require.context('./tailwind/', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+// === Importe ===
+import AccordionBody from './tailwind/accordion/accordion-body.vue';
+import AccordionHeader from './tailwind/accordion/accordion-header.vue';
+import AccordionItem from './tailwind/accordion/accordion-item.vue';
+import Accordion from './tailwind/accordion/accordion.vue';
+import BreadcrumbItem from './tailwind/breadcrumb/breadcrumb-item.vue';
+import Breadcrumb from './tailwind/breadcrumb/breadcrumb.vue';
+import HButton from './tailwind/buttons/HButton.vue';
+import ButtonBack from './tailwind/buttons/button-back.vue';
+import ButtonCancel from './tailwind/buttons/button-cancel.vue';
+import ButtonConfirm from './tailwind/buttons/button-confirm.vue';
+import ButtonCreate from './tailwind/buttons/button-create.vue';
+import ButtonDelete from './tailwind/buttons/button-delete.vue';
+import ButtonEdit from './tailwind/buttons/button-edit.vue';
+import ButtonReset from './tailwind/buttons/button-reset.vue';
+import ButtonSave from './tailwind/buttons/button-save.vue';
+import ButtonShow from './tailwind/buttons/button-show.vue';
+import ButtonSubmit from './tailwind/buttons/button-submit.vue';
+import Hbutton from './tailwind/buttons/hbutton.vue';
+import CardBody from './tailwind/card/card-body.vue';
+import CardBottom from './tailwind/card/card-bottom.vue';
+import CardColumns from './tailwind/card/card-columns.vue';
+import CardDeck from './tailwind/card/card-deck.vue';
+import CardFooter from './tailwind/card/card-footer.vue';
+import CardGroup from './tailwind/card/card-group.vue';
+import CardHeader from './tailwind/card/card-header.vue';
+import CardImgBottom from './tailwind/card/card-img-bottom.vue';
+import CardImgTop from './tailwind/card/card-img-top.vue';
+import CardMainHeader from './tailwind/card/card-main-header.vue';
+import CardMain from './tailwind/card/card-main.vue';
+import CardText from './tailwind/card/card-text.vue';
+import CardTitle from './tailwind/card/card-title.vue';
+import Card from './tailwind/card/card.vue';
+import JCard from './tailwind/card/jCard.vue';
+import Delete from './tailwind/dialog/delete.vue';
+import Sceditor from './tailwind/editor/sceditor.vue';
+import Tinymce from './tailwind/editor/tinymce.vue';
+import Checkbox from './tailwind/forms/checkbox.vue';
+import Combobox from './tailwind/forms/combobox.vue';
+import Hform from './tailwind/forms/hform.vue';
+import Hlabel from './tailwind/forms/hlabel.vue';
+import InputColor from './tailwind/forms/input-color.vue';
+import InputDate from './tailwind/forms/input-date.vue';
+import InputEmail from './tailwind/forms/input-email.vue';
+import InputEuro from './tailwind/forms/input-euro.vue';
+import InputFileImg from './tailwind/forms/input-file-img.vue';
+import InputFile from './tailwind/forms/input-file.vue';
+import InputGroupText from './tailwind/forms/input-group-text.vue';
+import InputGroup from './tailwind/forms/input-group.vue';
+import InputHidden from './tailwind/forms/input-hidden.vue';
+import InputInt from './tailwind/forms/input-int.vue';
+import InputList from './tailwind/forms/input-list.vue';
+import InputNumber from './tailwind/forms/input-number.vue';
+import InputPassword from './tailwind/forms/input-password.vue';
+import InputPercent from './tailwind/forms/input-percent.vue';
+import InputText from './tailwind/forms/input-text.vue';
+import InputToken from './tailwind/forms/input-token.vue';
+import Radiobox from './tailwind/forms/radiobox.vue';
+import Search from './tailwind/forms/search.vue';
+import TextArea from './tailwind/forms/text-area.vue';
+import Toggle from './tailwind/forms/toggle.vue';
+import VueSelectItem from './tailwind/forms/vue-select-item.vue';
+import VueSelect from './tailwind/forms/vue-select.vue';
+import Col1 from './tailwind/grid/col-1.vue';
+import Col10 from './tailwind/grid/col-10.vue';
+import Col11 from './tailwind/grid/col-11.vue';
+import Col12 from './tailwind/grid/col-12.vue';
+import Col2 from './tailwind/grid/col-2.vue';
+import Col3 from './tailwind/grid/col-3.vue';
+import Col4 from './tailwind/grid/col-4.vue';
+import Col5 from './tailwind/grid/col-5.vue';
+import Col6 from './tailwind/grid/col-6.vue';
+import Col7 from './tailwind/grid/col-7.vue';
+import Col8 from './tailwind/grid/col-8.vue';
+import Col9 from './tailwind/grid/col-9.vue';
+import Row from './tailwind/grid/row.vue';
+import Group from './tailwind/group.vue';
+import Checkbox from './tailwind/input/checkbox.vue';
+import Combobox from './tailwind/input/combobox.vue';
+import Combobox2 from './tailwind/input/combobox2.vue';
+import Combobox4 from './tailwind/input/combobox4.vue';
+import Combobox_1 from './tailwind/input/combobox_1.vue';
+import Hlabel from './tailwind/input/hlabel.vue';
+import InputColor from './tailwind/input/input-color.vue';
+import InputDate from './tailwind/input/input-date.vue';
+import InputEmail from './tailwind/input/input-email.vue';
+import InputEuro from './tailwind/input/input-euro.vue';
+import InputFileImg from './tailwind/input/input-file-img.vue';
+import InputFile from './tailwind/input/input-file.vue';
+import InputHidden from './tailwind/input/input-hidden.vue';
+import InputInt from './tailwind/input/input-int.vue';
+import InputList from './tailwind/input/input-list.vue';
+import InputNumber from './tailwind/input/input-number.vue';
+import InputPassword from './tailwind/input/input-password.vue';
+import InputPercent from './tailwind/input/input-percent.vue';
+import InputText from './tailwind/input/input-text.vue';
+import Radiobox from './tailwind/input/radiobox.vue';
+import Search from './tailwind/input/search.vue';
+import TextArea from './tailwind/input/text-area.vue';
+import ModalBody from './tailwind/modal/modal-body.vue';
+import ModalButtonClose from './tailwind/modal/modal-button-close.vue';
+import ModalFooter from './tailwind/modal/modal-footer.vue';
+import ModalHeader from './tailwind/modal/modal-header.vue';
+import ModalOpenButton from './tailwind/modal/modal-open-button.vue';
+import Modal from './tailwind/modal/modal.vue';
+import NavGroup from './tailwind/nav/nav-group.vue';
+import NavItem from './tailwind/nav/nav-item.vue';
+import Nav from './tailwind/nav/nav.vue';
+import Code from './tailwind/show/code.vue';
+import MarkdownViewer from './tailwind/show/markdown-viewer.vue';
+import ShowDate from './tailwind/show/show-date.vue';
+import ShowEuro from './tailwind/show/show-euro.vue';
+import ShowText from './tailwind/show/show-text.vue';
+import SidebarChildItem from './tailwind/sidebar/sidebar-child-item.vue';
+import SidebarGroup from './tailwind/sidebar/sidebar-group.vue';
+import SidebarHeader from './tailwind/sidebar/sidebar-header.vue';
+import SidebarItem from './tailwind/sidebar/sidebar-item.vue';
+import SidebarLine from './tailwind/sidebar/sidebar-line.vue';
+import SidebarParentItem from './tailwind/sidebar/sidebar-parent-item.vue';
+import Sidebar from './tailwind/sidebar/sidebar.vue';
+import Pen from './tailwind/svg/pen.vue';
+import Star from './tailwind/svg/star.vue';
+import TabBody from './tailwind/tabs/tab-body.vue';
+import TabHeader from './tailwind/tabs/tab-header.vue';
+import TabsBody from './tailwind/tabs/tabs-body.vue';
+import TabsHeader from './tailwind/tabs/tabs-header.vue';
+import Rating from './tailwind/view/rating.vue';
+import HtmlCodeViewer from './tailwind/viewer/html-code-viewer.vue';
 
+// === Alle Komponenten als benannte Exporte (für selektive Nutzung) ===
+export {
+    AccordionBody,
+    AccordionHeader,
+    AccordionItem,
+    Accordion,
+    BreadcrumbItem,
+    Breadcrumb,
+    HButton,
+    ButtonBack,
+    ButtonCancel,
+    ButtonConfirm,
+    ButtonCreate,
+    ButtonDelete,
+    ButtonEdit,
+    ButtonReset,
+    ButtonSave,
+    ButtonShow,
+    ButtonSubmit,
+    Hbutton,
+    CardBody,
+    CardBottom,
+    CardColumns,
+    CardDeck,
+    CardFooter,
+    CardGroup,
+    CardHeader,
+    CardImgBottom,
+    CardImgTop,
+    CardMainHeader,
+    CardMain,
+    CardText,
+    CardTitle,
+    Card,
+    JCard,
+    Delete,
+    Sceditor,
+    Tinymce,
+    Checkbox,
+    Combobox,
+    Hform,
+    Hlabel,
+    InputColor,
+    InputDate,
+    InputEmail,
+    InputEuro,
+    InputFileImg,
+    InputFile,
+    InputGroupText,
+    InputGroup,
+    InputHidden,
+    InputInt,
+    InputList,
+    InputNumber,
+    InputPassword,
+    InputPercent,
+    InputText,
+    InputToken,
+    Radiobox,
+    Search,
+    TextArea,
+    Toggle,
+    VueSelectItem,
+    VueSelect,
+    Col1,
+    Col10,
+    Col11,
+    Col12,
+    Col2,
+    Col3,
+    Col4,
+    Col5,
+    Col6,
+    Col7,
+    Col8,
+    Col9,
+    Row,
+    Group,
+    Checkbox,
+    Combobox,
+    Combobox2,
+    Combobox4,
+    Combobox_1,
+    Hlabel,
+    InputColor,
+    InputDate,
+    InputEmail,
+    InputEuro,
+    InputFileImg,
+    InputFile,
+    InputHidden,
+    InputInt,
+    InputList,
+    InputNumber,
+    InputPassword,
+    InputPercent,
+    InputText,
+    Radiobox,
+    Search,
+    TextArea,
+    ModalBody,
+    ModalButtonClose,
+    ModalFooter,
+    ModalHeader,
+    ModalOpenButton,
+    Modal,
+    NavGroup,
+    NavItem,
+    Nav,
+    Code,
+    MarkdownViewer,
+    ShowDate,
+    ShowEuro,
+    ShowText,
+    SidebarChildItem,
+    SidebarGroup,
+    SidebarHeader,
+    SidebarItem,
+    SidebarLine,
+    SidebarParentItem,
+    Sidebar,
+    Pen,
+    Star,
+    TabBody,
+    TabHeader,
+    TabsBody,
+    TabsHeader,
+    Rating,
+    HtmlCodeViewer,
+};
 
-//Accordion
-Vue.component('accordion', require('./tailwind/accordion/accordion.vue').default);
-Vue.component('accordion-body', require('./tailwind/accordion/accordion-body.vue').default);
-Vue.component('accordion-header', require('./tailwind/accordion/accordion-header.vue').default);
-Vue.component('accordion-item', require('./tailwind/accordion/accordion-item.vue').default);
+// === Plugin-Export (für app.use()) ===
+const components = {
+    'accordion-body': AccordionBody,
+    'accordion-header': AccordionHeader,
+    'accordion-item': AccordionItem,
+    'accordion': Accordion,
+    'breadcrumb-item': BreadcrumbItem,
+    'breadcrumb': Breadcrumb,
+    'hbutton': HButton,
+    'button-back': ButtonBack,
+    'button-cancel': ButtonCancel,
+    'button-confirm': ButtonConfirm,
+    'button-create': ButtonCreate,
+    'button-delete': ButtonDelete,
+    'button-edit': ButtonEdit,
+    'button-reset': ButtonReset,
+    'button-save': ButtonSave,
+    'button-show': ButtonShow,
+    'button-submit': ButtonSubmit,
+    'hbutton': Hbutton,
+    'card-body': CardBody,
+    'card-bottom': CardBottom,
+    'card-columns': CardColumns,
+    'card-deck': CardDeck,
+    'card-footer': CardFooter,
+    'card-group': CardGroup,
+    'card-header': CardHeader,
+    'card-img-bottom': CardImgBottom,
+    'card-img-top': CardImgTop,
+    'card-main-header': CardMainHeader,
+    'card-main': CardMain,
+    'card-text': CardText,
+    'card-title': CardTitle,
+    'card': Card,
+    'jcard': JCard,
+    'delete': Delete,
+    'sceditor': Sceditor,
+    'tinymce': Tinymce,
+    'checkbox': Checkbox,
+    'combobox': Combobox,
+    'hform': Hform,
+    'hlabel': Hlabel,
+    'input-color': InputColor,
+    'input-date': InputDate,
+    'input-email': InputEmail,
+    'input-euro': InputEuro,
+    'input-file-img': InputFileImg,
+    'input-file': InputFile,
+    'input-group-text': InputGroupText,
+    'input-group': InputGroup,
+    'input-hidden': InputHidden,
+    'input-int': InputInt,
+    'input-list': InputList,
+    'input-number': InputNumber,
+    'input-password': InputPassword,
+    'input-percent': InputPercent,
+    'input-text': InputText,
+    'input-token': InputToken,
+    'radiobox': Radiobox,
+    'search': Search,
+    'text-area': TextArea,
+    'toggle': Toggle,
+    'vue-select-item': VueSelectItem,
+    'vue-select': VueSelect,
+    'col-1': Col1,
+    'col-10': Col10,
+    'col-11': Col11,
+    'col-12': Col12,
+    'col-2': Col2,
+    'col-3': Col3,
+    'col-4': Col4,
+    'col-5': Col5,
+    'col-6': Col6,
+    'col-7': Col7,
+    'col-8': Col8,
+    'col-9': Col9,
+    'row': Row,
+    'group': Group,
+    'checkbox': Checkbox,
+    'combobox': Combobox,
+    'combobox2': Combobox2,
+    'combobox4': Combobox4,
+    'combobox_1': Combobox_1,
+    'hlabel': Hlabel,
+    'input-color': InputColor,
+    'input-date': InputDate,
+    'input-email': InputEmail,
+    'input-euro': InputEuro,
+    'input-file-img': InputFileImg,
+    'input-file': InputFile,
+    'input-hidden': InputHidden,
+    'input-int': InputInt,
+    'input-list': InputList,
+    'input-number': InputNumber,
+    'input-password': InputPassword,
+    'input-percent': InputPercent,
+    'input-text': InputText,
+    'radiobox': Radiobox,
+    'search': Search,
+    'text-area': TextArea,
+    'modal-body': ModalBody,
+    'modal-button-close': ModalButtonClose,
+    'modal-footer': ModalFooter,
+    'modal-header': ModalHeader,
+    'modal-open-button': ModalOpenButton,
+    'modal': Modal,
+    'nav-group': NavGroup,
+    'nav-item': NavItem,
+    'nav': Nav,
+    'code': Code,
+    'markdown-viewer': MarkdownViewer,
+    'show-date': ShowDate,
+    'show-euro': ShowEuro,
+    'show-text': ShowText,
+    'sidebar-child-item': SidebarChildItem,
+    'sidebar-group': SidebarGroup,
+    'sidebar-header': SidebarHeader,
+    'sidebar-item': SidebarItem,
+    'sidebar-line': SidebarLine,
+    'sidebar-parent-item': SidebarParentItem,
+    'sidebar': Sidebar,
+    'pen': Pen,
+    'star': Star,
+    'tab-body': TabBody,
+    'tab-header': TabHeader,
+    'tabs-body': TabsBody,
+    'tabs-header': TabsHeader,
+    'rating': Rating,
+    'html-code-viewer': HtmlCodeViewer,
+};
 
-//Breadcrumb
-Vue.component('breadcrumb', require('./tailwind/breadcrumb/breadcrumb.vue').default);
-Vue.component('breadcrumb-item', require('./tailwind/breadcrumb/breadcrumb-item.vue').default);
-
-
-//Buttons
-Vue.component('hbutton', require('./tailwind/buttons/hbutton.vue').default);
-Vue.component('button-create', require("./tailwind/buttons/button-create.vue").default);
-Vue.component('button-show', require('./tailwind/buttons/button-show.vue').default);
-Vue.component('button-edit', require('./tailwind/buttons/button-edit.vue').default);
-Vue.component('button-delete', require('./tailwind/buttons/button-delete.vue').default);
-Vue.component('button-save', require('./tailwind/buttons/button-save.vue').default);
-Vue.component('button-back', require('./tailwind/buttons/button-back.vue').default);
-Vue.component('button-submit', require('./tailwind/buttons/button-submit.vue').default);
-Vue.component('button-cancel', require('./tailwind/buttons/button-cancel.vue').default);
-Vue.component('button-reset', require('./tailwind/buttons/button-reset.vue').default);
-
-//Card
-Vue.component('card', require("./tailwind/card/card.vue").default);
-Vue.component('card-main', require("./tailwind/card/card-main.vue").default);
-Vue.component('card-body', require("./tailwind/card/card-body.vue").default);
-Vue.component('card-columns', require("./tailwind/card/card-columns.vue").default);
-Vue.component('card-deck', require("./tailwind/card/card-deck.vue").default);
-Vue.component('card-footer', require("./tailwind/card/card-footer.vue").default);
-Vue.component('card-bottom', require("./tailwind/card/card-bottom.vue").default);
-Vue.component('card-group', require("./tailwind/card/card-group.vue").default);
-Vue.component('card-header', require("./tailwind/card/card-header.vue").default);
-Vue.component('card-img-bottom', require("./tailwind/card/card-img-bottom.vue").default);
-Vue.component('card-img-top', require("./tailwind/card/card-img-top.vue").default);
-Vue.component('card-main-header', require("./tailwind/card/card-main-header.vue").default);
-Vue.component('card-text', require("./tailwind/card/card-text.vue").default);
-Vue.component('card-title', require("./tailwind/card/card-title.vue").default);
-Vue.component('card', require("./tailwind/card/card.vue").default);
-Vue.component('card-main', require("./tailwind/card/card-main.vue").default);
-
-//Dialoge
-Vue.component('dialog-delete', require('./tailwind/dialog/delete.vue').default);
-
-//Editor
-Vue.component('html-editor', require('./tailwind/editor/sceditor.vue').default);
-//Vue.component('html-editor', require('./tailwind/editor/tinymce.vue').default);
-
-//Forms
-Vue.component('checkbox', require('./tailwind/forms/checkbox.vue').default);
-Vue.component('combobox', require('./tailwind/forms/combobox.vue').default);
-//Vue.component('editor', require('./tailwind/editor.vue').default);
-Vue.component('hform', require('./tailwind/forms/hform.vue').default);
-Vue.component('hlabel', require('./tailwind/forms/hlabel.vue').default);
-Vue.component('input-color', require('./tailwind/forms/input-color.vue').default);
-Vue.component('input-date', require('./tailwind/forms/input-date.vue').default);
-Vue.component('input-email', require('./tailwind/forms/input-email.vue').default);
-Vue.component('input-euro', require('./tailwind/forms/input-euro.vue').default);
-Vue.component('input-file-img', require('./tailwind/forms/input-file-img.vue').default);
-Vue.component('input-file', require('./tailwind/forms/input-file.vue').default);
-Vue.component('input-group-text', require('./tailwind/forms/input-group-text.vue').default);
-Vue.component('input-group', require('./tailwind/forms/input-group.vue').default);
-Vue.component('input-hidden', require('./tailwind/forms/input-hidden.vue').default);
-Vue.component('input-int', require('./tailwind/forms/input-int.vue').default);
-Vue.component('input-number', require('./tailwind/forms/input-number.vue').default);
-Vue.component('input-password', require('./tailwind/forms/input-password.vue').default);
-Vue.component('input-percent', require('./tailwind/forms/input-percent.vue').default);
-Vue.component('input-text', require('./tailwind/forms/input-text.vue').default);
-Vue.component('radiobox', require('./tailwind/forms/radiobox.vue').default);
-Vue.component('search', require('./tailwind/forms/search.vue').default);
-Vue.component('text-area', require('./tailwind/forms/text-area.vue').default);
-Vue.component('vue-select', require('./tailwind/forms/vue-select.vue').default);
-Vue.component('vue-select-item', require('./tailwind/forms/vue-select-item.vue').default);
-
-
-//Grid
-Vue.component('row', require('./tailwind/grid/row.vue').default);
-Vue.component('col-1', require('./tailwind/grid/col-1.vue').default);
-Vue.component('col-2', require('./tailwind/grid/col-2.vue').default);
-Vue.component('col-3', require('./tailwind/grid/col-3.vue').default);
-Vue.component('col-4', require('./tailwind/grid/col-4.vue').default);
-Vue.component('col-5', require('./tailwind/grid/col-5.vue').default);
-Vue.component('col-6', require('./tailwind/grid/col-6.vue').default);
-Vue.component('col-7', require('./tailwind/grid/col-7.vue').default);
-Vue.component('col-8', require('./tailwind/grid/col-8.vue').default);
-Vue.component('col-9', require('./tailwind/grid/col-9.vue').default);
-Vue.component('col-10', require('./tailwind/grid/col-10.vue').default);
-Vue.component('col-11', require('./tailwind/grid/col-11.vue').default);
-Vue.component('col-12', require('./tailwind/grid/col-12.vue').default);
-
-//Modal
-Vue.component('modal', require('./tailwind/modal/modal.vue').default);
-Vue.component('modal-header', require('./tailwind/modal/modal-header.vue').default);
-Vue.component('modal-body', require('./tailwind/modal/modal-body.vue').default);
-Vue.component('modal-footer', require('./tailwind/modal/modal-footer.vue').default);
-Vue.component('modal-button-close', require('./tailwind/modal/modal-button-close.vue').default);
-Vue.component('modal-open-button', require('./tailwind/modal/modal-open-button.vue').default);
-
-
-//Nav
-Vue.component('nav-group', require('./tailwind/nav/nav-group.vue').default);
-Vue.component('nav-item', require('./tailwind/nav/nav-item.vue').default);
-
-
-//Show
-Vue.component('txt', require('./tailwind/show/show-text.vue').default);
-Vue.component('euro', require('./tailwind/show/show-euro.vue').default);
-Vue.component('datum', require('./tailwind/show/show-date.vue').default);
-Vue.component('code-show', require('./tailwind/show/code.vue').default);
-
-//Tabs
-Vue.component('tabs-header', require('./tailwind/tabs/tabs-header.vue').default);
-Vue.component('tab-header', require('./tailwind/tabs/tab-header.vue').default);
-Vue.component('tabs-body', require('./tailwind/tabs/tabs-body.vue').default);
-Vue.component('tab-body', require('./tailwind/tabs/tab-body.vue').default);
-
-//Sidebar
-Vue.component('sidebar', require('./tailwind/sidebar/sidebar.vue').default);
-Vue.component('sidebar-group', require('./tailwind/sidebar/sidebar-group.vue').default);
-Vue.component('sidebar-item', require('./tailwind/sidebar/sidebar-item.vue').default);
-Vue.component('sidebar-header', require('./tailwind/sidebar/sidebar-header.vue').default);
-Vue.component('sidebar-line', require('./tailwind/sidebar/sidebar-line.vue').default);
-Vue.component('sidebar-parent-item', require('./tailwind/sidebar/sidebar-parent-item.vue').default);
-Vue.component('sidebar-child-item', require('./tailwind/sidebar/sidebar-child-item.vue').default);
-
-//SVG
-Vue.component('svg-pen', require('./tailwind/svg/pen.vue').default);
-Vue.component('svg-star', require('./tailwind/svg/star.vue').default);
-
-//View
-Vue.component('rating', require('./tailwind/view/rating.vue').default);
-
-
-//Design
-Vue.component('group', require('./tailwind/group.vue').default);
-
-
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const app = new Vue({
-    el: '#vue-app',
-});
+export default {
+    install(app) {
+        Object.entries(components).forEach(([name, component]) => {
+            app.component(name, component);
+        });
+    },
+};

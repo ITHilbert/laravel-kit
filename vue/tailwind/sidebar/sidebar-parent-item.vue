@@ -1,71 +1,63 @@
 <template>
-    <div class="nav-item-wrapper">
-        <a class="block px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors dropdown-indicator label-1" :href="href" role="button" data-bs-toggle="collapse" :aria-expanded="isActive" :aria-controls="name" v-bind="$attrs">
-            <div class="flex items-center">
-                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span :data-feather="img"></span></span><span class="nav-link-text">{{ title }}</span>
-            </div>
+    <div class="sidebar-item-wrapper">
+        <a 
+            :class="['sidebar-link group', { 'active': isActive }, addClass]" 
+            :href="href" 
+            role="button" 
+            data-bs-toggle="collapse" 
+            :aria-expanded="isActive" 
+            :aria-controls="name" 
+            @click="toggle"
+            v-bind="$attrs"
+        >
+            <span class="sidebar-link-icon" v-if="img">
+                <span :data-feather="img"></span>
+            </span>
+            <span class="sidebar-link-text">{{ title }}</span>
+            <span class="sidebar-dropdown-indicator fas fa-caret-right"></span>
         </a>
-        <div class="parent-wrapper label-1">
-            <ul :class="ulClasses" data-bs-parent="#navbarVerticalCollapse" :id="name">
-                <li class="collapsed-nav-item-title hidden">
-                   {{ title }}
-                </li>
+        <div class="sidebar-child-wrapper">
+            <ul :class="['sidebar-child-list', { 'collapse': true, 'show': isActive }]" :id="name">
                 <slot></slot>
             </ul>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        props: {
-            title: {
-                type: String,
-                default: 'home',
-            },
-            img: {
-                type: String,
-                default: 'home',
-            },
-            addClass: {
-                default: '',
-            },
-            'active': {
-                type: Boolean,
-                default: false
-            },
-        },
-        data() {
-            const name = this.title ? this.title.replace(/ /g, '-') : ''; // Prüfen, ob der this.title Wert nicht null oder undefined ist
-            const href = name ? `#${name}` : ''; // Wenn name vorhanden ist, erstelle href
+<script setup lang="ts">
+import { ref, computed, provide } from 'vue';
 
-            return {
-                isActive: this.active,
-                name: name,
-                href: href
-            }
-        },
-        computed: {
-            paneClasses() {
-                return {
-                    'label-1': true,
-                    'block px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors': true,
-                    'active': this.isActive
-                }
-            },
-            ulClasses() {
-                return {
-                    'flex flex-wrap pl-0 mb-0 list-none': true,
-                    'collapse': true,
-                    'parent': true,
-                    'show': this.isActive
-                }
-            }
-        },
-        methods: {
-            setParentActive() {
-                this.isActive = true;
-            }
-        }
-    }
+const props = withDefaults(defineProps<{
+    title?: string;
+    img?: string;
+    addClass?: string;
+    active?: boolean;
+}>(), {
+    title: 'home',
+    img: 'home',
+    addClass: '',
+    active: false,
+});
+
+defineOptions({ inheritAttrs: false });
+
+const isActive = ref(props.active);
+
+const name = computed(() => {
+    return props.title ? props.title.replace(/ /g, '-') : ''; 
+});
+
+const href = computed(() => {
+    return name.value ? `#${name.value}` : '';
+});
+
+function toggle() {
+    isActive.value = !isActive.value;
+}
+
+function setParentActive() {
+    isActive.value = true;
+}
+
+provide('setParentActive', setParentActive);
 </script>

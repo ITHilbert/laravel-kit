@@ -1,0 +1,48 @@
+/* =====================================================
+ * modal.css — Styles für Modals
+ * ===================================================== */
+
+.modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-hidden outline-none hidden;
+}
+
+/* Fallback/Overrides for Bootstrap functionality if needed */
+.modal.show {
+    @apply flex;
+}
+
+.modal-dialog {
+    @apply relative w-auto max-w-lg mx-auto pointer-events-none w-full m-4;
+}
+
+.modal-content {
+    @apply relative flex flex-col w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl pointer-events-auto border border-gray-200 dark:border-gray-700 outline-none overflow-hidden;
+}
+
+.modal-header {
+    @apply flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700;
+}
+
+.modal-title {
+    @apply text-base font-semibold text-gray-900 dark:text-gray-100;
+}
+
+.btn-close {
+    @apply text-gray-400 bg-transparent hover:text-gray-600 dark:hover:text-gray-300 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition-colors;
+}
+
+.modal-body {
+    @apply relative flex-auto px-6 py-5;
+}
+
+.modal-footer {
+    @apply flex items-center justify-end px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 gap-3;
+}
+
+.modal-button-open {
+    @apply inline-flex items-center justify-center px-4 py-2 font-medium text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+}
+
+.modal-button-close {
+    @apply inline-flex items-center justify-center px-4 py-2 font-medium text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500;
+}

@@ -1,0 +1,25 @@
+/* =====================================================
+ * breadcrumb.css — Styles für das Breadcrumb System
+ * ===================================================== */
+
+.breadcrumb {
+    @apply flex flex-wrap items-center gap-0 whitespace-nowrap overflow-hidden;
+    flex-wrap: nowrap;
+}
+
+.breadcrumb-item {
+    @apply text-sm;
+}
+
+.breadcrumb-item.active {
+    @apply text-gray-500;
+}
+
+.breadcrumb-link {
+    @apply text-indigo-600 no-underline hover:underline;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    @apply px-2 text-gray-400;
+}

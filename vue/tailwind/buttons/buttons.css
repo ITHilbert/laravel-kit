@@ -1,0 +1,26 @@
+/* =====================================================
+ * buttons.css — Barrel-Datei für alle Button-Varianten
+ * Projekte importieren NUR diese Datei:
+ *   @import '...laravel-kit/vue/tailwind/buttons/buttons.css';
+ * ===================================================== */
+
+/* --- Basis: gilt für ALLE .btn-* Varianten --- */
+.btn {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 text-sm font-medium rounded-md shadow-sm
+           transition-colors cursor-pointer
+           disabled:opacity-50 disabled:cursor-not-allowed
+           focus:outline-none;
+}
+
+/* --- Varianten (eine CSS-Datei pro Komponente) --- */
+@import './button-back.css';
+@import './button-cancel.css';
+@import './button-confirm.css';
+@import './button-create.css';
+@import './button-delete.css';
+@import './button-edit.css';
+@import './button-reset.css';
+@import './button-save.css';
+@import './button-show.css';
+@import './button-submit.css';

@@ -1,3 +1,7 @@
 <template>
-    <div class="accordion-item border-t border-gray-200 dark:border-gray-700 border-300"><slot></slot></div>
+    <div class="accordion-item" v-bind="$attrs"><slot></slot></div>
 </template>
+
+<script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+</script>

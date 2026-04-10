@@ -1,0 +1,13 @@
+/* button-show.css — Styles für .btn-show */
+
+.btn-show {
+    @apply bg-indigo-100 text-indigo-700;
+
+    &:hover {
+        @apply bg-indigo-600 text-white;
+    }
+
+    &:focus {
+        @apply ring-2 ring-indigo-500 ring-offset-2;
+    }
+}

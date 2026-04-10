@@ -1,62 +1,44 @@
 <template>
-    <div class="nav-item-wrapper">
-        <a :class="[paneClasses, addClass]" :href="href" role="button" data-bs-toggle="" aria-expanded="false" v-bind="$attrs">
-            <div class="flex items-center">
-                <span class="nav-link-icon">
-                    <span :data-feather="img"></span>
-                </span>
-                <span class="nav-link-text-wrapper">
-                    <span class="nav-link-text">
-                        <slot></slot>
-                    </span>
-                </span>
-            </div>
+    <div class="sidebar-item-wrapper">
+        <a :class="['sidebar-link group', { 'active': isActive }, addClass]" :href="href" v-bind="$attrs">
+            <span class="sidebar-link-icon" v-if="img">
+                <span :data-feather="img"></span>
+            </span>
+            <span class="sidebar-link-text">
+                <slot></slot>
+            </span>
         </a>
     </div>
 </template>
 
-<script>
-    export default {
-        props: {
-            href: {
-                type: String,
-                default: '#',
-            },
-            img: {
-                type: String,
-                default: 'home',
-            },
-            addClass: {
-                default: '',
-            },
-            'active': {
-                type: Boolean,
-                default: false
-            },
-        },
-        data() {
-            return {
-                isActive: this.active
-            }
-        },
-        computed: {
-            paneClasses() {
-                return {
-                    'label-1': true,
-                    'block px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors': true,
-                    'active': this.isActive
-                }
-            }
-        },
-        created() {
-            const relativePath = this.href.replace(window.location.origin, '');
-            const currentPath = window.location.pathname.replace(/\/$/, ''); // Entfernt das abschließende "/"
-            //console.log(currentPath + ' = ' + relativePath);
-            if (currentPath === relativePath) {
-                this.isActive = true;
-            } else {
-                this.isActive = false;
-            }
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+
+const props = withDefaults(defineProps<{
+    href?: string;
+    img?: string;
+    addClass?: string;
+    active?: boolean;
+}>(), {
+    href: '#',
+    img: 'home',
+    addClass: '',
+    active: false,
+});
+
+defineOptions({ inheritAttrs: false });
+
+const isActive = ref(props.active);
+
+onMounted(() => {
+    if (typeof window !== 'undefined') {
+        const relativePath = props.href.replace(window.location.origin, '');
+        const currentPath = window.location.pathname.replace(/\/$/, '');
+        if (currentPath === relativePath) {
+            isActive.value = true;
+        } else {
+            isActive.value = false;
         }
     }
+});
 </script>

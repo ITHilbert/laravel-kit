@@ -1,0 +1,31 @@
+/* =====================================================
+ * forms.css — Barrel-Datei für alle Form-Komponenten
+ * Projekte importieren NUR diese Datei:
+ *   @import '...laravel-kit/vue/tailwind/forms/forms.css';
+ * ===================================================== */
+
+/* --- Text-Inputs --- */
+@import './input-text.css';
+@import './input-email.css';
+@import './input-password.css';
+@import './input-int.css';
+@import './input-number.css';
+@import './input-euro.css';
+@import './input-percent.css';
+@import './input-date.css';
+@import './input-color.css';
+@import './input-list.css';
+@import './input-token.css';
+
+/* --- Auswahl --- */
+@import './combobox.css';
+@import './checkbox.css';
+@import './radiobox.css';
+@import './toggle.css';
+
+/* --- Textarea & Suche --- */
+@import './text-area.css';
+@import './search.css';
+
+/* --- Labels & Struktur --- */
+@import './hlabel.css';
