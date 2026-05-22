@@ -132,7 +132,6 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitBackupSeeders::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitPaths::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitCopyFiles::class );
-        //$this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallAdminLte::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallAll::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallCustomer::class );
         $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallDataTables::class );

@@ -37,7 +37,6 @@ class LaravelKitInstallMix extends Command
      */
     public function handle()
     {
-        // Template Adminlte
         $this->info('Install NPM Ressources');
         exec('npm install jquery');
         exec('npm install jquery-ui');
@@ -48,9 +47,6 @@ class LaravelKitInstallMix extends Command
         exec('npm install datatables.net-dt');
         exec('npm install datatables.net-buttons');
         $this->info('DataTables Okay');
-
-        exec('npm install admin-lte@^3.1 --save');
-        $this->info('AdminLTE 3.1 Okay');
 
         exec('npm install bootstrap');
         $this->info('Bootstrap Okay');
