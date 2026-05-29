@@ -2,10 +2,31 @@
 
 namespace ITHilbert\LaravelKit;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
-//use Illuminate\View\Compilers\BladeCompiler;
-//use ITHilbert\LaravelKit\Helpers\DataTableScript;
+use Illuminate\Support\ServiceProvider;
+use ITHilbert\LaravelKit\Commands\AuditFeedbackCommand;
+use ITHilbert\LaravelKit\Commands\AuditFetchCommand;
+use ITHilbert\LaravelKit\Commands\AuditRunCommand;
+use ITHilbert\LaravelKit\Commands\ChangelogShowCommand;
+use ITHilbert\LaravelKit\Commands\LaravelKitBackupSeeders;
+use ITHilbert\LaravelKit\Commands\LaravelKitCopyFiles;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstallAll;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstallCustomer;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstallDataTables;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstallDebugbar;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstalliSeed;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstallMix;
+use ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth;
+use ITHilbert\LaravelKit\Commands\LaravelKitPaths;
+use ITHilbert\LaravelKit\Commands\OpenFtp;
+use ITHilbert\LaravelKit\Commands\OpenSsh;
+use ITHilbert\LaravelKit\Mcp\Tools\AiExpertReviewTool;
+use ITHilbert\LaravelKit\Mcp\Tools\BackupSeedersTool;
+use ITHilbert\LaravelKit\Mcp\Tools\RemoteExecuteTool;
+use ITHilbert\LaravelKit\Mcp\Tools\RemoteSyncTool;
+
+// use Illuminate\View\Compilers\BladeCompiler;
+// use ITHilbert\LaravelKit\Helpers\DataTableScript;
 
 class LaravelKitServiceProvider extends ServiceProvider
 {
@@ -18,10 +39,10 @@ class LaravelKitServiceProvider extends ServiceProvider
     {
         $this->registerCommands();
 
-        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
         $this->publishAssets();
-        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->registerResponseMacros();
     }
 
@@ -32,26 +53,24 @@ class LaravelKitServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       /*  $this->app->register(RouteServiceProvider::class); */
-       $this->mergeConfigFrom(__DIR__.'/Config/mcp_remote.php', 'mcp_remote');
-       
-       $this->registerBladeExtensions();
-       $this->setAliase();
-       
-       $this->registerMcpTools();
-       $this->registerAiDatabaseConnection();
+        /*  $this->app->register(RouteServiceProvider::class); */
+        $this->mergeConfigFrom(__DIR__.'/Config/mcp_remote.php', 'mcp_remote');
+
+        $this->registerBladeExtensions();
+        $this->setAliase();
+
+        $this->registerMcpTools();
+        $this->registerAiDatabaseConnection();
     }
 
     protected function registerMcpTools()
     {
         // Wenn Laravel Boost installiert ist, hängen wir unser Tool dynamisch an
         $tools = config('boost.mcp.tools.include', []);
-        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\BackupSeedersTool::class;
-        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteExecuteTool::class;
-        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\RemoteSyncTool::class;
-        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiTaskCreateTool::class;
-        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiExpertReviewTool::class;
-        $tools[] = \ITHilbert\LaravelKit\Mcp\Tools\AiTaskStatusTool::class;
+        $tools[] = BackupSeedersTool::class;
+        $tools[] = RemoteExecuteTool::class;
+        $tools[] = RemoteSyncTool::class;
+        $tools[] = AiExpertReviewTool::class;
         config(['boost.mcp.tools.include' => $tools]);
     }
 
@@ -69,90 +88,83 @@ class LaravelKitServiceProvider extends ServiceProvider
         }
     }
 
-    public function setAliase(){
-        //$this->app->alias(\ITHilbert\LaravelKit\Helpers\DataTableScript::class, 'DataTableScript');
+    public function setAliase()
+    {
+        // $this->app->alias(\ITHilbert\LaravelKit\Helpers\DataTableScript::class, 'DataTableScript');
     }
 
     public function publishAssets()
     {
-        //Config File
+        // Config File
         $this->publishes([
-            //Config files
-            __DIR__ .'/Config/laravelkit.php' => config_path('laravelkit.php'),
-            __DIR__ .'/Config/ai.php' => config_path('ai.php'),
-            __DIR__ .'/Config/datatablescript.php' => config_path('datatablescript.php'),
-            __DIR__ .'/Config/mcp_remote.php' => config_path('mcp_remote.php'),
+            // Config files
+            __DIR__.'/Config/laravelkit.php' => config_path('laravelkit.php'),
+            __DIR__.'/Config/ai.php' => config_path('ai.php'),
+            __DIR__.'/Config/datatablescript.php' => config_path('datatablescript.php'),
+            __DIR__.'/Config/mcp_remote.php' => config_path('mcp_remote.php'),
         ], 'config');
 
-        //###################################
+        // ###################################
         // Publish Ressources
-        //###################################
+        // ###################################
         $this->publishes([
-            //Lang Files
+            // Lang Files
             __DIR__.'/Publish/Resources/lang/de/master.php' => resource_path('lang/de/master.php'),
             __DIR__.'/Publish/Resources/lang/de/pagination.php' => resource_path('lang/de/pagination.php'),
             __DIR__.'/Publish/Resources/lang/de/validation.php' => resource_path('lang/de/validation.php'),
 
-            //Views
+            // Views
             __DIR__.'/Publish/Resources/views/include/formdelete.blade.php' => resource_path('views/include/formdelete.blade.php'),
             __DIR__.'/Publish/Resources/views/include/message.blade.php' => resource_path('views/include/message.blade.php'),
             __DIR__.'/Publish/Resources/views/include/breadcrumb.blade.php' => resource_path('views/include/breadcrumb.blade.php'),
-            //__DIR__.'/Publish/Resources/views/layouts' => resource_path('views/layouts'),
-            //__DIR__.'/Publish/Resources/views/vue.blade.php' => resource_path('views/vue.blade.php'),
-            //__DIR__.'/Publish/Resources/views/vue-submit.blade.php' => resource_path('views/vue-submit.blade.php'),
+            // __DIR__.'/Publish/Resources/views/layouts' => resource_path('views/layouts'),
+            // __DIR__.'/Publish/Resources/views/vue.blade.php' => resource_path('views/vue.blade.php'),
+            // __DIR__.'/Publish/Resources/views/vue-submit.blade.php' => resource_path('views/vue-submit.blade.php'),
 
-            //Ressourcen nach Ressourcen
-            __DIR__ .'/Publish/Resources/css' => resource_path('css/vendor'),
-            __DIR__ .'/Publish/Resources/css/custom.css' => resource_path('css/custom.css'),
-            __DIR__ .'/Publish/Resources/images' => resource_path('images/vendor'),
-            __DIR__ .'/Publish/Resources/js' => resource_path('js/vendor'),
-            __DIR__ .'/Publish/Resources/js/vueapp.js' => resource_path('js/vueapp.js'),
-            __DIR__ .'/Publish/Resources/js/custom.js' => resource_path('js/custom.js'),
-            __DIR__ .'/Publish/Resources/js/AppLaravelKit.js' => resource_path('js/AppLaravelKit.js'),
-            __DIR__ .'/Publish/Resources/json' => resource_path('json/vendor'),
-            __DIR__ .'/Publish/Resources/scss' => resource_path('scss'),
-            __DIR__ .'/Publish/Resources/webfonts' => resource_path('webfonts/vendor'),
+            // Ressourcen nach Ressourcen
+            __DIR__.'/Publish/Resources/css' => resource_path('css/vendor'),
+            __DIR__.'/Publish/Resources/css/custom.css' => resource_path('css/custom.css'),
+            __DIR__.'/Publish/Resources/images' => resource_path('images/vendor'),
+            __DIR__.'/Publish/Resources/js' => resource_path('js/vendor'),
+            __DIR__.'/Publish/Resources/js/vueapp.js' => resource_path('js/vueapp.js'),
+            __DIR__.'/Publish/Resources/js/custom.js' => resource_path('js/custom.js'),
+            __DIR__.'/Publish/Resources/js/AppLaravelKit.js' => resource_path('js/AppLaravelKit.js'),
+            __DIR__.'/Publish/Resources/json' => resource_path('json/vendor'),
+            __DIR__.'/Publish/Resources/scss' => resource_path('scss'),
+            __DIR__.'/Publish/Resources/webfonts' => resource_path('webfonts/vendor'),
         ], 'resources');
 
-        //Publish/Public nach Public
+        // Publish/Public nach Public
         $this->publishes([
-            __DIR__ .'/Publish/Public/css' => public_path('css'),
-            __DIR__ .'/Publish/Public/fonts' => public_path('fonts'),
-            __DIR__ .'/Publish/Public/images' => public_path('images'),
-            __DIR__ .'/Publish/Public/js' => public_path('js'),
-            __DIR__ .'/Publish/Public/webfonts' => public_path('webfonts'),
-            __DIR__ .'/Publish/Public/laravelkit' => public_path('vendor/laravelkit'),
-       ], 'public');
+            __DIR__.'/Publish/Public/css' => public_path('css'),
+            __DIR__.'/Publish/Public/fonts' => public_path('fonts'),
+            __DIR__.'/Publish/Public/images' => public_path('images'),
+            __DIR__.'/Publish/Public/js' => public_path('js'),
+            __DIR__.'/Publish/Public/webfonts' => public_path('webfonts'),
+            __DIR__.'/Publish/Public/laravelkit' => public_path('vendor/laravelkit'),
+        ], 'public');
 
     }
 
-
     protected function registerCommands()
     {
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitBackupSeeders::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitPaths::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitCopyFiles::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallAll::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallCustomer::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallDataTables::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallDebugbar::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstalliSeed::class );
-        //$this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallSite::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallMix::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\OpenFtp::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\OpenSsh::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AiWatcherCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AiDaemonWorkerCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AiMonitorCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AiTaskCreateCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AiUpdateTaskCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AiTaskReadCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallAiTask::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AuditRunCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AuditFetchCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\AuditFeedbackCommand::class );
-        $this->commands( \ITHilbert\LaravelKit\Commands\ChangelogShowCommand::class );
+        $this->commands(LaravelKitBackupSeeders::class);
+        $this->commands(LaravelKitPaths::class);
+        $this->commands(LaravelKitCopyFiles::class);
+        $this->commands(LaravelKitInstallAll::class);
+        $this->commands(LaravelKitInstallCustomer::class);
+        $this->commands(LaravelKitInstallDataTables::class);
+        $this->commands(LaravelKitInstallDebugbar::class);
+        $this->commands(LaravelKitInstalliSeed::class);
+        // $this->commands( \ITHilbert\LaravelKit\Commands\LaravelKitInstallSite::class );
+        $this->commands(LaravelKitInstallUserAuth::class);
+        $this->commands(LaravelKitInstallMix::class);
+        $this->commands(OpenFtp::class);
+        $this->commands(OpenSsh::class);
+        $this->commands(AuditRunCommand::class);
+        $this->commands(AuditFetchCommand::class);
+        $this->commands(AuditFeedbackCommand::class);
+        $this->commands(ChangelogShowCommand::class);
     }
 
     protected function registerBladeExtensions()
@@ -170,7 +182,6 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         }); */
     }
-
 
     protected function registerResponseMacros()
     {
