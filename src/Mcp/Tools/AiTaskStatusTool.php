@@ -9,7 +9,7 @@ use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 use ITHilbert\LaravelKit\Models\AiTask;
 
-#[Description('Fragt den Status der AI-Tasks ab (Queue-Radar) um Stale-States zu vermeiden.')]
+#[Description('Fragt den Status der AI-Tasks ab, um Stale-States zu vermeiden.')]
 class AiTaskStatusTool extends Tool
 {
     public function handle(Request $request): Response
