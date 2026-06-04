@@ -60,7 +60,6 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->setAliase();
 
         $this->registerMcpTools();
-        $this->registerAiDatabaseConnection();
     }
 
     protected function registerMcpTools()
@@ -72,20 +71,6 @@ class LaravelKitServiceProvider extends ServiceProvider
         $tools[] = RemoteSyncTool::class;
         $tools[] = AiExpertReviewTool::class;
         config(['boost.mcp.tools.include' => $tools]);
-    }
-
-    protected function registerAiDatabaseConnection()
-    {
-        $config = $this->app['config']->get('database.connections.ai_sqlite');
-
-        if (is_null($config)) {
-            $this->app['config']->set('database.connections.ai_sqlite', [
-                'driver' => 'sqlite',
-                'database' => storage_path('devtools_ai.sqlite'),
-                'prefix' => '',
-                'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-            ]);
-        }
     }
 
     public function setAliase()
