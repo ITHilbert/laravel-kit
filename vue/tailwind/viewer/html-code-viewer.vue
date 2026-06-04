@@ -1,5 +1,5 @@
 <template>
-  <pre class="html-code-viewer scrollbar overflow-x-auto p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-mono text-gray-800 dark:text-gray-200" v-bind="$attrs">
+  <pre class="code-block" v-bind="$attrs">
     <code>{{ debug ? "[debug-mode]\n" : '' }}{{ code }}</code>
   </pre>
 </template>

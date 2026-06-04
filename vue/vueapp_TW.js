@@ -87,28 +87,9 @@ import Col8 from './tailwind/grid/col-8.vue';
 import Col9 from './tailwind/grid/col-9.vue';
 import Row from './tailwind/grid/row.vue';
 import Group from './tailwind/group.vue';
-import Checkbox from './tailwind/input/checkbox.vue';
-import Combobox from './tailwind/input/combobox.vue';
-import Combobox2 from './tailwind/input/combobox2.vue';
-import Combobox4 from './tailwind/input/combobox4.vue';
-import Combobox_1 from './tailwind/input/combobox_1.vue';
-import Hlabel from './tailwind/input/hlabel.vue';
-import InputColor from './tailwind/input/input-color.vue';
-import InputDate from './tailwind/input/input-date.vue';
-import InputEmail from './tailwind/input/input-email.vue';
-import InputEuro from './tailwind/input/input-euro.vue';
-import InputFileImg from './tailwind/input/input-file-img.vue';
-import InputFile from './tailwind/input/input-file.vue';
-import InputHidden from './tailwind/input/input-hidden.vue';
-import InputInt from './tailwind/input/input-int.vue';
-import InputList from './tailwind/input/input-list.vue';
-import InputNumber from './tailwind/input/input-number.vue';
-import InputPassword from './tailwind/input/input-password.vue';
-import InputPercent from './tailwind/input/input-percent.vue';
-import InputText from './tailwind/input/input-text.vue';
-import Radiobox from './tailwind/input/radiobox.vue';
-import Search from './tailwind/input/search.vue';
-import TextArea from './tailwind/input/text-area.vue';
+import Combobox2 from './tailwind/forms/combobox2.vue';
+import Combobox4 from './tailwind/forms/combobox4.vue';
+import Combobox_1 from './tailwind/forms/combobox_1.vue';
 import ModalBody from './tailwind/modal/modal-body.vue';
 import ModalButtonClose from './tailwind/modal/modal-button-close.vue';
 import ModalFooter from './tailwind/modal/modal-footer.vue';
@@ -217,28 +198,9 @@ export {
     Col9,
     Row,
     Group,
-    Checkbox,
-    Combobox,
     Combobox2,
     Combobox4,
     Combobox_1,
-    Hlabel,
-    InputColor,
-    InputDate,
-    InputEmail,
-    InputEuro,
-    InputFileImg,
-    InputFile,
-    InputHidden,
-    InputInt,
-    InputList,
-    InputNumber,
-    InputPassword,
-    InputPercent,
-    InputText,
-    Radiobox,
-    Search,
-    TextArea,
     ModalBody,
     ModalButtonClose,
     ModalFooter,
@@ -348,28 +310,9 @@ const components = {
     'col-9': Col9,
     'row': Row,
     'group': Group,
-    'checkbox': Checkbox,
-    'combobox': Combobox,
     'combobox2': Combobox2,
     'combobox4': Combobox4,
     'combobox_1': Combobox_1,
-    'hlabel': Hlabel,
-    'input-color': InputColor,
-    'input-date': InputDate,
-    'input-email': InputEmail,
-    'input-euro': InputEuro,
-    'input-file-img': InputFileImg,
-    'input-file': InputFile,
-    'input-hidden': InputHidden,
-    'input-int': InputInt,
-    'input-list': InputList,
-    'input-number': InputNumber,
-    'input-password': InputPassword,
-    'input-percent': InputPercent,
-    'input-text': InputText,
-    'radiobox': Radiobox,
-    'search': Search,
-    'text-area': TextArea,
     'modal-body': ModalBody,
     'modal-button-close': ModalButtonClose,
     'modal-footer': ModalFooter,
