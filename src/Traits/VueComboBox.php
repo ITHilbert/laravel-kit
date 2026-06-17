@@ -11,11 +11,14 @@ use ITHilbert\LaravelKit\Entities\ComboBox;
 trait VueComboBox
 {
     //Das führ dazu, dass die funktionen getCbKeyAttribute und getCbCaptionAttribute erstellt werden müssen.
-    //Dadurch stehen die Attribute cbKey und cbCaption zur Verfgung
-    //protected  $appends[] = array('cbKey', 'cbCaption');
-    public function __construct() {
-        parent::__construct();
-
+    //Dadurch stehen die Attribute cbKey und cbCaption zur Verfgung.
+    //
+    //Eloquent ruft initialize{TraitName}() automatisch im Model-Konstruktor auf,
+    //NACHDEM die Attribute gesetzt wurden. Ein eigener __construct() würde
+    //parent::__construct() ohne $attributes aufrufen und damit Massenzuweisung /
+    //Factory-Erstellung verschlucken ("Field 'email' doesn't have a default value").
+    public function initializeVueComboBox(): void
+    {
         $this->appends[] = 'cbKey';
         $this->appends[] = 'cbCaption';
     }
