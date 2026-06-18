@@ -1,14 +1,12 @@
 <template>
     <li class="block" role="presentation">
-        <button 
-            type="button" 
-            :class="['tab-header', { 'active': active }, addClass]" 
-            :id="navLinkId" 
-            data-bs-toggle="tab" 
-            :data-bs-target="navTabId" 
-            role="tab" 
-            :aria-controls="name" 
-            :aria-selected="active" 
+        <button
+            type="button"
+            :class="['tab-header', { active }]"
+            :id="`${name}-tab`"
+            role="tab"
+            :aria-selected="active"
+            @click="select(name)"
             v-bind="$attrs"
         >
             <slot></slot>
@@ -17,16 +15,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, inject, ref } from 'vue';
+import type { Ref } from 'vue';
 
 const props = defineProps<{
     name: string;
-    active?: boolean;
-    addClass?: string;
 }>();
 
 defineOptions({ inheritAttrs: false });
 
-const navLinkId = computed(() => `${props.name}-tab`);
-const navTabId = computed(() => `#${props.name}`);
+const activeTab = inject<Ref<string>>('tabsActive', ref(''));
+const select = inject<(name: string) => void>('tabsSelect', () => {});
+
+const active = computed(() => activeTab.value === props.name);
 </script>
