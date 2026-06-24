@@ -2,6 +2,7 @@
 
 namespace ITHilbert\LaravelKit;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 use ITHilbert\LaravelKit\Commands\AuditFeedbackCommand;
@@ -20,7 +21,12 @@ use ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth;
 use ITHilbert\LaravelKit\Commands\LaravelKitPaths;
 use ITHilbert\LaravelKit\Commands\OpenFtp;
 use ITHilbert\LaravelKit\Commands\OpenSsh;
-use ITHilbert\LaravelKit\Mcp\Tools\AiExpertReviewTool;
+use ITHilbert\LaravelKit\Components\AGB;
+use ITHilbert\LaravelKit\Components\CookieRichtlinie;
+use ITHilbert\LaravelKit\Components\Datenschutz;
+use ITHilbert\LaravelKit\Components\Impressum;
+use ITHilbert\LaravelKit\Contracts\LegalTextPort;
+use ITHilbert\LaravelKit\Infrastructure\Adapters\CenterLegalTextAdapter;
 use ITHilbert\LaravelKit\Mcp\Tools\BackupSeedersTool;
 use ITHilbert\LaravelKit\Mcp\Tools\RemoteExecuteTool;
 use ITHilbert\LaravelKit\Mcp\Tools\RemoteSyncTool;
@@ -44,6 +50,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->publishAssets();
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->registerResponseMacros();
+        $this->registerLegalTextComponents();
     }
 
     /**
@@ -54,7 +61,10 @@ class LaravelKitServiceProvider extends ServiceProvider
     public function register()
     {
         /*  $this->app->register(RouteServiceProvider::class); */
+        $this->mergeConfigFrom(__DIR__.'/Config/laravelkit.php', 'laravelkit');
         $this->mergeConfigFrom(__DIR__.'/Config/mcp_remote.php', 'mcp_remote');
+
+        $this->app->bind(LegalTextPort::class, CenterLegalTextAdapter::class);
 
         $this->registerBladeExtensions();
         $this->setAliase();
@@ -69,8 +79,15 @@ class LaravelKitServiceProvider extends ServiceProvider
         $tools[] = BackupSeedersTool::class;
         $tools[] = RemoteExecuteTool::class;
         $tools[] = RemoteSyncTool::class;
-        $tools[] = AiExpertReviewTool::class;
         config(['boost.mcp.tools.include' => $tools]);
+    }
+
+    protected function registerLegalTextComponents()
+    {
+        Blade::component('laravelkit-impressum', Impressum::class);
+        Blade::component('laravelkit-datenschutz', Datenschutz::class);
+        Blade::component('laravelkit-agb', AGB::class);
+        Blade::component('laravelkit-cookies', CookieRichtlinie::class);
     }
 
     public function setAliase()
@@ -84,7 +101,6 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->publishes([
             // Config files
             __DIR__.'/Config/laravelkit.php' => config_path('laravelkit.php'),
-            __DIR__.'/Config/ai.php' => config_path('ai.php'),
             __DIR__.'/Config/datatablescript.php' => config_path('datatablescript.php'),
             __DIR__.'/Config/mcp_remote.php' => config_path('mcp_remote.php'),
         ], 'config');
