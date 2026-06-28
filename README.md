@@ -11,6 +11,9 @@ Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
 - [API-Definitionen](docs/02_API-Definitionen.md)
 - [KI-Zusammenarbeit & Autonome Pipeline](docs/ki-zusammenarbeit-architektur.md)
 
+### Vue-Komponenten (Tailwind)
+- [DataTable-Komponente](docs/vue-datatable.md) — generische DataTables.net-Kapselung mit Filter-Zeile, Aktions-Spalte und Server-/Client-side Modus
+
 ## Installation
 
 ```bash
