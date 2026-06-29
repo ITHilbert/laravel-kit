@@ -288,12 +288,17 @@ function renderActionCells(): void {
         // Der #actions-Slot ist für den Fall gedacht, dass der Konsument kein DataTables einsetzt
         // oder die Aktionszelle komplett mit eigenem Vue-Markup übernehmen will.
         // Default-Fallback: Buttons als einfache HTML-Anchor/Buttons mit CSS-Klassen.
+        // Inline-SVG-Definitionen (kein Font Awesome / kein CDN — DSGVO-konform, currentColor erbt .btn-*-Textfarbe)
+        const svgShow   = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        const svgEdit   = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+        const svgDelete = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
+
         if (hasShowAction.value) {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn btn-show';
             btn.title = 'Anzeigen';
-            btn.innerHTML = '<i class="fas fa-file-contract"></i>';
+            btn.innerHTML = svgShow;
             btn.addEventListener('click', () => emit('show', row));
             cell.appendChild(btn);
         }
@@ -303,7 +308,7 @@ function renderActionCells(): void {
             btn.type = 'button';
             btn.className = 'btn btn-edit';
             btn.title = 'Bearbeiten';
-            btn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+            btn.innerHTML = svgEdit;
             btn.addEventListener('click', () => emit('edit', row));
             cell.appendChild(btn);
         }
@@ -313,7 +318,7 @@ function renderActionCells(): void {
             btn.type = 'button';
             btn.className = 'btn btn-delete';
             btn.title = 'Löschen';
-            btn.innerHTML = '<i class="fas fa-minus-circle"></i>';
+            btn.innerHTML = svgDelete;
             btn.addEventListener('click', () => emit('delete', row));
             cell.appendChild(btn);
         }
