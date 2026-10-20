@@ -11,11 +11,81 @@ Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
 - [API-Definitionen](docs/02_API-Definitionen.md)
 - [KI-Zusammenarbeit & Autonome Pipeline](docs/ki-zusammenarbeit-architektur.md)
 
+### Vue-Komponenten (Tailwind)
+- [DataTable-Komponente](docs/vue-datatable.md) — generische DataTables.net-Kapselung mit Filter-Zeile, Aktions-Spalte und Server-/Client-side Modus
+
 ## Installation
 
 ```bash
 composer require ithilbert/laravel-kit
 ```
+
+## Integrations-Voraussetzungen
+
+Das Laravel-Kit bringt Vue-Komponenten (`<data-table>`, `<tabs>`, `<button-*>`) mit, die Abhängigkeiten vom Konsumprojekt haben. Diese müssen explizit geladen werden.
+
+### DataTable + Buttons + Tabs: Globale Abhängigkeiten einrichten
+
+#### 1. jQuery + DataTables.net global setzen
+
+Erstelle `resources/js/datatable.js` im Konsumprojekt:
+
+```javascript
+import $ from 'jquery';
+import DataTable from 'datatables.net-dt';
+
+window.$ = window.jQuery = $;
+window.DataTable = DataTable;
+```
+
+**Wichtig:** Diese Datei MUSS im Blade-Layout **vor** der Vue-App geladen sein (damit jQuery-Init abläuft, bevor Komponenten jQuery brauchen).
+
+**In `resources/views/layouts/app.blade.php` oder Template:**
+```blade
+<script src="{{ asset('js/datatable.js') }}"></script>
+```
+
+#### 2. CSS aus dem Kit importieren
+
+In `resources/css/app.css` folgende Imports hinzufügen (NACH `@import 'tailwindcss'`, weil Buttons/Tabs `@apply` nutzen):
+
+```css
+@import 'tailwindcss';
+@import '../../vendor/ithilbert/laravel-kit/vue/tailwind/buttons/buttons.css';
+@import '../../vendor/ithilbert/laravel-kit/vue/tailwind/tabs/tabs.css';
+```
+
+**Auswirkung wenn fehlend:**
+- Ohne `buttons.css`: `<button-edit>`, `<button-delete>` etc. sind unsichtbar
+- Ohne `tabs.css`: Alle Tab-Inhalte sichtbar untereinander (CSS-Regeln `.tab-body.active` fehlen)
+
+#### 3. Vue globalProperty für window
+
+In `resources/js/vueapp.js` (wo die Vue-App initialisiert wird):
+
+```javascript
+const app = createApp({});
+
+// KRITISCH: window als globalProperty BEVOR Komponenten registriert werden
+app.config.globalProperties.window = window;
+
+// Dann Komponenten registrieren (oder mit @edit/@delete Event-Handlern arbeiten, die window nutzen)
+app.component('data-table', defineAsyncComponent(() => 
+  import('../../vendor/ithilbert/laravel-kit/vue/tailwind/datatable/DataTable.vue')
+));
+
+app.mount('#vue-app');
+```
+
+**Auswirkung wenn fehlend:** Event-Handler wie `@edit="row => window.location.href = ..."` crashen mit "Cannot read properties of undefined (reading 'location')".
+
+### Icons: Inline-SVG (kein Font Awesome)
+
+Die Kit-Komponenten (`<button-edit>`, `<button-show>`, `<button-delete>`) rendert native Inline-SVGs als Icons, **nicht** Font Awesome.
+
+- **Kein CDN-Import nötig:** Buttons sind out-of-the-box funktional
+- **DSGVO-konform:** Keine externen Fonts/Icons
+- **Custom-Icons:** Falls eigene Icons nötig, neue Vue-Komponente bauen (z.B. `resources/js/components/button-custom.vue`)
 
 ### AI Developer CLI Tools (Voraussetzung für KI Agenten)
 Damit die KI-Tools und die asynchrone AI-Pipeline (Hintergrund-Worker) korrekt funktionieren, müssen die entsprechenden CLI-Tools auf dem System installiert sein:

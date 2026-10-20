@@ -119,6 +119,7 @@ import TabsBody from './tailwind/tabs/tabs-body.vue';
 import TabsHeader from './tailwind/tabs/tabs-header.vue';
 import Rating from './tailwind/view/rating.vue';
 import HtmlCodeViewer from './tailwind/viewer/html-code-viewer.vue';
+import DataTable from './tailwind/datatable/DataTable.vue';
 
 // === Alle Komponenten als benannte Exporte (für selektive Nutzung) ===
 export {
@@ -230,6 +231,7 @@ export {
     TabsHeader,
     Rating,
     HtmlCodeViewer,
+    DataTable,
 };
 
 // === Plugin-Export (für app.use()) ===
@@ -342,6 +344,7 @@ const components = {
     'tabs-header': TabsHeader,
     'rating': Rating,
     'html-code-viewer': HtmlCodeViewer,
+    'data-table': DataTable,
 };
 
 export default {

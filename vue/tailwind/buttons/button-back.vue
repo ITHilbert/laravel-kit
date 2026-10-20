@@ -1,9 +1,15 @@
 <template>
     <a v-if="type === 'link'" :href="route" class="btn btn-back" :title="tooltip">
-        <i class="fas fa-undo"></i> <slot />
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        <slot />
     </a>
     <button v-else :type="type" class="btn btn-back" :title="tooltip">
-        <i class="fas fa-undo"></i> <slot />
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        <slot />
     </button>
 </template>
 
