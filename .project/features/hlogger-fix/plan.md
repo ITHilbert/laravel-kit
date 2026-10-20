@@ -4,8 +4,8 @@ Spec: [spec.md](spec.md) · Branch: `fix/hlogger`
 
 ## Aufgaben
 - [x] T0 TESTS: `test-writer` — AK1–AK3, Rot-Nachweis.
-- [ ] T1 (AK1–AK3) [pro] `src/Helpers/hLogger.php`.
-- [ ] NACHWEIS
+- [x] T1 (AK1–AK3) [pro] `src/Helpers/hLogger.php`.
+- [x] NACHWEIS
 
 ## Stand
-Spec aus User-Vorgabe (20.10.: „korrigiere es“, „Verzeichnis anlegen, wenn der hLogger schreiben will“).
+Fertig: HLogger 4/4 grün, LaravelKit-Suite ohne Fehler; echter Aufruf legt fehlendes Verzeichnis an und schreibt 2026-10-20.txt. Lokal in main gemergt, nicht gepusht.
