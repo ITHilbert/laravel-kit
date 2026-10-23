@@ -7,14 +7,25 @@
         "it-hilbert",
         "laravel"
     ],
-    "authors": [{
-        "name": "Jörg Hilbert",
-        "homepage": "https://www.it-hilbert.com",
-        "role": "Developer"
-    }],
+    "authors": [
+        {
+            "name": "Jörg Hilbert",
+            "homepage": "https://www.it-hilbert.com",
+            "role": "Developer"
+        }
+    ],
     "homepage": "https://www.it-hilbert.com",
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "php": "^8.5",
+        "illuminate/console": "^12.0 || ^13.0",
+        "illuminate/contracts": "^12.0 || ^13.0",
+        "illuminate/database": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/routing": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
+        "illuminate/view": "^12.0 || ^13.0"
+    },
     "autoload": {
         "psr-4": {
             "ITHilbert\\LaravelKit\\": "src/"
@@ -34,6 +45,14 @@
                 "DataTableScript": "ITHilbert\\LaravelKit\\Helpers\\DataTableScript"
             }
         }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ITHilbert\\LaravelKit\\Tests\\": "tests/"
+        }
     }
-
 }
