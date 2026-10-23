@@ -3,7 +3,7 @@
 namespace ITHilbert\LaravelKit\Tests\Unit;
 
 use ITHilbert\LaravelKit\Helpers\hLogger;
-use Tests\TestCase;
+use ITHilbert\LaravelKit\Tests\TestCase;
 
 class HLoggerTest extends TestCase
 {

@@ -6,7 +6,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use ITHilbert\LaravelKit\Infrastructure\Adapters\CenterLegalTextAdapter;
-use Tests\TestCase;
+use ITHilbert\LaravelKit\Tests\TestCase;
 
 class CenterLegalTextAdapterTest extends TestCase
 {
