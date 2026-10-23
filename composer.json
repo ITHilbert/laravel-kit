@@ -1,6 +1,6 @@
 {
     "name": "ithilbert/laravel-kit",
-    "type": "libary",
+    "type": "library",
     "license": "MIT",
     "description": "Tools für das Programmieren mit Laravel",
     "keywords": [
@@ -21,6 +21,9 @@
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        },
         "laravel": {
             "providers": [
                 "ITHilbert\\LaravelKit\\LaravelKitServiceProvider"
