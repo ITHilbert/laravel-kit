@@ -7,8 +7,8 @@ use ITHilbert\LaravelKit\Components\CookieRichtlinie;
 use ITHilbert\LaravelKit\Components\Datenschutz;
 use ITHilbert\LaravelKit\Components\Impressum;
 use ITHilbert\LaravelKit\Contracts\LegalTextPort;
+use ITHilbert\LaravelKit\Tests\TestCase;
 use Mockery;
-use Tests\TestCase;
 
 class LegalTextComponentsTest extends TestCase
 {
