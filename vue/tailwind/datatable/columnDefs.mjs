@@ -26,7 +26,7 @@ function renderFor(col) {
 }
 
 /**
- * @param {Array<{key: string, sortable?: boolean, html?: boolean, render?: Function}>} columns
+ * @param {Array<{key: string, sortable?: boolean, html?: boolean, render?: Function, defaultContent?: string}>} columns
  * @param {boolean} hasActions hängt die Aktionsspalte als letzte Definition an
  * @returns {unknown[]}
  */
@@ -35,6 +35,7 @@ export function buildColumnDefs(columns, hasActions) {
         data: col.key,
         orderable: col.sortable !== false,
         render: renderFor(col),
+        defaultContent: col.defaultContent ?? '',
     }));
 
     if (hasActions) {
@@ -42,6 +43,7 @@ export function buildColumnDefs(columns, hasActions) {
             data: null,
             orderable: false,
             searchable: false,
+            defaultContent: '',
             // Container für die Aktions-Buttons; Inhalt wird nach dem Draw gesetzt.
             render: (_data, _type, row) => {
                 const rowJson = JSON.stringify(row).replace(/'/g, '&#39;');
