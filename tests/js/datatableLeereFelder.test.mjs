@@ -6,6 +6,7 @@
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 
 import { buildColumnDefs } from '../../vue/tailwind/datatable/columnDefs.mjs';
 
@@ -16,16 +17,28 @@ function spalte(extra = {}) {
 }
 
 /**
- * Wie DataTables: fehlt das Feld (undefined) und ist defaultContent gesetzt,
- * wird kein tn/4-Fehler ausgelöst; sonst Alert.
+ * Bildet _fnGetCellData (DataTables 1.13) nach: render bekommt den Rohwert
+ * (undefined/null), defaultContent wird nie an render übergeben. Erst wenn das
+ * Ergebnis undefined (ohne defaultContent: tn/4) bzw. null / die ganze Zeile ist,
+ * setzt DataTables defaultContent ein; null bei display ergibt ''.
  */
 function zelleAusZeile(def, row, type = 'display') {
-    let data = row[def.data];
-    if (data === undefined) {
-        assert.notEqual(def.defaultContent, undefined, 'tn/4: Requested unknown parameter (kein defaultContent)');
+    const dc = def.defaultContent === undefined ? null : def.defaultContent;
+    let cell = def.data === null ? row : row[def.data];
+    if (typeof def.render === 'function' && type) {
+        cell = def.render(cell, type, row);
     }
-    const roh = data === undefined ? def.defaultContent : data;
-    return typeof def.render === 'function' ? def.render(roh, type, row) : roh;
+    if (cell === undefined) {
+        assert.notEqual(dc, null, 'tn/4: Requested unknown parameter (kein defaultContent)');
+        return dc;
+    }
+    if ((cell === row || cell === null) && dc !== null) {
+        cell = dc;
+    }
+    if (cell === null && type === 'display') {
+        return '';
+    }
+    return cell;
 }
 
 // AK1
@@ -108,6 +121,32 @@ test('AK3: eigene render-Funktion wird unverändert (selbe Referenz) durchgereic
 test('AK3: eigenes defaultContent der Spalte bleibt erhalten', () => {
     assert.strictEqual(spalte({ defaultContent: '-' }).defaultContent, '-');
     assert.equal(zelleAusZeile(spalte({ defaultContent: '-' }), { id: 1 }), '-');
+});
+
+// AK3
+test('AK3: Textspalte mit eigenem defaultContent zeigt ihn bei fehlendem Feld und bei null, vorhandener Wert bleibt (escaped)', () => {
+    const def = spalte({ defaultContent: '-' });
+    assert.equal(zelleAusZeile(def, { id: 1 }), '-');
+    assert.equal(zelleAusZeile(def, { name: null }), '-');
+    assert.equal(zelleAusZeile(def, { name: undefined }), '-');
+    assert.equal(zelleAusZeile(def, { name: XSS }), '&lt;img src=x onerror=alert(1)&gt;');
+    assert.equal(zelleAusZeile(def, { name: 0 }), '0');
+});
+
+// AK3
+test('AK3: html:true-Spalte mit eigenem defaultContent zeigt ihn bei fehlendem Feld und bei null, vorhandener Wert bleibt', () => {
+    const def = spalte({ html: true, defaultContent: '<i>-</i>' });
+    assert.equal(zelleAusZeile(def, { id: 1 }), '<i>-</i>');
+    assert.equal(zelleAusZeile(def, { name: null }), '<i>-</i>');
+    assert.equal(zelleAusZeile(def, { name: '<b>x</b>' }), '<b>x</b>');
+});
+
+// AK3
+test('AK3: Interface ColumnDefinition in DataTable.vue hat ein optionales Feld defaultContent', () => {
+    const quelle = readFileSync(new URL('../../vue/tailwind/datatable/DataTable.vue', import.meta.url), 'utf8');
+    const iface = quelle.match(/export interface ColumnDefinition \{[\s\S]*?\n\}/);
+    assert.ok(iface, 'Interface ColumnDefinition nicht gefunden');
+    assert.match(iface[0], /\bdefaultContent\?\s*:\s*string/);
 });
 
 // AK3
