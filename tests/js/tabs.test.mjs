@@ -8,6 +8,9 @@
 // Export: initTabs(root = document). Aktiv = Klasse `active` (tab-header und tab-body)
 // plus Klasse `show` am tab-body und aria-selected="true" am tab-header; inaktiv = ohne diese.
 // Namen dürfen in verschiedenen Gruppen gleich sein; die Gruppe entscheidet.
+// Ohne Gruppenangabe erzeugen die Components data-kit-tabs="" bzw. data-kit-tabs-body="" (leer).
+// Vertrag für leere Gruppen-ID: Ein tabs-header gehört zum nächsten folgenden [data-kit-tabs-body]
+// im selben Elternelement (Geschwister, Header jeweils direkt vor seinem Body).
 import assert from 'node:assert/strict';
 import { beforeEach, describe, test } from 'node:test';
 import { h, installiere } from './fake-dom.mjs';
@@ -193,4 +196,96 @@ describe('Zwei Tab-Gruppen', () => {
         assert.equal(aktiv(g2.panel('x')), false);
         assert.equal(aktiv(g1.panel('x')), false);
     });
+});
+
+// Markup wie es tabs-header/tab-header/tabs-body/tab-body ohne Gruppenangabe erzeugen
+// (Blade-Templates in src/Views/kit/tailwind; leere Gruppen-ID).
+function standard(prefix, namen, aktiv) {
+    const header = h(
+        'ul',
+        { class: 'tabs-header', role: 'tablist', 'data-kit-tabs': '' },
+        ...namen.map((n) =>
+            h(
+                'li',
+                { class: 'block', role: 'presentation' },
+                h('button', {
+                    type: 'button',
+                    id: `${n}-tab`,
+                    role: 'tab',
+                    'aria-selected': String(n === aktiv),
+                    'data-kit-tab': n,
+                    class: n === aktiv ? 'tab-header active' : 'tab-header',
+                }),
+            ),
+        ),
+    );
+    const body = h(
+        'div',
+        { class: 'tabs-body', 'data-kit-tabs-body': '' },
+        ...namen.map((n) => h('div', { id: n, role: 'tabpanel', 'aria-labelledby': `${n}-tab`, 'data-kit-tab-body': n, class: n === aktiv ? 'tab-body active show' : 'tab-body' }, h('p', {}, `${prefix}-${n}`))),
+    );
+    return { header, body, knopf: (n) => header.querySelector(`[data-kit-tab="${n}"]`), panel: (n) => body.querySelector(`[data-kit-tab-body="${n}"]`) };
+}
+
+describe('Zwei Tab-Gruppen im Standard-Markup (leere Gruppen-ID)', () => {
+    const layouts = {
+        'als Geschwister im selben Elternelement': (doc, g1, g2) => doc.body.append(g1.header, g1.body, g2.header, g2.body),
+        'je Gruppe in eigenem Container': (doc, g1, g2) => {
+            doc.body.append(h('section', {}, g1.header, g1.body), h('section', {}, g2.header, g2.body));
+        },
+    };
+
+    for (const [name, baue] of Object.entries(layouts)) {
+        // Randfall 3
+        test(`Klick in Gruppe 1 schaltet nur Gruppe 1 (${name})`, () => {
+            const g1 = standard('g1', ['a', 'b'], 'a');
+            const g2 = standard('g2', ['c', 'd'], 'c');
+            baue(doc, g1, g2);
+            initTabs(doc);
+
+            g1.knopf('b').click();
+
+            assert.equal(aktiv(g1.panel('b')), true, 'Gegenprobe: Gruppe 1 hat umgeschaltet');
+            assert.equal(aktiv(g1.panel('a')), false);
+            assert.equal(aktiv(g1.knopf('b')), true);
+            assert.equal(aktiv(g2.panel('c')), true, 'Gruppe 2 darf nicht mitschalten');
+            assert.equal(aktiv(g2.panel('d')), false);
+            assert.equal(g2.panel('c').classList.contains('show'), true);
+            assert.equal(aktiv(g2.knopf('c')), true);
+            assert.equal(g2.knopf('c').getAttribute('aria-selected'), 'true');
+        });
+
+        // Randfall 3
+        test(`Klick in Gruppe 2 schaltet nur Gruppe 2 (${name})`, () => {
+            const g1 = standard('g1', ['a', 'b'], 'b');
+            const g2 = standard('g2', ['c', 'd'], 'c');
+            baue(doc, g1, g2);
+            initTabs(doc);
+
+            g2.knopf('d').click();
+
+            assert.equal(aktiv(g2.panel('d')), true, 'Gegenprobe: Gruppe 2 hat umgeschaltet');
+            assert.equal(aktiv(g2.panel('c')), false);
+            assert.equal(aktiv(g1.panel('b')), true, 'Gruppe 1 darf nicht mitschalten');
+            assert.equal(aktiv(g1.panel('a')), false);
+            assert.equal(g1.knopf('b').getAttribute('aria-selected'), 'true');
+        });
+
+        // Randfall 3
+        test(`gleiche Namen in beiden Gruppen schalten unabhängig (${name})`, () => {
+            const g1 = standard('g1', ['a', 'b'], 'a');
+            const g2 = standard('g2', ['a', 'b'], 'a');
+            baue(doc, g1, g2);
+            initTabs(doc);
+
+            g1.knopf('b').click();
+            assert.equal(aktiv(g1.panel('b')), true, 'Gegenprobe');
+            g2.knopf('a').click();
+
+            assert.equal(aktiv(g1.panel('b')), true);
+            assert.equal(aktiv(g1.panel('a')), false);
+            assert.equal(aktiv(g2.panel('a')), true);
+            assert.equal(aktiv(g2.panel('b')), false);
+        });
+    }
 });

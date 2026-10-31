@@ -147,12 +147,62 @@ describe('Lösch-Dialog als Insel', () => {
     });
 
     // AK6
-    test('dialog-delete nutzt weder OpenDeleteForm noch deleteID noch ein festes Element-ID-Schema', () => {
+    test('dialog-delete nutzt weder OpenDeleteForm noch ein festes Element-ID-Schema je Datensatz', () => {
         const quelle = readFileSync(new URL('../../vue/tailwind/dialog/delete.vue', import.meta.url), 'utf8');
 
         assert.match(quelle, /kit:delete|loeschen/, 'Gegenprobe: die Komponente hängt am Kit-Ereignis');
         assert.doesNotMatch(quelle, /OpenDeleteForm/);
-        assert.doesNotMatch(quelle, /deleteID/);
+    });
+});
+
+// Randfall 9 — nur Quelltext: die SFC lässt sich unter Node nicht ausführen.
+describe('dialog-delete: bisheriger Öffnungsweg (Randfall 9, nur Quelltext)', () => {
+    const quelle = readFileSync(new URL('../../vue/tailwind/dialog/delete.vue', import.meta.url), 'utf8');
+    const template = quelle.slice(quelle.indexOf('<template>'), quelle.indexOf('</template>\n\n<script') + 11);
+    const skript = quelle.slice(quelle.indexOf('<script'));
+
+    // Randfall 9
+    test('das Overlay behält id="myModalDelete"', () => {
+        assert.match(template, /<div[^>]*\sid="myModalDelete"/, 'das Overlay-Element trägt id="myModalDelete"');
+        assert.match(template, /class="dialog-overlay"/, 'id gehört zum Overlay');
+        assert.match(template.slice(0, template.indexOf('class="dialog-overlay"') + 30), /id="myModalDelete"/);
+    });
+
+    // Randfall 9
+    test('das Attribut route bleibt Prop des Dialogs', () => {
+        assert.match(skript, /route\??:\s*string/);
+        assert.match(skript, /route:\s*''/);
+    });
+
+    // Randfall 9
+    test('Bestätigen nutzt die globale deleteID, wenn der Dialog nicht über das Kit-Ereignis geöffnet wurde', () => {
+        const confirmFn = skript.slice(skript.indexOf('function confirm'), skript.indexOf('function handleKeydown'));
+        assert.match(confirmFn, /deleteID/, 'confirm liest die globale deleteID');
+        assert.match(confirmFn, /loeschRoute\(props\.route,/, 'Route aus props.route und deleteID');
+        assert.match(confirmFn, /aktuelleRoute\.value/, 'Gegenprobe: der Ereignisweg bleibt');
+    });
+
+    // Randfall 9
+    test('öffnet das Kit-Ereignis, gilt dessen ID (nicht die globale deleteID)', () => {
+        const ereignis = skript.slice(skript.indexOf('onLoeschen('));
+        assert.match(ereignis, /aktuelleRoute\.value\s*=\s*loeschRoute\(props\.route,\s*id\)/);
+        const confirmFn = skript.slice(skript.indexOf('function confirm'), skript.indexOf('function handleKeydown'));
+        // der Rückfall steht erst nach dem Ereignisweg: aktuelleRoute hat Vorrang
+        assert.ok(confirmFn.indexOf('aktuelleRoute') < confirmFn.indexOf('deleteID'), 'aktuelleRoute hat Vorrang vor deleteID');
+    });
+
+    // Randfall 9
+    test('die Komponente setzt deleteID nicht selbst und definiert kein OpenDeleteForm', () => {
+        assert.doesNotMatch(skript, /deleteID\s*=[^=]/);
+        assert.doesNotMatch(quelle, /OpenDeleteForm/);
+    });
+
+    // Randfall 9
+    test('der alte Öffnungsweg (classList.remove("hidden") am Overlay) kann den Dialog öffnen', () => {
+        // hidden darf nicht allein vom Vue-Zustand abhängen: das Overlay braucht ein Element mit id,
+        // an dem classList.remove('hidden') wirkt; Rückfall: offen wird aus der Klasse gelesen oder die Klasse ist statisch.
+        assert.match(template, /id="myModalDelete"/);
+        assert.match(template, /hidden/, 'Gegenprobe: die Klasse hidden wird vom Template gesetzt');
     });
 });
 
