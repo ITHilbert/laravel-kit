@@ -200,6 +200,44 @@ final class TimeStopCacheTest extends TestCase
         $this->assertNull(Cache::get('TimeStop_start'));
     }
 
+    // Randfall „start() findet eine Altlast aus dem alten Stand (kein int)“
+    #[DataProvider('serialisierendeStores')]
+    public function test_start_ueberschreibt_altlast_mit_int_zeitstempel(string $store): void
+    {
+        $this->altlastAnlegen($store);
+        $this->travelTo(now());
+        $erwartet = now()->getTimestamp();
+
+        // Gegenprobe: Altlast liegt wirklich im Cache und ist kein int
+        $alt = Cache::get('TimeStop_start');
+        $this->assertNotNull($alt);
+        $this->assertFalse(is_int($alt));
+
+        TimeStop::start();
+
+        $wert = Cache::get('TimeStop_start');
+        $this->assertIsInt($wert);
+        $this->assertSame($erwartet, $wert);
+    }
+
+    // Randfall „start() findet eine Altlast aus dem alten Stand (kein int)“
+    #[DataProvider('serialisierendeStores')]
+    public function test_ende_nach_start_ueber_altlast_liefert_dauer_ab_start(string $store): void
+    {
+        $this->altlastAnlegen($store);
+        $this->travelTo(now());
+
+        // Gegenprobe: Altlast liegt wirklich im Cache und ist kein int
+        $alt = Cache::get('TimeStop_start');
+        $this->assertNotNull($alt);
+        $this->assertFalse(is_int($alt));
+
+        TimeStop::start();
+        $this->travel(5)->seconds();
+
+        $this->assertSame(5, TimeStop::ende());
+    }
+
     // Randfall 3
     public function test_zeit_folgt_der_laravel_uhr(): void
     {
