@@ -155,17 +155,240 @@ describe('Lösch-Dialog als Insel', () => {
     });
 });
 
-// Randfall 9 — nur Quelltext: die SFC lässt sich unter Node nicht ausführen.
-describe('dialog-delete: bisheriger Öffnungsweg (Randfall 9, nur Quelltext)', () => {
-    const quelle = readFileSync(new URL('../../vue/tailwind/dialog/delete.vue', import.meta.url), 'utf8');
-    const template = quelle.slice(quelle.indexOf('<template>'), quelle.indexOf('</template>\n\n<script') + 11);
-    const skript = quelle.slice(quelle.indexOf('<script'));
+// Randfall 9 — Ablauf der Dialog-Zustandslogik.
+// Vertrag (js/loeschen.js, zusätzlich zu den obigen Exporten):
+//   erzeugeLoeschDialog({ route, overlay, formular, globalThis }) -> { oeffnenPerEreignis(id), bestaetigen(), schliessen() }
+//     route:      Lösch-Route des Dialogs (Prop `route`), String oder Funktion, die den String liefert
+//     overlay:    das Overlay-Element (id="myModalDelete"); versteckt = Klasse `hidden`
+//     formular:   Funktion, die beim Bestätigen das Formular #formDelete liefert (Objekt mit setAttribute und submit) oder null
+//     globalThis: Objekt, das die globale `deleteID` des alten Öffnungswegs trägt (im Browser `globalThis`)
+//   oeffnenPerEreignis(id): merkt die Route loeschRoute(route, id) für genau diesen Öffnungsvorgang, entfernt `hidden`.
+//   schliessen(): setzt `hidden` und vergisst die Ereignis-ID.
+//   bestaetigen(): schließt (setzt `hidden`); Route = die gemerkte Ereignis-Route, sonst loeschRoute(route, deleteID)
+//     (deleteID undefined, null oder '' zählt als nicht gesetzt); die Ereignis-ID ist danach vergessen.
+//     Mit Route: formular().setAttribute('action', route), dann formular().submit(); ohne Route oder Formular wird nicht gesendet.
+//   Der alte Öffnungsweg öffnet das Overlay von außen mit overlay.classList.remove('hidden'); die Logik darf sich
+//   nicht auf einen eigenen "offen"-Zustand stützen. Die Logik setzt deleteID nie selbst.
+const { erzeugeLoeschDialog } = await import('../../js/loeschen.js');
+
+function formularAttrappe() {
+    const f = { aktion: null, gesendet: [], setAttribute: (k, v) => k === 'action' && (f.aktion = v), submit: () => f.gesendet.push(f.aktion) };
+    return f;
+}
+
+function dialog(extra = {}) {
+    const overlay = h('div', { id: 'myModalDelete', class: 'dialog-overlay hidden', route: '/admin/users/0' });
+    const form = formularAttrappe();
+    const host = {};
+    const d = erzeugeLoeschDialog({ route: '/admin/users/0', overlay, formular: () => form, globalThis: host, ...extra });
+    return { d, overlay, form, host };
+}
+
+const versteckt = (overlay) => overlay.classList.contains('hidden');
+
+describe('dialog-delete: Ablauf der Öffnungswege (Randfall 9)', () => {
+    // Randfall 9
+    test('Ereignis 3, bestätigen: die Route der Ereignis-ID wird gesendet', () => {
+        const { d, overlay, form } = dialog();
+
+        d.oeffnenPerEreignis('3');
+        assert.equal(versteckt(overlay), false, 'Gegenprobe: der Dialog ist offen');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/3']);
+        assert.equal(versteckt(overlay), true);
+    });
 
     // Randfall 9
-    test('das Overlay behält id="myModalDelete"', () => {
-        assert.match(template, /<div[^>]*\sid="myModalDelete"/, 'das Overlay-Element trägt id="myModalDelete"');
-        assert.match(template, /class="dialog-overlay"/, 'id gehört zum Overlay');
-        assert.match(template.slice(0, template.indexOf('class="dialog-overlay"') + 30), /id="myModalDelete"/);
+    test('nach Ereignis 3 und Absenden öffnet der alte Weg mit deleteID = 7 und sendet /…/7, nicht /…/3', () => {
+        const { d, overlay, form, host } = dialog();
+        d.oeffnenPerEreignis('3');
+        d.bestaetigen();
+        assert.deepEqual(form.gesendet, ['/admin/users/3'], 'Gegenprobe: erster Vorgang sendete 3');
+
+        host.deleteID = 7;
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/3', '/admin/users/7']);
+        assert.equal(form.aktion, '/admin/users/7');
+    });
+
+    // Randfall 9
+    test('nach Ereignis 3 und Schließen (ohne Absenden) nutzt der alte Weg wieder deleteID', () => {
+        const { d, overlay, form, host } = dialog();
+        d.oeffnenPerEreignis('3');
+        d.schliessen();
+        assert.equal(versteckt(overlay), true, 'Gegenprobe: Schließen versteckt das Overlay');
+
+        host.deleteID = 7;
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/7']);
+    });
+
+    // Randfall 9
+    test('alter Weg mit deleteID = 7 allein sendet /…/7 (Route aus dem Prop)', () => {
+        const { d, overlay, form, host } = dialog();
+        host.deleteID = 7;
+        overlay.classList.remove('hidden');
+
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/7']);
+        assert.equal(versteckt(overlay), true);
+    });
+
+    // Randfall 9
+    test('öffnet das Ereignis, gilt dessen ID auch bei gesetzter deleteID', () => {
+        const { d, form, host } = dialog();
+        host.deleteID = 7;
+
+        d.oeffnenPerEreignis('3');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/3']);
+    });
+
+    // Randfall 9
+    test('zweites Ereignis ersetzt das erste: zuletzt geöffnete ID gilt', () => {
+        const { d, form } = dialog();
+
+        d.oeffnenPerEreignis('3');
+        d.schliessen();
+        d.oeffnenPerEreignis('5');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/5']);
+    });
+
+    // Randfall 9
+    test('zwei Ereignis-Vorgänge hintereinander senden je die eigene ID', () => {
+        const { d, form } = dialog();
+
+        d.oeffnenPerEreignis('3');
+        d.bestaetigen();
+        d.oeffnenPerEreignis('5');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/3', '/admin/users/5']);
+    });
+
+    // Randfall 9
+    test('nach Absenden ist die Ereignis-ID vergessen: alter Weg ohne deleteID sendet nichts', () => {
+        const { d, overlay, form, host } = dialog();
+        d.oeffnenPerEreignis('3');
+        d.bestaetigen();
+        assert.deepEqual(form.gesendet, ['/admin/users/3'], 'Gegenprobe: der erste Vorgang sendete');
+
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/3']);
+        assert.equal(host.deleteID, undefined);
+    });
+
+    // Randfall 9
+    test('deleteID nicht gesetzt oder leer: Bestätigen sendet nichts, schließt aber', () => {
+        const { d, overlay, form, host } = dialog();
+        host.deleteID = 7;
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+        assert.deepEqual(form.gesendet, ['/admin/users/7'], 'Gegenprobe: mit deleteID wird gesendet');
+
+        delete host.deleteID;
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+        assert.equal(versteckt(overlay), true, 'nicht gesetzt: geschlossen');
+
+        host.deleteID = '';
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+        assert.equal(versteckt(overlay), true, 'leer gesetzt: geschlossen');
+
+        host.deleteID = null;
+        overlay.classList.remove('hidden');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/7']);
+    });
+
+    // Randfall 9
+    test('fehlt das Formular #formDelete, wird nichts gesendet und nichts geworfen', () => {
+        const { d, overlay, form } = dialog({ formular: () => null });
+        d.oeffnenPerEreignis('3');
+
+        assert.doesNotThrow(() => d.bestaetigen());
+
+        assert.equal(versteckt(overlay), true);
+        assert.deepEqual(form.gesendet, []);
+    });
+
+    // Randfall 9
+    test('schließen versteckt das Overlay, Ereignis öffnet es wieder', () => {
+        const { d, overlay } = dialog();
+        assert.equal(versteckt(overlay), true, 'Gegenprobe: Ausgang versteckt');
+
+        d.oeffnenPerEreignis('3');
+        assert.equal(versteckt(overlay), false);
+        d.schliessen();
+
+        assert.equal(versteckt(overlay), true);
+    });
+
+    // Randfall 9
+    test('die Ereignis-ID wird URL-kodiert und Query der Route bleibt', () => {
+        const { d, form } = dialog({ route: '/a/b/0?seite=2' });
+
+        d.oeffnenPerEreignis('x/y');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/a/b/x%2Fy?seite=2']);
+    });
+
+    // Randfall 9
+    test('route darf eine Funktion sein (Prop ändert sich nach dem Erzeugen)', () => {
+        let route = '/alt/0';
+        const { d, form } = dialog({ route: () => route });
+        route = '/neu/0';
+
+        d.oeffnenPerEreignis('3');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/neu/3']);
+    });
+
+    // Randfall 9
+    test('die Logik setzt deleteID nicht selbst und kennt kein OpenDeleteForm', () => {
+        const { d, form, host } = dialog();
+
+        d.oeffnenPerEreignis('3');
+        d.bestaetigen();
+
+        assert.deepEqual(form.gesendet, ['/admin/users/3'], 'Gegenprobe: der Ablauf lief');
+        assert.equal('deleteID' in host, false);
+        assert.equal(typeof globalThis.OpenDeleteForm, 'undefined');
+    });
+});
+
+// Randfall 9 — Quelltext der SFC: die Komponente verdrahtet nur noch; die Logik steht in js/loeschen.js.
+describe('dialog-delete: Verdrahtung der Komponente (Randfall 9, Quelltext)', () => {
+    const quelle = readFileSync(new URL('../../vue/tailwind/dialog/delete.vue', import.meta.url), 'utf8');
+    const template = quelle.slice(quelle.indexOf('<template>'), quelle.indexOf('</template>\n\n<script'));
+    const skript = quelle.slice(quelle.indexOf('<script'));
+    const overlayTag = template.match(/<div\b[^>]*\sid="myModalDelete"[^>]*>/s)?.[0] ?? '';
+
+    // Randfall 9
+    test('das Overlay behält id="myModalDelete" und ist das äußerste Element', () => {
+        assert.ok(overlayTag, 'Overlay-Element mit id="myModalDelete" fehlt');
+        assert.match(overlayTag, /class="dialog-overlay"/);
+        assert.equal(template.indexOf(overlayTag), template.indexOf('<div'), 'das Overlay ist das erste Element');
+    });
+
+    // Randfall 9
+    test('das Overlay trägt das Attribut route mit dem Wert des Props', () => {
+        assert.match(overlayTag, /:route="route"/);
     });
 
     // Randfall 9
@@ -175,34 +398,25 @@ describe('dialog-delete: bisheriger Öffnungsweg (Randfall 9, nur Quelltext)', (
     });
 
     // Randfall 9
-    test('Bestätigen nutzt die globale deleteID, wenn der Dialog nicht über das Kit-Ereignis geöffnet wurde', () => {
-        const confirmFn = skript.slice(skript.indexOf('function confirm'), skript.indexOf('function handleKeydown'));
-        assert.match(confirmFn, /deleteID/, 'confirm liest die globale deleteID');
-        assert.match(confirmFn, /loeschRoute\(props\.route,/, 'Route aus props.route und deleteID');
-        assert.match(confirmFn, /aktuelleRoute\.value/, 'Gegenprobe: der Ereignisweg bleibt');
+    test('die Komponente nutzt die Zustandslogik aus js/loeschen.js', () => {
+        assert.match(skript, /import\s*\{[^}]*\berzeugeLoeschDialog\b[^}]*\}\s*from\s*'\.\.\/\.\.\/\.\.\/js\/loeschen\.js'/);
+        assert.match(skript, /erzeugeLoeschDialog\(/);
+        assert.match(skript, /oeffnenPerEreignis/);
+        assert.match(skript, /bestaetigen/);
+        assert.match(skript, /schliessen/);
     });
 
     // Randfall 9
-    test('öffnet das Kit-Ereignis, gilt dessen ID (nicht die globale deleteID)', () => {
-        const ereignis = skript.slice(skript.indexOf('onLoeschen('));
-        assert.match(ereignis, /aktuelleRoute\.value\s*=\s*loeschRoute\(props\.route,\s*id\)/);
-        const confirmFn = skript.slice(skript.indexOf('function confirm'), skript.indexOf('function handleKeydown'));
-        // der Rückfall steht erst nach dem Ereignisweg: aktuelleRoute hat Vorrang
-        assert.ok(confirmFn.indexOf('aktuelleRoute') < confirmFn.indexOf('deleteID'), 'aktuelleRoute hat Vorrang vor deleteID');
-    });
-
-    // Randfall 9
-    test('die Komponente setzt deleteID nicht selbst und definiert kein OpenDeleteForm', () => {
-        assert.doesNotMatch(skript, /deleteID\s*=[^=]/);
+    test('die Komponente hält keinen eigenen Routen-Zustand und liest deleteID nicht selbst', () => {
+        assert.doesNotMatch(skript, /aktuelleRoute/);
+        assert.doesNotMatch(skript, /deleteID/);
         assert.doesNotMatch(quelle, /OpenDeleteForm/);
     });
 
     // Randfall 9
-    test('der alte Öffnungsweg (classList.remove("hidden") am Overlay) kann den Dialog öffnen', () => {
-        // hidden darf nicht allein vom Vue-Zustand abhängen: das Overlay braucht ein Element mit id,
-        // an dem classList.remove('hidden') wirkt; Rückfall: offen wird aus der Klasse gelesen oder die Klasse ist statisch.
-        assert.match(template, /id="myModalDelete"/);
+    test('das Overlay verliert hidden nicht durch Vue-Neuzeichnen (Klasse konstant)', () => {
         assert.match(template, /hidden/, 'Gegenprobe: die Klasse hidden wird vom Template gesetzt');
+        assert.match(skript, /const anfangsVersteckt = true/);
     });
 });
 

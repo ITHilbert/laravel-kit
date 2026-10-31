@@ -9,8 +9,9 @@
 // plus Klasse `show` am tab-body und aria-selected="true" am tab-header; inaktiv = ohne diese.
 // Namen dürfen in verschiedenen Gruppen gleich sein; die Gruppe entscheidet.
 // Ohne Gruppenangabe erzeugen die Components data-kit-tabs="" bzw. data-kit-tabs-body="" (leer).
-// Vertrag für leere Gruppen-ID: Ein tabs-header gehört zum nächsten folgenden [data-kit-tabs-body]
-// im selben Elternelement (Geschwister, Header jeweils direkt vor seinem Body).
+// Vertrag für leere Gruppen-ID (Randfall 3, präzisiert): Ein tabs-header gehört zum nächsten folgenden
+// [data-kit-tabs-body] in Dokumentreihenfolge — auch wenn beide in verschiedenen Elternelementen stehen
+// (z. B. Header in div.card-main-header, Body in div.card-body).
 import assert from 'node:assert/strict';
 import { beforeEach, describe, test } from 'node:test';
 import { h, installiere } from './fake-dom.mjs';
@@ -286,6 +287,77 @@ describe('Zwei Tab-Gruppen im Standard-Markup (leere Gruppen-ID)', () => {
             assert.equal(aktiv(g1.panel('a')), false);
             assert.equal(aktiv(g2.panel('a')), true);
             assert.equal(aktiv(g2.panel('b')), false);
+        });
+    }
+});
+
+// Randfall 3 (präzisiert nach Nachprüfung 2): Header und Body in verschiedenen Elternelementen.
+const kopf = (header) => h('div', { class: 'card-main-header' }, header);
+const rumpf = (body) => h('div', { class: 'card-body' }, body);
+
+describe('Leere Gruppen-ID: Header und Body in verschiedenen Elternelementen', () => {
+    const layouts = {
+        'card-main-header und card-body, eine Karte je Gruppe': (doc, gs) => {
+            for (const g of gs) doc.body.append(h('div', { class: 'card' }, kopf(g.header), rumpf(g.body)));
+        },
+        'alle Köpfe und Rümpfe flach hintereinander im selben Container': (doc, gs) => {
+            doc.body.append(h('main', {}, ...gs.flatMap((g) => [kopf(g.header), rumpf(g.body)])));
+        },
+        'Header tief verschachtelt, Body in anderem Zweig': (doc, gs) => {
+            for (const g of gs) {
+                doc.body.append(h('section', {}, h('div', {}, h('div', { class: 'card-main-header' }, h('nav', {}, g.header))), h('article', {}, h('div', { class: 'card-body' }, g.body))));
+            }
+        },
+    };
+
+    for (const [name, baue] of Object.entries(layouts)) {
+        // Randfall 3
+        test(`eine Gruppe: Klick auf den Reiter schaltet den Inhalt (${name})`, () => {
+            const g = standard('g1', ['a', 'b'], 'a');
+            baue(doc, [g]);
+            initTabs(doc);
+
+            assert.equal(aktiv(g.panel('a')), true, 'Gegenprobe: a ist vor dem Klick sichtbar');
+            g.knopf('b').click();
+
+            assert.equal(aktiv(g.knopf('b')), true, 'Reiter schaltet');
+            assert.equal(aktiv(g.panel('b')), true, 'Inhalt schaltet nicht mit');
+            assert.equal(g.panel('b').classList.contains('show'), true);
+            assert.equal(aktiv(g.panel('a')), false);
+            assert.equal(g.panel('a').classList.contains('show'), false);
+        });
+
+        // Randfall 3
+        test(`zwei Gruppen: Klick in Gruppe 1 schaltet nur deren Inhalt (${name})`, () => {
+            const g1 = standard('g1', ['a', 'b'], 'a');
+            const g2 = standard('g2', ['a', 'b'], 'a');
+            baue(doc, [g1, g2]);
+            initTabs(doc);
+
+            g1.knopf('b').click();
+
+            assert.equal(aktiv(g1.panel('b')), true, 'Gegenprobe: Gruppe 1 hat umgeschaltet');
+            assert.equal(aktiv(g1.panel('a')), false);
+            assert.equal(aktiv(g2.panel('a')), true, 'Gruppe 2 darf nicht mitschalten');
+            assert.equal(aktiv(g2.panel('b')), false);
+            assert.equal(g2.knopf('a').getAttribute('aria-selected'), 'true');
+        });
+
+        // Randfall 3
+        test(`zwei Gruppen nacheinander: Gruppe 2 schaltet nur ihren eigenen Inhalt (${name})`, () => {
+            const g1 = standard('g1', ['a', 'b'], 'a');
+            const g2 = standard('g2', ['a', 'b'], 'a');
+            baue(doc, [g1, g2]);
+            initTabs(doc);
+
+            g1.knopf('b').click();
+            assert.equal(aktiv(g1.panel('b')), true, 'Gegenprobe: Gruppe 1 hat umgeschaltet');
+            g2.knopf('b').click();
+
+            assert.equal(aktiv(g2.panel('b')), true);
+            assert.equal(aktiv(g2.panel('a')), false);
+            assert.equal(aktiv(g1.panel('b')), true, 'Gruppe 1 bleibt, wie sie war');
+            assert.equal(aktiv(g1.panel('a')), false);
         });
     }
 });
