@@ -40,7 +40,7 @@ Diese Datei muss im jeweiligen Blade-Layout per `@vite` oder `<script>` eingebun
 | `actionsLabel` | `string` | `'Aktionen'` | Kopfzellen-Text der Aktionsspalte. |
 | `pageLength` | `number` | `25` | Zeilen pro Seite. |
 | `language` | `Record<string,unknown>?` | Deutsch | DataTables `language`-Objekt (partiell oder vollständig). |
-| `datatableOptions` | `Record<string,unknown>?` | — | Zusätzliche DataTables-Optionen (werden gemergt; `columns`/`ajax`/`data` intern gesetzt). |
+| `datatableOptions` | `Record<string,unknown>?` | — | Zusätzliche DataTables-Optionen (überschreiben die internen Vorgaben; `columns`, `ajax`, `data` und `serverSide` werden immer intern gesetzt und aus `datatableOptions` verworfen). |
 
 ### ColumnDefinition
 

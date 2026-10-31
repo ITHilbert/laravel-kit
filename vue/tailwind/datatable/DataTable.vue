@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
-import { buildColumnDefs } from './columnDefs.mjs';
+import { baueOptionen } from './optionen.mjs';
 
 // ─── Typen ────────────────────────────────────────────────────────────────────
 
@@ -110,7 +110,8 @@ export interface DataTableProps {
     language?: Record<string, unknown>;
     /**
      * Zusätzliche DataTables-Optionen. Werden mit den internen Optionen gemergt.
-     * Vorsicht: columns/ajax/data werden intern gesetzt und nicht überschrieben.
+     * Vorsicht: columns, ajax, data und serverSide werden intern gesetzt (ajaxUrl/rows/columns) und
+     * hier nicht überschrieben; alle anderen Schlüssel überschreiben die internen Vorgaben.
      */
     datatableOptions?: Record<string, unknown>;
 }
@@ -320,28 +321,15 @@ function initDataTable(): void {
         return;
     }
 
-    const language = { ...defaultLanguage, ...(props.language ?? {}) };
-
-    const options: Record<string, unknown> = {
-        columns:       buildColumnDefs(props.columns, hasActions.value),
-        pageLength:    props.pageLength,
-        language,
-        responsive:    true,
-        // Filter-Eingaben laufen über unsere eigene Filter-Zeile — die DataTables-Suche oben ausblenden.
-        searching:     true,
-        // Zweite Kopfzeile (Filter) soll NICHT als Sortier-Header interpretiert werden.
-        orderCellsTop: true,
-        ...(props.datatableOptions ?? {}),
-    };
-
-    if (props.ajaxUrl) {
-        // Server-side / Yajra-Modus
-        options.serverSide = true;
-        options.ajax       = props.ajaxUrl;
-    } else if (props.rows) {
-        // Client-side Modus
-        options.data = props.rows;
-    }
+    const options = baueOptionen({
+        columns:          props.columns,
+        hasActions:       hasActions.value,
+        pageLength:       props.pageLength,
+        language:         props.language,
+        datatableOptions: props.datatableOptions,
+        ajaxUrl:          props.ajaxUrl,
+        rows:             props.rows,
+    }, defaultLanguage);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as any;
