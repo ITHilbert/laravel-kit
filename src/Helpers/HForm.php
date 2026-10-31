@@ -268,7 +268,7 @@ class HForm
      * @param  type  $class
      * @return type
      */
-    public static function int($name = '', $value1 = '', $class = '', array $attributes = [])
+    public static function int($name = '', $value = '', $class = '', array $attributes = [])
     {
         // Value Attribute setzen
         if (is_numeric($value)) {
@@ -331,7 +331,7 @@ class HForm
         // Weitere Attribute setzen
         $attr = self::attributes($attributes);
 
-        $ausgabe = '<input type="text" name="'.$name.'" class="form-control input-date '.$class.'" '.$value.' '.$attr.'" >';
+        $ausgabe = '<input type="text" name="'.$name.'" class="form-control input-date '.$class.'" '.$value.' '.$attr.' >';
 
         return self::toHtmlString($ausgabe);
     }
