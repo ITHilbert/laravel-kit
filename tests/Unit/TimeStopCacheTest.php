@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Unit;
 
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -238,6 +239,124 @@ final class TimeStopCacheTest extends TestCase
         $this->assertSame(5, TimeStop::ende());
     }
 
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function redisartigUndArray(): array
+    {
+        return ['redisartig' => ['redisartig'], 'array' => ['array']];
+    }
+
+    /**
+     * Store, der wie RedisStore ohne Serializer arbeitet: Zahlen kommen als String zurück.
+     */
+    private function redisartigVerwenden(): void
+    {
+        config()->set('cache.stores.redisartig', ['driver' => 'redisartig']);
+        Cache::extend('redisartig', fn () => Cache::repository(new ZahlenAlsStringStore));
+        $this->storeVerwenden('redisartig');
+    }
+
+    private function storeNutzen(string $store): void
+    {
+        if ($store === 'redisartig') {
+            $this->redisartigVerwenden();
+
+            return;
+        }
+
+        $this->storeVerwenden($store);
+    }
+
+    // AK2
+    public function test_redisartiger_store_liefert_zahlen_als_string(): void
+    {
+        $this->redisartigVerwenden();
+        $this->travelTo(now());
+
+        TimeStop::start();
+
+        // Gegenprobe: der Aufbau greift, der Store gibt die Zahl als String zurück
+        $this->assertIsString(Cache::get('TimeStop_start'));
+        $this->assertSame((string) now()->getTimestamp(), Cache::get('TimeStop_start'));
+    }
+
+    // AK2
+    #[DataProvider('redisartigUndArray')]
+    public function test_start_legt_zahl_statt_objekt_ab_auch_bei_stringrueckgabe(string $store): void
+    {
+        $this->storeNutzen($store);
+        $this->travelTo(now());
+        $erwartet = now()->getTimestamp();
+
+        TimeStop::start();
+
+        $wert = Cache::get('TimeStop_start');
+        $this->assertTrue(is_int($wert) || is_string($wert));
+        $this->assertSame($erwartet, (int) $wert);
+        $this->assertSame((string) $erwartet, (string) $wert);
+    }
+
+    // AK3
+    #[DataProvider('redisartigUndArray')]
+    public function test_zweiter_start_behaelt_erste_startzeit_bei_stringrueckgabe(string $store): void
+    {
+        $this->storeNutzen($store);
+        $this->travelTo(now());
+        $erste = now()->getTimestamp();
+
+        TimeStop::start();
+        $this->travel(3)->seconds();
+        TimeStop::start();
+
+        $this->assertSame($erste, (int) Cache::get('TimeStop_start'));
+    }
+
+    // AK3
+    #[DataProvider('redisartigUndArray')]
+    public function test_ende_rechnet_ab_erster_startzeit_bei_stringrueckgabe(string $store): void
+    {
+        $this->storeNutzen($store);
+        $this->travelTo(now());
+
+        TimeStop::start();
+        $this->travel(3)->seconds();
+        TimeStop::start();
+        $this->travel(2)->seconds();
+
+        $dauer = TimeStop::ende();
+
+        $this->assertIsInt($dauer);
+        $this->assertSame(5, $dauer);
+    }
+
+    // AK2
+    #[DataProvider('redisartigUndArray')]
+    public function test_ende_liefert_dauer_als_int_und_entfernt_eintrag_bei_stringrueckgabe(string $store): void
+    {
+        $this->storeNutzen($store);
+        $this->travelTo(now());
+
+        TimeStop::start();
+        $this->assertNotNull(Cache::get('TimeStop_start'));
+        $this->travel(5)->seconds();
+
+        $dauer = TimeStop::ende();
+
+        $this->assertIsInt($dauer);
+        $this->assertSame(5, $dauer);
+        $this->assertNull(Cache::get('TimeStop_start'));
+    }
+
+    // Randfall 1
+    public function test_ende_ohne_start_liefert_null_bei_redisartigem_store(): void
+    {
+        $this->redisartigVerwenden();
+
+        $this->assertNull(Cache::get('TimeStop_start'));
+        $this->assertSame(0, TimeStop::ende());
+    }
+
     // Randfall 3
     public function test_zeit_folgt_der_laravel_uhr(): void
     {
@@ -246,5 +365,91 @@ final class TimeStopCacheTest extends TestCase
         $this->travel(7)->seconds();
 
         $this->assertSame(7, TimeStop::ende());
+    }
+}
+
+/**
+ * Verhält sich wie Illuminate\Cache\RedisStore ohne Serializer: Zahlen werden roh abgelegt
+ * und kommen als String zurück, alles andere wird serialisiert.
+ */
+final class ZahlenAlsStringStore implements Store
+{
+    /** @var array<string, string> */
+    private array $daten = [];
+
+    public function get($key)
+    {
+        if (! array_key_exists($key, $this->daten)) {
+            return null;
+        }
+
+        $wert = $this->daten[$key];
+
+        return is_numeric($wert) ? $wert : unserialize($wert, ['allowed_classes' => false]);
+    }
+
+    public function many(array $keys)
+    {
+        $ergebnis = [];
+        foreach ($keys as $key) {
+            $ergebnis[$key] = $this->get($key);
+        }
+
+        return $ergebnis;
+    }
+
+    public function put($key, $value, $seconds)
+    {
+        $this->daten[$key] = is_int($value) || is_float($value) ? (string) $value : serialize($value);
+
+        return true;
+    }
+
+    public function putMany(array $values, $seconds)
+    {
+        foreach ($values as $key => $value) {
+            $this->put($key, $value, $seconds);
+        }
+
+        return true;
+    }
+
+    public function increment($key, $value = 1)
+    {
+        return $this->daten[$key] = (string) ((int) ($this->daten[$key] ?? 0) + $value);
+    }
+
+    public function decrement($key, $value = 1)
+    {
+        return $this->increment($key, -$value);
+    }
+
+    public function touch($key, $seconds)
+    {
+        return array_key_exists($key, $this->daten);
+    }
+
+    public function forever($key, $value)
+    {
+        return $this->put($key, $value, 0);
+    }
+
+    public function forget($key)
+    {
+        unset($this->daten[$key]);
+
+        return true;
+    }
+
+    public function flush()
+    {
+        $this->daten = [];
+
+        return true;
+    }
+
+    public function getPrefix()
+    {
+        return '';
     }
 }
