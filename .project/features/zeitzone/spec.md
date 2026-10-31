@@ -6,7 +6,7 @@
 
 ## Akzeptanzkriterien
 - **AK1 — Zeitzone der App bleibt:** Gegeben `config('app.timezone')` = `UTC` (ebenso `America/New_York`) und die PHP-Zeitzone entsprechend gesetzt — Wenn `MyDateTime` geladen, ein Objekt erzeugt (`new MyDateTime('now')`, `new MyDateTime('2026-01-01 10:00:00')`) oder `HForm::date()` mit Wert aufgerufen wird — Dann ist `date_default_timezone_get()` danach unverändert gleich `config('app.timezone')`.
-- **AK2 — Rechnen in der Zeitzone der App:** Gegeben `config('app.timezone')` = `UTC` — Wenn `new MyDateTime('2026-01-01 00:00:00')` erzeugt wird — Dann liefert `getTimestamp()` `1767225600`. Bei `Europe/Berlin` liefert derselbe Aufruf `1767222000`. `getDateTimeDB()` gibt in beiden Fällen `2026-01-01 00:00:00` zurück.
+- **AK2 — Rechnen in der Zeitzone der App:** Gegeben `config('app.timezone')` = `UTC` — Wenn `new MyDateTime('2026-01-01 00:00:00')` erzeugt wird — Dann liefert `getTimestamp()` `1767225600`. Bei `Europe/Berlin` liefert derselbe Aufruf `1767222000`. `getDateTimeISO()` gibt in beiden Fällen `2026-01-01 00:00:00` zurück, `getDateTimeDB()` `20260101000000`. *Korrigiert 2026-10-31: vorher stand `getDateTimeDB()` mit ISO-Format; die Methode liefert `YmdHis` (Meldung test-writer).*
 - **AK3 — HForm::date mit Wert:** Gegeben ein Wert `2026-03-15 10:00:00` — Wenn `HForm::date('lieferdatum', '2026-03-15 10:00:00')` aufgerufen wird — Dann enthält die Ausgabe `value="15.03.2026"` und `name="lieferdatum"`, ohne Exception.
 
 ## Randfälle
