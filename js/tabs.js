@@ -8,6 +8,15 @@ function wurzel(el) {
     return e;
 }
 
+// Leere Gruppen-ID: der nächste folgende Body im selben Elternelement gehört zum Header.
+function folgenderBody(gruppe) {
+    const geschwister = gruppe.parentElement ? Array.from(gruppe.parentElement.children) : [];
+    for (const e of geschwister.slice(geschwister.indexOf(gruppe) + 1)) {
+        if (e.hasAttribute('data-kit-tabs-body')) return e;
+    }
+    return null;
+}
+
 function schalte(knopf) {
     const gruppe = knopf.closest('[data-kit-tabs]');
     if (!gruppe) return;
@@ -20,8 +29,9 @@ function schalte(knopf) {
         k.classList.toggle('active', an);
         k.setAttribute('aria-selected', an ? 'true' : 'false');
     }
-    for (const body of oben.querySelectorAll('[data-kit-tabs-body]')) {
-        if (body.getAttribute('data-kit-tabs-body') !== id) continue;
+    const bodies = id === '' ? [folgenderBody(gruppe)] : [...oben.querySelectorAll('[data-kit-tabs-body]')].filter((b) => b.getAttribute('data-kit-tabs-body') === id);
+    for (const body of bodies) {
+        if (!body) continue;
         for (const p of body.querySelectorAll('[data-kit-tab-body]')) {
             const an = p.getAttribute('data-kit-tab-body') === name;
             p.classList.toggle('active', an);

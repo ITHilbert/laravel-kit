@@ -58,7 +58,7 @@ Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `butto
         <form method="POST" action="{{ route('kunden.store') }}">
             @csrf
             <x-kit::input-text name="name" label="Name" :value="old('name')" required />
-            <x-kit::input-euro name="stundensatz" label="Stundensatz" :value="old('stundensatz')" />
+            <x-kit::input-euro name="stundensatz" :value="old('stundensatz')" />
             <x-kit::button-save />
         </form>
     </x-kit::card-body>

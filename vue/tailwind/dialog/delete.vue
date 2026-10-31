@@ -1,8 +1,9 @@
 <template>
     <div
+        id="myModalDelete"
         ref="modal"
         class="dialog-overlay"
-        :class="{ hidden: !offen }"
+        :class="{ hidden: anfangsVersteckt }"
         @click.self="close"
     >
         <div class="dialog-content">
@@ -72,21 +73,32 @@ const props = withDefaults(defineProps<{
 
 defineOptions({ inheritAttrs: false });
 
+// Konstant: Vue schreibt die Klasse nie neu, so bleibt classList.remove('hidden') von außen wirksam.
+const anfangsVersteckt = true;
 const modal = ref<HTMLElement | null>(null);
-const offen = ref(false);
 const aktuelleRoute = ref('');
 let abmelden: (() => void) | null = null;
 
+function oeffnen() {
+    modal.value?.classList.remove('hidden');
+}
+
 function close() {
-    offen.value = false;
+    modal.value?.classList.add('hidden');
 }
 
 function confirm() {
     close();
-    if (!aktuelleRoute.value) return;
+    // Ereignis-Route hat Vorrang, sonst der alte Öffnungsweg.
+    let route = aktuelleRoute.value;
+    if (!route) {
+        const id = (globalThis as { deleteID?: unknown }).deleteID;
+        if (id !== undefined && id !== null && id !== '') route = loeschRoute(props.route, String(id));
+    }
+    if (!route) return;
     const form = document.getElementById('formDelete') as HTMLFormElement | null;
     if (form) {
-        form.setAttribute('action', aktuelleRoute.value);
+        form.setAttribute('action', route);
         form.submit();
     }
 }
@@ -102,7 +114,7 @@ onMounted(() => {
     // Ein Klick auf button-delete (data-kit-delete) meldet die ID über das Kit-Ereignis.
     abmelden = onLoeschen(({ id }) => {
         aktuelleRoute.value = loeschRoute(props.route, id);
-        offen.value = true;
+        oeffnen();
     });
 });
 
