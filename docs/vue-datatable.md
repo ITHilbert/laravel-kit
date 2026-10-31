@@ -195,7 +195,8 @@ public function datatable(): JsonResponse
 {
     $query = Kunde::query()->select(['id', 'name', 'email', 'stadt']);
 
-    return DataTables::eloquent($query)->toJson();
+    // Escaping übernimmt die Komponente (siehe „Server-side mit yajra“ oben)
+    return DataTables::eloquent($query)->escapeColumns([])->toJson();
 }
 ```
 
