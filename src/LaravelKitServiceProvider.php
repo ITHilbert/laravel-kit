@@ -51,6 +51,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->registerResponseMacros();
         $this->registerLegalTextComponents();
+        $this->registerKitComponents();
     }
 
     /**
@@ -88,6 +89,15 @@ class LaravelKitServiceProvider extends ServiceProvider
         Blade::component('laravelkit-datenschutz', Datenschutz::class);
         Blade::component('laravelkit-agb', AGB::class);
         Blade::component('laravelkit-cookies', CookieRichtlinie::class);
+    }
+
+    /**
+     * Kit-Components <x-kit::NAME>: anonyme Components, die je Theme ein Template einbinden
+     * (src/Views/components/kit → src/Views/kit/<theme>).
+     */
+    protected function registerKitComponents(): void
+    {
+        Blade::anonymousComponentPath(__DIR__.'/Views/components/kit', 'kit');
     }
 
     public function setAliase()

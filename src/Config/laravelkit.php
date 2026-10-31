@@ -5,6 +5,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Theme der Kit-Components (<x-kit::…>)
+    |--------------------------------------------------------------------------
+    |
+    | Bestimmt das Markup aller Kit-Components. Erlaubt: tailwind, bootstrap5.
+    | Ein anderer oder leerer Wert führt beim Rendern zu einer Exception.
+    |
+    */
+    'theme' => env('LARAVELKIT_THEME', 'tailwind'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Rechtstexte (Impressum, Datenschutz, AGB, Cookie-Richtlinie)
     |--------------------------------------------------------------------------
     |
