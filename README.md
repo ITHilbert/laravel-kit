@@ -43,7 +43,7 @@ LARAVELKIT_THEME=bootstrap5
 
 - Karten: `card-main`, `card-main-header`, `card-body`, `card-footer`
 - Buttons: `button-create`, `button-edit`, `button-show`, `button-delete`, `button-save`, `button-back`, `button-submit`, `button-cancel`
-- Formularfelder: `input-text`, `input-email`, `input-password`, `input-date`, `input-euro`, `input-number`, `input-hidden`, `input-file-img`, `text-area`, `checkbox`
+- Formularfelder: `input-text`, `input-email`, `input-password`, `input-date`, `input-euro`, `input-number`, `input-hidden`, `input-file-img`, `text-area`, `checkbox`, `combobox` (`options` als Array, Collection oder JSON-Text mit `cbKey`/`cbCaption`; `value` wählt die Option)
 - Tabs: `tabs-header`, `tab-header`, `tabs-body`, `tab-body`
 - Sonstiges: `breadcrumb`, `show-euro`, `show-date`
 
