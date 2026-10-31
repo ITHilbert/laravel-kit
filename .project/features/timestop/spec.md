@@ -11,6 +11,7 @@
 ## Randfälle
 - `ende()` ohne vorheriges `start()` → liefert `0`, kein Fehler.
 - Im Cache liegt noch ein Eintrag aus dem alten Stand (Objekt bzw. `__PHP_Incomplete_Class`, kein int) → `ende()` behandelt ihn wie fehlend: `0`, kein Fehler, Eintrag danach entfernt.
+- `start()` findet eine Altlast aus dem alten Stand (kein int) → überschreibt sie mit der neuen Startzeit; das folgende `ende()` liefert die Dauer ab diesem `start()`. *Ergänzt 2026-10-31 (Abweichung coder-pro, selbst freigegeben in der Nachtschicht).*
 - Die Zeit folgt der Laravel-Uhr (`now()`), damit `travel()`/`Carbon::setTestNow()` in Tests wirken; der bestehende Test in `tests/Unit/LogUndTimeStopTest.php` bleibt grün.
 
 ## Nicht-Ziele
