@@ -52,7 +52,7 @@ interface ColumnDefinition {
     sortable?:  boolean;          // Default: true — false = nicht sortierbar
     html?:      boolean;          // Default: false — true = Zellwert wird als HTML eingesetzt
     render?:    (data, type, row) => string;  // DataTables render-Callback (client-side), Ergebnis unverändert; gewinnt gegenüber html
-    defaultContent?: string;      // Default: '' — Anzeige, wenn der Zellwert null/undefined ist (verhindert die DataTables-Warnung "Requested unknown parameter")
+    defaultContent?: string;      // Default: '' — Anzeige, wenn der Zellwert null/undefined ist (verhindert die DataTables-Warnung "Requested unknown parameter"). Wird als HTML eingesetzt: nur feste Werte aus der Spalten-Konfiguration, nie Nutzerdaten
 }
 ```
 

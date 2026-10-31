@@ -18,11 +18,25 @@ function textRender(data, type) {
     return type === 'display' ? escapeText(data) : data;
 }
 
+/**
+ * Wie textRender, gibt bei null/undefined aber den Rohwert zurück,
+ * damit DataTables das eigene defaultContent der Spalte einsetzt.
+ */
+function textRenderMitDefault(data, type) {
+    if (data === null || data === undefined) {
+        return data;
+    }
+    return textRender(data, type);
+}
+
 function renderFor(col) {
     if (col.render) {
         return col.render;
     }
-    return col.html === true ? undefined : textRender;
+    if (col.html === true) {
+        return undefined;
+    }
+    return col.defaultContent !== undefined ? textRenderMitDefault : textRender;
 }
 
 /**
