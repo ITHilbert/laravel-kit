@@ -1,8 +1,8 @@
 <template>
     <div
-        id="myModalDelete"
-        :route="route"
-        class="dialog-overlay hidden"
+        ref="modal"
+        class="dialog-overlay"
+        :class="{ hidden: !offen }"
         @click.self="close"
     >
         <div class="dialog-content">
@@ -53,7 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { loeschRoute, onLoeschen } from '../../../js/loeschen.js';
 
 const props = withDefaults(defineProps<{
     titel?: string;
@@ -71,29 +72,22 @@ const props = withDefaults(defineProps<{
 
 defineOptions({ inheritAttrs: false });
 
+const modal = ref<HTMLElement | null>(null);
+const offen = ref(false);
+const aktuelleRoute = ref('');
+let abmelden: (() => void) | null = null;
+
 function close() {
-    const modal = document.getElementById('myModalDelete');
-    if (modal) {
-        modal.classList.add('hidden');
-    }
+    offen.value = false;
 }
 
 function confirm() {
     close();
-    const modal = document.getElementById('myModalDelete');
-    if (!modal) return;
-    
-    let pfad = modal.getAttribute('route');
-    if (pfad) {
-        // @ts-ignore - deleteID comes from global scope typically in this specific app
-        if (typeof deleteID !== 'undefined') {
-            pfad = pfad.substring(0, pfad.lastIndexOf('/') + 1) + deleteID;
-        }
-        const form = document.getElementById('formDelete') as HTMLFormElement;
-        if (form) {
-            form.setAttribute('action', pfad);
-            form.submit();
-        }
+    if (!aktuelleRoute.value) return;
+    const form = document.getElementById('formDelete') as HTMLFormElement | null;
+    if (form) {
+        form.setAttribute('action', aktuelleRoute.value);
+        form.submit();
     }
 }
 
@@ -105,9 +99,15 @@ function handleKeydown(e: KeyboardEvent) {
 
 onMounted(() => {
     document.addEventListener('keydown', handleKeydown);
+    // Ein Klick auf button-delete (data-kit-delete) meldet die ID über das Kit-Ereignis.
+    abmelden = onLoeschen(({ id }) => {
+        aktuelleRoute.value = loeschRoute(props.route, id);
+        offen.value = true;
+    });
 });
 
 onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown);
+    abmelden?.();
 });
 </script>
