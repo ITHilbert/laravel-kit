@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import { buildColumnDefs } from './columnDefs.mjs';
 
 // ─── Typen ────────────────────────────────────────────────────────────────────
 
@@ -69,8 +70,14 @@ export interface ColumnDefinition {
      */
     sortable?: boolean;
     /**
+     * Zellwert als HTML einsetzen (Opt-in). Default: false – der Wert erscheint als Text (escaped).
+     * Nur setzen, wenn die Daten vertrauenswürdig oder serverseitig escaped sind.
+     */
+    html?: boolean;
+    /**
      * Optionale Render-Funktion (DataTables-Spalten-Render-API).
      * Signatur: (data, type, row) => string
+     * Das Ergebnis wird unverändert eingesetzt (Escaping verantwortet der Host); gewinnt gegenüber `html`.
      * Nur für client-side Modus nutzbar.
      */
     render?: (data: unknown, type: string, row: Record<string, unknown>) => string;
@@ -218,33 +225,6 @@ function onFilterInput(event: Event, key: string): void {
 // ─── DataTables Initialisierung ───────────────────────────────────────────────
 
 /**
- * Baut die DataTables column-Definitionen aus den Column-Props.
- */
-function buildColumnDefs(): unknown[] {
-    const defs: unknown[] = props.columns.map((col) => ({
-        data:      col.key,
-        orderable: col.sortable !== false,
-        render:    col.render ?? undefined,
-    }));
-
-    if (hasActions.value) {
-        defs.push({
-            data:      null,
-            orderable: false,
-            searchable: false,
-            // Render-Funktion baut den Container für die Aktions-Buttons.
-            // Der eigentliche Inhalt wird nach dem Draw via delegiertem Event-Listener gesetzt.
-            render:    (_data: unknown, _type: string, row: Record<string, unknown>) => {
-                const rowJson = JSON.stringify(row).replace(/'/g, '&#39;');
-                return `<div class="flex items-center justify-end gap-1" data-actions-cell data-row='${rowJson}'></div>`;
-            },
-        });
-    }
-
-    return defs;
-}
-
-/**
  * Prüft ob jQuery und DataTable global verfügbar sind (Peer-Dependency-Annahme:
  * das Konsumprojekt stellt window.$ und window.DataTable via datatable.js bereit).
  */
@@ -343,7 +323,7 @@ function initDataTable(): void {
     const language = { ...defaultLanguage, ...(props.language ?? {}) };
 
     const options: Record<string, unknown> = {
-        columns:       buildColumnDefs(),
+        columns:       buildColumnDefs(props.columns, hasActions.value),
         pageLength:    props.pageLength,
         language,
         responsive:    true,
