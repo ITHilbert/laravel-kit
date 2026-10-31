@@ -8,8 +8,9 @@ use ITHilbert\LaravelKit\Helpers\MyDateTime;
 use ITHilbert\LaravelKit\Tests\TestCase;
 
 /**
- * Charakterisierung von MyDateTime (Ist-Stand). Die Klasse setzt beim Laden
- * die Zeitzone Europe/Berlin global.
+ * Charakterisierung von MyDateTime (Ist-Stand). Die Klasse nutzt die
+ * Zeitzone der App und setzt keine globale Zeitzone mehr (AK1, Feature
+ * zeitzone); das Verhalten dazu prüft MyDateTimeZeitzoneTest.
  */
 final class MyDateTimeTest extends TestCase
 {

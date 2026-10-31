@@ -249,6 +249,10 @@ Die Kit-Komponenten (`<button-edit>`, `<button-show>`, `<button-delete>`) render
 - **DSGVO-konform:** Keine externen Fonts/Icons
 - **Custom-Icons:** Falls eigene Icons nötig, neue Vue-Komponente bauen (z.B. `resources/js/components/button-custom.vue`)
 
+### MyDateTime: Zeitzone der App
+
+`MyDateTime` nutzt die Zeitzone der App (`config('app.timezone')`) und setzt keine eigene mehr. Projekte, die Berlin-Zeit brauchen, stellen `timezone` in `config/app.php` auf `Europe/Berlin` (oder lesen dort `APP_TIMEZONE` und setzen die Variable) — ein fest eingetragenes `'UTC'` ignoriert `APP_TIMEZONE`.
+
 ### AI Developer CLI Tools (Voraussetzung für KI Agenten)
 Damit die KI-Tools und die asynchrone AI-Pipeline (Hintergrund-Worker) korrekt funktionieren, müssen die entsprechenden CLI-Tools auf dem System installiert sein:
 
