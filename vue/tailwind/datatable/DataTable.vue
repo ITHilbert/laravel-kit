@@ -60,6 +60,11 @@ export interface ColumnDefinition {
     /** Anzeigetitel in der Kopfzeile */
     label: string;
     /**
+     * Anzeige, wenn der Zellwert null/undefined ist. Wird als HTML eingesetzt
+     * (stammt aus der Spalten-Konfiguration, nicht aus Nutzerdaten).
+     */
+    defaultContent?: string;
+    /**
      * Ob diese Spalte einen Filter-Input bekommt.
      * Default: true. Auf false setzen für berechnete / Icon-Spalten.
      */

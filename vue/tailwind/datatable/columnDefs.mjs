@@ -18,15 +18,29 @@ function textRender(data, type) {
     return type === 'display' ? escapeText(data) : data;
 }
 
+/**
+ * Wie textRender, gibt bei null/undefined aber den Rohwert zurück,
+ * damit DataTables das eigene defaultContent der Spalte einsetzt.
+ */
+function textRenderMitDefault(data, type) {
+    if (data === null || data === undefined) {
+        return data;
+    }
+    return textRender(data, type);
+}
+
 function renderFor(col) {
     if (col.render) {
         return col.render;
     }
-    return col.html === true ? undefined : textRender;
+    if (col.html === true) {
+        return undefined;
+    }
+    return col.defaultContent !== undefined ? textRenderMitDefault : textRender;
 }
 
 /**
- * @param {Array<{key: string, sortable?: boolean, html?: boolean, render?: Function}>} columns
+ * @param {Array<{key: string, sortable?: boolean, html?: boolean, render?: Function, defaultContent?: string}>} columns
  * @param {boolean} hasActions hängt die Aktionsspalte als letzte Definition an
  * @returns {unknown[]}
  */
@@ -35,6 +49,7 @@ export function buildColumnDefs(columns, hasActions) {
         data: col.key,
         orderable: col.sortable !== false,
         render: renderFor(col),
+        defaultContent: col.defaultContent ?? '',
     }));
 
     if (hasActions) {
@@ -42,6 +57,7 @@ export function buildColumnDefs(columns, hasActions) {
             data: null,
             orderable: false,
             searchable: false,
+            defaultContent: '',
             // Container für die Aktions-Buttons; Inhalt wird nach dem Draw gesetzt.
             render: (_data, _type, row) => {
                 const rowJson = JSON.stringify(row).replace(/'/g, '&#39;');
