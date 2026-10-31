@@ -1,4 +1,4 @@
-// Lösch-Button (button-delete) und Dialog-Insel (dialog-delete) sprechen über ein Ereignis, keine Globals.
+// Lösch-Button (button-delete) und Dialog-Insel (dialog-delete) sprechen über ein Ereignis; das Kit legt keine Globals an.
 export const LOESCHEN_EREIGNIS = 'kit:delete';
 
 const gebunden = new WeakSet();
@@ -25,4 +25,43 @@ export function loeschRoute(route, id) {
     const m = String(route).match(/^([^?#]*)(.*)$/);
     const pfad = m[1];
     return pfad.slice(0, pfad.lastIndexOf('/') + 1) + encodeURIComponent(id) + m[2];
+}
+
+// Zustandslogik des Lösch-Dialogs (dialog-delete). Zwei Öffnungswege:
+// - Kit-Ereignis (button-delete): oeffnenPerEreignis(id) merkt die Route genau für diesen Öffnungsvorgang.
+// - Alter Weg der Hosts: overlay.classList.remove('hidden') von außen plus globale deleteID.
+// Offen/zu steht nur am Overlay (Klasse `hidden`), damit der alte Weg ohne eigenen Zustand wirkt.
+// Nach Schließen oder Absenden ist die Ereignis-Route vergessen; danach gilt wieder deleteID.
+export function erzeugeLoeschDialog({ route, overlay, formular, globalThis: host }) {
+    let ereignisRoute = null;
+
+    const basisRoute = () => String((typeof route === 'function' ? route() : route) ?? '');
+
+    function schliessen() {
+        overlay?.classList.add('hidden');
+        ereignisRoute = null;
+    }
+
+    function oeffnenPerEreignis(id) {
+        ereignisRoute = loeschRoute(basisRoute(), String(id));
+        overlay?.classList.remove('hidden');
+    }
+
+    function routeDesAltenWegs() {
+        const id = host?.deleteID;
+        if (id === undefined || id === null || id === '') return null;
+        return loeschRoute(basisRoute(), String(id));
+    }
+
+    function bestaetigen() {
+        const ziel = ereignisRoute ?? routeDesAltenWegs();
+        schliessen();
+        if (!ziel) return;
+        const form = formular?.() ?? null;
+        if (!form) return;
+        form.setAttribute('action', ziel);
+        form.submit();
+    }
+
+    return { oeffnenPerEreignis, bestaetigen, schliessen };
 }

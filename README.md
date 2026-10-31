@@ -79,7 +79,28 @@ Im Theme `tailwind` folgt die Kit-Component der Vue-Version: angehakt ist sie, w
 
 ### Tabs
 
-Eine Tab-Gruppe bindet ihre Reiter und Inhalte über `data-kit-tabs` (am `tabs-header`) und `data-kit-tabs-body` (am `tabs-body`). Der Name (`name`) eines Reiters und seines Inhalts muss zusammenpassen. Die Reiter-Namen gelten seitenweit: Sie erzeugen die IDs `<name>-tab` und `<name>`. Zwei Gruppen auf einer Seite schalten unabhängig voneinander, solange ihre Namen eindeutig sind. Gleiche Namen in zwei Gruppen erzeugen doppelte IDs. Bootstrap-JS kann dann falsch reagieren, das ist nicht unterstützt.
+Eine Tab-Gruppe bindet ihre Reiter und Inhalte über `data-kit-tabs` (am `tabs-header`) und `data-kit-tabs-body` (am `tabs-body`). Der Name (`name`) eines Reiters und seines Inhalts muss zusammenpassen. Die Reiter-Namen gelten seitenweit: Sie erzeugen die IDs `<name>-tab` und `<name>`. Zwei Gruppen auf einer Seite schalten unabhängig voneinander, solange ihre Namen eindeutig sind.
+
+Ohne Gruppennamen (kein `data-kit-tabs`, die Components setzen dann einen leeren Wert) gehört ein `tabs-header` zum nächsten folgenden `tabs-body` in Dokumentreihenfolge. Header und Body müssen dafür nicht im selben Elternelement stehen. Der Header darf zum Beispiel in `card-main-header` liegen und der Body in `card-body`:
+
+```blade
+<x-kit::card-main>
+    <x-kit::card-main-header>
+        <x-kit::tabs-header>
+            <x-kit::tab-header name="tab-daten" active>Daten</x-kit::tab-header>
+            <x-kit::tab-header name="tab-adresse">Adresse</x-kit::tab-header>
+        </x-kit::tabs-header>
+    </x-kit::card-main-header>
+    <x-kit::card-body>
+        <x-kit::tabs-body>
+            <x-kit::tab-body name="tab-daten" active>…</x-kit::tab-body>
+            <x-kit::tab-body name="tab-adresse">…</x-kit::tab-body>
+        </x-kit::tabs-body>
+    </x-kit::card-body>
+</x-kit::card-main>
+```
+
+Mit Gruppennamen gehören alle `tabs-body` mit demselben Wert in `data-kit-tabs-body` zur Gruppe, egal wo sie stehen. Gleiche Namen in zwei Gruppen erzeugen doppelte IDs. Bootstrap-JS kann dann falsch reagieren, das ist nicht unterstützt.
 
 `active` (Boolean, Default `false`) markiert den Reiter und seinen Inhalt, der beim Laden sichtbar sein soll. Ohne `active` ist beim Laden kein Reiter sichtbar.
 
@@ -129,6 +150,10 @@ Den Dialog bindet die Insel `dialog-delete` (Theme `tailwind`) über `data-vue` 
 ```
 
 Der Dialog sendet nicht selbst. Er setzt die `action` des Formulars `#formDelete` der Seite auf die Lösch-Route und sendet es ab. Das Formular mit `id="formDelete"` legt das Projekt an. Methode (`@method('DELETE')`) und CSRF-Feld (`@csrf`) gehören in dieses Formular.
+
+**Bisheriger Öffnungsweg:** Projekte, die den Dialog selbst öffnen, funktionieren weiter. Sie setzen eine globale `deleteID` und rufen `document.getElementById('myModalDelete').classList.remove('hidden')` auf. Das Overlay behält dafür `id="myModalDelete"` und trägt das Attribut `route` mit dem Wert des Props. „Löschen“ bildet die Route dann aus `deleteID`. Öffnet ein `button-delete` den Dialog, gilt dessen ID, auch wenn `deleteID` gesetzt ist. Diese ID gilt nur für diesen einen Öffnungsvorgang. Nach Schließen (Abbruch, Escape, Klick neben den Dialog) oder Absenden ist sie vergessen, ein danach über den alten Weg geöffneter Dialog nutzt wieder `deleteID`. Ist keine Route bestimmbar (kein Ereignis, `deleteID` nicht gesetzt oder leer) oder fehlt `#formDelete`, schließt „Löschen“ den Dialog, ohne zu senden.
+
+Die Zustandslogik des Dialogs steht in `erzeugeLoeschDialog()` aus `js/loeschen.js`. Die Vue-Komponente verdrahtet sie nur.
 
 Die Insel wird mit dem Mount-Helfer gemountet (siehe unten).
 

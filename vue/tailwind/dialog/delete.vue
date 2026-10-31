@@ -3,6 +3,7 @@
         id="myModalDelete"
         ref="modal"
         class="dialog-overlay"
+        :route="route"
         :class="{ hidden: anfangsVersteckt }"
         @click.self="close"
     >
@@ -55,7 +56,7 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import { loeschRoute, onLoeschen } from '../../../js/loeschen.js';
+import { erzeugeLoeschDialog, onLoeschen } from '../../../js/loeschen.js';
 
 const props = withDefaults(defineProps<{
     titel?: string;
@@ -76,31 +77,17 @@ defineOptions({ inheritAttrs: false });
 // Konstant: Vue schreibt die Klasse nie neu, so bleibt classList.remove('hidden') von außen wirksam.
 const anfangsVersteckt = true;
 const modal = ref<HTMLElement | null>(null);
-const aktuelleRoute = ref('');
+
+// Zustand (welche Route gilt, offen/zu) liegt in js/loeschen.js; die Komponente verdrahtet nur.
+let dialog: ReturnType<typeof erzeugeLoeschDialog> | null = null;
 let abmelden: (() => void) | null = null;
 
-function oeffnen() {
-    modal.value?.classList.remove('hidden');
-}
-
 function close() {
-    modal.value?.classList.add('hidden');
+    dialog?.schliessen();
 }
 
 function confirm() {
-    close();
-    // Ereignis-Route hat Vorrang, sonst der alte Öffnungsweg.
-    let route = aktuelleRoute.value;
-    if (!route) {
-        const id = (globalThis as { deleteID?: unknown }).deleteID;
-        if (id !== undefined && id !== null && id !== '') route = loeschRoute(props.route, String(id));
-    }
-    if (!route) return;
-    const form = document.getElementById('formDelete') as HTMLFormElement | null;
-    if (form) {
-        form.setAttribute('action', route);
-        form.submit();
-    }
+    dialog?.bestaetigen();
 }
 
 function handleKeydown(e: KeyboardEvent) {
@@ -110,16 +97,20 @@ function handleKeydown(e: KeyboardEvent) {
 }
 
 onMounted(() => {
+    dialog = erzeugeLoeschDialog({
+        route: () => props.route,
+        overlay: modal.value,
+        formular: () => document.getElementById('formDelete') as HTMLFormElement | null,
+        globalThis,
+    });
     document.addEventListener('keydown', handleKeydown);
     // Ein Klick auf button-delete (data-kit-delete) meldet die ID über das Kit-Ereignis.
-    abmelden = onLoeschen(({ id }) => {
-        aktuelleRoute.value = loeschRoute(props.route, id);
-        oeffnen();
-    });
+    abmelden = onLoeschen(({ id }) => dialog?.oeffnenPerEreignis(id));
 });
 
 onUnmounted(() => {
     document.removeEventListener('keydown', handleKeydown);
     abmelden?.();
+    dialog = null;
 });
 </script>

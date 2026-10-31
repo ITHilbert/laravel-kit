@@ -8,13 +8,12 @@ function wurzel(el) {
     return e;
 }
 
-// Leere Gruppen-ID: der nächste folgende Body im selben Elternelement gehört zum Header.
-function folgenderBody(gruppe) {
-    const geschwister = gruppe.parentElement ? Array.from(gruppe.parentElement.children) : [];
-    for (const e of geschwister.slice(geschwister.indexOf(gruppe) + 1)) {
-        if (e.hasAttribute('data-kit-tabs-body')) return e;
-    }
-    return null;
+// Leere Gruppen-ID: Der Header gehört zum nächsten folgenden tabs-body in Dokumentreihenfolge,
+// unabhängig vom Elternelement (z. B. Header in card-main-header, Body in card-body).
+// querySelectorAll liefert die Treffer in Dokumentreihenfolge.
+function folgenderBody(gruppe, oben) {
+    const kette = [...oben.querySelectorAll('[data-kit-tabs], [data-kit-tabs-body]')];
+    return kette.slice(kette.indexOf(gruppe) + 1).find((e) => e.hasAttribute('data-kit-tabs-body')) ?? null;
 }
 
 function schalte(knopf) {
@@ -29,7 +28,7 @@ function schalte(knopf) {
         k.classList.toggle('active', an);
         k.setAttribute('aria-selected', an ? 'true' : 'false');
     }
-    const bodies = id === '' ? [folgenderBody(gruppe)] : [...oben.querySelectorAll('[data-kit-tabs-body]')].filter((b) => b.getAttribute('data-kit-tabs-body') === id);
+    const bodies = id === '' ? [folgenderBody(gruppe, oben)] : [...oben.querySelectorAll('[data-kit-tabs-body]')].filter((b) => b.getAttribute('data-kit-tabs-body') === id);
     for (const body of bodies) {
         if (!body) continue;
         for (const p of body.querySelectorAll('[data-kit-tab-body]')) {
