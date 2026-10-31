@@ -613,4 +613,146 @@ final class BausteineTest extends TestCase
             "//textarea[@name='bio'][normalize-space(.)='Explizit-Text']",
         ]);
     }
+
+    // ------------------------------------------------------------ Randfall 6
+
+    // Randfall 6
+    #[DataProvider('themesListe')]
+    public function test_tab_header_mit_active_traegt_klasse_active_und_aria_selected_true(string $theme): void
+    {
+        $html = $this->rendern($theme, '<x-kit::tab-header name="a" :active="true">A</x-kit::tab-header>');
+
+        $this->pruefeAlle($html, ["//button[@id='a-tab']".self::k('tab-header', 'active')."[@aria-selected='true']"]);
+    }
+
+    // Randfall 6
+    #[DataProvider('themesListe')]
+    public function test_tab_header_ohne_active_hat_aria_selected_false_und_keine_klasse_active(string $theme): void
+    {
+        $ohne = $this->rendern($theme, '<x-kit::tab-header name="a">A</x-kit::tab-header>');
+        $falsch = $this->rendern($theme, '<x-kit::tab-header name="a" :active="false">A</x-kit::tab-header>');
+
+        foreach ([$ohne, $falsch] as $html) {
+            // Gegenprobe: das Element ist da
+            $this->pruefeAlle($html, ["//button[@id='a-tab']".self::k('tab-header')."[@aria-selected='false']".self::nicht('active')]);
+            $this->assertFalse($this->trifft($html, "//*[@aria-selected='true']"), $html);
+        }
+    }
+
+    // Randfall 6
+    #[DataProvider('themesListe')]
+    public function test_tab_body_mit_active_traegt_klassen_active_und_show(string $theme): void
+    {
+        $html = $this->rendern($theme, '<x-kit::tab-body name="a" :active="true">Inhalt</x-kit::tab-body>');
+
+        $this->pruefeAlle($html, ["//div[@id='a']".self::k('tab-body', 'active', 'show')]);
+    }
+
+    // Randfall 6
+    #[DataProvider('themesListe')]
+    public function test_tab_body_ohne_active_hat_weder_active_noch_show(string $theme): void
+    {
+        foreach (['<x-kit::tab-body name="a">Inhalt</x-kit::tab-body>', '<x-kit::tab-body name="a" :active="false">Inhalt</x-kit::tab-body>'] as $blade) {
+            $html = $this->rendern($theme, $blade);
+
+            // Gegenprobe: das Element ist da
+            $this->pruefeAlle($html, ["//div[@id='a']".self::k('tab-body').self::nicht('active').self::nicht('show')]);
+        }
+    }
+
+    // ------------------------------------------------------------ Randfall 7
+
+    // Randfall 7
+    #[DataProvider('themesListe')]
+    public function test_button_delete_gibt_value_als_data_kit_delete_aus(string $theme): void
+    {
+        $html = $this->rendern($theme, '<x-kit::button-delete value="42" />'
+            .'<x-kit::button-delete :value="7" />');
+
+        $this->pruefeAlle($html, [
+            '//button'.self::k('btn-delete')."[@data-kit-delete='42']",
+            '//button'.self::k('btn-delete')."[@data-kit-delete='7']",
+        ]);
+    }
+
+    // Randfall 7
+    #[DataProvider('themesListe')]
+    public function test_button_delete_ohne_value_hat_kein_data_kit_delete(string $theme): void
+    {
+        $html = $this->rendern($theme, '<x-kit::button-delete />');
+
+        // Gegenprobe: der Button ist da
+        $this->pruefeAlle($html, ['//button'.self::k('btn-delete')]);
+        $this->assertFalse($this->trifft($html, '//*[@data-kit-delete]'), $html);
+        $this->assertStringNotContainsString('data-kit-delete', $html);
+    }
+
+    // Randfall 7
+    #[DataProvider('themesListe')]
+    public function test_button_delete_hat_type_button_mit_und_ohne_value(string $theme): void
+    {
+        foreach (['<x-kit::button-delete />', '<x-kit::button-delete value="42" />'] as $blade) {
+            $html = $this->rendern($theme, '<form>'.$blade.'</form>');
+
+            $this->pruefeAlle($html, ['//form//button'.self::k('btn-delete')."[@type='button']"]);
+            $this->assertFalse($this->trifft($html, "//button[@type='submit']"), $html);
+        }
+    }
+
+    // ------------------------------------------------------------ Randfall 8
+
+    // Randfall 8
+    public function test_checkbox_bootstrap5_ohne_checked_ist_nicht_angehakt_und_value_default_1(): void
+    {
+        $html = $this->rendern('bootstrap5', '<x-kit::checkbox name="agb">Text</x-kit::checkbox>');
+
+        // Gegenprobe: das Feld ist da und sendet value 1
+        $this->pruefeAlle($html, ["//input[@type='checkbox'][@name='agb'][@value='1'][not(@checked)]"]);
+    }
+
+    // Randfall 8
+    public function test_checkbox_bootstrap5_value_1_ohne_checked_ist_nicht_angehakt(): void
+    {
+        $html = $this->rendern('bootstrap5', '<x-kit::checkbox name="agb" value="1">Text</x-kit::checkbox>');
+
+        $this->pruefeAlle($html, ["//input[@type='checkbox'][@name='agb'][@value='1'][not(@checked)]"]);
+    }
+
+    // Randfall 8
+    public function test_checkbox_bootstrap5_zustand_kommt_aus_checked_value_ist_nur_der_gesendete_wert(): void
+    {
+        $html = $this->rendern('bootstrap5',
+            '<x-kit::checkbox name="a" value="5" :checked="true">A</x-kit::checkbox>'
+            .'<x-kit::checkbox name="b" value="0" :checked="true">B</x-kit::checkbox>'
+            .'<x-kit::checkbox name="c" value="5">C</x-kit::checkbox>'
+            .'<x-kit::checkbox name="d" value="0">D</x-kit::checkbox>');
+
+        $this->pruefeAlle($html, [
+            "//input[@name='a'][@value='5'][@checked]",
+            "//input[@name='b'][@value='0'][@checked]",
+            "//input[@name='c'][@value='5'][not(@checked)]",
+            "//input[@name='d'][@value='0'][not(@checked)]",
+        ]);
+    }
+
+    // Randfall 8
+    public function test_checkbox_tailwind_folgt_der_vue_version_angehakt_bei_value_1_oder_true(): void
+    {
+        $html = $this->rendern('tailwind',
+            '<x-kit::checkbox name="a" value="1">A</x-kit::checkbox>'
+            .'<x-kit::checkbox name="b" :value="1">B</x-kit::checkbox>'
+            .'<x-kit::checkbox name="c" :value="true">C</x-kit::checkbox>'
+            .'<x-kit::checkbox name="d" value="0">D</x-kit::checkbox>'
+            .'<x-kit::checkbox name="e" value="2">E</x-kit::checkbox>'
+            .'<x-kit::checkbox name="f" :value="false">F</x-kit::checkbox>');
+
+        $this->pruefeAlle($html, [
+            "//input[@name='a'][@checked]",
+            "//input[@name='b'][@checked]",
+            "//input[@name='c'][@checked]",
+            "//input[@name='d'][not(@checked)]",
+            "//input[@name='e'][not(@checked)]",
+            "//input[@name='f'][not(@checked)]",
+        ]);
+    }
 }
