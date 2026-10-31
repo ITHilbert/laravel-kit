@@ -20,6 +20,166 @@ Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
 composer require ithilbert/laravel-kit
 ```
 
+## Kit-Components (Blade)
+
+Kit-Components sind Blade-Components mit dem Präfix `kit`. Aufruf: `<x-kit::NAME …>`. Der Name entspricht der gleichnamigen Vue-Komponente (`<x-kit::card-main>` entspricht `<card-main>`). Ihre Attribute stimmen mit der Vue-Komponente überein. Weitere Attribute wie `class`, `id`, `required` oder `data-*` landen am Hauptelement.
+
+Das Markup kommt aus dem Template des konfigurierten Themes. Kit-Components erzeugen keine Vue-Tags und keine `v-`- oder `:`-Attribute. Ein Ausdruck wie `{{ 7*7 }}` in einem Attribut wird als Text ausgegeben.
+
+### Theme-Schalter
+
+Das Theme legt die Config `laravelkit.theme` fest (Env `LARAVELKIT_THEME`, Paket-Config `src/Config/laravelkit.php`):
+
+- `tailwind` (Default, wenn `LARAVELKIT_THEME` nicht gesetzt ist)
+- `bootstrap5`
+
+Jeder andere Wert führt beim Rendern einer Kit-Component zu einer `ITHilbert\LaravelKit\Kit\UnbekanntesThemeException`. Die Meldung nennt den Wert und die erlaubten Werte. Ein leerer Wert (`LARAVELKIT_THEME=` oder `null`) gilt ebenfalls als unbekannt. Ein Rückfall auf ein anderes Theme erfolgt nicht.
+
+```env
+LARAVELKIT_THEME=bootstrap5
+```
+
+### Verfügbare Kit-Components
+
+- Karten: `card-main`, `card-main-header`, `card-body`, `card-footer`
+- Buttons: `button-create`, `button-edit`, `button-show`, `button-delete`, `button-save`, `button-back`, `button-submit`, `button-cancel`
+- Formularfelder: `input-text`, `input-email`, `input-password`, `input-date`, `input-euro`, `input-number`, `input-hidden`, `input-file-img`, `text-area`, `checkbox`, `combobox` (`options` als Array, Collection oder JSON-Text mit `cbKey`/`cbCaption`; `value` wählt die Option)
+- Tabs: `tabs-header`, `tab-header`, `tabs-body`, `tab-body`
+- Sonstiges: `breadcrumb`, `show-euro`, `show-date`
+
+Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `button-save` ohne Text), gilt derselbe Default.
+
+### Beispiel
+
+```blade
+<x-kit::card-main>
+    <x-kit::card-main-header>Kunde anlegen</x-kit::card-main-header>
+    <x-kit::card-body>
+        <form method="POST" action="{{ route('kunden.store') }}">
+            @csrf
+            <x-kit::input-text name="name" label="Name" :value="old('name')" required />
+            <x-kit::input-euro name="stundensatz" :value="old('stundensatz')" />
+            <x-kit::button-save />
+        </form>
+    </x-kit::card-body>
+</x-kit::card-main>
+```
+
+Formularfelder übernehmen `old($name)` nicht selbst. Die View übergibt `old()` als `value`, die Component gibt den Wert unverändert aus.
+
+### Checkbox im Theme bootstrap5
+
+Im Theme `bootstrap5` bestimmt das Attribut `checked` den Zustand. `value` ist nur der gesendete Wert (Default `1`). Ohne `checked` ist die Checkbox nicht angehakt. Die Vue-Version aus `vue/bootstrap5` macht dagegen `value` zugleich zum Zustand. Die Kit-Component weicht davon bewusst ab.
+
+```blade
+<x-kit::checkbox name="aktiv" value="1" :checked="$kunde->aktiv" />
+```
+
+Im Theme `tailwind` folgt die Kit-Component der Vue-Version: angehakt ist sie, wenn `value` gleich `1` oder `true` ist.
+
+### Tabs
+
+Eine Tab-Gruppe bindet ihre Reiter und Inhalte über `data-kit-tabs` (am `tabs-header`) und `data-kit-tabs-body` (am `tabs-body`). Der Name (`name`) eines Reiters und seines Inhalts muss zusammenpassen. Die Reiter-Namen gelten seitenweit: Sie erzeugen die IDs `<name>-tab` und `<name>`. Zwei Gruppen auf einer Seite schalten unabhängig voneinander, solange ihre Namen eindeutig sind.
+
+Ohne Gruppennamen (kein `data-kit-tabs`, die Components setzen dann einen leeren Wert) gehört ein `tabs-header` zum nächsten folgenden `tabs-body` in Dokumentreihenfolge. Header und Body müssen dafür nicht im selben Elternelement stehen. Der Header darf zum Beispiel in `card-main-header` liegen und der Body in `card-body`:
+
+```blade
+<x-kit::card-main>
+    <x-kit::card-main-header>
+        <x-kit::tabs-header>
+            <x-kit::tab-header name="tab-daten" active>Daten</x-kit::tab-header>
+            <x-kit::tab-header name="tab-adresse">Adresse</x-kit::tab-header>
+        </x-kit::tabs-header>
+    </x-kit::card-main-header>
+    <x-kit::card-body>
+        <x-kit::tabs-body>
+            <x-kit::tab-body name="tab-daten" active>…</x-kit::tab-body>
+            <x-kit::tab-body name="tab-adresse">…</x-kit::tab-body>
+        </x-kit::tabs-body>
+    </x-kit::card-body>
+</x-kit::card-main>
+```
+
+Mit Gruppennamen gehören alle `tabs-body` mit demselben Wert in `data-kit-tabs-body` zur Gruppe, egal wo sie stehen. Gleiche Namen in zwei Gruppen erzeugen doppelte IDs. Bootstrap-JS kann dann falsch reagieren, das ist nicht unterstützt.
+
+`active` (Boolean, Default `false`) markiert den Reiter und seinen Inhalt, der beim Laden sichtbar sein soll. Ohne `active` ist beim Laden kein Reiter sichtbar.
+
+```blade
+<x-kit::tabs-header data-kit-tabs="stammdaten">
+    <x-kit::tab-header name="tab-daten" active>Daten</x-kit::tab-header>
+    <x-kit::tab-header name="tab-adresse">Adresse</x-kit::tab-header>
+</x-kit::tabs-header>
+<x-kit::tabs-body data-kit-tabs-body="stammdaten">
+    <x-kit::tab-body name="tab-daten" active>…</x-kit::tab-body>
+    <x-kit::tab-body name="tab-adresse">…</x-kit::tab-body>
+</x-kit::tabs-body>
+```
+
+Das Umschalten übernimmt das Kit-Skript `js/tabs.js` ohne Vue. Es wird einmal pro Seite eingebunden:
+
+```javascript
+import { initTabs } from '../../vendor/ithilbert/laravel-kit/js/tabs.js';
+
+initTabs();
+```
+
+Das Tailwind-Theme braucht zusätzlich `tabs.css` (siehe Integrations-Voraussetzungen), damit `.tab-body.active` greift.
+
+### Lösch-Button und Lösch-Dialog
+
+`button-delete` nimmt `value` entgegen, die ID des Datensatzes. Der Button gibt sie als `data-kit-delete` aus und hat `type="button"`. Ohne `value` fehlt `data-kit-delete`. Ein Klick meldet die ID über das Ereignis `kit:delete`. `initLoeschen()` aus `js/loeschen.js` nimmt die Meldung entgegen und muss einmal pro Seite laufen:
+
+```blade
+<x-kit::button-delete value="{{ $kunde->id }}" />
+```
+
+```javascript
+import { initLoeschen } from '../../vendor/ithilbert/laravel-kit/js/loeschen.js';
+
+initLoeschen();
+```
+
+Den Dialog bindet die Insel `dialog-delete` (Theme `tailwind`) über `data-vue` und `data-props` ein. Die Props sind `titel`, `body` und `route`. Die Route endet auf ein Pfadsegment, das der Dialog durch die ID des Datensatzes ersetzt. Ein Dialog pro Seite genügt für alle `button-delete`-Buttons der Seite:
+
+```blade
+<div data-vue="dialog-delete" data-props="{{ json_encode([
+    'titel' => 'Kunde löschen',
+    'body' => 'Den Kunden wirklich löschen?',
+    'route' => route('kunden.destroy', 0),
+]) }}"></div>
+```
+
+Der Dialog sendet nicht selbst. Er setzt die `action` des Formulars `#formDelete` der Seite auf die Lösch-Route und sendet es ab. Das Formular mit `id="formDelete"` legt das Projekt an. Methode (`@method('DELETE')`) und CSRF-Feld (`@csrf`) gehören in dieses Formular.
+
+**Bisheriger Öffnungsweg:** Projekte, die den Dialog selbst öffnen, funktionieren weiter. Sie setzen eine globale `deleteID` und rufen `document.getElementById('myModalDelete').classList.remove('hidden')` auf. Das Overlay behält dafür `id="myModalDelete"` und trägt das Attribut `route` mit dem Wert des Props. „Löschen“ bildet die Route dann aus `deleteID`. Öffnet ein `button-delete` den Dialog, gilt dessen ID, auch wenn `deleteID` gesetzt ist. Diese ID gilt nur für diesen einen Öffnungsvorgang. Nach Schließen (Abbruch, Escape, Klick neben den Dialog) oder Absenden ist sie vergessen, ein danach über den alten Weg geöffneter Dialog nutzt wieder `deleteID`. Ist keine Route bestimmbar (kein Ereignis, `deleteID` nicht gesetzt oder leer) oder fehlt `#formDelete`, schließt „Löschen“ den Dialog, ohne zu senden.
+
+Die Zustandslogik des Dialogs steht in `erzeugeLoeschDialog()` aus `js/loeschen.js`. Die Vue-Komponente verdrahtet sie nur.
+
+Die Insel wird mit dem Mount-Helfer gemountet (siehe unten).
+
+### Mount-Helfer `mountInseln`
+
+`mountInseln(verzeichnis, root = document)` aus `js/mount-inseln.js` mountet Vue-Inseln (Vue 3). Für jedes Element mit `data-vue` unter `root` lädt er die Komponente aus dem Insel-Verzeichnis und mountet sie als eigene App. Die Props kommen aus `data-props` (JSON-Objekt). Fehlt `data-props`, hat die Insel keine Props.
+
+Das Insel-Verzeichnis ist ein Objekt. Der Schlüssel entspricht dem Wert von `data-vue`, der Wert ist ein Lazy-Loader:
+
+```javascript
+import { mountInseln } from '../../vendor/ithilbert/laravel-kit/js/mount-inseln.js';
+
+mountInseln({
+    'dialog-delete': () => import('../../vendor/ithilbert/laravel-kit/vue/tailwind/dialog/delete.vue'),
+    'kunden-liste': () => import('./components/KundenListe.vue'),
+});
+```
+
+Ein Element wird nur einmal gemountet. Ein zweiter Aufruf auf demselben `root` überspringt bereits gemountete Inseln. Der Helfer setzt Vue 3 voraus. Vue 2.7 wird nicht unterstützt.
+
+**Fehler isolieren:** Ein unbekannter Name, ein ungültiges `data-props` (kein JSON oder kein JSON-Objekt) oder ein Ladefehler überspringt nur diese Insel. Dabei erscheint eine Warnung in der Konsole (`console.warn`, mit Name und Grund). Die übrigen Inseln werden gemountet.
+
+### Whole-DOM-Mount (veraltet)
+
+Die Dateien `vue/vueapp_TW.js`, `vue/vueapp_B5.js` und `vue/vueapp_B4.js` registrieren alle Vue-Komponenten des Kits als Komponenten-Plugin für die ganze Seite. Dieser Whole-DOM-Mount ist **veraltet**. Neue Seiten mounten Inseln mit `mountInseln`.
+
 ## Integrations-Voraussetzungen
 
 Das Laravel-Kit bringt Vue-Komponenten (`<data-table>`, `<tabs>`, `<button-*>`) mit, die Abhängigkeiten vom Konsumprojekt haben. Diese müssen explizit geladen werden.
@@ -61,6 +221,8 @@ In `resources/css/app.css` folgende Imports hinzufügen (NACH `@import 'tailwind
 
 #### 3. Vue globalProperty für window
 
+**Veraltet:** Dieser Mount der ganzen Seite (Whole-DOM) wird durch `mountInseln` abgelöst (siehe „Kit-Components (Blade)“).
+
 In `resources/js/vueapp.js` (wo die Vue-App initialisiert wird):
 
 ```javascript
@@ -86,6 +248,10 @@ Die Kit-Komponenten (`<button-edit>`, `<button-show>`, `<button-delete>`) render
 - **Kein CDN-Import nötig:** Buttons sind out-of-the-box funktional
 - **DSGVO-konform:** Keine externen Fonts/Icons
 - **Custom-Icons:** Falls eigene Icons nötig, neue Vue-Komponente bauen (z.B. `resources/js/components/button-custom.vue`)
+
+### MyDateTime: Zeitzone der App
+
+`MyDateTime` nutzt die Zeitzone der App (`config('app.timezone')`) und setzt keine eigene mehr. Projekte, die Berlin-Zeit brauchen, stellen `timezone` in `config/app.php` auf `Europe/Berlin` (oder lesen dort `APP_TIMEZONE` und setzen die Variable) — ein fest eingetragenes `'UTC'` ignoriert `APP_TIMEZONE`.
 
 ### AI Developer CLI Tools (Voraussetzung für KI Agenten)
 Damit die KI-Tools und die asynchrone AI-Pipeline (Hintergrund-Worker) korrekt funktionieren, müssen die entsprechenden CLI-Tools auf dem System installiert sein:

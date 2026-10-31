@@ -40,7 +40,7 @@ Diese Datei muss im jeweiligen Blade-Layout per `@vite` oder `<script>` eingebun
 | `actionsLabel` | `string` | `'Aktionen'` | Kopfzellen-Text der Aktionsspalte. |
 | `pageLength` | `number` | `25` | Zeilen pro Seite. |
 | `language` | `Record<string,unknown>?` | Deutsch | DataTables `language`-Objekt (partiell oder vollständig). |
-| `datatableOptions` | `Record<string,unknown>?` | — | Zusätzliche DataTables-Optionen (werden gemergt; `columns`/`ajax`/`data` intern gesetzt). |
+| `datatableOptions` | `Record<string,unknown>?` | — | Zusätzliche DataTables-Optionen (überschreiben die internen Vorgaben; `columns`, `ajax`, `data` und `serverSide` werden immer intern gesetzt und aus `datatableOptions` verworfen). |
 
 ### ColumnDefinition
 
@@ -50,9 +50,29 @@ interface ColumnDefinition {
     label:      string;           // Spalten-Überschrift
     filterable?: boolean;         // Default: true — false = kein Filter-Input
     sortable?:  boolean;          // Default: true — false = nicht sortierbar
-    render?:    (data, type, row) => string;  // DataTables render-Callback (client-side)
+    html?:      boolean;          // Default: false — true = Zellwert wird als HTML eingesetzt
+    render?:    (data, type, row) => string;  // DataTables render-Callback (client-side), Ergebnis unverändert; gewinnt gegenüber html
+    defaultContent?: string;      // Default: '' — Anzeige, wenn der Zellwert null/undefined ist (verhindert die DataTables-Warnung "Requested unknown parameter"). Wird als HTML eingesetzt: nur feste Werte aus der Spalten-Konfiguration, nie Nutzerdaten
 }
 ```
+
+#### Zellen erscheinen als Text (Änderung)
+
+Zellen ohne `html` und ohne `render` zeigen den Wert als **Text**: `& < > " '` werden escaped, `null`/`undefined` ergeben eine leere Zelle, Zahlen und Booleans erscheinen als Text. Sortieren und Filtern arbeiten weiter auf dem Rohwert.
+
+**Änderung gegenüber dem bisherigen Verhalten:** Bisher wurde der Zellwert ohne `render` als HTML eingesetzt. Wer HTML in Zellen liefert, setzt jetzt `html: true` an der Spalte (nur bei vertrauenswürdigen oder serverseitig escapten Daten) oder nutzt eine eigene `render`-Funktion.
+
+```ts
+{ key: 'status', label: 'Status', html: true }
+```
+
+**Server-side mit yajra:** yajra escaped im Standard (`config/datatables.php`: `columns.escape = '*'`) schon auf dem Server. Zusammen mit dem Escaping der Komponente erscheint Text dann doppelt escaped (z. B. `O&#039;Brien`) — sichtbar, aber ohne Sicherheitslücke. Endpunkte für diese Komponente schalten das Server-Escaping deshalb ab und überlassen es der Komponente:
+
+```php
+return DataTables::of($query)->escapeColumns([])->make(true);
+```
+
+Spalten mit `html: true` müssen dann serverseitig selbst sicheres HTML liefern (z. B. per `e()` für eingebettete Nutzertexte).
 
 ---
 
@@ -176,7 +196,8 @@ public function datatable(): JsonResponse
 {
     $query = Kunde::query()->select(['id', 'name', 'email', 'stadt']);
 
-    return DataTables::eloquent($query)->toJson();
+    // Escaping übernimmt die Komponente (siehe „Server-side mit yajra“ oben)
+    return DataTables::eloquent($query)->escapeColumns([])->toJson();
 }
 ```
 
