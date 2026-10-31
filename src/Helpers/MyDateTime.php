@@ -7,7 +7,6 @@ use Exception;
 
 // Sprach-/Gebietsschema festlegen
 setlocale(LC_TIME, 'de_DE.utf8');
-date_default_timezone_set('Europe/Berlin');
 
 /**
  * Meine Datumsklasse für Datum/Zeit als Datentyp

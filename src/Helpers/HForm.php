@@ -4,7 +4,6 @@ namespace ITHilbert\LaravelKit\Helpers;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\HtmlString;
-use ithilbert\LaravelKit\MyDateTime;
 
 /**
  * Diese Klasse erstellt Textboxen
