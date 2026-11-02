@@ -2,20 +2,44 @@
 
 namespace ITHilbert\LaravelKit\Helpers;
 
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
 
 /**
  * Stellt HTML Buttons zur Verfügung.
  * Wird beötigt, wenn die VUE Componenten nicht funktionieren, z.B. in der DataTable.
+ *
+ * Alle Werte werden wie e() escaped; gewolltes HTML im Text oder Tooltip als Htmlable (z. B. HtmlString) übergeben.
+ * Schlüssel in $attributes, die ein fest gesetztes Attribut doppeln, entfallen.
  */
 class HButton
 {
+    use HtmlAusgabe;
+
+    /** Fest gesetzte Attribute der Link-Buttons (project, create, show, edit, back). */
+    private const FEST_LINK = ['href', 'class', 'data-toggle', 'title'];
+
+    /** Fest gesetzte Attribute von delete. */
+    private const FEST_DELETE = ['onclick', 'data-kit-delete', 'data-toggle', 'title', 'class'];
+
+    /** Fest gesetzte Attribute von submit und save. */
+    private const FEST_SUBMIT = ['type', 'class', 'data-toggle', 'title'];
+
+    /**
+     * Erstellt einen project Button
+     *
+     * @param  string|null  $route  Route für den Button
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
+     */
     public static function project($route = '#', $text = 'Projete', $tooltip = 'Projekte', $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_LINK);
 
-        $ausgabe = '<a href="'.$route.'" class="btn btn-create  '.$class.'" data-toggle="tooltip" title="'.$tooltip.'" '.$attr.' ><i class="fas fa-parking"></i> '.$text.'</a>';
+        $ausgabe = '<a href="'.self::esc($route).'" class="btn btn-create  '.self::esc($class).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" '.$attr.' ><i class="fas fa-parking"></i> '.self::esc($text).'</a>';
 
         return self::toHtmlString($ausgabe);
     }
@@ -23,18 +47,18 @@ class HButton
     /**
      * Erstellt einen create Button
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * @param  string|null  $route  Route für den Button
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
     public static function create($route = '#', $text = 'Erstellen', $tooltip = 'Erstellen', $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_LINK);
 
-        $ausgabe = '<a href="'.$route.'" class="btn btn-create  '.$class.'" data-toggle="tooltip" title="'.$tooltip.'" '.$attr.'><i class="fas fa-plus-circle"></i> '.$text.'</a>';
+        $ausgabe = '<a href="'.self::esc($route).'" class="btn btn-create  '.self::esc($class).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" '.$attr.'><i class="fas fa-plus-circle"></i> '.self::esc($text).'</a>';
 
         return self::toHtmlString($ausgabe);
     }
@@ -42,37 +66,37 @@ class HButton
     /**
      * Erstellt einen show Button
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * @param  string|null  $route  Route für den Button
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
     public static function show($route = '#', $text = 'Anzeigen', $tooltip = 'Anzeigen', $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_LINK);
 
-        $ausgabe = '<a href="'.$route.'" class="btn btn-show '.$class.'" data-toggle="tooltip" title="'.$tooltip.'" '.$attr.'><i class="fas fa-file-contract"></i> '.$text.'</a>';
+        $ausgabe = '<a href="'.self::esc($route).'" class="btn btn-show '.self::esc($class).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" '.$attr.'><i class="fas fa-file-contract"></i> '.self::esc($text).'</a>';
 
         return self::toHtmlString($ausgabe);
     }
 
     /**
-     * Erstellt einen edit Button
+     * Erstellt einen edit Button ($class wird nicht ausgegeben)
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * @param  string|null  $route  Route für den Button
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  wird nicht verwendet
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
     public static function edit($route = '#', $text = 'Bearbeiten', $tooltip = 'Bearbeiten', $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_LINK);
 
-        $ausgabe = '<a href="'.$route.'" data-toggle="tooltip" title="'.$tooltip.'" class="btn btn-edit" '.$attr.'><i class="fas fa-pencil-alt"></i> '.$text.'</a>';
+        $ausgabe = '<a href="'.self::esc($route).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" class="btn btn-edit" '.$attr.'><i class="fas fa-pencil-alt"></i> '.self::esc($text).'</a>';
 
         return self::toHtmlString($ausgabe);
     }
@@ -80,18 +104,23 @@ class HButton
     /**
      * Erstellt einen delete Button
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * Der Klick öffnet den Lösch-Dialog über data-kit-delete; eine globale Funktion OpenDeleteForm wird
+     * nur aufgerufen, wenn es sie gibt.
+     *
+     * @param  int|string|null  $id  ID des Datensatzes
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
-    public static function delete($id, $text = 'L&ouml;schen', $tooltip = 'L&ouml;schen', $class = '', array $attributes = [])
+    public static function delete($id, $text = new HtmlString('L&ouml;schen'), $tooltip = new HtmlString('L&ouml;schen'), $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_DELETE);
 
-        $ausgabe = '<button onclick="OpenDeleteForm('.$id.')" data-kit-delete="'.e((string) $id).'" data-toggle="tooltip" title="'.$tooltip.'" class="btn btn-delete '.$class.'" '.$attr.'><i class="fas fa-minus-circle"></i> '.$text.'</button>'."\n";
+        $onclick = "if(typeof OpenDeleteForm==='function'){OpenDeleteForm(".self::alsJavaScript($id).')}';
+
+        $ausgabe = '<button onclick="'.self::esc($onclick).'" data-kit-delete="'.self::esc((string) $id).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" class="btn btn-delete '.self::esc($class).'" '.$attr.'><i class="fas fa-minus-circle"></i> '.self::esc($text).'</button>'."\n";
 
         return self::toHtmlString($ausgabe);
     }
@@ -99,35 +128,33 @@ class HButton
     /**
      * Erstellt einen submit Button
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
     public static function submit($text = 'Speichern', $tooltip = 'Speichern', $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_SUBMIT);
 
-        return self::toHtmlString('<button type="submit" class="btn btn-submit '.$class.'" '.$attr.' data-toggle="tooltip" title="'.$tooltip.'">'.$text.'</button>');
+        return self::toHtmlString('<button type="submit" class="btn btn-submit '.self::esc($class).'" '.$attr.' data-toggle="tooltip" title="'.self::esc($tooltip).'">'.self::esc($text).'</button>');
     }
 
     /**
      * Erstellt einen save Button
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
     public static function save($text = 'Speichern', $tooltip = 'Speichern', $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_SUBMIT);
 
-        $ausgabe = '<button type="submit" class="btn btn-save '.$class.'" data-toggle="tooltip" title="'.$tooltip.'" '.$attr.'><i class="fas fa-save"></i> '.$text.'</button>';
+        $ausgabe = '<button type="submit" class="btn btn-save '.self::esc($class).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" '.$attr.'><i class="fas fa-save"></i> '.self::esc($text).'</button>';
 
         return self::toHtmlString($ausgabe);
     }
@@ -135,45 +162,31 @@ class HButton
     /**
      * Erstellt einen back Button
      *
-     * @param  string  $route  Route für den Button
-     * @param  string  $text  Bezeichnunng für den Button
-     * @param  string  $class  weitere CSS Classes
-     * @param  array  $attributes  andere Attribute
-     * @return void
+     * @param  string|null  $route  Route für den Button
+     * @param  string|Htmlable|null  $text  Bezeichnung für den Button
+     * @param  string|Htmlable|null  $tooltip  Tooltip
+     * @param  string|null  $class  weitere CSS Classes
+     * @param  array<array-key, mixed>  $attributes  andere Attribute
+     * @return HtmlString
      */
-    public static function back($route = '#', $text = 'Zur&uuml;ck', $tooltip = 'Zur&uuml;ck', $class = '', array $attributes = [])
+    public static function back($route = '#', $text = new HtmlString('Zur&uuml;ck'), $tooltip = new HtmlString('Zur&uuml;ck'), $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, self::FEST_LINK);
 
-        $ausgabe = '<a href="'.$route.'" class="btn btn-back '.$class.'" data-toggle="tooltip" title="'.$tooltip.'" '.$attr.'><i class="fas fa-undo"></i> '.$text.'</a>';
+        $ausgabe = '<a href="'.self::esc($route).'" class="btn btn-back '.self::esc($class).'" data-toggle="tooltip" title="'.self::esc($tooltip).'" '.$attr.'><i class="fas fa-undo"></i> '.self::esc($text).'</a>';
 
         return self::toHtmlString($ausgabe);
     }
 
     /**
-     * Formatiert einen String in HTML Code
-     *
-     * @param  type  $html
-     * @return HtmlString
+     * Gibt die ID als JavaScript-Wert aus: endliche Zahl als Zahl, alles andere als JSON-Zeichenkette
+     * (null ergibt ""). Das Ergebnis enthält kein <, >, &, ' oder ".
      */
-    protected static function toHtmlString($html)
+    private static function alsJavaScript(mixed $id): string
     {
-        return new HtmlString($html);
-    }
-
-    /**
-     * Formatiert die Werte im Array zu HTML Attributten
-     *
-     * @return string
-     */
-    protected static function attributes(array $options = [])
-    {
-        $attr = '';
-        foreach ($options as $key => $value) {
-            $attr .= $key.'="'.$value.'" ';
-        }
-
-        return $attr;
+        return json_encode(
+            is_int($id) || (is_float($id) && is_finite($id)) ? $id : (string) $id,
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE | JSON_THROW_ON_ERROR
+        );
     }
 }
