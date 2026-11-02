@@ -73,7 +73,7 @@ Formularfelder übernehmen `old($name)` nicht selbst. Die View übergibt `old()`
 
 ### Checkbox im Theme bootstrap5
 
-Im Theme `bootstrap5` bestimmt das Attribut `checked` den Zustand. `value` ist nur der gesendete Wert (Default `1`). Ohne `checked` ist die Checkbox nicht angehakt. Die Vue-Version aus `vue/bootstrap5` macht dagegen `value` zugleich zum Zustand. Die Kit-Component weicht davon bewusst ab.
+Im Theme `bootstrap5` bestimmt das Attribut `checked` den Zustand. `value` ist nur der gesendete Wert (Default `1`). Ohne `checked` ist die Checkbox nicht angehakt. Die Vue-Version aus `vue/bootstrap5` nimmt nur ohne `checked` den `value` als Zustand (siehe Abschnitt „Vue-Checkbox“); die Kit-Component ist ohne `checked` nie angehakt und weicht darin bewusst ab.
 
 ```blade
 <x-kit::checkbox name="aktiv" value="1" :checked="$kunde->aktiv" />
