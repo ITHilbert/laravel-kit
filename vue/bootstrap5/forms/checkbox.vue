@@ -1,13 +1,14 @@
 <template >
    <div class="form-check">
-        <input v-if="check() === true" type="checkbox" :value="value" :class="['form-check-input', addclass]" :name="name" :id="name" v-bind="$attrs" checked>
-        <input v-else type="checkbox" :value="value" :class="['form-check-input', addclass]" :name="name" :id="name" v-bind="$attrs">
+        <input type="checkbox" :value="value" :class="['form-check-input', addclass]" :name="name" :id="name" v-bind="$attrs" :checked="angehakt()">
         <label class="form-check-label" :for="name"><slot></slot></label>
     </div>
 
 </template>
 
 <script>
+    import { istAngehakt } from '../../shared/checkboxChecked.mjs';
+
     export default {
         inheritAttrs: false,
         props: {
@@ -17,14 +18,11 @@
             },
             'addclass': {default: ''},
             'value': {default: 1},
+            'checked': {},
         },
         methods: {
-            check: function () {
-                if(this.value == 1 || this.value == true){
-                    return true;
-                }else{
-                    return false;
-                }
+            angehakt: function () {
+                return istAngehakt(this.checked, this.value);
             }
         }
     }

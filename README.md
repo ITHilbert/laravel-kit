@@ -67,6 +67,10 @@ Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `butto
 
 Formularfelder übernehmen `old($name)` nicht selbst. Die View übergibt `old()` als `value`, die Component gibt den Wert unverändert aus.
 
+### Vue-Checkbox (`checkbox`, tailwind und bootstrap5)
+
+`checked` entscheidet über das Häkchen: `checked="1"`, `checked="checked"`, `checked="true"`, `:checked="true"` und `:checked="1"` haken an (Groß-/Kleinschreibung egal), `checked="0"`, `checked="false"`, `:checked="false"` nicht – auch nicht bei `value="1"`. Ohne `checked` gilt wie bisher `value` 1 als angehakt. `checked` ohne Wert (`<checkbox checked>`) ist `checked=""` und hakt **nicht** an; zum Anhaken `checked="1"` oder `:checked="true"` schreiben. `value` bleibt der gesendete Wert.
+
 ### Checkbox im Theme bootstrap5
 
 Im Theme `bootstrap5` bestimmt das Attribut `checked` den Zustand. `value` ist nur der gesendete Wert (Default `1`). Ohne `checked` ist die Checkbox nicht angehakt. Die Vue-Version aus `vue/bootstrap5` macht dagegen `value` zugleich zum Zustand. Die Kit-Component weicht davon bewusst ab.

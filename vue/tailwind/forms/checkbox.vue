@@ -7,15 +7,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { istAngehakt } from '../../shared/checkboxChecked.mjs';
 
 const props = defineProps<{ 
     name?: string;
     value?: any;
+    checked?: any;
 }>();
 
 defineOptions({ inheritAttrs: false });
 
-const isChecked = computed(() => {
-    return props.value == 1 || props.value === true;
-});
+const isChecked = computed(() => istAngehakt(props.checked, props.value));
 </script>
