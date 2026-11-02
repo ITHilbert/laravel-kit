@@ -256,6 +256,9 @@ use Illuminate\Support\HtmlString;
 HForm::label(new HtmlString('Name <span class="text-danger">*</span>'), 'name');
 ```
 
+### HForm: Label und Eingabefeld (Verhaltensänderung)
+`HForm::checkBox()` gibt dem `<input>` eine `id` (aus `$attributes['id']`, sonst `name`) und setzt `for` des Labels auf dieselbe id; ein Klick auf das Label hakt die Box an. Mehrere Boxen einer Gruppe (`rechte[]`) bekommen ihre eigene id über `$attributes` — ohne eigene id hätten sie alle dieselbe id `rechte[]`, und jedes Label hakte die erste Box an. `HForm::label()` gibt übergebene `$attributes` jetzt im `<label>` aus.
+
 ### Icons: Inline-SVG (kein Font Awesome)
 
 Die Kit-Komponenten (`<button-edit>`, `<button-show>`, `<button-delete>`) rendert native Inline-SVGs als Icons, **nicht** Font Awesome.
