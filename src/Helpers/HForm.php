@@ -3,7 +3,6 @@
 namespace ITHilbert\LaravelKit\Helpers;
 
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\HtmlString;
 
 /**
  * Diese Klasse erstellt Textboxen
@@ -22,6 +21,8 @@ use Illuminate\Support\HtmlString;
  **/
 class HForm
 {
+    use HtmlAusgabe;
+
     /**
      * Erstellt ein Form Tag
      *
@@ -33,13 +34,15 @@ class HForm
      */
     public static function open($action, $method = 'post', $file = false, array $attributes = [])
     {
+        $fest = ['id', 'method', 'action'];
         if ($file !== false) {
             $file = 'enctype="multipart/form-data"';
+            $fest[] = 'enctype';
         } else {
             $file = '';
         }
 
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, $fest);
 
         $ausgabe = '<form id="myform" method="'.self::esc($method).'" action="'.self::esc($action).'" '.$file.' '.$attr.'>'."\n".csrf_field();
 
@@ -109,7 +112,7 @@ class HForm
         $value = 'value="'.self::esc($value).'"';
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'value']);
 
         $ausgabe = '<input type="text" name="'.self::esc($name).'" class="form-control input-text '.self::esc($class).'" '.$value.' '.$attr.' >';
 
@@ -129,7 +132,7 @@ class HForm
         $value = 'value="'.self::esc($value).'"';
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'value']);
 
         $ausgabe = '<input type="hidden" name="'.self::esc($name).'" '.$value.' '.$attr.' />';
 
@@ -155,7 +158,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'id', 'name', 'class', 'aria-label', 'value']);
 
         $ausgabe = '<div class="input-group">';
         $ausgabe .= '<input type="text" id="'.self::esc($name).'" name="'.self::esc($name).'" class="form-control input-euro '.self::esc($class).'" aria-label="Euro" '.$value2.' '.$attr.' >';
@@ -186,7 +189,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'aria-label', 'value']);
 
         $ausgabe = '<div class="input-group">';
         $ausgabe .= '<input type="text" name="'.self::esc($name).'" class="form-control input-prozent '.self::esc($class).'" aria-label="Prozent" '.$value.' '.$attr.'>';
@@ -217,7 +220,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'aria-label', 'value']);
 
         $ausgabe = '<div class="input-group">';
         $ausgabe .= '<input type="text" name="'.self::esc($name).'" class="form-control input-prozent '.self::esc($class).'" aria-label="Prozent" '.$value.' '.$attr.'>';
@@ -248,7 +251,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'aria-label', 'value']);
 
         $ausgabe = '<div class="input-group">';
         $ausgabe .= '<input type="text" name="'.self::esc($name).'" class="form-control input-prozent '.self::esc($class).'" aria-label="Prozent" '.$value.' '.$attr.'>';
@@ -278,7 +281,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'value']);
 
         $ausgabe = '<input type="text" name="'.self::esc($name).'" class="form-control input-int '.self::esc($class).'" '.$value.' '.$attr.'>';
 
@@ -304,7 +307,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'value']);
 
         $ausgabe = '<input type="text" name="'.self::esc($name).'" class="form-control input-zahl  '.self::esc($class).'" '.$value.' '.$attr.' >';
 
@@ -329,7 +332,7 @@ class HForm
         $value = 'value="'.self::esc($value).'"';
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'value']);
 
         $ausgabe = '<input type="text" name="'.self::esc($name).'" class="form-control input-date '.self::esc($class).'" '.$value.' '.$attr.' >';
 
@@ -346,7 +349,7 @@ class HForm
     public static function password($name = '', $class = '', array $attributes = [])
     {
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['type', 'name', 'class', 'autocomplete']);
 
         $ausgabe = '<input type="password" name="'.self::esc($name).'" class="form-control input-passw '.self::esc($class).'" '.$attr.' autocomplete="new-password">';
 
@@ -365,7 +368,7 @@ class HForm
     public static function textArea($name = '', $value = '', $class = '', $rows = 3, array $attributes = [])
     {
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['id', 'name', 'class', 'rows']);
 
         $ausgabe = '<textarea id="'.self::esc($name).'" name="'.self::esc($name).'" class="form-control '.self::esc($class).'" rows="'.self::esc($rows).'" '.$attr.'>'.self::esc($value).'</textarea>';
 
@@ -383,7 +386,7 @@ class HForm
     public static function label($label, $forID = '', $class = '', array $attributes = [])
     {
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['class', 'for']);
 
         $ausgabe = '<label class="form-check-label '.self::esc($class).'" for="'.self::esc($forID).'"'.($attr !== '' ? ' '.rtrim($attr) : '').'>'.self::esc($label).'</label>';
 
@@ -403,22 +406,30 @@ class HForm
      */
     public static function checkBox($name = '', $label = '', $value = '', $checked = false, $inline = false, $class = '', array $attributes = [])
     {
-        $id = $attributes['id'] ?? '';
+        // id aus $attributes in beliebiger Schreibweise (die erste gilt), sonst der Name
+        $id = '';
+        foreach ($attributes as $key => $wert) {
+            if (strtolower((string) $key) === 'id') {
+                $id = $wert ?? '';
+                break;
+            }
+        }
         if ((string) $id === '') {
             $id = $name ?? '';
         }
-        unset($attributes['id']);
 
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
-        $idAttr = (string) $id !== '' ? ' id="'.self::esc($id).'"' : '';
-        $forAttr = ' for="'.self::esc($id).'"';
-
+        $fest = ['type', 'name', 'id', 'class', 'value'];
         if ($checked == false) {
             $checked = '';
         } else {
             $checked = 'checked';
+            $fest[] = 'checked';
         }
+
+        // Weitere Attribute setzen
+        $attr = self::attributes($attributes, $fest);
+        $idAttr = (string) $id !== '' ? ' id="'.self::esc($id).'"' : '';
+        $forAttr = ' for="'.self::esc($id).'"';
 
         $ausgabe = '';
         if ($inline == false) {
@@ -448,14 +459,16 @@ class HForm
      */
     public static function radioBox($id = '', $group = '', $label = '', $value = '', $checked = false, $inline = false, $class = '', array $attributes = [])
     {
-        // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
-
+        $fest = ['type', 'id', 'name', 'class', 'value'];
         if ($checked == false) {
             $checked = '';
         } else {
             $checked = 'checked';
+            $fest[] = 'checked';
         }
+
+        // Weitere Attribute setzen
+        $attr = self::attributes($attributes, $fest);
 
         $ausgabe = '';
         if ($inline == false) {
@@ -488,7 +501,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['name', 'class']);
 
         $ausgabe = '';
 
@@ -527,7 +540,7 @@ class HForm
     {
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['multiple', 'size', 'name', 'class']);
 
         $ausgabe = '<select multiple size="'.self::esc($size).'" name="'.self::esc($name).'" class="form-control '.self::esc($class).'" '.$attr.'>'."\n";
         foreach ($daten as $row) {
@@ -560,7 +573,7 @@ class HForm
         }
 
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['id', 'name', 'class']);
 
         $ausgabe = '<select id="'.self::esc($name).'" name="'.self::esc($name).'" class="form-control '.self::esc($class).'" '.$attr.'>'."\n";
 
@@ -595,7 +608,7 @@ class HForm
     public static function listBoxArray($name, $daten = [], $selectedID = 0, $size = 5, $class = '', array $attributes = [])
     {
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['multiple', 'size', 'name', 'class']);
 
         $ausgabe = '<select multiple size="'.self::esc($size).'" name="'.self::esc($name).'" class="form-control '.self::esc($class).'" '.$attr.'>'."\n";
         foreach ($daten as $row) {
@@ -619,7 +632,7 @@ class HForm
     public static function hGroupStart($class = 'mb-3', array $attributes = [])
     {
         // Weitere Attribute setzen
-        $attr = self::attributes($attributes);
+        $attr = self::attributes($attributes, ['class']);
 
         $ausgabe = '<div class="input-group '.self::esc($class).'" '.$attr.'>';
 
@@ -649,42 +662,5 @@ class HForm
     public static function comEnde()
     {
         return self::toHtmlString(' -->');
-    }
-
-    /**
-     * Escaped einen Wert für HTML (Htmlable bleibt unverändert, null ergibt '').
-     */
-    protected static function esc($value): string
-    {
-        return e($value);
-    }
-
-    /**
-     * Formatiert einen String in HTML Code
-     *
-     * @param  type  $html
-     * @return HtmlString
-     */
-    protected static function toHtmlString($html)
-    {
-        return new HtmlString($html);
-    }
-
-    /**
-     * Formatiert die Werte im Array zu HTML Attributten
-     *
-     * @return string
-     */
-    protected static function attributes(array $options = [])
-    {
-        $attr = '';
-        foreach ($options as $key => $value) {
-            if (! preg_match('/^[^\s"\'>\/=\x00-\x1f\x7f]+\z/', (string) $key)) {
-                continue;
-            }
-            $attr .= $key.'="'.self::esc($value).'" ';
-        }
-
-        return $attr;
     }
 } // Class Ende
