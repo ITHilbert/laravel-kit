@@ -245,6 +245,17 @@ app.mount('#vue-app');
 
 **Auswirkung wenn fehlend:** Event-Handler wie `@edit="row => window.location.href = ..."` crashen mit "Cannot read properties of undefined (reading 'location')".
 
+### HForm: Escaping (Verhaltensänderung)
+`HForm` escapt alle übergebenen Werte (Name, Wert, Klasse, Attributwerte, Label-, Options-, Textarea- und Kommentartexte, Pfade) wie Laravels `e()`. Attribute in `$attributes` mit ungültigem Schlüssel (Leerzeichen, `"`, `'`, `>`, `/`, `=` oder leer) werden nicht ausgegeben. Früher wurden Werte ungeprüft eingesetzt.
+
+Gewolltes HTML (z. B. ein Label mit `<span>`) übergibst du als `Htmlable`; es bleibt unverändert:
+
+```php
+use Illuminate\Support\HtmlString;
+
+HForm::label(new HtmlString('Name <span class="text-danger">*</span>'), 'name');
+```
+
 ### Icons: Inline-SVG (kein Font Awesome)
 
 Die Kit-Komponenten (`<button-edit>`, `<button-show>`, `<button-delete>`) rendert native Inline-SVGs als Icons, **nicht** Font Awesome.
