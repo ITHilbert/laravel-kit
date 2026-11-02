@@ -334,18 +334,18 @@ final class HFormEscapeTest extends TestCase
     #[DataProvider('attributMethoden')]
     public function test_ungueltige_attributschluessel_werden_nicht_ausgegeben(callable $render): void
     {
-        $gueltig = ['data-ok' => '1', 'aria-label' => 'y'];
+        $gueltig = ['data-ok' => '1', 'aria-describedby' => 'y'];
         $basis = (string) $render($gueltig);
         $this->assertStringContainsString('data-ok="1"', $basis, 'Aufbau: gültige Schlüssel erscheinen');
-        $this->assertStringContainsString('aria-label="y"', $basis);
+        $this->assertStringContainsString('aria-describedby="y"', $basis);
 
         foreach (['a b', 'a"b', "a'b", 'a>b', 'a/b', 'a=b', ' ', '', "data-a\n", ' data-a', "data-a\t", 'data-a ', "\ndata-a", "data-a\r\n", "\tdata-a"] as $schluessel) {
-            $html = (string) $render(['data-ok' => '1', $schluessel => 'WERT_ZZ', 'aria-label' => 'y']);
+            $html = (string) $render(['data-ok' => '1', $schluessel => 'WERT_ZZ', 'aria-describedby' => 'y']);
 
             $this->assertStringNotContainsString('WERT_ZZ', $html, 'Paar mit Schlüssel "'.$schluessel.'" wurde ausgegeben: '.$html);
             $this->assertSame($this->struktur($this->dom($basis)), $this->struktur($this->dom($html)), 'Schlüssel "'.$schluessel.'" erzeugt zusätzliche Attribute: '.$html);
             $this->assertStringContainsString('data-ok="1"', $html);
-            $this->assertStringContainsString('aria-label="y"', $html);
+            $this->assertStringContainsString('aria-describedby="y"', $html);
         }
     }
 
@@ -353,7 +353,7 @@ final class HFormEscapeTest extends TestCase
     #[DataProvider('attributMethoden')]
     public function test_gueltige_attributschluessel_bleiben_unveraendert(callable $render): void
     {
-        $schluessel = ['data-x', 'aria-label', 'x_y', '@click', ':class', 'v-on:click'];
+        $schluessel = ['data-x', 'aria-describedby', 'x_y', '@click', ':class', 'v-on:click'];
         $html = (string) $render(array_fill_keys($schluessel, '1'));
 
         foreach ($schluessel as $name) {
