@@ -385,7 +385,7 @@ class HForm
         // Weitere Attribute setzen
         $attr = self::attributes($attributes);
 
-        $ausgabe = '<label class="form-check-label '.self::esc($class).'" for="'.self::esc($forID).'">'.self::esc($label).'</label>';
+        $ausgabe = '<label class="form-check-label '.self::esc($class).'" for="'.self::esc($forID).'"'.($attr !== '' ? ' '.rtrim($attr) : '').'>'.self::esc($label).'</label>';
 
         return self::toHtmlString($ausgabe);
     }
@@ -403,8 +403,16 @@ class HForm
      */
     public static function checkBox($name = '', $label = '', $value = '', $checked = false, $inline = false, $class = '', array $attributes = [])
     {
+        $id = $attributes['id'] ?? '';
+        if ((string) $id === '') {
+            $id = $name ?? '';
+        }
+        unset($attributes['id']);
+
         // Weitere Attribute setzen
         $attr = self::attributes($attributes);
+        $idAttr = (string) $id !== '' ? ' id="'.self::esc($id).'"' : '';
+        $forAttr = ' for="'.self::esc($id).'"';
 
         if ($checked == false) {
             $checked = '';
@@ -419,8 +427,8 @@ class HForm
             $ausgabe .= '<div class="form-check form-check-inline">';
         }
 
-        $ausgabe .= '<input type="checkbox" name="'.self::esc($name).'" class="form-check-input '.self::esc($class).'" value="'.self::esc($value).'" '.$checked.' '.$attr.'>';
-        $ausgabe .= '<label class="form-check-label" for="'.self::esc($name).'">'.self::esc($label).'</label>';
+        $ausgabe .= '<input type="checkbox" name="'.self::esc($name).'"'.$idAttr.' class="form-check-input '.self::esc($class).'" value="'.self::esc($value).'" '.$checked.' '.$attr.'>';
+        $ausgabe .= '<label class="form-check-label"'.$forAttr.'>'.self::esc($label).'</label>';
         $ausgabe .= '</div>';
 
         return self::toHtmlString($ausgabe);
