@@ -341,7 +341,7 @@ final class HFormEscapeTest extends TestCase
         $this->assertStringContainsString('data-ok="1"', $basis, 'Aufbau: gültige Schlüssel erscheinen');
         $this->assertStringContainsString('aria-label="y"', $basis);
 
-        foreach (['a b', 'a"b', "a'b", 'a>b', 'a/b', 'a=b', ' ', ''] as $schluessel) {
+        foreach (['a b', 'a"b', "a'b", 'a>b', 'a/b', 'a=b', ' ', '', "data-a\n", ' data-a', "data-a\t", 'data-a ', "\ndata-a", "data-a\r\n", "\tdata-a"] as $schluessel) {
             $html = (string) $render(['data-ok' => '1', $schluessel => 'WERT_ZZ', 'aria-label' => 'y']);
 
             $this->assertStringNotContainsString('WERT_ZZ', $html, 'Paar mit Schlüssel "'.$schluessel.'" wurde ausgegeben: '.$html);
@@ -518,5 +518,28 @@ final class HFormEscapeTest extends TestCase
     {
         $this->assertSame('<!-- &amp;amp; -->', (string) HForm::com('&amp;'));
         $this->assertSame(URL::asset('/').'&amp;amp;', (string) HForm::public('&amp;'));
+    }
+
+    // Randfall 4
+    public function test_ungueltiges_utf8_im_attributwert_wird_wie_e_ausgegeben(): void
+    {
+        $this->assertStringContainsString('value="M'."\u{FFFD}".'ller"', (string) HForm::text('n', "M\xfcller"), 'Ersatzzeichen U+FFFD statt ungültigem Byte');
+
+        foreach (["M\xfcller", "a\xc3", "\xff\xfe"] as $wert) {
+            $this->assertStringContainsString('value="'.e($wert).'"', (string) HForm::text('n', $wert));
+            $this->assertStringContainsString('data-x="'.e($wert).'"', (string) HForm::text('n', 'v', '', ['data-x' => $wert]));
+        }
+    }
+
+    // Randfall 4
+    public function test_ungueltiges_utf8_im_textinhalt_wird_wie_e_ausgegeben(): void
+    {
+        $this->assertStringContainsString('>M'."\u{FFFD}".'ller</label>', (string) HForm::label("M\xfcller"), 'Ersatzzeichen U+FFFD statt ungültigem Byte');
+
+        foreach (["M\xfcller", "a\xc3", "\xff\xfe"] as $wert) {
+            $this->assertStringContainsString('>'.e($wert).'</label>', (string) HForm::label($wert));
+            $this->assertStringContainsString('>'.e($wert).'</textarea>', (string) HForm::textArea('n', $wert));
+            $this->assertSame('<!-- '.e($wert).' -->', (string) HForm::com($wert));
+        }
     }
 }
