@@ -305,3 +305,40 @@ test('AK5: für dieselbe Eingabe entscheidet die gemeinsame Regel gleich (Tabell
     ];
     for (const [[c, v], erwartet] of tabelle) assert.equal(f(c, v), erwartet, `checked=${JSON.stringify(c)} value=${JSON.stringify(v)}`);
 });
+
+// ---------- AK3: Default von value je Theme ----------
+// AK3
+test('AK3: Tailwind deklariert value ohne Default und ohne value ist die Checkbox nicht angehakt', async () => {
+    const f = await regel();
+    const src = quelle(TAILWIND);
+    const dekl = src.match(/\bvalue\??\s*:\s*([^;\n,}]*)/);
+    assert.ok(dekl, 'value ist als Prop deklariert');
+    assert.ok(!/withDefaults/.test(src), 'kein withDefaults');
+    assert.ok(!/default/.test(dekl[1]), `Default bei value: ${dekl[1]}`);
+    // ohne Attribut value liefert Vue undefined
+    assert.equal(f(undefined, undefined), false);
+    assert.equal(f(undefined, '1'), true); // Gegenprobe: mit value 1 ist der Aufbau angehakt
+});
+
+// AK3
+test('AK3: Bootstrap5 behält den Default value 1 und ist ohne value und ohne checked angehakt', async () => {
+    const f = await regel();
+    const src = quelle(BOOTSTRAP);
+    const dekl = src.match(/['"]?value['"]?\s*:\s*\{\s*default\s*:\s*([^,}\s]+)\s*\}/);
+    assert.ok(dekl, 'value hat einen Default');
+    assert.equal(dekl[1], '1');
+    const standard = Number(dekl[1]);
+    assert.equal(f(undefined, standard), true);
+    assert.equal(f('', standard), false); // Gegenprobe: leeres checked schlägt den Default
+});
+
+// AK3
+test('AK3: Bootstrap5 sendet ohne value den Default 1 über :value am input', () => {
+    const src = quelle(BOOTSTRAP);
+    const m = src.match(/['"]?value['"]?\s*:\s*\{\s*default\s*:\s*(\d+)\s*\}/);
+    assert.equal(m?.[1], '1');
+    const inputs = src.match(/<input[^>]*>/gs) ?? [];
+    assert.ok(inputs.length > 0 && inputs.every((t) => /:value="value"/.test(t)));
+    // Gegenprobe: Tailwind hat keinen Default und sendet ohne value nichts Eigenes
+    assert.ok(!/value\??\s*:[^;\n]*default/.test(quelle(TAILWIND)));
+});
