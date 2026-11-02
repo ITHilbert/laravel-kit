@@ -671,7 +671,7 @@ class HForm
     {
         $attr = '';
         foreach ($options as $key => $value) {
-            if (! preg_match('/^[^\s"\'>\/=\x00-\x1f\x7f]+$/', (string) $key)) {
+            if (! preg_match('/^[^\s"\'>\/=\x00-\x1f\x7f]+\z/', (string) $key)) {
                 continue;
             }
             $attr .= $key.'="'.self::esc($value).'" ';
