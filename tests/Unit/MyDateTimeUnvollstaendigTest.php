@@ -165,6 +165,80 @@ final class MyDateTimeUnvollstaendigTest extends TestCase
         $this->assertEquals(0, $objekt->getTimestamp());
     }
 
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function unvollstaendigeUhrzeit(): array
+    {
+        return [
+            'ISO mit T und Uhrzeit' => ['2018-05-25T10:00'],
+            'Uhrzeit mit Doppelpunkt am Ende' => ['15:'],
+            'nicht numerische Uhrzeit' => ['aa:bb'],
+        ];
+    }
+
+    // K1
+    #[DataProvider('unvollstaendigeUhrzeit')]
+    public function test_k1_unvollstaendige_uhrzeit_erzeugt_keine_warnung_und_keine_exception(string $angabe): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+    }
+
+    // K1
+    #[DataProvider('unvollstaendigeUhrzeit')]
+    public function test_k1_unvollstaendige_uhrzeit_ergibt_leeres_objekt(string $angabe): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        // Gegenprobe: das Objekt wurde erzeugt
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+
+        $this->assertSame('Nothing', $objekt->getType());
+        $this->assertEquals(0, $objekt->getTimestamp());
+    }
+
+    // K2
+    public function test_k2_form_date_zeigt_nicht_erkannte_angabe_abc_unveraendert(): void
+    {
+        [$html, $meldungen] = $this->ueberwacht(fn () => (string) HForm::date('d', 'abc'));
+
+        // Gegenprobe: das Feld wurde erzeugt
+        $this->assertSame([], $meldungen);
+        $this->assertStringContainsString('name="d"', (string) $html);
+
+        $this->assertStringContainsString('value="abc"', $html);
+    }
+
+    // K2
+    public function test_k2_form_date_escaped_die_nicht_erkannte_angabe(): void
+    {
+        $angabe = 'abc<i>"\'&';
+
+        [$html, $meldungen] = $this->ueberwacht(fn () => (string) HForm::date('d', $angabe));
+
+        $this->assertSame([], $meldungen);
+        $this->assertStringContainsString('value="'.e($angabe).'"', $html);
+        $this->assertStringNotContainsString('<i>', $html);
+    }
+
+    // K2
+    public function test_k2_form_date_mit_leerer_eingabe_zeigt_leeres_feld(): void
+    {
+        foreach (['', null] as $leer) {
+            [$html, $meldungen] = $this->ueberwacht(fn () => (string) HForm::date('d', $leer));
+
+            // Gegenprobe: das Feld wurde erzeugt
+            $this->assertSame([], $meldungen);
+            $this->assertStringContainsString('name="d"', (string) $html);
+
+            $this->assertStringContainsString('value=""', $html);
+        }
+    }
+
     // AK2
     #[DataProvider('alleUnvollstaendigen')]
     public function test_form_date_mit_unvollstaendiger_angabe_erzeugt_keine_warnung(string $angabe): void
