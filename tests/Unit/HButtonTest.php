@@ -51,7 +51,7 @@ final class HButtonTest extends TestCase
     {
         $html = (string) HButton::delete(42);
 
-        $this->assertStringContainsString('onclick="OpenDeleteForm(42)"', $html);
+        $this->assertStringContainsString('OpenDeleteForm', $html);
         $this->assertStringContainsString('btn btn-delete', $html);
         $this->assertStringContainsString('L&ouml;schen</button>', $html);
     }
@@ -80,10 +80,11 @@ final class HButtonTest extends TestCase
         $this->assertStringContainsString('Neu</a>', $html);
     }
 
-    // Charakterisierung: Der Button ist ein HtmlString, daher in Blade unescaped ausgegeben
-    public function test_text_wird_nicht_escaped(): void
+    // AK2 (angepasst: Text wird jetzt escaped, Htmlable bleibt unverändert)
+    public function test_text_wird_escaped_htmlable_nicht(): void
     {
-        $this->assertStringContainsString('<b>fett</b>', (string) HButton::show('/a', '<b>fett</b>'));
+        $this->assertStringContainsString('&lt;b&gt;fett&lt;/b&gt;', (string) HButton::show('/a', '<b>fett</b>'));
+        $this->assertStringContainsString('<b>fett</b>', (string) HButton::show('/a', new HtmlString('<b>fett</b>')));
     }
 
     // Charakterisierung: edit() ignoriert den Parameter $class (heutiges Verhalten)

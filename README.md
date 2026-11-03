@@ -259,6 +259,13 @@ HForm::label(new HtmlString('Name <span class="text-danger">*</span>'), 'name');
 ### HForm: Label und Eingabefeld (Verhaltensänderung)
 `HForm::checkBox()` gibt dem `<input>` eine `id` (aus `$attributes['id']`, sonst `name`) und setzt `for` des Labels auf dieselbe id; ein Klick auf das Label hakt die Box an. Mehrere Boxen einer Gruppe (`rechte[]`) bekommen ihre eigene id über `$attributes` — ohne eigene id hätten sie alle dieselbe id `rechte[]`, und jedes Label hakte die erste Box an. `HForm::label()` gibt übergebene `$attributes` jetzt im `<label>` aus.
 
+### HButton: Escaping und Attribute (Verhaltensänderung)
+`HButton` (`project`, `create`, `show`, `edit`, `delete`, `submit`, `save`, `back`) escapt jetzt wie `HForm` alle übergebenen Werte – Route, Text, Tooltip, Klasse, ID und die Werte in `$attributes` – wie Laravels `e()`. Früher wurden sie ungeprüft eingesetzt: Ein Text wie `<b>Neu</b>` erschien als Fettschrift, jetzt erscheint er als Text. Gewolltes HTML im Text oder Tooltip übergibst du als `Htmlable`, z. B. `new HtmlString(…)`; es bleibt unverändert. Die Vorgabetexte („Löschen“, „Zurück“, …) zeigen dieselben Texte wie bisher. Wer einen Text mit HTML-Entity als normalen String übergibt (`'L&ouml;schen'`), sieht jetzt `&ouml;` – solche Texte als UTF-8 (`'Löschen'`) oder als `HtmlString` übergeben.
+
+Schlüssel in `$attributes` mit ungültigem Namen entfallen wie bei `HForm`. Ein Schlüssel, der ein von der Methode fest gesetztes Attribut doppelt (`href`, `class`, `title`, `data-toggle`, `type`, `onclick`, `data-kit-delete`), wird nicht ausgegeben – auch in anderer Schreibweise (`Class`, `TITLE`). Dasselbe gilt für alle Methoden von `HForm` (z. B. `ID` neben der fest gesetzten `id`, `for` und `class` bei `label()`); kommt ein Schlüssel in `$attributes` mehrfach in verschiedener Schreibweise vor, gilt der erste. So enthält keine Ausgabe ein Attribut doppelt. Ausnahme: `HForm::checkBox()` übernimmt die `id` aus `$attributes` in jeder Schreibweise (`id`, `ID`).
+
+`HButton::delete()` ruft eine globale Funktion `OpenDeleteForm(id)` nur noch auf, wenn es sie gibt; ohne sie wirft der Klick keinen `ReferenceError` mehr. Der Lösch-Dialog öffnet über `data-kit-delete` (siehe „Lösch-Button und Lösch-Dialog“).
+
 ### Icons: Inline-SVG (kein Font Awesome)
 
 Die Kit-Komponenten (`<button-edit>`, `<button-show>`, `<button-delete>`) rendert native Inline-SVGs als Icons, **nicht** Font Awesome.
