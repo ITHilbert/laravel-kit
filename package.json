@@ -4,7 +4,7 @@
   "description": "**Beschreibung**: Tools für das Programmieren mit Laravel.",
   "main": "index.js",
   "directories": {
-    "doc": "docs",
+    "doc": ".project/doku",
     "test": "tests"
   },
   "scripts": {
