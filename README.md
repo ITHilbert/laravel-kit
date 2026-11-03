@@ -4,15 +4,11 @@
 
 ## Dokumentation
 
-Die ausführliche Dokumentation befindet sich im Ordner `docs/`:
-- [Kontext & Zielsetzung](docs/00_README_Kontext.md)
-- [Architekturübersicht](docs/01_Architekturübersicht.md)
-- [Modulstruktur](docs/07_Modulstruktur.md)
-- [API-Definitionen](docs/02_API-Definitionen.md)
-- [KI-Zusammenarbeit & Autonome Pipeline](docs/ki-zusammenarbeit-architektur.md)
+Die ausführliche Dokumentation befindet sich im Ordner `.project/doku/`:
+- [Forms-Komponenten: Integration & Konsolidierung](.project/doku/forms-integration-und-konsolidierung.md)
 
 ### Vue-Komponenten (Tailwind)
-- [DataTable-Komponente](docs/vue-datatable.md) — generische DataTables.net-Kapselung mit Filter-Zeile, Aktions-Spalte und Server-/Client-side Modus
+- [DataTable-Komponente](.project/doku/vue-datatable.md) — generische DataTables.net-Kapselung mit Filter-Zeile, Aktions-Spalte und Server-/Client-side Modus
 
 ## Installation
 

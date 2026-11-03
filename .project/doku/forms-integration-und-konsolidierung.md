@@ -5,7 +5,7 @@ Dieses Dokument hält zwei zusammenhängende Erkenntnisse fest:
 1. **Integrations-Falle:** Warum Form-Inputs in einem Projekt "nackt" (ohne Rahmen, Label neben dem Feld) erscheinen — und wie man es behebt.
 2. **Architektur-Entscheid:** Auflösung des doppelten Ordners `vue/tailwind/input/` zugunsten von `vue/tailwind/forms/`.
 
-> Hintergrund zur Barrel-Architektur und zum 2-Klassen-Semantic-Layer siehe [`../vue/README.md`](../vue/README.md) (Abschnitte 2–4). Dieses Dokument ergänzt die dort beschriebene Theorie um den konkreten Fehlerfall.
+> Hintergrund zur Barrel-Architektur und zum 2-Klassen-Semantic-Layer siehe [`../../vue/README.md`](../../vue/README.md) (Abschnitte 2–4). Dieses Dokument ergänzt die dort beschriebene Theorie um den konkreten Fehlerfall.
 
 ---
 
