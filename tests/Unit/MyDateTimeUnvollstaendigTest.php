@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Unit;
 
+use Composer\Autoload\ClassLoader;
 use ITHilbert\LaravelKit\Helpers\HForm;
 use ITHilbert\LaravelKit\Helpers\MyDateTime;
 use ITHilbert\LaravelKit\Tests\TestCase;
@@ -364,6 +365,145 @@ final class MyDateTimeUnvollstaendigTest extends TestCase
         $this->assertStringContainsString('value="25.05.2018"', (string) HForm::date('d', '25.05.2018 15:25'));
     }
 
+    /**
+     * Erwartet laut Klasse auf `main` (Zeitzone UTC): Zeitstempel, ISO, DE, DB, Zeit, Ausgabe ISO/DE/DB.
+     *
+     * @return array<string, array<int, string|int>>
+     */
+    public static function mitLeerraum(): array
+    {
+        $erwartet = [1527206400, '2018-05-25 00:00:00', '25.05.2018', '20180525', '00:00:00', '2018-05-25', '25.05.2018', '20180525'];
+
+        return [
+            'DE mit Leerraum hinten' => ['25.05.2018 ', ...$erwartet],
+            'DE mit Leerraum vorn' => [' 25.05.2018', ...$erwartet],
+            'ISO mit Leerraum hinten' => ['2018-05-25 ', ...$erwartet],
+            'ISO mit Leerraum vorn' => [' 2018-05-25', ...$erwartet],
+        ];
+    }
+
+    // AK3 (K3)
+    #[DataProvider('mitLeerraum')]
+    public function test_k3_leerraum_am_rand_ergibt_typ_date_und_zeitstempel_wie_ohne(string $angabe, int $zeitstempel, string ...$ausgaben): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        $this->assertSame([], $meldungen);
+        $this->assertSame('Date', $objekt->getType());
+        $this->assertEquals($zeitstempel, $objekt->getTimestamp());
+    }
+
+    // AK3 (K3)
+    #[DataProvider('mitLeerraum')]
+    public function test_k3_leerraum_am_rand_ergibt_ausgaben_wie_ohne(
+        string $angabe, int $zeitstempel,
+        string $iso, string $de, string $db, string $zeit,
+        string $ausgabeIso, string $ausgabeDe, string $ausgabeDb,
+    ): void {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        // Gegenprobe: das Objekt wurde erzeugt
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+
+        $this->assertSame($iso, $objekt->getDateTimeISO());
+        $this->assertSame($de, $objekt->getDateDE());
+        $this->assertSame($db, $objekt->getDateDB());
+        $this->assertSame($zeit, $objekt->getTime());
+        $this->assertSame($ausgabeIso, (string) $objekt);
+        $this->assertSame($ausgabeDe, (string) $objekt->setOutputFormat('DE'));
+        $this->assertSame($ausgabeDb, (string) $objekt->setOutputFormat('DB'));
+    }
+
+    // AK3 (K3)
+    public function test_k3_form_date_mit_leerraum_am_rand_zeigt_das_deutsche_datum(): void
+    {
+        $this->assertStringContainsString('value="25.05.2018"', (string) HForm::date('d', '25.05.2018 '));
+        $this->assertStringContainsString('value="25.05.2018"', (string) HForm::date('d', ' 2018-05-25'));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function mitSekundenbruchteil(): array
+    {
+        return [
+            'Nullen' => ['2018-05-25 15:25:06.000000'],
+            'Bruchteil' => ['2018-05-25 15:25:06.123456'],
+        ];
+    }
+
+    // AK3 (K3)
+    #[DataProvider('mitSekundenbruchteil')]
+    public function test_k3_sekundenbruchteil_ergibt_keine_warnung_und_keine_deprecation(string $angabe): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+    }
+
+    // AK3 (K3)
+    #[DataProvider('mitSekundenbruchteil')]
+    public function test_k3_sekundenbruchteil_ergibt_typ_datetime_und_zeitstempel_mit_abgeschnittenem_bruchteil(string $angabe): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        // Gegenprobe: das Objekt wurde erzeugt
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+
+        $this->assertSame('DateTime', $objekt->getType());
+        $this->assertEquals(1527261906, $objekt->getTimestamp());
+    }
+
+    // AK3 (K3)
+    #[DataProvider('mitSekundenbruchteil')]
+    public function test_k3_sekundenbruchteil_ergibt_ausgaben_wie_ohne_bruchteil(string $angabe): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime($angabe));
+
+        // Gegenprobe: das Objekt wurde erzeugt
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+
+        $this->assertSame('2018-05-25 15:25:06', $objekt->getDateTimeISO());
+        $this->assertSame('25.05.2018', $objekt->getDateDE());
+        $this->assertSame('20180525', $objekt->getDateDB());
+        $this->assertSame('15:25:06', $objekt->getTime());
+        $this->assertSame('2018-05-25 15:25:06', (string) $objekt);
+        $this->assertSame('25.05.2018 15:25:06', (string) $objekt->setOutputFormat('DE'));
+        $this->assertSame('20180525152506', (string) $objekt->setOutputFormat('DB'));
+    }
+
+    // AK3 (K3)
+    public function test_k3_form_date_mit_sekundenbruchteil_zeigt_das_deutsche_datum(): void
+    {
+        $this->assertStringContainsString('value="25.05.2018"', (string) HForm::date('d', '2018-05-25 15:25:06.000000'));
+    }
+
+    // AK3 (K3)
+    public function test_k3_zeitstempel_als_int_liefert_get_timestamp_als_int(): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime(1537451550));
+
+        // Gegenprobe: das Objekt wurde erzeugt und ist ein DateTime
+        $this->assertSame([], $meldungen);
+        $this->assertSame('DateTime', $objekt->getType());
+
+        $this->assertSame(1537451550, $objekt->getTimestamp());
+    }
+
+    // AK3 (K3)
+    public function test_k3_zeitstempel_null_als_int_liefert_get_timestamp_als_int(): void
+    {
+        [$objekt, $meldungen] = $this->ueberwacht(fn () => new MyDateTime(0));
+
+        $this->assertSame([], $meldungen);
+        $this->assertInstanceOf(MyDateTime::class, $objekt);
+        $this->assertSame(0, $objekt->getTimestamp());
+    }
+
     // Randfall 1
     public function test_ungueltiges_aber_vollstaendiges_datum_wird_wie_bisher_normalisiert(): void
     {
@@ -382,7 +522,9 @@ final class MyDateTimeUnvollstaendigTest extends TestCase
      */
     private function prozessMitLcTimeC(string $code): array
     {
-        $autoload = dirname(__DIR__, 2).'/vendor/autoload.php';
+        // Autoload des laufenden Prozesses: Paket-Suite = vendor des Pakets, Host-Suite = vendor des Hosts
+        $autoload = dirname((string) (new \ReflectionClass(ClassLoader::class))->getFileName(), 2).'/autoload.php';
+        $this->assertFileExists($autoload);
         $skript = 'require '.var_export($autoload, true).'; '
             .'$vorher = setlocale(LC_TIME, "C"); '
             .$code
