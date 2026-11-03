@@ -41,6 +41,7 @@ class MyDateTime
      **/
     public function setDateTime($datumZeit = '')
     {
+        $original = $datumZeit;
         $datumZeit = (string) $datumZeit;
         $this->type = 'DateTime';
 
@@ -52,7 +53,7 @@ class MyDateTime
             $this->setAusMuster($datumZeit);
         } elseif ($this->isTimestamp($datumZeit)) {
             // 1537451550
-            $this->timestamp = $datumZeit;
+            $this->timestamp = is_int($original) ? $original : $datumZeit;
             $this->type = 'DateTime';
         } else {
             $this->setNichts();
@@ -73,6 +74,10 @@ class MyDateTime
      */
     private function setAusMuster(string $datumZeit): void
     {
+        // Leerraum am Rand und Sekundenbruchteile der Uhrzeit (DATETIME(6)) wie bisher ignorieren
+        $datumZeit = trim($datumZeit);
+        $datumZeit = preg_replace('/^(.+ \d+:\d+:\d+)\.\d+$/', '$1', $datumZeit);
+
         $hatZeit = strpos($datumZeit, ':') > 0;
         $hatLeerzeichen = strpos($datumZeit, ' ') > 0;
 
