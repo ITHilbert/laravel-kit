@@ -316,3 +316,9 @@ Damit werden in deiner lokalen Umgebung automatisch folgende Features aktiviert:
 ### AI-Agent Tools (MCP Server)
 - **`RemoteExecuteTool`**: Verleiht deinem KI-Agenten die Macht, asynchrone Shell-Befehle (z.B. Optimierungen, Migrations) per sicherer `Process`-Facade auf dem Host auszuführen.
 - **`RemoteSyncTool`**: Verleiht der KI einen gezielten Datei-Transfer Push (via natives `rsync`), um Modifikationen sofort remote live zu nehmen, ohne dass du den vollen Cloud-Deploy Button im Dashboard drücken musst!
+
+### MyDateTime: LC_TIME und unvollständige Datumsangaben
+
+laravel-kit setzt `LC_TIME` nicht mehr (früher `setlocale(LC_TIME, 'de_DE.utf8')` beim Laden von `MyDateTime`). Hosts, die darauf angewiesen waren, setzen es selbst, z. B. im `AppServiceProvider`.
+
+Unvollständige Datumsangaben wie `15.03`, `2026-03`, `15.03.`, `2026-03-` oder `15.03 10:00` (und nicht numerische Teile wie `aa.bb.cccc`) erzeugen keine Warnung mehr: `new MyDateTime(...)` ist dann leer (Typ `Nothing`, Zeitstempel 0). `HForm::date()` zeigt in diesem Fall den übergebenen Wert escaped unverändert an.
