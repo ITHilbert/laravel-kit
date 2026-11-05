@@ -315,6 +315,16 @@ Damit werden in deiner lokalen Umgebung automatisch folgende Features aktiviert:
 
 ### MyDateTime: LC_TIME und unvollständige Datumsangaben
 
-laravel-kit setzt `LC_TIME` nicht mehr (früher `setlocale(LC_TIME, 'de_DE.utf8')` beim Laden von `MyDateTime`). Hosts, die darauf angewiesen waren, setzen es selbst, z. B. im `AppServiceProvider`.
+laravel-kit setzt `LC_TIME` nicht. Hosts, die eine deutsche Locale brauchen, setzen sie selbst, z. B. im `AppServiceProvider`.
 
-Unvollständige Datumsangaben wie `15.03`, `2026-03`, `15.03.`, `2026-03-` oder `15.03 10:00` (und nicht numerische Teile wie `aa.bb.cccc`) erzeugen keine Warnung mehr: `new MyDateTime(...)` ist dann leer (Typ `Nothing`, Zeitstempel 0). `HForm::date()` zeigt in diesem Fall den übergebenen Wert escaped unverändert an.
+Angaben, die `MyDateTime` nicht als vollständiges Datum oder Uhrzeit erkennt, erzeugen keine Warnung und keine Exception. Das Objekt ist dann leer (Typ `Nothing`, Zeitstempel 0). Dazu gehören:
+
+- unvollständige Datumsangaben: `15.03`, `2026-03`, `15.03.`, `2026-03-`, `15.03 10:00`
+- führendes Minus mit weiterem Trenner: `-03-15`, `-2026-03` (negative Zeitstempel wie `-86400` bleiben Zeitstempel)
+- nicht numerische Teile: `aa.bb.cccc`, `2018-05-25T10:00`, `15:`, `aa:bb`
+- Teile mit Nachkommastellen: `2018-05-25 15:25.5`
+- `bool`: `true` und `false` ergeben kein Datum (bisher ergab `true` den aktuellen Zeitpunkt)
+
+`HForm::date()` zeigt bei leerem Ergebnis den übergebenen Wert escaped unverändert an, damit die Eingabe sichtbar bleibt. Eine leere Eingabe (`''`, `null`) ergibt ein leeres Feld.
+
+Unverändert bleiben vollständige Formate (`2018-05-25`, `25.05.2018`, mit Uhrzeit, Uhrzeit allein, `now`, `NULL`, `0000-00-00`) und Angaben mit Leerraum am Rand. Sekundenbruchteile einer Uhrzeit werden abgeschnitten. Ein Zeitstempel behält seinen Typ: `int` bleibt `int`, `float` bleibt `float`. Teile mit Leerraum oder Vorzeichen zählen als Zahl (`25. 05. 2018`, `+25.05.2018`).
