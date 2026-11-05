@@ -42,6 +42,11 @@ class MyDateTime
     public function setDateTime($datumZeit = '')
     {
         $original = $datumZeit;
+        if (is_bool($original)) {
+            $this->setNichts();
+
+            return;
+        }
         $datumZeit = (string) $datumZeit;
         $this->type = 'DateTime';
 
@@ -53,7 +58,8 @@ class MyDateTime
             $this->setAusMuster($datumZeit);
         } elseif ($this->isTimestamp($datumZeit)) {
             // 1537451550
-            $this->timestamp = is_int($original) ? $original : $datumZeit;
+            // int und float behalten ihren Typ wie bisher
+            $this->timestamp = is_int($original) || is_float($original) ? $original : $datumZeit;
             $this->type = 'DateTime';
         } else {
             $this->setNichts();
@@ -74,9 +80,9 @@ class MyDateTime
      */
     private function setAusMuster(string $datumZeit): void
     {
-        // Leerraum am Rand und Sekundenbruchteile der Uhrzeit (DATETIME(6)) wie bisher ignorieren
+        // Leerraum am Rand und Sekundenbruchteile der Uhrzeit (DATETIME(6), auch Punkt ohne Ziffern) wie bisher ignorieren
         $datumZeit = trim($datumZeit);
-        $datumZeit = preg_replace('/^(.+ \d+:\d+:\d+)\.\d+$/', '$1', $datumZeit);
+        $datumZeit = preg_replace('/^(.+ \d+:\d+:\d+)\.\d*$/', '$1', $datumZeit);
 
         $hatZeit = strpos($datumZeit, ':') > 0;
         $hatLeerzeichen = strpos($datumZeit, ' ') > 0;
@@ -132,7 +138,10 @@ class MyDateTime
     }
 
     /**
-     * @return list<int>|null null, wenn weniger als $mindestens Teile oder ein Teil leer/nicht numerisch ist
+     * Ein Teil zählt als Zahl, wenn er nach dem Abschneiden von Leerraum eine Ganzzahl
+     * mit optionalem Vorzeichen ist (so wie PHP diese Teile bisher als Zahl annahm).
+     *
+     * @return list<int>|null null, wenn weniger als $mindestens Teile oder ein Teil leer/keine Ganzzahl ist
      */
     private function zerlege(string $text, string $trenner, int $mindestens): ?array
     {
@@ -140,13 +149,16 @@ class MyDateTime
         if (count($teile) < $mindestens) {
             return null;
         }
+        $zahlen = [];
         foreach ($teile as $teil) {
-            if (! ctype_digit($teil)) {
+            $teil = trim($teil, " \t\n\r\v\f");
+            if (preg_match('/^[+-]?\d+$/', $teil) !== 1) {
                 return null;
             }
+            $zahlen[] = (int) $teil;
         }
 
-        return array_map('intval', $teile);
+        return $zahlen;
     }
 
     /************************************************************************
