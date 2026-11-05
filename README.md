@@ -328,3 +328,9 @@ Angaben, die `MyDateTime` nicht als vollständiges Datum oder Uhrzeit erkennt, e
 `HForm::date()` zeigt bei leerem Ergebnis den übergebenen Wert escaped unverändert an, damit die Eingabe sichtbar bleibt. Eine leere Eingabe (`''`, `null`) ergibt ein leeres Feld.
 
 Unverändert bleiben vollständige Formate (`2018-05-25`, `25.05.2018`, mit Uhrzeit, Uhrzeit allein, `now`, `NULL`, `0000-00-00`) und Angaben mit Leerraum am Rand. Sekundenbruchteile einer Uhrzeit werden abgeschnitten. Ein Zeitstempel behält seinen Typ: `int` bleibt `int`, `float` bleibt `float`. Teile mit Leerraum oder Vorzeichen zählen als Zahl (`25. 05. 2018`, `+25.05.2018`).
+
+### Browser-Helper: IP über `request()->ip()`
+
+`Browser::getIP()` nutzt `request()->ip()` und beachtet damit die Trusted Proxies des Hosts. Ist keine IP ermittelbar (z. B. CLI oder Test ohne `REMOTE_ADDR`), liefert sie `'N/A'` ohne Warnung. `getBrowser()` und `getPlatform()` liefern ohne `HTTP_USER_AGENT` ebenfalls `'N/A'`.
+
+**Upgrade-Hinweis:** Bisher wurden `Client-IP` und `X-Forwarded-For` ungeprüft übernommen. Hosts hinter einem Proxy oder Load-Balancer müssen jetzt die Trusted Proxies konfigurieren (Laravel: `trustProxies` in `bootstrap/app.php`), sonst liefert `getIP()` die Adresse des Proxys statt die des Besuchers.
