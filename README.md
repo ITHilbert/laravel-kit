@@ -315,7 +315,7 @@ Damit werden in deiner lokalen Umgebung automatisch folgende Features aktiviert:
 
 ### MyDateTime: LC_TIME und unvollständige Datumsangaben
 
-laravel-kit setzt `LC_TIME` nicht. Hosts, die eine deutsche Locale brauchen, setzen sie selbst, z. B. im `AppServiceProvider`.
+laravel-kit setzt `LC_TIME` nicht mehr. Hosts, die eine deutsche Locale brauchen, setzen sie selbst, z. B. im `AppServiceProvider`.
 
 Angaben, die `MyDateTime` nicht als vollständiges Datum oder Uhrzeit erkennt, erzeugen keine Warnung und keine Exception. Das Objekt ist dann leer (Typ `Nothing`, Zeitstempel 0). Dazu gehören:
 

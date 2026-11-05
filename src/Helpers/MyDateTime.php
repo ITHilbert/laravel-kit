@@ -571,6 +571,11 @@ class MyDateTime
      **/
     public function isTimestamp($string)
     {
+        // nur ganzzahlige Zeitstempel; relative Zusätze ('1 day', '86400 +1') sind keine
+        if (! is_int($string) && ! is_float($string) && ! preg_match('/^[+-]?\d+$/', trim((string) $string))) {
+            return false;
+        }
+
         try {
             new DateTime('@'.$string);
         } catch (Exception $e) {
