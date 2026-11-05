@@ -88,7 +88,7 @@ class Browser
     public static function isRobot()
     {
         $browser = self::getBrowser();
-        $whiteListe = ['Internet explorer', 'Firefox', 'Safarie', 'Chrome', 'Edge', 'Opera', 'Mobile browser'];
+        $whiteListe = ['Internet explorer', 'Firefox', 'Safari', 'Chrome', 'Edge', 'Opera', 'Mobile browser'];
 
         return ! in_array($browser, $whiteListe);
     }
@@ -160,30 +160,24 @@ class Browser
 
     public static function getURL()
     {
-        $url = url()->current() ?? 'N/A';
-        if ($url == 'http://localhost:8000') {
-            return 'index';
-        } elseif ($url == 'https://www.it-hilbert.com') {
-            return 'index';
-        }
-        $url = str_replace('http://localhost:8000', '', $url);
-        $url = str_replace('https://www.it-hilbert.com', '', $url);
-
-        return $url;
+        return self::urlZuPfad(url()->current());
     }
 
     public static function getURLBevor()
     {
-        $url = url()->previous() ?? 'N/A';
-        if ($url == 'http://localhost:8000') {
-            return 'index';
-        } elseif ($url == 'https://www.it-hilbert.com') {
+        return self::urlZuPfad(url()->previous());
+    }
+
+    private static function urlZuPfad(string $url): string
+    {
+        $pfad = parse_url($url, PHP_URL_PATH);
+        if (! is_string($pfad) || $pfad === '' || $pfad === '/') {
             return 'index';
         }
-        $url = str_replace('http://localhost:8000', '', $url);
-        $url = str_replace('https://www.it-hilbert.com', '', $url);
 
-        return $url;
+        $query = parse_url($url, PHP_URL_QUERY);
+
+        return is_string($query) && $query !== '' ? $pfad.'?'.$query : $pfad;
     }
 
     public static function getID()
