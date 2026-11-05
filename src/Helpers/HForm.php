@@ -327,7 +327,10 @@ class HForm
         // Value Attribute setzen
         if ($value != '') {
             $datum = new MyDateTime($value);
-            $value = $datum->getDateDE();
+            // Unvollständige oder nicht erkannte Eingabe bleibt unverändert sichtbar
+            if ($datum->getType() !== 'Nothing') {
+                $value = $datum->getDateDE();
+            }
         }
         $value = 'value="'.self::esc($value).'"';
 

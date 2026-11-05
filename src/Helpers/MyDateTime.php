@@ -5,9 +5,6 @@ namespace ITHilbert\LaravelKit\Helpers;
 use DateTime;
 use Exception;
 
-// Sprach-/Gebietsschema festlegen
-setlocale(LC_TIME, 'de_DE.utf8');
-
 /**
  * Meine Datumsklasse für Datum/Zeit als Datentyp
  *
@@ -44,71 +41,135 @@ class MyDateTime
      **/
     public function setDateTime($datumZeit = '')
     {
+        $original = $datumZeit;
+        if (is_bool($original)) {
+            $this->setNichts();
+
+            return;
+        }
+        $datumZeit = (string) $datumZeit;
+        $this->type = 'DateTime';
+
         if ($datumZeit == 'now') {
             $this->timestamp = time();
         } elseif ($datumZeit == 'NULL') {
             $this->timestamp = 0;
-            // 2018-05-25 15:25:06
-        } elseif (strpos($datumZeit, '-') > 0 && strpos($datumZeit, ':') > 0 && strpos($datumZeit, ' ') > 0) {
-            $teil = explode(' ', $datumZeit);
-            $datum = explode('-', $teil[0]);
-            $zeit = explode(':', $teil[1]);
-            if (count($zeit) == 3) {
-                $this->timestamp = date('U', mktime($zeit[0], $zeit[1], $zeit[2], $datum[1], $datum[2], $datum[0]));
-            } else {
-                $this->timestamp = date('U', mktime($zeit[0], $zeit[1], 0, $datum[1], $datum[2], $datum[0]));
-            }
-            $this->type = 'DateTime';
-
-            // 25.05.2018 15:25:06
-        } elseif (strpos($datumZeit, '.') > 0 && strpos($datumZeit, ':') > 0 && strpos($datumZeit, ' ') > 0) {
-            $teil = explode(' ', $datumZeit);
-            $datum = explode('.', $teil[0]);
-            $zeit = explode(':', $teil[1]);
-            if (count($zeit) == 3) {
-                $this->timestamp = date('U', mktime($zeit[0], $zeit[1], $zeit[2], $datum[1], $datum[0], $datum[2]));
-            } else {
-                $this->timestamp = date('U', mktime($zeit[0], $zeit[1], 0, $datum[1], $datum[0], $datum[2]));
-            }
-            $this->type = 'DateTime';
-
-            // 2018-05-25
-        } elseif (strpos($datumZeit, '-') > 0) {
-            if ($datumZeit != '0000-00-00') {
-                $datum = explode('-', $datumZeit);
-                $this->timestamp = date('U', mktime(0, 0, 0, $datum[1], $datum[2], $datum[0]));
-                $this->type = 'Date';
-            } else {
-                $this->timestamp = 0;
-                $this->type = 'Date';
-            }
-
-            // 25.05.2018
-        } elseif (strpos($datumZeit, '.') > 0) {
-            $datum = explode('.', $datumZeit);
-            $this->timestamp = date('U', mktime(0, 0, 0, $datum[1], $datum[0], $datum[2]));
-            $this->type = 'Date';
-
-            // 15:25:06 oder 15:25
-        } elseif (strpos($datumZeit, ':') > 0) {
-            $zeit = explode(':', $datumZeit);
-            if (count($zeit) == 3) {
-                $this->timestamp = date('U', mktime($zeit[0], $zeit[1], $zeit[2], 0, 0, 0));
-            } else {
-                $this->timestamp = date('U', mktime($zeit[0], $zeit[1], 0, 0, 0, 0));
-            }
-            $this->type = 'Time';
-
-            // 1537451550
+        } elseif (strpos($datumZeit, '-') > 0 || $this->hatFuehrendesMinusMitTrenner($datumZeit) || strpos($datumZeit, '.') > 0 || strpos($datumZeit, ':') > 0) {
+            $this->setAusMuster($datumZeit);
         } elseif ($this->isTimestamp($datumZeit)) {
-            $this->timestamp = $datumZeit;
+            // 1537451550
+            // int und float behalten ihren Typ wie bisher
+            $this->timestamp = is_int($original) || is_float($original) ? $original : $datumZeit;
             $this->type = 'DateTime';
         } else {
-            $this->timestamp = 0;
-            $this->type = 'Nothing';
+            $this->setNichts();
         }
 
         // echo $datumZeit . ' -> ' . $this->timestamp .' -> ' . $this->type.  '<br />';
+    }
+
+    /**
+     * Führendes Minus plus mindestens ein weiterer Trenner (-03-15) ist kein Zeitstempel,
+     * sondern eine unvollständige Datumsangabe; negative Zeitstempel (-86400) bleiben Zeitstempel.
+     */
+    private function hatFuehrendesMinusMitTrenner(string $datumZeit): bool
+    {
+        $text = trim($datumZeit);
+
+        return str_starts_with($text, '-') && strpos($text, '-', 1) !== false;
+    }
+
+    private function setNichts(): void
+    {
+        $this->timestamp = 0;
+        $this->type = 'Nothing';
+    }
+
+    /**
+     * Zerlegt eine Angabe nach den erkannten Mustern. Unvollständige oder nicht
+     * numerische Angaben ergeben ein leeres Objekt (Typ Nothing).
+     */
+    private function setAusMuster(string $datumZeit): void
+    {
+        // Leerraum am Rand und Sekundenbruchteile der Uhrzeit (DATETIME(6), auch Punkt ohne Ziffern) wie bisher ignorieren
+        $datumZeit = trim($datumZeit);
+        $datumZeit = preg_replace('/^(.+ \d+:\d+:\d+)\.\d*$/', '$1', $datumZeit);
+
+        $hatZeit = strpos($datumZeit, ':') > 0;
+        $hatLeerzeichen = strpos($datumZeit, ' ') > 0;
+
+        // Trenner des Datumsteils: 2018-05-25 oder 25.05.2018
+        $trenner = null;
+        if (strpos($datumZeit, '-') > 0 && (! $hatZeit || $hatLeerzeichen)) {
+            $trenner = '-';
+        } elseif (strpos($datumZeit, '.') > 0 && (! $hatZeit || $hatLeerzeichen)) {
+            $trenner = '.';
+        }
+
+        $datum = null;
+        $zeit = null;
+        if ($trenner !== null) {
+            $teil = $hatZeit ? explode(' ', $datumZeit) : [$datumZeit];
+            $datum = $this->zerlege($teil[0], $trenner, 3);
+            $zeit = $hatZeit ? $this->zerlege($teil[1], ':', 2) : [0, 0, 0];
+        } else {
+            // 15:25:06 oder 15:25
+            $zeit = $this->zerlege($datumZeit, ':', 2);
+            $datum = [0, 0, 0];
+        }
+
+        if ($datum === null || $zeit === null) {
+            $this->setNichts();
+
+            return;
+        }
+
+        if ($trenner === null) {
+            $this->timestamp = date('U', mktime($zeit[0], $zeit[1], count($zeit) == 3 ? $zeit[2] : 0, 0, 0, 0));
+            $this->type = 'Time';
+
+            return;
+        }
+
+        if ($trenner === '-') {
+            [$jahr, $monat, $tag] = $datum;
+        } else {
+            [$tag, $monat, $jahr] = $datum;
+        }
+
+        if (! $hatZeit && $datumZeit == '0000-00-00') {
+            $this->timestamp = 0;
+            $this->type = 'Date';
+
+            return;
+        }
+
+        $this->timestamp = date('U', mktime($zeit[0], $zeit[1], count($zeit) == 3 ? $zeit[2] : 0, $monat, $tag, $jahr));
+        $this->type = $hatZeit ? 'DateTime' : 'Date';
+    }
+
+    /**
+     * Ein Teil zählt als Zahl, wenn er nach dem Abschneiden von Leerraum eine Ganzzahl
+     * mit optionalem Vorzeichen ist (so wie PHP diese Teile bisher als Zahl annahm).
+     *
+     * @return list<int>|null null, wenn weniger als $mindestens Teile oder ein Teil leer/keine Ganzzahl ist
+     */
+    private function zerlege(string $text, string $trenner, int $mindestens): ?array
+    {
+        $teile = explode($trenner, $text);
+        if (count($teile) < $mindestens) {
+            return null;
+        }
+        $zahlen = [];
+        foreach ($teile as $teil) {
+            $teil = trim($teil, " \t\n\r\v\f");
+            if (preg_match('/^[+-]?\d+$/', $teil) !== 1) {
+                return null;
+            }
+            $zahlen[] = (int) $teil;
+        }
+
+        return $zahlen;
     }
 
     /************************************************************************
@@ -510,6 +571,11 @@ class MyDateTime
      **/
     public function isTimestamp($string)
     {
+        // nur ganzzahlige Zeitstempel; relative Zusätze ('1 day', '86400 +1') sind keine
+        if (! is_int($string) && ! is_float($string) && ! preg_match('/^[+-]?\d+$/', trim((string) $string))) {
+            return false;
+        }
+
         try {
             new DateTime('@'.$string);
         } catch (Exception $e) {
