@@ -54,7 +54,7 @@ class MyDateTime
             $this->timestamp = time();
         } elseif ($datumZeit == 'NULL') {
             $this->timestamp = 0;
-        } elseif (strpos($datumZeit, '-') > 0 || strpos($datumZeit, '.') > 0 || strpos($datumZeit, ':') > 0) {
+        } elseif (strpos($datumZeit, '-') > 0 || $this->hatFuehrendesMinusMitTrenner($datumZeit) || strpos($datumZeit, '.') > 0 || strpos($datumZeit, ':') > 0) {
             $this->setAusMuster($datumZeit);
         } elseif ($this->isTimestamp($datumZeit)) {
             // 1537451550
@@ -66,6 +66,17 @@ class MyDateTime
         }
 
         // echo $datumZeit . ' -> ' . $this->timestamp .' -> ' . $this->type.  '<br />';
+    }
+
+    /**
+     * Führendes Minus plus mindestens ein weiterer Trenner (-03-15) ist kein Zeitstempel,
+     * sondern eine unvollständige Datumsangabe; negative Zeitstempel (-86400) bleiben Zeitstempel.
+     */
+    private function hatFuehrendesMinusMitTrenner(string $datumZeit): bool
+    {
+        $text = trim($datumZeit);
+
+        return str_starts_with($text, '-') && strpos($text, '-', 1) !== false;
     }
 
     private function setNichts(): void
