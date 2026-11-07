@@ -19,6 +19,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * Feld-Components, Escaping (AK7), beide Themes (AK8), Randfälle 1–4.
  *
  * Fehler kommen aus dem geteilten $errors-Bag (view()->share), alte Eingaben aus der Session am Request.
+ * Die Fehleranzeige ist seit AK10 standardmäßig aus; Tests zu AK6 schalten sie über die Config
+ * `laravelkit.fehleranzeige` ein (fehlerTeilen() bzw. fehleranzeigeAn()). old()-Tests und Randfall 4 laufen ohne.
  */
 final class FormularOldFehlerTest extends TestCase
 {
@@ -238,9 +240,23 @@ final class FormularOldFehlerTest extends TestCase
         $this->app['request']->setLaravelSession($session);
     }
 
-    /** @param array<string, list<string>> $meldungen */
-    private function fehlerTeilen(array $meldungen): void
+    /** AK10: Fehleranzeige für alle Felder über die Config einschalten. */
+    private function fehleranzeigeAn(): void
     {
+        config(['laravelkit.fehleranzeige' => true]);
+    }
+
+    /**
+     * Teilt den $errors-Bag; $anzeigen schaltet zugleich die Fehleranzeige ein (AK10).
+     *
+     * @param  array<string, list<string>>  $meldungen
+     */
+    private function fehlerTeilen(array $meldungen, bool $anzeigen = true): void
+    {
+        if ($anzeigen) {
+            $this->fehleranzeigeAn();
+        }
+
         view()->share('errors', (new ViewErrorBag)->put('default', new MessageBag($meldungen)));
     }
 
@@ -397,6 +413,7 @@ final class FormularOldFehlerTest extends TestCase
     public function test_echte_anfrage_mit_web_middleware_zeigt_old_und_fehler(string $theme): void
     {
         config(['laravelkit.theme' => $theme]);
+        $this->fehleranzeigeAn();
         Route::middleware('web')->get('/_kit/formular', fn () => Blade::render('<x-kit::input-text name="vorname" />'));
         $fehler = (new ViewErrorBag)->put('default', new MessageBag(['vorname' => ['Vorname ist zu kurz.']]));
 
@@ -662,6 +679,7 @@ final class FormularOldFehlerTest extends TestCase
     #[DataProvider('fehlerKomponenten')]
     public function test_ohne_errors_im_view_erscheint_nichts_und_attribute_fehlen(string $theme, string $k): void
     {
+        $this->fehleranzeigeAn();
         $ohne = $this->feldRendern($theme, $k, 'feld');
 
         $this->assertSame(0, $this->anzahl($ohne, "//*[@id='feld-error']"));
@@ -919,7 +937,7 @@ final class FormularOldFehlerTest extends TestCase
     #[DataProvider('bisherigesMarkup')]
     public function test_mit_leerem_bag_und_session_ohne_old_byte_gleich_zum_bisherigen_markup(string $theme, string $blade, string $erwartet): void
     {
-        $this->fehlerTeilen([]);
+        $this->fehlerTeilen([], anzeigen: false);
         $this->alteEingaben([]);
 
         $this->assertSame($erwartet, $this->rendern($theme, $blade));
