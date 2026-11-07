@@ -43,6 +43,7 @@ LARAVELKIT_THEME=bootstrap5
   - `combobox`: `options` als Array, Collection oder JSON-Text mit `cbKey`/`cbCaption`; `value` wählt die Option.
   - `select`: `options` wie `combobox`, zusätzlich als Schlüssel→Text-Array (`['a' => 'Alpha']`); `value` wählt die Option, bei `multiple` alle Optionen aus einem Array. `placeholder` ergibt eine erste Option mit leerem Wert.
   - `label`: `for` setzt das Ziel; der Text wird escaped.
+  - Theme `bootstrap5`: `input-text`, `input-email`, `input-password`, `input-date`, `input-number`, `input-euro`, `text-area` und `combobox` erzeugen mit `label="Text"` davor ein `<label for="<feld-id>" class="form-label">` (über `kit::label`, Text escaped, leer = kein Label). `for` zeigt auf die id des Feldes; die `combobox` bekommt mit `label` ohne `id` die id aus dem Namen.
   - `input-file`: `accept`, `multiple` und `required` gehen an das `<input>`. Ein Wert wird nie vorbelegt.
 - Tabs: `tabs-header`, `tab-header`, `tabs-body`, `tab-body`
 - Sonstiges: `breadcrumb`, `show-euro`, `show-date`
