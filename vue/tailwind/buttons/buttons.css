@@ -20,7 +20,9 @@
 @import './button-create.css';
 @import './button-delete.css';
 @import './button-edit.css';
+@import './button-primary.css';
 @import './button-reset.css';
 @import './button-save.css';
+@import './button-secondary.css';
 @import './button-show.css';
 @import './button-submit.css';

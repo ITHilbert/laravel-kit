@@ -1,0 +1,13 @@
+/* button-primary.css — Styles für .btn-primary (<x-kit::button>) */
+
+.btn-primary {
+    @apply bg-blue-600 text-white;
+
+    &:hover {
+        @apply bg-blue-700;
+    }
+
+    &:focus {
+        @apply ring-2 ring-blue-500 ring-offset-2;
+    }
+}

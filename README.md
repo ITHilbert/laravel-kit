@@ -38,8 +38,12 @@ LARAVELKIT_THEME=bootstrap5
 ### Verfügbare Kit-Components
 
 - Karten: `card-main`, `card-main-header`, `card-body`, `card-footer`
-- Buttons: `button-create`, `button-edit`, `button-show`, `button-delete`, `button-save`, `button-back`, `button-submit`, `button-cancel`
-- Formularfelder: `input-text`, `input-email`, `input-password`, `input-date`, `input-euro`, `input-number`, `input-hidden`, `input-file-img`, `text-area`, `checkbox`, `combobox` (`options` als Array, Collection oder JSON-Text mit `cbKey`/`cbCaption`; `value` wählt die Option)
+- Buttons: `button-create`, `button-edit`, `button-show`, `button-delete`, `button-save`, `button-back`, `button-submit`, `button-cancel`, `button` (`variant` ergibt die Klasse `btn-<variant>`, Default `primary`; `type` den Typ, Default `button`)
+- Formularfelder: `label`, `input-text`, `input-email`, `input-password`, `input-date`, `input-euro`, `input-number`, `input-hidden`, `input-file`, `input-file-img`, `text-area`, `checkbox`, `combobox`, `select`
+  - `combobox`: `options` als Array, Collection oder JSON-Text mit `cbKey`/`cbCaption`; `value` wählt die Option.
+  - `select`: `options` wie `combobox`, zusätzlich als Schlüssel→Text-Array (`['a' => 'Alpha']`); `value` wählt die Option, bei `multiple` alle Optionen aus einem Array. `placeholder` ergibt eine erste Option mit leerem Wert.
+  - `label`: `for` setzt das Ziel; der Text wird escaped.
+  - `input-file`: `accept`, `multiple` und `required` gehen an das `<input>`. Ein Wert wird nie vorbelegt.
 - Tabs: `tabs-header`, `tab-header`, `tabs-body`, `tab-body`
 - Sonstiges: `breadcrumb`, `show-euro`, `show-date`
 
@@ -61,7 +65,49 @@ Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `butto
 </x-kit::card-main>
 ```
 
-Formularfelder übernehmen `old($name)` nicht selbst. Die View übergibt `old()` als `value`, die Component gibt den Wert unverändert aus.
+### old() und Fehleranzeige
+
+Die Felder `input-text`, `input-email`, `input-date`, `input-number`, `input-euro`, `text-area`, `combobox` und `select` belegen ihren Wert aus `old(<Feldname>)` vor, wenn kein `value` übergeben ist (bei `text-area` auch kein Slot-Inhalt). Ein übergebenes `value` hat Vorrang. In Bearbeiten-Formularen schreibt man deshalb:
+
+```blade
+<x-kit::input-text name="name" label="Name" :value="old('name', $kunde->name)" />
+```
+
+Feldnamen in Array-Schreibweise werden in Punktschreibweise gelesen: `adresse[ort]` liest `old('adresse.ort')`, `tags[]` liest `old('tags')`. Liefert `old()` ein Array für ein Einzelfeld, bleibt das Feld leer. `input-password`, `input-file` und `input-file-img` werden nie vorbelegt.
+
+Die Fehleranzeige ist standardmäßig aus. Sie wird pro Feld mit dem Attribut `fehler` (`:fehler="false"` schaltet aus) oder für alle Felder über die Config `laravelkit.fehleranzeige` (Env `LARAVELKIT_FEHLERANZEIGE=true`) aktiviert; das Attribut geht der Config vor, ein leeres `fehler=""` folgt der Config, ein Attribut `error="Text"` aktiviert das Feld ebenfalls. Das Attribut `fehler` erscheint nicht im HTML, `old()` bleibt immer aktiv.
+
+Ist die Fehleranzeige aktiv und enthält der geteilte `$errors`-Bag Fehler zum Feldnamen, zeigen `input-text`, `input-email`, `input-password`, `input-date`, `input-number`, `input-euro`, `input-file`, `input-file-img`, `text-area`, `combobox` und `select` die erste Meldung unter dem Feld:
+
+- Die Meldung steht in einem Element mit der id `<id>-error`. Tailwind: Klasse `field-error`, Bootstrap 5: `invalid-feedback d-block`.
+- Das Feld bekommt `aria-invalid="true"` und `aria-describedby="<id>-error"`. Ein übergebenes `aria-describedby` bleibt erhalten, die Fehler-id wird angehängt.
+- Im Theme `bootstrap5` bekommt das Feld zusätzlich die Klasse `is-invalid`.
+- Die Meldung wird escaped. Ein Attribut `error="Text"` überschreibt die Meldung aus dem Bag.
+- Ohne `$errors` im View (z. B. Rendern ohne Middleware) erscheint nichts.
+
+**Upgrade-Hinweis:** Wer Fehler selbst anzeigt, ändert nichts (das Kit zeigt standardmäßig keine). Wer die Kit-Anzeige will, setzt `fehler` am Feld oder `LARAVELKIT_FEHLERANZEIGE=true`.
+
+Die id ist das Attribut `id`, sonst der Feldname ohne `[` und `]`: `adresse[ort]` ergibt `adresse_ort`, `tags[]` ergibt `tags`.
+
+### Dateien hochladen
+
+`input-file` und `input-file-img` funktionieren nur in einem Formular mit `enctype="multipart/form-data"`. Das Kit setzt das Attribut nicht selbst:
+
+```blade
+<form method="post" enctype="multipart/form-data">
+    @csrf
+    <x-kit::input-file name="bild" label="Bild" accept="image/png" />
+    <x-kit::button-save />
+</form>
+```
+
+### HForm und Blade-Formulare
+
+Für Blade-Formulare ist `HForm` durch die Formular-Components oben ersetzbar. `HForm` bleibt für Bestandsprojekte erhalten.
+
+### CSS-Klassen
+
+Das Kit-CSS liefert `field-error` für die Fehlermeldung (`vue/tailwind/forms/field-error.css`, über `forms.css` eingebunden) sowie `btn-primary` und `btn-secondary` für `<x-kit::button>` (`vue/tailwind/buttons/`). Im Theme `bootstrap5` gelten die Bootstrap-Klassen `invalid-feedback`, `is-invalid`, `btn-primary` und `btn-secondary`. Die CSS-Dateien müssen im Projekt eingebunden sein (siehe „Integrations-Voraussetzungen“).
 
 ### Vue-Checkbox (`checkbox`, tailwind und bootstrap5)
 

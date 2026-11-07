@@ -1,0 +1,5 @@
+/* field-error.css — Styles für .field-error (Fehlermeldung unter einem Feld) */
+
+.field-error {
+    @apply mt-1 text-xs text-red-600;
+}
