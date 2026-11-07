@@ -65,7 +65,7 @@ final class KitFeld
     }
 
     /**
-     * Fehlerzustand eines Feldes für die Templates: Fehler-id, Meldung (Attribut error vor Bag) und die
+     * Fehlerzustand eines Feldes für die Templates: Fehler-id, Meldung (Attribut error vor Bag; Bag nur bei aktiver Fehleranzeige, Attribut fehler wird entfernt) und die
      * Feld-Attribute. Mit Meldung bekommt das Feld aria-invalid und aria-describedby (ein vorhandener
      * Wert bleibt, die Fehler-id wird angehängt); ohne Meldung bleiben die Attribute unverändert.
      *
@@ -76,8 +76,18 @@ final class KitFeld
         $uebergeben = $id ?? self::alsText($attributes->get('id'));
         $feldId = self::id($name, $uebergeben);
         $fehlerId = $feldId.'-error';
-        $meldung = self::alsText($error);
-        $meldung = ($meldung === null || $meldung === '') ? self::fehler($name) : $meldung;
+        $schalter = $attributes->get('fehler');
+        $attributes = $attributes->except('fehler');
+        $eigene = self::alsText($error);
+        $eigene = $eigene === '' ? null : $eigene;
+
+        if ($eigene !== null) {
+            $meldung = $eigene;
+        } elseif (self::fehleranzeigeAktiv($schalter)) {
+            $meldung = self::fehler($name);
+        } else {
+            $meldung = null;
+        }
 
         if ($meldung === null) {
             return ['id' => $feldId, 'fehlerId' => $fehlerId, 'meldung' => null, 'attribute' => $attributes];
@@ -94,6 +104,19 @@ final class KitFeld
                 'aria-describedby' => trim($vorhanden.' '.$fehlerId),
             ]),
         ];
+    }
+
+    /**
+     * Fehleranzeige aktiv? Das Attribut fehler (true/false) geht vor der Config laravelkit.fehleranzeige;
+     * nicht gesetzt oder leer folgt der Config (Standard aus).
+     */
+    private static function fehleranzeigeAktiv(mixed $schalter): bool
+    {
+        if ($schalter === null || $schalter === '') {
+            $schalter = config('laravelkit.fehleranzeige');
+        }
+
+        return filter_var($schalter, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

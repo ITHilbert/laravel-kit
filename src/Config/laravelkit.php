@@ -16,6 +16,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Fehleranzeige der Formular-Components
+    |--------------------------------------------------------------------------
+    |
+    | Standardmäßig aus. Pro Feld mit dem Attribut `fehler` (:fehler="false" schaltet aus)
+    | oder für alle Felder mit true. Ein Attribut error="Text" aktiviert das jeweilige Feld.
+    |
+    */
+    'fehleranzeige' => filter_var(env('LARAVELKIT_FEHLERANZEIGE', false), FILTER_VALIDATE_BOOLEAN),
+
+    /*
+    |--------------------------------------------------------------------------
     | Rechtstexte (Impressum, Datenschutz, AGB, Cookie-Richtlinie)
     |--------------------------------------------------------------------------
     |

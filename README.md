@@ -75,13 +75,17 @@ Die Felder `input-text`, `input-email`, `input-date`, `input-number`, `input-eur
 
 Feldnamen in Array-Schreibweise werden in Punktschreibweise gelesen: `adresse[ort]` liest `old('adresse.ort')`, `tags[]` liest `old('tags')`. Liefert `old()` ein Array für ein Einzelfeld, bleibt das Feld leer. `input-password`, `input-file` und `input-file-img` werden nie vorbelegt.
 
-Enthält der geteilte `$errors`-Bag Fehler zum Feldnamen, zeigen `input-text`, `input-email`, `input-password`, `input-date`, `input-number`, `input-euro`, `input-file`, `input-file-img`, `text-area`, `combobox` und `select` die erste Meldung unter dem Feld:
+Die Fehleranzeige ist standardmäßig aus. Sie wird pro Feld mit dem Attribut `fehler` (`:fehler="false"` schaltet aus) oder für alle Felder über die Config `laravelkit.fehleranzeige` (Env `LARAVELKIT_FEHLERANZEIGE=true`) aktiviert; das Attribut geht der Config vor, ein leeres `fehler=""` folgt der Config, ein Attribut `error="Text"` aktiviert das Feld ebenfalls. Das Attribut `fehler` erscheint nicht im HTML, `old()` bleibt immer aktiv.
+
+Ist die Fehleranzeige aktiv und enthält der geteilte `$errors`-Bag Fehler zum Feldnamen, zeigen `input-text`, `input-email`, `input-password`, `input-date`, `input-number`, `input-euro`, `input-file`, `input-file-img`, `text-area`, `combobox` und `select` die erste Meldung unter dem Feld:
 
 - Die Meldung steht in einem Element mit der id `<id>-error`. Tailwind: Klasse `field-error`, Bootstrap 5: `invalid-feedback d-block`.
 - Das Feld bekommt `aria-invalid="true"` und `aria-describedby="<id>-error"`. Ein übergebenes `aria-describedby` bleibt erhalten, die Fehler-id wird angehängt.
 - Im Theme `bootstrap5` bekommt das Feld zusätzlich die Klasse `is-invalid`.
 - Die Meldung wird escaped. Ein Attribut `error="Text"` überschreibt die Meldung aus dem Bag.
 - Ohne `$errors` im View (z. B. Rendern ohne Middleware) erscheint nichts.
+
+**Upgrade-Hinweis:** Wer Fehler selbst anzeigt, ändert nichts (das Kit zeigt standardmäßig keine). Wer die Kit-Anzeige will, setzt `fehler` am Feld oder `LARAVELKIT_FEHLERANZEIGE=true`.
 
 Die id ist das Attribut `id`, sonst der Feldname ohne `[` und `]`: `adresse[ort]` ergibt `adresse_ort`, `tags[]` ergibt `tags`.
 
