@@ -1,0 +1,13 @@
+/* button-secondary.css — Styles für .btn-secondary (<x-kit::button variant="secondary">) */
+
+.btn-secondary {
+    @apply bg-gray-100 text-gray-700 border border-gray-300;
+
+    &:hover {
+        @apply bg-gray-200;
+    }
+
+    &:focus {
+        @apply ring-2 ring-gray-400 ring-offset-2;
+    }
+}

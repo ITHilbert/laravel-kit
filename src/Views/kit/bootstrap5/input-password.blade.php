@@ -1,6 +1,8 @@
 {{-- Vorlage: vue/bootstrap5/forms/input-password.vue --}}
-@props(['name' => '', 'addClass' => ''])
+@props(['name' => '', 'addClass' => '', 'error' => null])
+@php($z = \ITHilbert\LaravelKit\Kit\KitFeld::zustand($name, null, $attributes, $error))
 <div class="input-group">
-    <input {{ $attributes->merge(['type' => 'password', 'id' => $name, 'name' => $name])->class(['form-control input-password', $addClass]) }}>
+    <input {{ $z['attribute']->merge(['type' => 'password', 'id' => $z['id'], 'name' => $name])->class(['form-control input-password', $addClass, 'is-invalid' => $z['meldung'] !== null]) }}>
     <span class="input-group-text"><span data-feather="key"></span></span>
-</div>
+</div>@if ($z['meldung'] !== null)@include('laravelkit::kit.bootstrap5.partials.fehler', ['id' => $z['fehlerId'], 'meldung' => $z['meldung']])@endif
+

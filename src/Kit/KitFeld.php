@@ -6,6 +6,7 @@ namespace ITHilbert\LaravelKit\Kit;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\View\ComponentAttributeBag;
 
 /**
  * Leitet für die Formular-Kit-Components aus dem Feldnamen id, old()-Wert und Fehlermeldung ab.
@@ -61,6 +62,38 @@ final class KitFeld
         $meldung = $fehler->first(self::punkt($name));
 
         return $meldung === '' ? null : $meldung;
+    }
+
+    /**
+     * Fehlerzustand eines Feldes für die Templates: Fehler-id, Meldung (Attribut error vor Bag) und die
+     * Feld-Attribute. Mit Meldung bekommt das Feld aria-invalid und aria-describedby (ein vorhandener
+     * Wert bleibt, die Fehler-id wird angehängt); ohne Meldung bleiben die Attribute unverändert.
+     *
+     * @return array{id: string, fehlerId: string, meldung: ?string, attribute: ComponentAttributeBag}
+     */
+    public static function zustand(string $name, ?string $id, ComponentAttributeBag $attributes, mixed $error = null): array
+    {
+        $uebergeben = $id ?? self::alsText($attributes->get('id'));
+        $feldId = self::id($name, $uebergeben);
+        $fehlerId = $feldId.'-error';
+        $meldung = self::alsText($error);
+        $meldung = ($meldung === null || $meldung === '') ? self::fehler($name) : $meldung;
+
+        if ($meldung === null) {
+            return ['id' => $feldId, 'fehlerId' => $fehlerId, 'meldung' => null, 'attribute' => $attributes];
+        }
+
+        $vorhanden = trim((string) self::alsText($attributes->get('aria-describedby')));
+
+        return [
+            'id' => $feldId,
+            'fehlerId' => $fehlerId,
+            'meldung' => $meldung,
+            'attribute' => $attributes->except('aria-describedby')->merge([
+                'aria-invalid' => 'true',
+                'aria-describedby' => trim($vorhanden.' '.$fehlerId),
+            ]),
+        ];
     }
 
     /**

@@ -29,3 +29,6 @@
 
 /* --- Labels & Struktur --- */
 @import './hlabel.css';
+
+/* --- Fehlermeldung unter dem Feld --- */
+@import './field-error.css';
