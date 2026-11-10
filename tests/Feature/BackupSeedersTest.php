@@ -29,10 +29,17 @@ class FakeIseedBefehl extends Command
     /** @var array<int, string> Tabellen, bei denen der Fake mit Exit-Code 1 endet */
     public static array $scheitern = [];
 
+    /** @var array<int, string> Tabellen, bei denen der Fake eine Exception wirft (der echte iseed gibt keinen Exit-Code zurück) */
+    public static array $werfen = [];
+
     public function handle(): int
     {
         $tabellen = (string) $this->argument('tables');
         self::$aufrufe[] = ['tables' => $tabellen, 'options' => $this->options()];
+
+        if (in_array($tabellen, self::$werfen, true)) {
+            throw new \RuntimeException("iseed-Fehler bei {$tabellen}");
+        }
 
         return in_array($tabellen, self::$scheitern, true) ? 1 : 0;
     }
@@ -40,6 +47,17 @@ class FakeIseedBefehl extends Command
 
 /** Markiert, dass ein Seeder aus DatabaseSeeder::run() wirklich lief. */
 class BackupSeedersMarkerSeeder extends Seeder
+{
+    public static int $gelaufen = 0;
+
+    public function run(): void
+    {
+        self::$gelaufen++;
+    }
+}
+
+/** Steht für einen von iseed neu eingetragenen Seeder-Aufruf. */
+class BackupSeedersEingetragenSeeder extends Seeder
 {
     public static int $gelaufen = 0;
 
@@ -65,7 +83,9 @@ class BackupSeedersTest extends TestCase
 
         FakeIseedBefehl::$aufrufe = [];
         FakeIseedBefehl::$scheitern = [];
+        FakeIseedBefehl::$werfen = [];
         BackupSeedersMarkerSeeder::$gelaufen = 0;
+        BackupSeedersEingetragenSeeder::$gelaufen = 0;
 
         Artisan::registerCommand(new FakeIseedBefehl);
 
@@ -377,5 +397,116 @@ PHP;
         $tabellen = $this->exportierteTabellen();
         $this->assertContains('posts', $tabellen);
         $this->assertContains('users', $tabellen); // kommt alphabetisch nach posts: es ging weiter
+    }
+
+    /**
+     * Echte Umschreibung des iseed, kopiert aus
+     * vendor/orangehill/iseed/src/Orangehill/Iseed/Iseed.php, Methode updateDatabaseSeederRunMethod
+     * (Zweig ohne #iseed_start/#iseed_end; indentCharacter 4 Leerzeichen, newLineCharacter "\n").
+     */
+    private function iseedTraegtAufrufEin(string $pfad, string $className): void
+    {
+        $indentCharacter = '    ';
+        $newLineCharacter = "\n";
+        $content = (string) file_get_contents($pfad);
+        if (strpos($content, "\$this->call({$className}::class)") === false) {
+            $content = preg_replace("/(run\(\).+?)}/us", "$1{$indentCharacter}\$this->call({$className}::class);{$newLineCharacter}{$indentCharacter}}", $content);
+        }
+        file_put_contents($pfad, $content);
+    }
+
+    // AK4
+    public function test_von_iseed_eingetragener_aufruf_steht_nach_der_sperre_und_laeuft_in_local(): void
+    {
+        $namespace = 'Tmp\\S'.bin2hex(random_bytes(4));
+        $pfad = $this->seederDatei($namespace);
+        $this->lauf();
+        $className = '\\ITHilbert\\LaravelKit\\Tests\\Feature\\BackupSeedersEingetragenSeeder';
+
+        $this->iseedTraegtAufrufEin($pfad, $className);
+
+        $inhalt = (string) file_get_contents($pfad);
+        $this->assertSame(1, substr_count($inhalt, '// laravelkit:seed-sperre'));
+        $aufruf = strpos($inhalt, "\$this->call({$className}::class)");
+        $this->assertNotFalse($aufruf, 'iseed-Aufruf wurde nicht eingetragen');
+        // Der Aufruf steht nach der Sperre ...
+        $this->assertGreaterThan(strpos($inhalt, 'throw'), $aufruf);
+        // ... und nicht in einem Block (nur Klasse und run()): Klammertiefe 2
+        $davor = substr($inhalt, 0, $aufruf);
+        $this->assertSame(2, substr_count($davor, '{') - substr_count($davor, '}'), 'Aufruf steht innerhalb eines Blocks der Sperre');
+        // Datei bleibt syntaktisch gültig
+        exec('php -l '.escapeshellarg($pfad).' 2>&1', $zeilen, $lint);
+        $this->assertSame(0, $lint, implode("\n", $zeilen));
+
+        require $pfad;
+        $klasse = $namespace.'\\DatabaseSeeder';
+
+        // Gegenprobe: in local und testing laufen beide Aufrufe, auch der von iseed eingetragene
+        foreach (['local', 'testing'] as $umgebung) {
+            $this->app['env'] = $umgebung;
+            BackupSeedersMarkerSeeder::$gelaufen = 0;
+            BackupSeedersEingetragenSeeder::$gelaufen = 0;
+            (new $klasse)->setContainer($this->app)->__invoke();
+            $this->assertSame(1, BackupSeedersMarkerSeeder::$gelaufen, "Marker läuft in {$umgebung}");
+            $this->assertSame(1, BackupSeedersEingetragenSeeder::$gelaufen, "eingetragener Aufruf läuft in {$umgebung}");
+        }
+
+        $this->app['env'] = 'production';
+        BackupSeedersMarkerSeeder::$gelaufen = 0;
+        BackupSeedersEingetragenSeeder::$gelaufen = 0;
+        $meldung = null;
+        try {
+            (new $klasse)->setContainer($this->app)->__invoke();
+        } catch (\Throwable $e) {
+            $meldung = $e->getMessage();
+        }
+        $this->assertNotNull($meldung, 'Sperre greift in production');
+        $this->assertStringContainsString('db:seed', $meldung);
+        $this->assertSame(0, BackupSeedersMarkerSeeder::$gelaufen);
+        $this->assertSame(0, BackupSeedersEingetragenSeeder::$gelaufen, 'Kein Seeder darf in production laufen');
+    }
+
+    // AK4
+    public function test_sperre_steht_im_database_seeder_auch_wenn_der_export_einer_tabelle_mit_exception_scheitert(): void
+    {
+        $pfad = $this->seederDatei('Tmp\\S'.bin2hex(random_bytes(4)));
+
+        // Gegenprobe: ohne Fehler steht die Sperre danach in der Datei
+        $this->lauf();
+        $this->assertSame(1, substr_count((string) file_get_contents($pfad), '// laravelkit:seed-sperre'));
+
+        $this->seederDatei('Tmp\\S'.bin2hex(random_bytes(4))); // Datei zurücksetzen (ohne Sperre)
+        $this->assertStringNotContainsString('// laravelkit:seed-sperre', (string) file_get_contents($pfad));
+        FakeIseedBefehl::$aufrufe = [];
+        FakeIseedBefehl::$werfen = ['posts'];
+
+        $fehler = null;
+        try {
+            $this->lauf();
+        } catch (\Throwable $e) {
+            $fehler = $e->getMessage();
+        }
+
+        $this->assertContains('posts', $this->exportierteTabellen(), 'Aufbau: Fake wurde für posts aufgerufen'.($fehler ? " ({$fehler})" : ''));
+        $this->assertSame(1, substr_count((string) file_get_contents($pfad), '// laravelkit:seed-sperre'), 'Sperre fehlt nach Exception beim Export');
+    }
+
+    // Randfall 2
+    public function test_exception_von_iseed_meldet_tabelle_macht_weiter_und_endet_mit_exit_code_1(): void
+    {
+        [$codeOhneFehler] = $this->lauf();
+        $this->assertSame(0, $codeOhneFehler); // Gegenprobe: ohne Exception Exit-Code 0
+        $this->assertContains('users', $this->exportierteTabellen());
+        FakeIseedBefehl::$aufrufe = [];
+        FakeIseedBefehl::$werfen = ['posts'];
+
+        [$code, $ausgabe] = $this->lauf();
+
+        $this->assertSame(1, $code);
+        $this->assertMatchesRegularExpression('/^.*posts.*$/m', $ausgabe);
+        $tabellen = $this->exportierteTabellen();
+        $this->assertContains('posts', $tabellen);
+        $this->assertContains('users', $tabellen); // alphabetisch nach posts: es ging weiter
+        $this->assertContains('items', $tabellen);
     }
 }
