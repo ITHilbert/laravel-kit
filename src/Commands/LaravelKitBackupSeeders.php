@@ -33,17 +33,22 @@ class LaravelKitBackupSeeders extends Command
         foreach ($tabellen as $tabelle) {
             $sortierung = $this->sortierSpalte($tabelle);
 
-            $exitCode = Artisan::call('iseed', [
-                'tables' => $tabelle,
-                '--force' => true,
-                '--orderby' => $sortierung,
-                '--skip-fk-checks' => true,
-            ]);
+            try {
+                $exitCode = Artisan::call('iseed', [
+                    'tables' => $tabelle,
+                    '--force' => true,
+                    '--orderby' => $sortierung,
+                    '--skip-fk-checks' => true,
+                ]);
 
-            if ($exitCode !== 0) {
+                if ($exitCode !== 0) {
+                    $fehler[] = $tabelle;
+                    $this->error("❌ Fehler beim Exportieren der Tabelle {$tabelle}.");
+                    $this->error(trim(Artisan::output()));
+                }
+            } catch (\Throwable $e) {
                 $fehler[] = $tabelle;
-                $this->error("❌ Fehler beim Exportieren der Tabelle {$tabelle}.");
-                $this->error(trim(Artisan::output()));
+                $this->error("❌ Fehler beim Exportieren der Tabelle {$tabelle}: ".$e->getMessage());
             }
         }
 
@@ -122,9 +127,7 @@ class LaravelKitBackupSeeders extends Command
         $sperre = <<<'PHP'
 
         // laravelkit:seed-sperre
-        if (! app()->environment(['local', 'testing'])) {
-            throw new \RuntimeException('db:seed ist in der Umgebung "'.app()->environment().'" gesperrt: iseed-Seeder löschen vorhandene Daten.');
-        }
+        app()->environment(['local', 'testing']) || throw new \RuntimeException('db:seed ist in der Umgebung "'.app()->environment().'" gesperrt: iseed-Seeder löschen vorhandene Daten.');
 
 PHP;
 
