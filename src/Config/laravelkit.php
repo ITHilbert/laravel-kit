@@ -49,6 +49,7 @@ return [
             'cache',
             'cache_locks',
             'sessions',
+            'migrations',
             'personal_access_tokens',
             'password_reset_tokens',
             'pulse_aggregates',
