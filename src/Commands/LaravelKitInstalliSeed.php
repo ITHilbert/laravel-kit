@@ -1,44 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ITHilbert\LaravelKit\Commands;
 
 use Illuminate\Console\Command;
 
 class LaravelKitInstalliSeed extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'install:iSeed';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Installiert ISeed';
+    protected $description = 'Installiert ISeed (als Dev-Abhängigkeit)';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function handle(): int
     {
-        parent::__construct();
-    }
+        $this->info('Install orangehill/iseed (--dev)');
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        // ISeed
-        $this->info('Install orangehill/iseed');
-        exec('composer require orangehill/iseed');
+        $kommandozeile = 'composer require --dev orangehill/iseed';
+
+        if (app()->bound('laravelkit.exec')) {
+            /** @var callable(string): int $ausfuehren */
+            $ausfuehren = app('laravelkit.exec');
+
+            return (int) $ausfuehren($kommandozeile);
+        }
+
+        passthru($kommandozeile, $exitCode);
+
+        return $exitCode;
     }
 }
