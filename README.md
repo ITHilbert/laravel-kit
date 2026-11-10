@@ -66,6 +66,10 @@ Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `butto
 </x-kit::card-main>
 ```
 
+### Log-Tabelle abschalten
+
+Die Migration der Tabelle `log` wird standardmäßig geladen. Mit der Config `laravelkit.log_tabelle` (Env `LARAVELKIT_LOG_TABELLE=false`) entfällt sie; alle anderen Migrationen laufen weiter.
+
 ### old() und Fehleranzeige
 
 Die Felder `input-text`, `input-email`, `input-date`, `input-number`, `input-euro`, `text-area`, `combobox` und `select` belegen ihren Wert aus `old(<Feldname>)` vor, wenn kein `value` übergeben ist (bei `text-area` auch kein Slot-Inhalt). Ein übergebenes `value` hat Vorrang. In Bearbeiten-Formularen schreibt man deshalb:
