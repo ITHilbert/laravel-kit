@@ -45,13 +45,33 @@ class LaravelKitServiceProvider extends ServiceProvider
     {
         $this->registerCommands();
 
-        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
+        $this->loadKitMigrations();
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
         $this->publishAssets();
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->registerResponseMacros();
         $this->registerLegalTextComponents();
         $this->registerKitComponents();
+    }
+
+    /**
+     * Lädt die Migrationen des Kits; die Log-Tabelle nur bei `laravelkit.log_tabelle`.
+     */
+    protected function loadKitMigrations(): void
+    {
+        $dir = __DIR__.'/Database/Migrations';
+
+        if (config('laravelkit.log_tabelle', true)) {
+            $this->loadMigrationsFrom($dir);
+
+            return;
+        }
+
+        foreach (glob($dir.'/*.php') ?: [] as $datei) {
+            if (! str_ends_with($datei, '_create_log_table.php')) {
+                $this->loadMigrationsFrom($datei);
+            }
+        }
     }
 
     /**

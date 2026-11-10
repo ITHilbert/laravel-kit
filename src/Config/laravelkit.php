@@ -27,6 +27,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Log-Tabelle
+    |--------------------------------------------------------------------------
+    |
+    | Standardmäßig an: Die Migration der Tabelle `log` wird geladen. Mit false
+    | (Env LARAVELKIT_LOG_TABELLE=false) wird nur diese Migration übersprungen.
+    |
+    */
+    'log_tabelle' => filter_var(env('LARAVELKIT_LOG_TABELLE', true), FILTER_VALIDATE_BOOLEAN),
+
+    /*
+    |--------------------------------------------------------------------------
     | Rechtstexte (Impressum, Datenschutz, AGB, Cookie-Richtlinie)
     |--------------------------------------------------------------------------
     |
