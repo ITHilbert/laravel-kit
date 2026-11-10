@@ -381,3 +381,10 @@ Unverändert bleiben vollständige Formate (`2018-05-25`, `25.05.2018`, mit Uhrz
 `Browser::getIP()` nutzt `request()->ip()` und beachtet damit die Trusted Proxies des Hosts. Ist keine IP ermittelbar (z. B. CLI oder Test ohne `REMOTE_ADDR`), liefert sie `'N/A'` ohne Warnung. `getBrowser()` und `getPlatform()` liefern ohne `HTTP_USER_AGENT` ebenfalls `'N/A'`.
 
 **Upgrade-Hinweis:** Bisher wurden `Client-IP` und `X-Forwarded-For` ungeprüft übernommen. Hosts hinter einem Proxy oder Load-Balancer müssen jetzt die Trusted Proxies konfigurieren (Laravel: `trustProxies` in `bootstrap/app.php`), sonst liefert `getIP()` die Adresse des Proxys statt die des Besuchers.
+
+## db:backup-seeders
+
+Exportiert alle Tabellen per `iseed` (je Tabelle, `--orderby` nach Primärschlüssel bzw. erster Spalte, `--skip-fk-checks`, `--force`).
+`laravelkit.backup_seeders.ignore_tables` nimmt u. a. `migrations` und `sessions` aus. Fehlt eine Tabelle im Export wegen eines iseed-Fehlers, läuft der Rest weiter und der Befehl endet mit Exit-Code 1.
+Der Befehl fügt in `database/seeders/DatabaseSeeder.php` (falls vorhanden) am Anfang von `run()` eine Sperre (`// laravelkit:seed-sperre`) ein: `db:seed` bricht außerhalb von `local` und `testing` ab, da iseed-Seeder Tabellen leeren.
+`install:iSeed` installiert `orangehill/iseed` als Dev-Abhängigkeit (`composer require --dev`).
