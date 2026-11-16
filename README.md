@@ -16,6 +16,14 @@ Die ausführliche Dokumentation befindet sich im Ordner `.project/doku/`:
 composer require ithilbert/laravel-kit
 ```
 
+### Publish-Tag `laravelkit-assets`
+
+Veröffentlicht `public/vendor/laravelkit/DataTable_DE.json` (deutsche Texte für DataTables, von userauth 3 genutzt):
+
+```bash
+php artisan vendor:publish --tag=laravelkit-assets
+```
+
 ## Kit-Components (Blade)
 
 Kit-Components sind Blade-Components mit dem Präfix `kit`. Aufruf: `<x-kit::NAME …>`. Der Name entspricht der gleichnamigen Vue-Komponente (`<x-kit::card-main>` entspricht `<card-main>`). Ihre Attribute stimmen mit der Vue-Komponente überein. Weitere Attribute wie `class`, `id`, `required` oder `data-*` landen am Hauptelement.

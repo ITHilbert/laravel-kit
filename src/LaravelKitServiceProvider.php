@@ -175,6 +175,11 @@ class LaravelKitServiceProvider extends ServiceProvider
             __DIR__.'/Publish/Public/laravelkit' => public_path('vendor/laravelkit'),
         ], 'public');
 
+        // DataTable_DE.json für userauth 3 (vendor/laravelkit)
+        $this->publishes([
+            __DIR__.'/Publish/Public/laravelkit' => public_path('vendor/laravelkit'),
+        ], 'laravelkit-assets');
+
     }
 
     protected function registerCommands()
