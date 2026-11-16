@@ -78,6 +78,27 @@ describe('AK11 aktualisiereCombobox', () => {
         assert.equal(doc.querySelectorAll('.kit-combobox').length, 0);
         assert.equal(sel.nextElementSibling, null);
     });
+
+    // AK11
+    test('Container (div.input-group) statt Select: Eingabefeld folgt der Auswahl, Container ohne Select tut nichts', async () => {
+        const modul = await lade();
+        const sel = h('select', { class: 'selectcb' }, option('Apfel', '1', { selected: 'selected' }), option('Birne', '2'));
+        const container = h('div', { class: 'input-group' }, sel);
+        doc.body.appendChild(h('form', {}, container));
+        modul.initCombobox(doc);
+        const eingabe = sel.nextElementSibling.querySelector('input.kit-combobox-input');
+        assert.equal(eingabe.value, 'Apfel', 'Aufbau: alter Text');
+
+        sel.selectedIndex = 1;
+        modul.aktualisiereCombobox(container);
+        assert.equal(eingabe.value, 'Birne');
+
+        const leer = h('div', { class: 'input-group' }, h('span', {}, 'x'));
+        doc.body.appendChild(leer);
+        const davor = leer.innerHTML;
+        assert.doesNotThrow(() => modul.aktualisiereCombobox(leer));
+        assert.equal(leer.innerHTML, davor);
+    });
 });
 
 describe('AK12 search.vue Quelltext', () => {
