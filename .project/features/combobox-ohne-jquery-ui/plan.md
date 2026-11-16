@@ -10,3 +10,5 @@ Offener Punkt a2c0483157c4df6ea: AK-fremd (Eingabefeld folgt keiner Wertänderun
 Offener Punkt a2c0483157c4df6ea: AK-fremd (Webpack-Auflösung des Imports ../../../js/combobox.js: gleiches Muster wie checkbox.vue → shared/*.mjs)
 Echtlauf: entfällt (Paket ohne eigene Seite; Verhalten per Fake-DOM-Tests belegt, Browser-Lauf im Host-Bundle steht aus — unter „Zum Prüfen“)
 Stand: umgesetzt, GATE grün (JS 231/231, PHP 3/3), NACHWEIS ok
+- T3 [pro] (#1366, Spec-Lücke AK11, AK12) `aktualisiereCombobox` in `js/combobox.js`, `search.vue` hält die Auswahl in `data`, `watch` auf `value`/`options` — Tests: tests/js/comboboxAktualisieren.test.mjs
+Bestehende Tests (T3): tests/js/combobox.test.mjs
