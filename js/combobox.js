@@ -166,8 +166,11 @@ function binde(select) {
     });
 }
 
-export function aktualisiereCombobox(select) {
-    aktualisierer.get(select)?.();
+// element: das Select selbst oder ein Element, das select.selectcb enthält.
+export function aktualisiereCombobox(element) {
+    if (!element) return;
+    aktualisierer.get(element)?.();
+    for (const select of Array.from(element.querySelectorAll?.('select.selectcb') ?? [])) aktualisierer.get(select)?.();
 }
 
 export function initCombobox(root = document) {
