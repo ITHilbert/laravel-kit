@@ -1,11 +1,11 @@
 <template>
     <div class="input-group">
-    <select :options="options" :value="value" :class="[defaultclass, $attrs.class, addClass]" v-bind="$attrs">
+    <select :options="options" :value="gewaehlt" @change="geaendert" :class="[defaultclass, $attrs.class, addClass]" v-bind="$attrs">
         <slot></slot>
         <template v-if="options != null">
             <template v-if="ocount()">
                 <template v-for="option in options" >
-                    <option v-if="option.cbKey === value"  :value="option.cbKey" selected>{{ option.cbCaption }}</option>
+                    <option v-if="option.cbKey === gewaehlt"  :value="option.cbKey" selected>{{ option.cbCaption }}</option>
                     <option v-else  :value="option.cbKey" >{{ option.cbCaption }}</option>
                 </template>
             </template>
@@ -16,7 +16,7 @@
 
 
 <script>
-import { initCombobox } from '../../../js/combobox.js';
+import { initCombobox, aktualisiereCombobox } from '../../../js/combobox.js';
 
 export default{
     props: {
@@ -36,9 +36,24 @@ export default{
     data: function () {
         return {
             defaultclass: 'selectcb ',
+            gewaehlt: this.value,
         };
     },
+    watch: {
+        value: function (neu) {
+            this.gewaehlt = neu;
+            this.$nextTick(() => aktualisiereCombobox(this.$el));
+        },
+        options: function () {
+            this.$nextTick(() => aktualisiereCombobox(this.$el));
+        },
+    },
     methods: {
+        //Auswahl des Selects übernehmen und melden
+        geaendert: function (event) {
+            this.gewaehlt = event.target.value;
+            this.$emit('input', event.target.value);
+        },
         //Prüfen ob Daten per options übergeben wurden
         ocount: function () {
             //console.log(typeof this.options);

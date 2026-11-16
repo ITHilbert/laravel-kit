@@ -1,6 +1,7 @@
 // Combobox des Kits: macht aus jedem select.selectcb ein durchsuchbares Eingabefeld (Vanilla-JS, keine Abhängigkeiten).
 // Das Select bleibt ausgeblendet im DOM und trägt weiter den Formularwert.
 const gebunden = new WeakSet();
+const aktualisierer = new WeakMap();
 
 const klein = (t) => String(t).toLowerCase();
 
@@ -157,6 +158,16 @@ function binde(select) {
     };
     liste.addEventListener('mousedown', eintragGeklickt);
     liste.addEventListener('click', eintragGeklickt);
+
+    // Von außen geändertes Select: Eingabefeld neu aus der Auswahl füllen, offene Liste schließen (Liste liest beim Öffnen neu).
+    aktualisierer.set(select, () => {
+        eingabe.value = ausgewaehlt()?.text ?? '';
+        schliessen();
+    });
+}
+
+export function aktualisiereCombobox(select) {
+    aktualisierer.get(select)?.();
 }
 
 export function initCombobox(root = document) {

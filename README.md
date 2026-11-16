@@ -188,6 +188,8 @@ Das Tailwind-Theme braucht zusätzlich `tabs.css` (siehe Integrations-Voraussetz
 
 Die Vue-Komponente `search` rendert ein `select.selectcb` und macht es beim Mounten durchsuchbar. Das übernimmt das Kit-Skript `js/combobox.js` mit `initCombobox(root = document)`. Es blendet jedes `select.selectcb` unter `root` aus und setzt dahinter `span.kit-combobox` mit Eingabefeld, Knopf und Trefferliste. Das Select bleibt die Quelle des Formularwerts. Eine Auswahl löst am Select das Ereignis `change` aus. Ein Select wird nur einmal gebunden, ein zweiter Aufruf ändert nichts.
 
+`search` unterstützt `v-model`: Die Komponente hält die Auswahl selbst, meldet jede Änderung per `input` und übernimmt eine geänderte Prop `value` (auch geänderte `options`) in Select und Eingabefeld. Wer das Select außerhalb von Vue ändert, ruft `aktualisiereCombobox(select)` aus `js/combobox.js` auf: Das Eingabefeld zeigt dann den Text der gewählten Option (leer ohne Auswahl), die Liste liest beim Öffnen die aktuellen Optionen. Für ein Select ohne Combobox tut der Aufruf nichts.
+
 jQuery UI ist dafür nicht mehr nötig: Host-Projekte entfernen `jquery-ui` aus ihrer `package.json` (`npm uninstall jquery-ui`). jQuery selbst bleibt für DataTables.
 
 Select-Elemente mit Klasse `selectcb` außerhalb der Komponente (z. B. in Blade) bindet die Komponente nicht. Das frühere `window.onload` gibt es nicht mehr, das Projekt ruft `initCombobox()` selbst auf:
