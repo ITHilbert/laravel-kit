@@ -184,6 +184,22 @@ initTabs();
 
 Das Tailwind-Theme braucht zusätzlich `tabs.css` (siehe Integrations-Voraussetzungen), damit `.tab-body.active` greift.
 
+### Durchsuchbares Select (`search`, Bootstrap 4/5)
+
+Die Vue-Komponente `search` rendert ein `select.selectcb` und macht es beim Mounten durchsuchbar. Das übernimmt das Kit-Skript `js/combobox.js` mit `initCombobox(root = document)`. Es blendet jedes `select.selectcb` unter `root` aus und setzt dahinter `span.kit-combobox` mit Eingabefeld, Knopf und Trefferliste. Das Select bleibt die Quelle des Formularwerts. Eine Auswahl löst am Select das Ereignis `change` aus. Ein Select wird nur einmal gebunden, ein zweiter Aufruf ändert nichts.
+
+jQuery UI ist dafür nicht mehr nötig: Host-Projekte entfernen `jquery-ui` aus ihrer `package.json` (`npm uninstall jquery-ui`). jQuery selbst bleibt für DataTables.
+
+Select-Elemente mit Klasse `selectcb` außerhalb der Komponente (z. B. in Blade) bindet die Komponente nicht. Das frühere `window.onload` gibt es nicht mehr, das Projekt ruft `initCombobox()` selbst auf:
+
+```javascript
+import { initCombobox } from '../../vendor/ithilbert/laravel-kit/js/combobox.js';
+
+initCombobox();
+```
+
+Die CSS-Klassen heißen `kit-combobox`, `kit-combobox-input`, `kit-combobox-button` und `kit-combobox-list` (früher `ui-combobox-*`). Der markierte Eintrag der Liste trägt die Klasse `active`.
+
 ### Lösch-Button und Lösch-Dialog
 
 `button-delete` nimmt `value` entgegen, die ID des Datensatzes. Der Button gibt sie als `data-kit-delete` aus und hat `type="button"`. Ohne `value` fehlt `data-kit-delete`. Ein Klick meldet die ID über das Ereignis `kit:delete`. `initLoeschen()` aus `js/loeschen.js` nimmt die Meldung entgegen und muss einmal pro Seite laufen:

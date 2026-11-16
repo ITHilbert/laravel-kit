@@ -39,8 +39,6 @@ class LaravelKitInstallMix extends Command
     {
         $this->info('Install NPM Ressources');
         exec('npm install jquery');
-        exec('npm install jquery-ui');
-        // exec('npm install webpack-jquery-ui');
         $this->info('jquery Okay');
 
         exec('npm install datatables.net');
