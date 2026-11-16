@@ -7,6 +7,8 @@ export class FakeEvent {
         this.type = type;
         this.bubbles = init.bubbles ?? true;
         this.detail = init.detail;
+        this.key = init.key;
+        this.keyCode = init.keyCode;
         this.defaultPrevented = false;
         this.target = null;
         this.currentTarget = null;
@@ -18,6 +20,23 @@ export class FakeEvent {
         this.bubbles = false;
     }
 }
+
+// Textknoten (für gemischten Inhalt wie `B<strong>an</strong>ane`).
+export class FakeText {
+    constructor(text = '') {
+        this.nodeType = 3;
+        this.textContent = String(text);
+        this.parentElement = null;
+    }
+    get parentNode() {
+        return this.parentElement;
+    }
+}
+
+const VOID = new Set(['br', 'hr', 'img', 'input']);
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const dekodiere = (t) =>
+    t.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#0?39;|&#x27;/g, "'").replace(/&amp;/g, '&');
 
 class Klassen {
     constructor(el) {
@@ -120,10 +139,9 @@ export class FakeElement {
     constructor(tagName = 'div', attrs = {}) {
         this.tagName = tagName.toUpperCase();
         this.attrs = new Map();
-        this.children = [];
+        this.childNodes = [];
         this.parentElement = null;
         this.listeners = {};
-        this.textContent = '';
         this.classList = new Klassen(this);
         for (const [k, v] of Object.entries(attrs)) this.setAttribute(k, v);
     }
@@ -151,11 +169,170 @@ export class FakeElement {
     removeAttribute(k) {
         this.attrs.delete(k);
     }
+    get nodeType() {
+        return 1;
+    }
+    get children() {
+        return this.childNodes.filter((n) => n.nodeType === 1);
+    }
+    get textContent() {
+        return this.childNodes.map((n) => n.textContent).join('');
+    }
+    set textContent(t) {
+        this.childNodes.forEach((c) => (c.parentElement = null));
+        this.childNodes = t === '' || t == null ? [] : [Object.assign(new FakeText(t), { parentElement: this })];
+    }
+    get innerHTML() {
+        return this.childNodes.map((n) => (n.nodeType === 3 ? esc(n.textContent) : n.outerHTML)).join('');
+    }
+    // Minimaler Parser: Tags, Text, Entities (&lt; &gt; &amp; &quot; &#39;). Unmaskiertes `<b>` wird zum Element.
+    set innerHTML(html) {
+        this.textContent = '';
+        const stack = [this];
+        const re = /<(\/?)([a-zA-Z][\w-]*)\s*([^>]*)>|([^<]+)/g;
+        let m;
+        while ((m = re.exec(String(html)))) {
+            const top = stack[stack.length - 1];
+            if (m[4] !== undefined) top.appendChild(new FakeText(dekodiere(m[4])));
+            else if (m[1]) {
+                if (stack.length > 1) stack.pop();
+            } else {
+                const el = new FakeElement(m[2]);
+                top.appendChild(el);
+                if (!/\/\s*$/.test(m[3]) && !VOID.has(m[2].toLowerCase())) stack.push(el);
+            }
+        }
+    }
+    get outerHTML() {
+        const t = this.tagName.toLowerCase();
+        const a = [...this.attrs].map(([k, v]) => ` ${k}="${v}"`).join('');
+        return `<${t}${a}>${this.innerHTML}</${t}>`;
+    }
+    _loese() {
+        this.parentElement?.removeChild(this);
+    }
     appendChild(c) {
+        if (c.parentElement) c._loese ? c._loese() : c.parentElement.removeChild(c);
         c.parentElement = this;
-        this.children.push(c);
+        this.childNodes.push(c);
         return c;
     }
+    removeChild(c) {
+        this.childNodes = this.childNodes.filter((n) => n !== c);
+        c.parentElement = null;
+        return c;
+    }
+    insertBefore(neu, ref) {
+        if (!ref) return this.appendChild(neu);
+        if (neu.parentElement) neu.parentElement.removeChild(neu);
+        const i = this.childNodes.indexOf(ref);
+        neu.parentElement = this;
+        this.childNodes.splice(i, 0, neu);
+        return neu;
+    }
+    insertAdjacentElement(pos, el) {
+        if (pos === 'afterend') this.parentElement.insertBefore(el, this.nextSibling);
+        else if (pos === 'beforebegin') this.parentElement.insertBefore(el, this);
+        else if (pos === 'afterbegin') this.insertBefore(el, this.childNodes[0] ?? null);
+        else this.appendChild(el);
+        return el;
+    }
+    after(...ns) {
+        let ref = this.nextSibling;
+        ns.forEach((n) => this.parentElement.insertBefore(typeof n === 'string' ? new FakeText(n) : n, ref));
+    }
+    before(...ns) {
+        ns.forEach((n) => this.parentElement.insertBefore(typeof n === 'string' ? new FakeText(n) : n, this));
+    }
+    remove() {
+        this._loese();
+    }
+    replaceChildren(...ns) {
+        this.textContent = '';
+        ns.forEach((n) => this.appendChild(typeof n === 'string' ? new FakeText(n) : n));
+    }
+    get nextSibling() {
+        const l = this.parentElement?.childNodes ?? [];
+        return l[l.indexOf(this) + 1] ?? null;
+    }
+    get nextElementSibling() {
+        const l = this.parentElement?.children ?? [];
+        return l[l.indexOf(this) + 1] ?? null;
+    }
+    get previousElementSibling() {
+        const l = this.parentElement?.children ?? [];
+        return l[l.indexOf(this) - 1] ?? null;
+    }
+    set id(v) {
+        this.setAttribute('id', v);
+    }
+    get className() {
+        return this.getAttribute('class') ?? '';
+    }
+    set className(v) {
+        this.setAttribute('class', v);
+    }
+    get type() {
+        return this.getAttribute('type') ?? '';
+    }
+    set type(v) {
+        this.setAttribute('type', v);
+    }
+    get hidden() {
+        return this.hasAttribute('hidden');
+    }
+    set hidden(v) {
+        v ? this.setAttribute('hidden', '') : this.removeAttribute('hidden');
+    }
+    // style.display wird auf das style-Attribut abgebildet (Lesen und Schreiben).
+    get style() {
+        const el = this;
+        return {
+            get display() {
+                const m = (el.getAttribute('style') ?? '').match(/display\s*:\s*([^;]+)/);
+                return m ? m[1].trim() : '';
+            },
+            set display(v) {
+                const rest = (el.getAttribute('style') ?? '').replace(/display\s*:\s*[^;]+;?/, '').trim();
+                el.setAttribute('style', (rest ? rest + ' ' : '') + (v ? `display: ${v};` : ''));
+            },
+        };
+    }
+    // Formularwerte. Ein Select ohne ausgewählte Option hat selectedIndex -1 (kein Browser-Standard "erste Option").
+    get options() {
+        return this.querySelectorAll('option');
+    }
+    get selected() {
+        return this._sel ?? this.hasAttribute('selected');
+    }
+    set selected(v) {
+        this._sel = !!v;
+        const sel = this.closest('select');
+        if (v && sel) sel.options.forEach((o) => o !== this && (o._sel = false));
+    }
+    get selectedIndex() {
+        return this.options.findIndex((o) => o.selected);
+    }
+    set selectedIndex(i) {
+        this.options.forEach((o, n) => (o._sel = n === i));
+    }
+    get text() {
+        return this.textContent;
+    }
+    get value() {
+        const t = this.tagName;
+        if (t === 'SELECT') return this.options.find((o) => o.selected)?.value ?? '';
+        if (t === 'OPTION') return this.getAttribute('value') ?? this.textContent;
+        return this._value ?? this.getAttribute('value') ?? '';
+    }
+    set value(v) {
+        const t = this.tagName;
+        if (t === 'SELECT') this.selectedIndex = this.options.findIndex((o) => o.value === String(v));
+        else if (t === 'OPTION') this.setAttribute('value', v);
+        else this._value = String(v);
+    }
+    focus() {}
+    select() {}
     append(...cs) {
         cs.forEach((c) => this.appendChild(c));
     }
@@ -215,12 +392,15 @@ export class FakeDocument extends FakeElement {
     createElement(t) {
         return new FakeElement(t);
     }
+    createTextNode(t) {
+        return new FakeText(t);
+    }
 }
 
 // h('div', {class: 'a'}, kind1, kind2)
 export function h(tag, attrs = {}, ...kinder) {
     const el = new FakeElement(tag, attrs);
-    kinder.forEach((k) => (typeof k === 'string' ? (el.textContent += k) : el.appendChild(k)));
+    kinder.forEach((k) => (typeof k === 'string' ? el.appendChild(new FakeText(k)) : el.appendChild(k)));
     return el;
 }
 

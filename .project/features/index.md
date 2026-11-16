@@ -5,4 +5,5 @@
 ## Geplant
 
 ## Fertig
+- [combobox-ohne-jquery-ui](combobox-ohne-jquery-ui/spec.md) — #1359/#1366 Vue-Komponente `search`: Vanilla-Combobox statt jQuery UI, Installer ohne `jquery-ui`, Auswahl bleibt beim Neu-Rendern — gemergt 2026-11-16 (1.7.0)
 - [hlogger-fix](hlogger-fix/spec.md) — Dateiname mit vierstelligem Jahr, Verzeichnis bei Bedarf anlegen; lokal gemergt
