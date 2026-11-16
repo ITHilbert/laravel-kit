@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0 – 2026-11-16
+- Änderung: Die Vue-Komponente `search` (Bootstrap 4/5, Klasse `selectcb`) nutzt statt des jQuery-UI-Widgets `ui.combobox` das Vanilla-Skript `js/combobox.js` (`initCombobox(root = document)`). Combobox ohne jQuery UI: Suche ohne Groß-/Kleinschreibung mit Hervorhebung, Knopf öffnet alle Einträge, Tastatur (Pfeile, Enter, Escape), Auswahl löst `change` am Select aus.
+- Änderung: `install:mix` installiert `jquery-ui` nicht mehr (`jquery` bleibt für DataTables). Host-Projekte können `jquery-ui` aus ihrer `package.json` entfernen.
+- Änderung: Die CSS-Klassen `ui-combobox-*` heißen jetzt `kit-combobox-*`.
+- Entfallen: `window.onload` für Select-Elemente außerhalb der Komponente — dort `initCombobox()` selbst aufrufen.
+
 ## 1.6.1 – 2026-11-16
 - Fix: `DataTable_DE.json` wieder im Paket (`src/Publish/Public/laravelkit/`), neuer Publish-Tag `laravelkit-assets` (`php artisan vendor:publish --tag=laravelkit-assets`).
 
