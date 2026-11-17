@@ -11,8 +11,8 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-17). Kein Dashboard-Task.
   - `tests/vue3/inseln.test.ts` (AK12, Randfall 4)
   - `tests/vue3/helfer.ts` (gemeinsamer Helfer, kein Test)
   - `tests/Feature/Vue3/Vue3QuelltextTest.php` (AK10, AK11, AK14)
-- [ ] T1 (AK1–AK4, AK12) [senior] Grundgerüst `vue3/` (Einstieg `index.ts`, `kit.css`) und Dialog — Tests: `tests/vue3/dialog.test.ts`, `tests/vue3/inseln.test.ts`
-- [ ] T2 (AK5–AK9) [pro] Tabs und Accordion — Tests: `tests/vue3/tabs.test.ts`, `tests/vue3/accordion.test.ts`
+- [ ] T1 (AK1–AK4) [senior] Grundgerüst `vue3/` (Einstieg `index.ts` mit `KitVue3` und `kitKomponenten`, `kit.css`) und Dialog — Tests: `tests/vue3/dialog.test.ts`
+- [ ] T2 (AK5–AK9, AK12) [pro] Tabs und Accordion, Inseln — Tests: `tests/vue3/tabs.test.ts`, `tests/vue3/accordion.test.ts`, `tests/vue3/inseln.test.ts`
 - [ ] T3 (AK10, AK11, AK14) [pro] Themes `vue3/themes/tailwind.css`, `vue3/themes/bootstrap5.scss`, README, `vue/README.md`, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3QuelltextTest.php`
 - [ ] T4 (AK13) [pro] Host: Prüfseite `/ui-kit-vue3`, Einbindung `vue3/index.ts` und Bootstrap-5-Theme, `npm install reka-ui` — Tests: Host `tests/Feature/HostGetRoutenTest.php`; Nachweis per Echtlauf (AK13 nicht automatisch prüfbar)
 
