@@ -22,8 +22,7 @@ Review: nötig (neue Route im Host, Querschnitt über Kit und Host, > 50 Zeilen 
 Offener Punkt a28c39823b6330313: AK-fremd (npm audit: 5 high in der picomatch-Kette — picomatch 4.0.7 ist aktuell, kein Patch; nur Entwicklungsabhängigkeiten von vitest/vite, verarbeiten nur eigene Glob-Muster; Laufzeit-Audit 0 Funde. Annahme Moderator: hinnehmen, bei nächstem Vitest-Update erneut prüfen)
 Abweichung a28c39823b6330313: Fehlalarm: keine gemeldet
 
-## Offen
-- GATE kann Vitest-Dateien noch nicht ausführen (`.claude/hooks/coder-gate.sh` schickt `*.test.ts` an `node --test`). Klärung mit Joerg vor TW.
+GATE und Vitest: Moderator entschieden (Joerg: „entscheide selbst“, 2026-11-17) — `.claude/hooks/coder-gate.sh` lokal angepasst: `*.test.ts` laufen über Vitest im Ziel, wenn dessen package.json vitest nennt; Template-Task #1547 (Projekt claude, Diff im Anhang).
 
 ## Stand
-T0 fertig (vitest 5.1.0, reka-ui 2.11.0, vue 3.5.45). TW wartet auf die Klärung zum GATE.
+T0 fertig. GATE kann Vitest. TW läuft.
