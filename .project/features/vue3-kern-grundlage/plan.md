@@ -50,6 +50,10 @@ Abweichung a82cbc002c6365b60: Fehlalarm: keine gemeldet
 Offener Punkt a82cbc002c6365b60: AK-fremd (keine gemeldet; Hinweis `public/css/kit-vue3.css` neu committen → Host-Commit)
 Befund Moderator (Echtlauf F2 Teil 1, CDP getComputedStyle nach Klick): Hintergrund rgb(255,255,255), Radius 8px, Schatten da, position fixed mittig, 500px — aber `border: 0px none`; `.kit-accordion__item`/`__trigger` ebenfalls ohne Rahmen. Ursache im Host: `public/css/kit-vue3.css` liest `--bs-border-color`, `--bs-border-color-translucent`, `--bs-link-color`, `--bs-link-hover-color`, die keine CSS der Seite definiert (Phoenix setzt nur `--phoenix-*`; `resources/scss/kit-vue3.scss` ohne `bootstrap/scss/root`, Kommentar falsch). → Fix F2 Teil 2 (Host): test-writer a27c00464d5b35513, `tests/Feature/KitVue3CssTest.php` (rot: „Undefinierte Variablen in kit-vue3.css: --bs-link-color, --bs-link-hover-color, --bs-border-color-translucent, --bs-border-color“; Ausnahme `--bs-nav-link-font-size`, Bootstrap `$nav-link-font-size: null`).
 Annahme Moderator (F2 Teil 2): Fix im Host, nicht im Theme — das Bootstrap-5-Theme setzt Bootstrap mit `:root`-Variablen voraus; README nennt das. Umkehrbar: Theme mit festen Sass-Werten statt `var(--bs-*)`.
+Fix F2 Teil 2: coder-junior a0eee4dce854f0831 (GATE GRÜN: 24 passed): Host `resources/scss/kit-vue3.scss` bindet `bootstrap/scss/root` ein, Kommentar korrigiert; README „Vue 3“ nennt die `:root`-Voraussetzung des Bootstrap-5-Themes.
+Abweichung a0eee4dce854f0831: Fehlalarm: keine gemeldet
+Offener Punkt a0eee4dce854f0831: AK-fremd (Commit-Hinweise README/Build-CSS → Moderator committet; Echtlauf → unten)
+Echtlauf F2: browser: /ui-kit-vue3 — 0 Konsolenfehler, Klick: .kit-dialog__trigger ausgelöst, .kit-dialog__content.is-open: 1 sichtbar → OK. getComputedStyle (eigener Server :8114, Host-Arbeitsordner): `.kit-dialog__content` bg rgb(255,255,255), border 1px solid rgba(0,0,0,0.176), radius 8px, Schatten, position fixed mittig; `.kit-accordion__item` border 1px solid rgb(222,226,230); Tabs unverändert; Phoenix-Textfarbe unverändert rgb(49,55,74). laravel.log ohne neue Zeilen.
 
 ## Stand
-Fix F2 Teil 1 fertig (Kit). Teil 2: roter Host-Test, nächster Schritt coder-junior für `resources/scss/kit-vue3.scss`.
+Fix F2 fertig, NACHWEIS grün. Nächster Schritt: Nachprüfung Reviewer (NACHPRUEFUNG: ee4bd590).
