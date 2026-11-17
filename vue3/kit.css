@@ -1,0 +1,25 @@
+/*
+ * Basis-CSS des Vue-3-Kerns: nur Regeln für die Funktion, keine Optik.
+ * Aussehen (Farben, Abstände, Schrift, Rahmen) kommt aus einer Theme-Datei unter themes/.
+ * Die Scroll-Sperre des Body setzt Reka beim Öffnen eines modalen Dialogs selbst.
+ */
+
+/* Dialog: Overlay deckt das Fenster ab, der Inhalt liegt darüber in der Mitte. */
+.kit-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+}
+
+.kit-dialog__content {
+  position: fixed;
+  z-index: 1051;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
