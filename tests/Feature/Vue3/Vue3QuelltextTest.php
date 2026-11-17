@@ -249,4 +249,92 @@ final class Vue3QuelltextTest extends TestCase
         $this->assertStringContainsString('vue3/', $erster);
         $this->assertStringContainsString('reka-ui', $erster);
     }
+
+    /** Rumpf der ersten Regel mit genau diesem Selektor (Klammern gezählt), sonst null. */
+    private function regelRumpf(string $scss, string $selektor): ?string
+    {
+        $scss = $this->ohneKommentare((string) preg_replace('~//[^\n]*~', '', $scss));
+        if (! preg_match('~(?:^|[}\s;])'.preg_quote($selektor, '~').'\s*\{~', $scss, $m, PREG_OFFSET_CAPTURE)) {
+            return null;
+        }
+        $start = $m[0][1] + strlen($m[0][0]);
+        $tiefe = 1;
+        for ($i = $start, $n = strlen($scss); $i < $n; $i++) {
+            $tiefe += match ($scss[$i]) {
+                '{' => 1,
+                '}' => -1,
+                default => 0,
+            };
+            if ($tiefe === 0) {
+                return substr($scss, $start, $i - $start);
+            }
+        }
+
+        return null;
+    }
+
+    /** @return list<string> Verstöße: Dialog-Inhalt erbt Bootstrap-Variablen, die am fehlenden `.modal` hängen */
+    private function dialogVerstoesse(string $scss): array
+    {
+        $inhalt = $this->regelRumpf($scss, '.kit-dialog__content');
+        if ($inhalt === null) {
+            return ['Regel .kit-dialog__content fehlt'];
+        }
+        $fehler = [];
+        if (preg_match('~@extend\s+\.modal-content\b~', $inhalt)) {
+            $fehler[] = '@extend .modal-content (liest --bs-modal-*, die nur .modal setzt)';
+        }
+        foreach (['background-color', 'border', 'border-radius'] as $eigenschaft) {
+            if (! preg_match('~(?<![\w-])'.preg_quote($eigenschaft, '~').'\s*:~', $inhalt)) {
+                $fehler[] = "{$eigenschaft} nicht gesetzt";
+            }
+        }
+        $dialog = $this->regelRumpf($scss, '.kit-dialog__title') ?? '';
+        foreach (array_unique(preg_match_all('~var\(\s*(--bs-modal-[\w-]+)~', $scss, $m) ? $m[1] : []) as $variable) {
+            if (! str_contains($inhalt, $variable.':')) {
+                $fehler[] = "{$variable} verwendet, aber nicht an .kit-dialog__content definiert";
+            }
+        }
+        if (preg_match('~@extend\s+\.modal-title\b~', $dialog) && ! preg_match('~(?<![\w-])line-height\s*:~', $dialog)) {
+            $fehler[] = '@extend .modal-title ohne eigene line-height (--bs-modal-title-line-height fehlt)';
+        }
+
+        return $fehler;
+    }
+
+    // AK13 Fix F2 (Gegenprobe des Prüfers)
+    public function test_dialog_pruefer_erkennt_den_alten_fehlerhaften_stand(): void
+    {
+        $alt = ".kit-dialog__content {\n  @extend .modal-content;\n  width: 100%;\n}\n.kit-dialog__title { @extend .modal-title; }";
+        $verstoesse = $this->dialogVerstoesse($alt);
+        $this->assertNotSame([], $verstoesse);
+        $this->assertStringContainsString('@extend .modal-content', implode(' ', $verstoesse));
+
+        $gut = ".kit-dialog__content {\n  --bs-modal-bg: #fff;\n  background-color: var(--bs-modal-bg);\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n.kit-dialog__title { line-height: 1.5; }";
+        $this->assertSame([], $this->dialogVerstoesse($gut));
+        $this->assertSame(['--bs-modal-bg verwendet, aber nicht an .kit-dialog__content definiert'], array_values(array_filter(
+            $this->dialogVerstoesse(str_replace('--bs-modal-bg: #fff;', '', $gut)),
+            fn (string $f) => str_contains($f, '--bs-modal-bg'),
+        )));
+    }
+
+    // AK13 Fix F2: Dialog im Bootstrap-Theme hat Hintergrund, Rahmen und Radius ohne `.modal`-Elternelement
+    public function test_bootstrap5_dialog_inhalt_hat_eigenen_hintergrund_rahmen_und_radius(): void
+    {
+        $scss = (string) file_get_contents($this->kit('vue3/themes/bootstrap5.scss'));
+        $this->assertSame([], $this->dialogVerstoesse($scss));
+    }
+
+    // AK13 Fix F2: gleiches Muster bei Tabs und Accordion (Variablen hängen am Elternelement)
+    public function test_bootstrap5_tabs_und_accordion_erben_die_elternklasse_mit_den_variablen(): void
+    {
+        $scss = (string) file_get_contents($this->kit('vue3/themes/bootstrap5.scss'));
+        $tabs = $this->regelRumpf($scss, '.kit-tabs__list');
+        $this->assertNotNull($tabs);
+        $this->assertMatchesRegularExpression('~@extend\s+\.nav-tabs\b~', $tabs, '--bs-nav-tabs-* setzt nur .nav-tabs');
+        $accordion = $this->regelRumpf($scss, '.kit-accordion');
+        $this->assertNotNull($accordion);
+        $this->assertMatchesRegularExpression('~@extend\s+\.accordion\b~', $accordion, '--bs-accordion-* setzt nur .accordion');
+        $this->assertNull($this->regelRumpf('.kit-tabs__list { @extend .nav; }', '.kit-x'));
+    }
 }

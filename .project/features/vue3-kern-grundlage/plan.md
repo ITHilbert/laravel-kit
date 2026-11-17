@@ -43,5 +43,8 @@ Ablauf: T2 lief vor dem Commit von T1 (Moderator-Fehler: Commit gesperrt, T2 sch
 AK13: nicht prüfbar automatisch → Echtlauf im Host (T4).
 GATE und Vitest: Moderator entschieden (Joerg: „entscheide selbst“, 2026-11-17) — `.claude/hooks/coder-gate.sh` lokal angepasst: `*.test.ts` laufen über Vitest im Ziel, wenn dessen package.json vitest nennt; Template-Task #1547 (Projekt claude, Diff im Anhang).
 
+Review 0/2 (pruefung.md, ee4bd590): 1 muss, 5 sollte, 5 kann. sollte-Punkte → Folge-Task #1556.
+Befund Review 0 (muss, AK13): Bootstrap-Dialog ohne Hintergrund, Rahmen, Radius (`@extend .modal-content` liest `--bs-modal-*`, die nur `.modal` setzt) → Fix F2: test-writer a700c662c6864ab42 (rot: `@extend .modal-content …`, `background-color/border/border-radius nicht gesetzt`, `@extend .modal-title ohne eigene line-height`; Tabs und Accordion nicht betroffen, Wächter grün; Grünbar entfällt, Bugfix).
+
 ## Stand
-TW fertig, rote Tests committet. Nächster Schritt: T1 [senior].
+Fix F2: roter Regressionstest committet. Nächster Schritt: coder-pro für `vue3/themes/bootstrap5.scss`.
