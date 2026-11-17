@@ -45,6 +45,11 @@ GATE und Vitest: Moderator entschieden (Joerg: „entscheide selbst“, 2026-11-
 
 Review 0/2 (pruefung.md, ee4bd590): 1 muss, 5 sollte, 5 kann. sollte-Punkte → Folge-Task #1556.
 Befund Review 0 (muss, AK13): Bootstrap-Dialog ohne Hintergrund, Rahmen, Radius (`@extend .modal-content` liest `--bs-modal-*`, die nur `.modal` setzt) → Fix F2: test-writer a700c662c6864ab42 (rot: `@extend .modal-content …`, `background-color/border/border-radius nicht gesetzt`, `@extend .modal-title ohne eigene line-height`; Tabs und Accordion nicht betroffen, Wächter grün; Grünbar entfällt, Bugfix).
+Fix F2 Teil 1: coder-pro a82cbc002c6365b60 (GATE GRÜN: PHP 19, JS 24, Vitest 17): `.kit-dialog__content` und `.kit-dialog__title` ohne `@extend`, Werte aus Bootstrap-Sass-Variablen, kein `position`.
+Abweichung a82cbc002c6365b60: Fehlalarm: keine gemeldet
+Offener Punkt a82cbc002c6365b60: AK-fremd (keine gemeldet; Hinweis `public/css/kit-vue3.css` neu committen → Host-Commit)
+Befund Moderator (Echtlauf F2 Teil 1, CDP getComputedStyle nach Klick): Hintergrund rgb(255,255,255), Radius 8px, Schatten da, position fixed mittig, 500px — aber `border: 0px none`; `.kit-accordion__item`/`__trigger` ebenfalls ohne Rahmen. Ursache im Host: `public/css/kit-vue3.css` liest `--bs-border-color`, `--bs-border-color-translucent`, `--bs-link-color`, `--bs-link-hover-color`, die keine CSS der Seite definiert (Phoenix setzt nur `--phoenix-*`; `resources/scss/kit-vue3.scss` ohne `bootstrap/scss/root`, Kommentar falsch). → Fix F2 Teil 2 (Host): test-writer a27c00464d5b35513, `tests/Feature/KitVue3CssTest.php` (rot: „Undefinierte Variablen in kit-vue3.css: --bs-link-color, --bs-link-hover-color, --bs-border-color-translucent, --bs-border-color“; Ausnahme `--bs-nav-link-font-size`, Bootstrap `$nav-link-font-size: null`).
+Annahme Moderator (F2 Teil 2): Fix im Host, nicht im Theme — das Bootstrap-5-Theme setzt Bootstrap mit `:root`-Variablen voraus; README nennt das. Umkehrbar: Theme mit festen Sass-Werten statt `var(--bs-*)`.
 
 ## Stand
-Fix F2: roter Regressionstest committet. Nächster Schritt: coder-pro für `vue3/themes/bootstrap5.scss`.
+Fix F2 Teil 1 fertig (Kit). Teil 2: roter Host-Test, nächster Schritt coder-junior für `resources/scss/kit-vue3.scss`.

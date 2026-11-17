@@ -14,7 +14,13 @@
 }
 
 .kit-dialog__content {
-  @extend .modal-content;
+  // Kein @extend .modal-content: dessen var(--bs-modal-*) setzt Bootstrap nur an .modal.
+  color: $modal-content-color;
+  background-color: $modal-content-bg;
+  background-clip: padding-box;
+  border: $modal-content-border-width solid $modal-content-border-color;
+  border-radius: $modal-content-border-radius;
+  box-shadow: $modal-content-box-shadow-xs;
   width: 100%;
   max-width: 500px;
   padding: $modal-inner-padding;
@@ -25,8 +31,9 @@
 }
 
 .kit-dialog__title {
-  @extend .modal-title;
+  margin-top: 0;
   margin-bottom: $spacer;
+  line-height: $modal-title-line-height;
 }
 
 .kit-dialog__close {
