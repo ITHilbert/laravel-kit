@@ -3,7 +3,7 @@ laravel-kit `feature/vue3-kern-grundlage` (von `main`, 1.7.0). Host `packages_de
 Spec: [spec.md](spec.md) (freigegeben 2026-11-17). Kein Dashboard-Task.
 
 ## Aufgaben
-- [ ] T0 [pro] Abhängigkeiten und Testwerkzeug im Kit: `reka-ui ~2.11` (peerDependency + devDependency), `vue ^3.5`, `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript`; `vitest.config.ts` (Umgebung happy-dom, nur `tests/vue3/**`); Skript `test:js` — kein AK — Tests: `tests/js/mount-inseln.test.mjs` (bestehend)
+- [x] T0 (coder-pro a28c39823b6330313, GATE GRÜN: PHP 3 passed, JS 24 pass) [pro] Abhängigkeiten und Testwerkzeug im Kit: `reka-ui ~2.11` (peerDependency + devDependency), `vue ^3.5`, `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript`; `vitest.config.ts` (Umgebung happy-dom, nur `tests/vue3/**`); Skript `test:js` — kein AK — Tests: `tests/js/mount-inseln.test.mjs` (bestehend)
 - [ ] TW test-writer (AK1–AK12, Randfälle 1–3) — Tests:
   - `tests/vue3/dialog.test.ts` (AK1–AK4, Randfall 1, 3)
   - `tests/vue3/tabs.test.ts` (AK5, AK6, AK9, Randfall 2)
@@ -19,8 +19,11 @@ Bestehende Tests: `tests/js/mount-inseln.test.mjs`, `tests/Feature/KitComponents
 Marketing/Design: entfällt (Bausteine ohne neue öffentliche Seite; `/ui-kit-vue3` ist eine Prüfseite im Host).
 Review: nötig (neue Route im Host, Querschnitt über Kit und Host, > 50 Zeilen Produktivcode).
 
+Offener Punkt a28c39823b6330313: AK-fremd (npm audit: 5 high in der picomatch-Kette — picomatch 4.0.7 ist aktuell, kein Patch; nur Entwicklungsabhängigkeiten von vitest/vite, verarbeiten nur eigene Glob-Muster; Laufzeit-Audit 0 Funde. Annahme Moderator: hinnehmen, bei nächstem Vitest-Update erneut prüfen)
+Abweichung a28c39823b6330313: Fehlalarm: keine gemeldet
+
 ## Offen
 - GATE kann Vitest-Dateien noch nicht ausführen (`.claude/hooks/coder-gate.sh` schickt `*.test.ts` an `node --test`). Klärung mit Joerg vor TW.
 
 ## Stand
-Spec freigegeben, Plan angelegt. T0 wartet auf die Klärung zum GATE.
+T0 fertig (vitest 5.1.0, reka-ui 2.11.0, vue 3.5.45). TW wartet auf die Klärung zum GATE.
