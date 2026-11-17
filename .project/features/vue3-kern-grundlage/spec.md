@@ -15,7 +15,7 @@ Im Kit entsteht der Ordner `vue3/` mit Einstieg, Basis-CSS, zwei Theme-Dateien u
   - `vue3/index.ts` (Einstieg)
 - **Einstieg `vue3/index.ts`:**
   - exportiert jede Komponente einzeln
-  - exportiert `kitKomponenten` (Objekt Tag-Name → Komponente) für `mountInseln` (`js/mount-inseln.js`)
+  - exportiert `kitKomponenten` für `mountInseln` (`js/mount-inseln.js`): Objekt Tag-Name → Loader in der Form, die `mountInseln` erwartet (`() => Promise<{ default: Komponente }>`); `js/mount-inseln.js` bleibt unverändert
   - exportiert ein Vue-Plugin `KitVue3` (`app.use(KitVue3)` registriert alle Komponenten)
 - **Tag-Namen:** `kit-dialog`, `kit-dialog-trigger`, `kit-dialog-title`, `kit-dialog-close`, `kit-tabs`, `kit-tab`, `kit-tab-panel`, `kit-accordion`, `kit-accordion-item`.
 - **Klassen:** Jedes gerenderte Teil trägt genau eine Hauptklasse `kit-<komponente>` bzw. `kit-<komponente>__<teil>` (Liste je Komponente in den AKs). Zustände stehen als Klassen `is-open`, `is-active`, `disabled` am Teil. Die `data-*`-Attribute von Reka bleiben zusätzlich erhalten.
