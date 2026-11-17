@@ -13,7 +13,7 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-17). Kein Dashboard-Task.
   - `tests/Feature/Vue3/Vue3QuelltextTest.php` (AK10, AK11, AK14)
 - [x] T1 (coder-senior af1a00dbb0a666a55, GATE GRÜN: Vitest 7 pass, JS 24 pass) (AK1–AK4) [senior] Grundgerüst `vue3/` (Einstieg `index.ts` mit `KitVue3` und `kitKomponenten`, `kit.css`) und Dialog — Tests: `tests/vue3/dialog.test.ts`
 - [x] T2 (coder-pro a2b8369ec9835be9f, GATE GRÜN: Vitest 16 pass, JS 24 pass) (AK5–AK9, AK12) [pro] Tabs und Accordion, Inseln — Tests: `tests/vue3/tabs.test.ts`, `tests/vue3/accordion.test.ts`, `tests/vue3/inseln.test.ts`
-- [ ] T3 (AK10, AK11, AK14) [pro] Themes `vue3/themes/tailwind.css`, `vue3/themes/bootstrap5.scss`, README, `vue/README.md`, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3QuelltextTest.php`
+- [x] T3 (coder-pro aca7b80f0ab8360ce, GATE GRÜN: PHP 13 passed; Nachtrag Moderator-Befund: Accordion-Zustände im Theme hingen an Trigger/Inhalt statt am Eintrag → korrigiert) (AK10, AK11, AK14) [pro] Themes `vue3/themes/tailwind.css`, `vue3/themes/bootstrap5.scss`, README, `vue/README.md`, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3QuelltextTest.php`
 - [ ] T4 (AK13) [pro] Host: Prüfseite `/ui-kit-vue3`, Einbindung `vue3/index.ts` und Bootstrap-5-Theme, `npm install reka-ui` — Tests: Host `tests/Feature/HostGetRoutenTest.php`; Nachweis per Echtlauf (AK13 nicht automatisch prüfbar)
 
 Bestehende Tests: `tests/js/mount-inseln.test.mjs`, `tests/Feature/KitComponents/ReadmeTest.php`
@@ -30,6 +30,8 @@ Annahmen af1a00dbb0a666a55 (Entscheidungsspielraum): `kit-dialog` teleportiert a
 Abweichung a2b8369ec9835be9f: Fehlalarm: keine gemeldet
 Offener Punkt a2b8369ec9835be9f: AK-fremd (keine gemeldet)
 Annahmen a2b8369ec9835be9f (Entscheidungsspielraum): `kit-tabs` sammelt `kit-tab` rekursiv aus dem Slot in die eigene Liste; `is-active`/`is-open` aus `injectTabsRootContext`/`injectAccordionRootContext` (in reka-ui 2.11 öffentlich exportiert, Version auf ~2.11 festgelegt).
+Abweichung aca7b80f0ab8360ce: Fehlalarm: keine gemeldet
+Offener Punkt aca7b80f0ab8360ce: AK-fremd (Theme-Builds mit Tailwind v4 `@reference` bzw. Bootstrap-Sass ungeprüft → Nachweis in T4/AK13)
 Ablauf: T2 lief vor dem Commit von T1 (Moderator-Fehler: Commit gesperrt, T2 schon gestartet) → T1 und T2 in einem Commit.
 AK13: nicht prüfbar automatisch → Echtlauf im Host (T4).
 GATE und Vitest: Moderator entschieden (Joerg: „entscheide selbst“, 2026-11-17) — `.claude/hooks/coder-gate.sh` lokal angepasst: `*.test.ts` laufen über Vitest im Ziel, wenn dessen package.json vitest nennt; Template-Task #1547 (Projekt claude, Diff im Anhang).

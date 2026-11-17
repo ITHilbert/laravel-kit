@@ -1,0 +1,89 @@
+// Theme Bootstrap 5 für den Vue-3-Kern.
+// Voraussetzung: Das Projekt importiert Bootstrap-Sass (functions, variables, mixins und
+// den Rest von bootstrap) VOR dieser Datei, damit @extend und die Variablen verfügbar sind.
+// Zusammen mit ../kit.css einbinden.
+
+// Dialog
+.kit-dialog__trigger {
+  @extend .btn;
+  @extend .btn-primary;
+}
+
+.kit-dialog__overlay {
+  background-color: rgba($black, 0.5);
+}
+
+.kit-dialog__content {
+  @extend .modal-content;
+  width: 100%;
+  max-width: 500px;
+  padding: $modal-inner-padding;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.kit-dialog__title {
+  @extend .modal-title;
+  margin-bottom: $spacer;
+}
+
+.kit-dialog__close {
+  @extend .btn;
+  @extend .btn-secondary;
+  margin-top: $spacer;
+}
+
+// Tabs
+.kit-tabs__list {
+  @extend .nav;
+  @extend .nav-tabs;
+}
+
+.kit-tabs__tab {
+  @extend .nav-link;
+
+  &.is-active {
+    @extend .active;
+  }
+
+  &.disabled {
+    @extend .disabled;
+  }
+}
+
+.kit-tabs__panel {
+  padding: $spacer 0;
+}
+
+// Accordion
+.kit-accordion {
+  @extend .accordion;
+}
+
+.kit-accordion__item {
+  @extend .accordion-item;
+
+  &.disabled {
+    opacity: 0.5;
+
+    .kit-accordion__trigger {
+      pointer-events: none;
+    }
+  }
+
+  &.is-open .kit-accordion__trigger {
+    color: $accordion-button-active-color;
+    background-color: $accordion-button-active-bg;
+  }
+}
+
+.kit-accordion__trigger {
+  @extend .accordion-button;
+  @extend .collapsed;
+}
+
+.kit-accordion__content {
+  @extend .accordion-body;
+}

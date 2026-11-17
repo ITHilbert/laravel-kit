@@ -1,5 +1,9 @@
 # Changelog
 
+## Unveröffentlicht
+- Neu: Ordner `vue3/` mit Vue-3-Kern aus Dialog, Tabs und Accordion (Reka UI, Klassen `kit-…`, Plugin `KitVue3`, `kitKomponenten` für `mountInseln`), `vue3/kit.css` und Themes `vue3/themes/tailwind.css` und `vue3/themes/bootstrap5.scss`.
+- Neue Abhängigkeit: `reka-ui` (`~2.11`, peerDependency; dazu `vue` ab 3.4).
+
 ## 1.7.0 – 2026-11-16
 - Änderung: Die Vue-Komponente `search` (Bootstrap 4/5, Klasse `selectcb`) nutzt statt des jQuery-UI-Widgets `ui.combobox` das Vanilla-Skript `js/combobox.js` (`initCombobox(root = document)`). Combobox ohne jQuery UI: Suche ohne Groß-/Kleinschreibung mit Hervorhebung, Knopf öffnet alle Einträge, Tastatur (Pfeile, Enter, Escape), Auswahl löst `change` am Select aus.
 - Änderung: `install:mix` installiert `jquery-ui` nicht mehr (`jquery` bleibt für DataTables). Host-Projekte können `jquery-ui` aus ihrer `package.json` entfernen.
