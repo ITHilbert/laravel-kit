@@ -64,6 +64,33 @@ describe('Tabs', () => {
     expect(sichtbarePanels().some((p) => p.textContent?.includes('Inhalt-A'))).toBe(false)
   })
 
+  // AK5, AK6 (Fix F1: is-active nur am Panel des aktiven Tabs)
+  test('Panel trägt is-active nur, solange sein Tab aktiv ist; inaktive Panels im DOM nicht', async () => {
+    montiere(drei())
+    await flushPromises()
+
+    const panelVon = (n: 'a' | 'b' | 'c') =>
+      alle('.kit-tabs__panel').find((p) => p.getAttribute('aria-labelledby')?.endsWith(`-trigger-${n}`))
+    const aktivePanels = () =>
+      (['a', 'b', 'c'] as const).filter((n) => panelVon(n)?.classList.contains('is-active'))
+
+    // Gegenprobe: inaktive Panels „b“ und „c“ stehen im DOM, ausgeblendet (Reka lässt sie gemountet)
+    expect(alle('.kit-tabs__panel')).toHaveLength(3)
+    for (const n of ['b', 'c'] as const) {
+      expect(panelVon(n)).toBeDefined()
+      expect(sichtbar(panelVon(n))).toBe(false)
+    }
+
+    expect(aktivePanels()).toEqual(['a'])
+
+    await klick(tab('c'))
+    await vi.waitFor(() => expect(aktivePanels()).toEqual(['c']))
+    // Gegenprobe: Panel „a“ steht weiter im DOM, ausgeblendet, ohne is-active
+    expect(panelVon('a')).toBeDefined()
+    expect(sichtbar(panelVon('a'))).toBe(false)
+    expect(panelVon('a')!.classList.contains('is-active')).toBe(false)
+  })
+
   // AK9 (kit-tab)
   test('deaktivierter Tab trägt „disabled“ und lässt sich nicht anklicken', async () => {
     montiere(drei('disabled'))
