@@ -47,5 +47,7 @@ Review 0/2 (pruefung.md): 1 muss, 1 sollte, 3 kann — nicht freigegeben. sollte
 Befund Review 0 (muss, AK12): zwei `kit-input-list` als getrennte Inseln (`mountInseln`) bekommen dieselbe Datalist-`id` (`useId()` zählt je Vue-App). → Fix F3: test-writer (Regressionstest zwei Inseln), dann coder-pro.
 Annahme Moderator (F3): zentral in `js/mount-inseln.js` je Insel eine eigene `app.config.idPrefix` setzen statt Zähler in der Komponente. Grund: Das trifft jeden `useId()`-Aufruf, auch die von Reka (Dialog, Tabs, Combobox: `aria-labelledby`, `aria-controls`) und die erzeugten `id`s der Felder aus vue3-kern-felder. `app.config.idPrefix` gibt es ab Vue 3.5 → peerDependency `vue` auf `^3.5` und README angleichen (erledigt damit das sollte aus #1610). Umkehrbar: Zähler auf Modulebene in `input-list.vue`.
 
+Fix F3 Test: test-writer aa52bf3907db43008, `tests/vue3/inseln-ids.test.ts` (rot: `expected 'kit-input-list-v-0' not to be 'kit-input-list-v-0'`, Gegenprobe zwei Datalists grün; Grünbar entfällt, Bugfix).
+
 ## Stand
-Review 0 nicht freigegeben (AK12). Nächster Schritt: Fix F3 — test-writer, dann coder-pro, dann Nachprüfung.
+Fix F3: Regressionstest rot committet. Nächster Schritt: coder-pro, dann Nachprüfung.
