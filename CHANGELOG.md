@@ -5,6 +5,8 @@
 - Neu: Vue-3-Komponenten `kit-combobox` (Reka UI), `kit-search` (mit `verzoegerung`, Ereignis `suche`), `kit-input-token` (anzeigen, kopieren) und `kit-input-list` (Datalist), dazu Regeln in `vue3/kit.css` und beiden Themes.
 - Neu: Vue-3-Felder `kit-input-text`, `kit-input-email`, `kit-input-password`, `kit-input-number`, `kit-input-int`, `kit-input-euro`, `kit-input-percent`, `kit-input-date`, `kit-input-color`, `kit-input-file`, `kit-textarea`, `kit-select`, `kit-checkbox`, `kit-radio`, `kit-toggle`, `kit-label`, `kit-form`, `kit-input-group`, `kit-input-group-text` (Teile `__label`, `__input`, `__error`, Zustände `is-invalid`, `is-active`, `disabled`), dazu Regeln in `vue3/kit.css` und beiden Themes. Sie ersetzen die Felder aus `vue/tailwind/forms/` (Tabelle „Ersetzt“ in der README). Damit ist der Vue-3-Kern vollständig.
 - Neue Abhängigkeit: `reka-ui` (`~2.11`, peerDependency; dazu `vue` ab 3.5).
+- Neu: `mountInseln` setzt je Insel ein eigenes `idPrefix` (`kit1`, `kit2`, …), dadurch sind die ids von `useId()` über alle Inseln einer Seite eindeutig (z. B. Datalist von `kit-input-list`).
+- Hinweis: Die Wurzel `kit-combobox` trägt denselben Klassennamen wie `span.kit-combobox` aus `js/combobox.js`. Mit geladener `vue3/kit.css` wird dieses Element zur Zeile ohne Außenabstand.
 
 ## 1.7.0 – 2026-11-16
 - Änderung: Die Vue-Komponente `search` (Bootstrap 4/5, Klasse `selectcb`) nutzt statt des jQuery-UI-Widgets `ui.combobox` das Vanilla-Skript `js/combobox.js` (`initCombobox(root = document)`). Combobox ohne jQuery UI: Suche ohne Groß-/Kleinschreibung mit Hervorhebung, Knopf öffnet alle Einträge, Tastatur (Pfeile, Enter, Escape), Auswahl löst `change` am Select aus.

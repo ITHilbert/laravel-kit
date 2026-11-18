@@ -251,6 +251,8 @@ mountInseln({
 
 Ein Element wird nur einmal gemountet. Ein zweiter Aufruf auf demselben `root` überspringt bereits gemountete Inseln. Der Helfer setzt Vue 3 voraus. Vue 2.7 wird nicht unterstützt.
 
+**Eindeutige ids über Inseln:** Jede Insel bekommt ein eigenes `app.config.idPrefix` (`kit1`, `kit2`, …). Die ids, die Vue über `useId()` erzeugt (z. B. `list` und Datalist von `kit-input-list`, `aria-controls` und `aria-labelledby` der Reka-Komponenten), sind dadurch über alle Inseln einer Seite eindeutig, etwa `kit-input-list-kit1-0`. Das Präfix braucht Vue ab 3.5. Der Zähler gilt je geladenem Modul: Bündelt ein Projekt `mountInseln` in zwei getrennte Bundles auf derselben Seite, beginnen beide bei `kit1`, und die ids können sich wiederholen. Vorgesehen ist daher ein Bundle je Seite.
+
 **Fehler isolieren:** Ein unbekannter Name, ein ungültiges `data-props` (kein JSON oder kein JSON-Objekt) oder ein Ladefehler überspringt nur diese Insel. Dabei erscheint eine Warnung in der Konsole (`console.warn`, mit Name und Grund). Die übrigen Inseln werden gemountet.
 
 ### Whole-DOM-Mount (veraltet)
@@ -352,6 +354,8 @@ Besonderheiten: `kit-input-password` zeigt das Passwort über `__toggle` (`aria-
 
 - `<kit-dialog-trigger>` steht als direktes Kind in `<kit-dialog>`; in einer eigenen Wrapper-Komponente wird er nicht erkannt.
 - Den Dialog steuerst du mit `v-model:open` oder der Prop `open`.
+- Die Komponenten ersetzen `combobox`/`vue-select`, `search`, `input-token` und `input-list` unter `vue/tailwind/forms/`. Diese Dateien liegen noch im Paket.
+- Die Wurzel `kit-combobox` trägt denselben Klassennamen wie `span.kit-combobox` aus `js/combobox.js` (Abschnitt „Durchsuchbares Select“) und wie die älteren Vue-Varianten unter `vue/`. `vue3/kit.css` schreibt die Zeilen-Regel für die Wurzel deshalb doppelt (`.kit-combobox.kit-combobox`), damit sie die Global-Regel der älteren Varianten übertrumpft. Ist `vue3/kit.css` geladen, trifft die Regel auch `span.kit-combobox` aus `js/combobox.js`: die Wurzel wird zur Zeile ohne Außenabstand.
 
 ## Integrations-Voraussetzungen
 
