@@ -11,7 +11,7 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
   - `tests/js/kernCombobox.test.mjs` (AK12)
   - `tests/Feature/KitComponents/KernQuelltextTest.php` (AK14, AK15, AK16)
   - Host `tests/Feature/UiKitBladeKernTest.php` (AK17: Route 200, Theme `kern` auf der Seite, alle 34 Bausteine mit `kit-`-Markup; Browserteil per Echtlauf)
-- [ ] T1 (AK1–AK6) [pro] `KitTheme::Kern`, Feld-Templates unter `src/Views/kit/kern/` (`input-*`, `text-area`, `select`, `checkbox`, `label`, `input-hidden`, `partials/`) — Tests: `tests/Feature/KitComponents/KernFelderTest.php`
+- [x] T1 (coder-pro a1938bb19f7597140, HANDOFF Umgebung: GATE ROT nur durch `KernQuelltextTest` (Gruppe `arch`, läuft in jedem GATE, gehört T4) — Plan-Fehler des Moderators; Nachweis Moderator: 7 Dateien aus TESTS: 1802 passed, `--group=arch` 6 rot = nur KernQuelltextTest → T2, T3, T4 zusammengelegt) (AK1–AK6) [pro] `KitTheme::Kern`, Feld-Templates unter `src/Views/kit/kern/` (`input-*`, `text-area`, `select`, `checkbox`, `label`, `input-hidden`, `partials/`) — Tests: `tests/Feature/KitComponents/KernFelderTest.php`
 - [ ] T2 (AK7, AK8, AK13) [pro] Buttons, Cards, `show-euro`, `show-date`, `breadcrumb` unter `src/Views/kit/kern/` — Tests: `tests/Feature/KitComponents/KernLayoutTest.php`
 - [ ] T3 (AK9–AK12) [pro] Tabs- und Combobox-Templates, `js/tabs.js`, `js/combobox.js` — Tests: `tests/Feature/KitComponents/KernTabsComboboxTest.php`, `tests/js/kernTabs.test.mjs`, `tests/js/kernCombobox.test.mjs`
 - [ ] T4 (AK14–AK16) [pro] Themes, `kit.css`, README, CHANGELOG — Tests: `tests/Feature/KitComponents/KernQuelltextTest.php`
@@ -24,5 +24,8 @@ Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
 Offener Punkt a4e2281b975eed015: AK-fremd (Namen der `data-`-Attribute aus den alten Themes übernommen: `data-kit-tabs`, `data-kit-tab`, `data-kit-tabs-body`, `data-kit-tab-body`, `data-kit-combobox` — Entscheidungsspielraum der Spec; Panel `id=<name>`, Reiter `aria-controls=<name>` wie bisher; Host-Seite bindet Kit-CSS per `<link>`)
 
+Abweichung a1938bb19f7597140: Fehlalarm: keine gemeldet
+Offener Punkt a1938bb19f7597140: AK-fremd (Minimal-Template `kern/combobox` vorgezogen, weil KernFelderTest AK1/AK14 sie rendert — T3 baut sie nach AK11/AK12 aus; Doku-Zeile in `src/Config/laravelkit.php` → T4; Passwort ohne Schalter = Nicht-Ziel)
+
 ## Stand
-Tests rot committet. Nächster Schritt: T1.
+T1 fertig. Nächster Schritt: T2+T3+T4 (zusammengelegt, weil der arch-Test `KernQuelltextTest` alle Kit-Teile braucht).
