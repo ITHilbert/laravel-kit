@@ -54,5 +54,7 @@ Abweichung aae72914e37445259: Fehlalarm: keine gemeldet
 Offener Punkt aae72914e37445259: AK-fremd (keine gemeldet)
 NACHWEIS F3 (Moderator): Vitest 53/53, `node --test tests/js/*.test.mjs` 240/240.
 
+Review 1/2 (Nachprüfung seit 61bf96ff, pruefung.md): 0 muss, 0 sollte, 2 kann — freigegeben. #1610 von torrent geschlossen (durch Fix F3 erledigt).
+
 ## Stand
-Fix F3 fertig, NACHWEIS grün. Nächster Schritt: Nachprüfung Reviewer.
+Freigegeben (Nachprüfung 2026-11-18). Doku-Writer, dann Merge Kit und Host nach `main`.
