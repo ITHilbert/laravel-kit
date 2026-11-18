@@ -56,4 +56,4 @@ Review 2/2: freigegeben ([pruefung.md](pruefung.md), Abschnitt „Review 2“) �
 Fehlerprotokoll: eingetragen 2026-11-18.
 
 ## Stand
-Freigegeben 2026-11-18 (Review 2). Nächster Schritt: DOKU, dann Merge nach `main`.
+Fertig: freigegeben 2026-11-18 (Review 2), Doku nachgezogen (README `kit-form`/`kit-select`, CHANGELOG, Leitdokument forms-integration), nach `main` gemergt.
