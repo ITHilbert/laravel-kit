@@ -3,7 +3,7 @@ laravel-kit `feature/vue3-kern-logik` (von `main` e855b3cc). Host `packages_dev`
 Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein Dashboard-Task.
 
 ## Aufgaben
-- [ ] TW test-writer (AK1–AK19, Randfälle 1–5) — Tests:
+- [x] TW (test-writer a4dffde1e914e5013, rot: Vitest 35/35 neue Tests rot — Tags nicht registriert, `.kit-*` fehlt; PHP 4 rot/3 grün = Gegenproben; Grünbar entfällt, Risiko normal) test-writer (AK1–AK19, Randfälle 1–5) — Tests:
   - `tests/vue3/combobox.test.ts` (AK1–AK5, AK13 und AK14 für die Combobox, Randfall 1–3)
   - `tests/vue3/search.test.ts` (AK6–AK8, AK13 und AK14 für die Suche, Randfall 5)
   - `tests/vue3/input-token.test.ts` (AK9–AK11, AK13 und AK14 für die Token-Eingabe, Randfall 4)
@@ -18,7 +18,8 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
 Bestehende Tests: `tests/vue3/dialog.test.ts`, `tests/vue3/tabs.test.ts`, `tests/vue3/accordion.test.ts`, `tests/vue3/inseln.test.ts`, `tests/Feature/Vue3/Vue3QuelltextTest.php`, `tests/js/mount-inseln.test.mjs`
 Marketing: entfällt (Bausteine ohne neue öffentliche Seite).
 Design: entfällt (Optik nur über die vorhandenen Theme-Dateien, Prüfseite im Host).
+Offener Punkt a4dffde1e914e5013: AK-fremd (Klassen-Wächter in `Vue3LogikQuelltextTest` doppelt zu `Vue3QuelltextTest` — Refactoring zu Trait später; AK16 verlangt Wurzelregeln einzeln, Hinweis an Coder T3)
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
 ## Stand
-Spec und Plan angelegt. Nächster Schritt: test-writer.
+Rote Tests committet. Nächster Schritt: T1 coder-pro (Combobox).
