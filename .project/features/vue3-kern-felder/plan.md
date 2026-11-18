@@ -42,5 +42,13 @@ Fix F1/F2 Kit: coder-pro a81b626c1bb7d45df (GATE GRÜN: PHP 20, JS 24, Vitest 10
 Abweichung a81b626c1bb7d45df: Fehlalarm: keine gemeldet
 Offener Punkt a81b626c1bb7d45df: AK-fremd (Browser-Nachweis und Host-Build folgen im Host-Schritt F2b; Bootstrap-Theme wird dort mit kompiliert)
 
+F2b Host: coder-junior a1f1dff86cae016e4 (GATE siehe Log): Prüfseite Input-Group-Beispiele wie AK16 (`kit-label` vor der Gruppe), Build.
+Abweichung a1f1dff86cae016e4: Fehlalarm: keine gemeldet
+Offener Punkt a1f1dff86cae016e4: AK-fremd (Browser-Nachweis → unten)
+F2c: coder-junior afd127e2f103d2729: Toggle-Knopf eingeschaltet außerhalb der Spur (`kit.css` `right:0` plus Theme-`translate`) → nur noch Theme-`translateX(Spur − Knopf − Rahmen)`, beide Themes; Build.
+Abweichung afd127e2f103d2729: Fehlalarm: keine gemeldet
+Offener Punkt afd127e2f103d2729: AK-fremd (Knopf vertikal oben statt mittig — im Screenshot nicht sichtbar, Spur und Knopf passen; kann)
+Echtlauf F1/F2: browser: /ui-kit-vue3 — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-toggle__input ausgelöst, .kit-input-text__input: 4 sichtbar, .kit-toggle.is-active: 1 vorhanden → OK. CDP-Sonde (:8225, ohne `v-model`): Toggle `aria-checked=true`, `is-active`, Formular `aktiv=1`; Passwort `type=text`; Checkbox `zustimmung=on`; Radio `art=b`; Text/Zahl/Euro/Textarea/Select per Eingabe gesetzt. Screenshots: Passwort-Schalter rechts neben dem Feld, Input-Group in einer Zeile, Toggle-Knopf innen rechts.
+
 ## Stand
-T1–T6 fertig, vue3-kern-logik (Fix F3) gemergt. Echtlauf rot (Toggle ohne v-model) → Fix F1/F2 läuft.
+NACHWEIS grün (F1, F2, F2b, F2c). Nächster Schritt: vue3-kern-logik nach main, dann main hierher mergen und Review.

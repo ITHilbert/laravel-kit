@@ -461,8 +461,9 @@
   @apply border-blue-600 bg-blue-600;
 }
 
+/* Spurbreite (w-9 = 2.25rem) minus Knopfbreite (w-4 = 1rem) minus beide Rahmen (1px je Seite). */
 .kit-toggle.is-active .kit-toggle__thumb {
-  @apply translate-x-4;
+  transform: translateX(calc(2.25rem - 1rem - 2px));
 }
 
 .kit-input-text__error,

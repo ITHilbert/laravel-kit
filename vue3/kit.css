@@ -147,16 +147,13 @@
   display: inline-block;
 }
 
+/* Der Knopf sitzt immer links an der Spur; eingeschaltet verschiebt ihn das Theme um
+ * (Spurbreite - Knopfbreite - Rahmen). Ein zusätzliches right: 0 käme doppelt hinzu. */
 .kit-toggle__thumb {
   position: absolute;
   top: 0;
   left: 0;
   display: block;
-}
-
-.kit-toggle.is-active .kit-toggle__thumb {
-  left: auto;
-  right: 0;
 }
 
 .kit-input-group {

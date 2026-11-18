@@ -617,8 +617,9 @@
     border-color: var(--bs-primary);
   }
 
+  // Spurbreite (2em) minus Knopfbreite (0.75em) minus beide Rahmen: Knopf endet rechts an der Innenkante.
   .kit-toggle__thumb {
-    transform: translateX(0.875em);
+    transform: translateX(calc(2em - 0.75em - #{$input-border-width * 2}));
   }
 }
 
