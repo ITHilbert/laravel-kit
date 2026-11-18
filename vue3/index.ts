@@ -33,7 +33,12 @@ import KitCheckbox from './components/checkbox/checkbox.vue'
 import KitRadio from './components/radio/radio.vue'
 import KitToggle from './components/toggle/toggle.vue'
 import KitInputFile from './components/input-file/input-file.vue'
+import KitLabel from './components/label/label.vue'
+import KitForm from './components/form/form.vue'
+import KitInputGroup from './components/input-group/input-group.vue'
+import KitInputGroupText from './components/input-group/input-group-text.vue'
 
+export { KitLabel, KitForm, KitInputGroup, KitInputGroupText }
 export { KitInputNumber, KitInputInt, KitInputEuro, KitInputPercent, KitSelect, KitCheckbox, KitRadio, KitToggle, KitInputFile }
 export { KitInputText, KitInputEmail, KitInputPassword, KitInputDate, KitInputColor, KitTextarea }
 export { KitCombobox, KitSearch, KitInputToken, KitInputList }
@@ -70,6 +75,10 @@ const komponenten = {
   'kit-radio': KitRadio,
   'kit-toggle': KitToggle,
   'kit-input-file': KitInputFile,
+  'kit-label': KitLabel,
+  'kit-form': KitForm,
+  'kit-input-group': KitInputGroup,
+  'kit-input-group-text': KitInputGroupText,
 } satisfies Record<string, Component>
 
 export type KitTag = keyof typeof komponenten

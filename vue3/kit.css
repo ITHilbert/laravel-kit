@@ -154,3 +154,8 @@
   left: auto;
   right: 0;
 }
+
+.kit-input-group {
+  display: flex;
+  align-items: stretch;
+}
