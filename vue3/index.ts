@@ -18,7 +18,24 @@ import KitCombobox from './components/combobox/combobox.vue'
 import KitSearch from './components/search/search.vue'
 import KitInputToken from './components/input-token/input-token.vue'
 import KitInputList from './components/input-list/input-list.vue'
+import KitInputText from './components/input-text/input-text.vue'
+import KitInputEmail from './components/input-email/input-email.vue'
+import KitInputPassword from './components/input-password/input-password.vue'
+import KitInputDate from './components/input-date/input-date.vue'
+import KitInputColor from './components/input-color/input-color.vue'
+import KitTextarea from './components/textarea/textarea.vue'
+import KitInputNumber from './components/input-number/input-number.vue'
+import KitInputInt from './components/input-int/input-int.vue'
+import KitInputEuro from './components/input-euro/input-euro.vue'
+import KitInputPercent from './components/input-percent/input-percent.vue'
+import KitSelect from './components/select/select.vue'
+import KitCheckbox from './components/checkbox/checkbox.vue'
+import KitRadio from './components/radio/radio.vue'
+import KitToggle from './components/toggle/toggle.vue'
+import KitInputFile from './components/input-file/input-file.vue'
 
+export { KitInputNumber, KitInputInt, KitInputEuro, KitInputPercent, KitSelect, KitCheckbox, KitRadio, KitToggle, KitInputFile }
+export { KitInputText, KitInputEmail, KitInputPassword, KitInputDate, KitInputColor, KitTextarea }
 export { KitCombobox, KitSearch, KitInputToken, KitInputList }
 export { KitTabs, KitTab, KitTabPanel, KitAccordion, KitAccordionItem }
 export { KitDialog, KitDialogClose, KitDialogTitle, KitDialogTrigger }
@@ -38,6 +55,21 @@ const komponenten = {
   'kit-search': KitSearch,
   'kit-input-token': KitInputToken,
   'kit-input-list': KitInputList,
+  'kit-input-text': KitInputText,
+  'kit-input-email': KitInputEmail,
+  'kit-input-password': KitInputPassword,
+  'kit-input-date': KitInputDate,
+  'kit-input-color': KitInputColor,
+  'kit-textarea': KitTextarea,
+  'kit-input-number': KitInputNumber,
+  'kit-input-int': KitInputInt,
+  'kit-input-euro': KitInputEuro,
+  'kit-input-percent': KitInputPercent,
+  'kit-select': KitSelect,
+  'kit-checkbox': KitCheckbox,
+  'kit-radio': KitRadio,
+  'kit-toggle': KitToggle,
+  'kit-input-file': KitInputFile,
 } satisfies Record<string, Component>
 
 export type KitTag = keyof typeof komponenten

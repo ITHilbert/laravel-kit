@@ -76,3 +76,81 @@
   position: absolute;
   right: 0.25em;
 }
+
+/* Textfelder: Wurzel als Block, Passwort-Schalter neben dem Feld. */
+.kit-input-text,
+.kit-input-email,
+.kit-input-password,
+.kit-input-date,
+.kit-input-color,
+.kit-textarea {
+  position: relative;
+}
+
+.kit-input-password {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.kit-input-password__label,
+.kit-input-password__error {
+  flex: 0 0 100%;
+}
+
+.kit-input-password__input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Zahlen-, Auswahl- und Dateifelder: Zusatz neben dem Feld, Haken und Schalter in einer Zeile. */
+.kit-input-euro,
+.kit-input-percent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.kit-input-euro__label,
+.kit-input-euro__error,
+.kit-input-percent__label,
+.kit-input-percent__error {
+  flex: 0 0 100%;
+}
+
+.kit-input-euro__input,
+.kit-input-percent__input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.kit-checkbox,
+.kit-radio,
+.kit-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.kit-checkbox__error,
+.kit-radio__error,
+.kit-toggle__error {
+  flex: 0 0 100%;
+}
+
+.kit-toggle__input {
+  position: relative;
+  display: inline-block;
+}
+
+.kit-toggle__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+}
+
+.kit-toggle.is-active .kit-toggle__thumb {
+  left: auto;
+  right: 0;
+}

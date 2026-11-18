@@ -9,9 +9,8 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
   - `tests/vue3/felder-auswahl.test.ts` (AK5, AK9–AK13, Randfälle 3–5)
   - `tests/vue3/felder-rahmen.test.ts` (AK14–AK16, AK19)
   - `tests/Feature/Vue3/Vue3FelderQuelltextTest.php` (AK17, AK18, AK21)
-- [ ] T1 (AK1–AK4, AK8) [pro] gemeinsame Feld-Logik (`vue3/components/feld/`), `kit-input-text`, `kit-input-email`, `kit-input-password`, `kit-input-date`, `kit-input-color`, `kit-textarea`, Einstieg — Tests: `tests/vue3/felder-text.test.ts`
-- [ ] T2 (AK6, AK7) [pro] `kit-input-number`, `kit-input-int`, `kit-input-euro`, `kit-input-percent`, Einstieg — Tests: `tests/vue3/felder-zahl.test.ts`
-- [ ] T3 (AK5, AK9–AK13) [pro] `kit-select`, `kit-checkbox`, `kit-radio`, `kit-toggle`, `kit-input-file`, Einstieg — Tests: `tests/vue3/felder-auswahl.test.ts`
+- [x] T1 (coder-pro ac2bc00a12d814215, HANDOFF Scope: Umsetzung fertig, 73 grün; 18 rote Fälle in `felder-text.test.ts` = AK2/AK4 je Feld für T2/T3-Felder — Plan-Fehler des Moderators, Testdatei gehört T1–T3 gemeinsam → T2 und T3 zusammengelegt, GATE von T1 über T2+T3) (AK1–AK4, AK8) [pro] gemeinsame Feld-Logik (`vue3/components/feld/`), `kit-input-text`, `kit-input-email`, `kit-input-password`, `kit-input-date`, `kit-input-color`, `kit-textarea`, Einstieg — Tests: `tests/vue3/felder-text.test.ts`
+- [x] T2+T3 (coder-pro a379461d0f01e857b, GATE GRÜN: Vitest 125 pass, JS 24 pass; T1 mit geprüft) (AK2, AK4, AK5, AK6, AK7, AK9–AK13; zusammengelegt) [pro] — T2: `kit-input-number`, `kit-input-int`, `kit-input-euro`, `kit-input-percent`, Einstieg; T3: `kit-select`, `kit-checkbox`, `kit-radio`, `kit-toggle`, `kit-input-file`, Einstieg — Tests: `tests/vue3/felder-text.test.ts`, `tests/vue3/felder-zahl.test.ts`, `tests/vue3/felder-auswahl.test.ts`
 - [ ] T4 (AK14–AK16, AK19) [pro] `kit-label`, `kit-form`, `kit-input-group`, `kit-input-group-text`, Einstieg vollständig — Tests: `tests/vue3/felder-rahmen.test.ts`
 - [ ] T5 (AK17, AK18, AK21) [pro] Themes, README, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3FelderQuelltextTest.php`
 - [ ] T6 (AK20) [pro] Host: Prüfseite `/ui-kit-vue3` um alle Felder erweitern, Build — Tests: Host `tests/Feature/HostGetRoutenTest.php`, `tests/Feature/KitVue3CssTest.php`; Nachweis per Echtlauf (AK20 nicht automatisch prüfbar)
@@ -21,7 +20,11 @@ Hinweis Aufträge: Kit-Tests (`*.test.ts`) nur mit `PROJEKT: …/packages/larave
 Marketing: entfällt (Bausteine ohne neue öffentliche Seite).
 Design: entfällt (Optik nur über die vorhandenen Theme-Dateien, Prüfseite im Host).
 Offener Punkt aed6469519f935f21: AK-fremd (AK12 „Leertaste“ angenähert über `type=button` + Klick, happy-dom simuliert Leertaste→Klick nicht — Nachweis im Echtlauf T6; Hinweise an Coder: Datei je Tag `vue3/components/<name>/<name>.vue`, `kit-input-group-text` neben `input-group/`, README-Tabelle „Ersetzt“ mit Backticks, Theme-Regeln ohne `@each`/Mixin, `label`-Prop auch an `kit-checkbox`/`kit-radio` — steht im Vertrag „gemeinsame Props der Felder“)
+Abweichung ac2bc00a12d814215: Fehlalarm: keine gemeldet
+Offener Punkt ac2bc00a12d814215: AK-fremd (keine gemeldet; HANDOFF-Grund siehe T1)
+Abweichung a379461d0f01e857b: Fehlalarm: keine gemeldet
+Offener Punkt a379461d0f01e857b: AK-fremd (keine gemeldet)
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
 ## Stand
-Rote Tests committet. Nächster Schritt: T1 coder-pro.
+T1–T3 fertig. Nächster Schritt: T4 coder-pro.
