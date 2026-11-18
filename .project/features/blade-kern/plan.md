@@ -42,6 +42,8 @@ Optik-Fix Host: coder-junior a8c923de4a088b2f0: Buttons der Prüfseite in `d-fle
 Abweichung a8c923de4a088b2f0: Fehlalarm: keine gemeldet
 Offener Punkt a8c923de4a088b2f0: AK-fremd (Abstand vom Moderator im Screenshot geprüft)
 Echtlauf T5: browser: /ui-kit-blade-kern — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-tabs__tab:not(.is-active) ausgelöst, .kit-tabs__tab: 2 sichtbar, .kit-combobox__input: 1 vorhanden → OK; dazu /ui-kit und /ui-kit-vue3 je 0 Konsolenfehler. CDP-Sonde (:8225, echte Klicks): Tab B → Reiter/Panel B `is-active`, Panel A `hidden`, `aria-selected` stimmt; Combobox-Trigger → `is-open`, Liste sichtbar mit 3 `__item`, liegt über dem folgenden Inhalt (`elementFromPoint`), `label for` = id des `__input`. Screenshots: Trigger rechts im Feld, „€“ neben dem Feld, Buttons mit Abstand; Vue-Combobox auf /ui-kit-vue3 geöffnet unverändert.
+Review 1/2: freigegeben ([pruefung.md](pruefung.md)) — sollte → #1617 (`kern/input-euro` ohne Prop `invalid`); kann: `addClass` an `kern/input-text`, Spec-Satz zu Klassen-Props mehrdeutig, JS-Tests mit nachgebautem Markup. Host-Telescope-Migration → #1618 (fremd).
+Fehlerprotokoll: eingetragen 2026-11-18.
 
 ## Stand
-NACHWEIS grün (T1–T5, Optik-Fixes). Nächster Schritt: Review.
+Freigegeben 2026-11-18. Nächster Schritt: DOKU, dann Merge nach `main`.
