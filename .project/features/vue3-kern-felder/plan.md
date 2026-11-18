@@ -57,3 +57,8 @@ Fehlerprotokoll: eingetragen 2026-11-18.
 
 ## Stand
 Fertig: freigegeben 2026-11-18 (Review 2), Doku nachgezogen (README `kit-form`/`kit-select`, CHANGELOG, Leitdokument forms-integration), nach `main` gemergt.
+
+Fix #1612 (AK22, Spec-Lücke, Branch fix/kit-select-modell): test-writer a38a2ee6123b4f3fe (`tests/vue3/select-modell.test.ts`, rot 6/7, Gegenprobe grün), coder-pro ad365accd807702bd (GATE GRÜN, Vitest 38 pass).
+Abweichung ad365accd807702bd: Fehlalarm: keine gemeldet
+Offener Punkt ad365accd807702bd: AK-fremd (README-Satz und CHANGELOG-Zeile „Modell bleibt beim Start unverändert“ umformuliert, weil sie dem neuen AK22 widersprachen; AK21 verlangt nur Namen, Props, Klassen, Tabelle und CHANGELOG-Eintrag, Randfall 3 regelt nur Anzeige und Formularversand)
+Review: entfällt (Bugfix/Spec-Lücke, kein Sicherheitsbezug, < 50 Zeilen Produktivcode)
