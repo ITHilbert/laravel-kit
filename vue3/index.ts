@@ -14,6 +14,9 @@ import KitTabPanel from './components/tabs/panel.vue'
 import KitAccordion from './components/accordion/accordion.vue'
 import KitAccordionItem from './components/accordion/item.vue'
 
+import KitCombobox from './components/combobox/combobox.vue'
+
+export { KitCombobox }
 export { KitTabs, KitTab, KitTabPanel, KitAccordion, KitAccordionItem }
 export { KitDialog, KitDialogClose, KitDialogTitle, KitDialogTrigger }
 
@@ -28,6 +31,7 @@ const komponenten = {
   'kit-tab-panel': KitTabPanel,
   'kit-accordion': KitAccordion,
   'kit-accordion-item': KitAccordionItem,
+  'kit-combobox': KitCombobox,
 } satisfies Record<string, Component>
 
 export type KitTag = keyof typeof komponenten

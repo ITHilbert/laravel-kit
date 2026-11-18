@@ -23,3 +23,18 @@
   overflow: auto;
   overscroll-behavior: contain;
 }
+
+/* Combobox: Wurzel ist Bezugspunkt, die Liste liegt unter dem Feld über dem folgenden Inhalt. */
+.kit-combobox {
+  position: relative;
+}
+
+.kit-combobox__list {
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 16rem;
+  overflow: auto;
+}

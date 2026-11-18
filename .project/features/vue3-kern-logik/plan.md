@@ -10,7 +10,7 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
   - `tests/vue3/input-list.test.ts` (AK12, AK13 und AK14 für die Liste)
   - `tests/vue3/inseln-logik.test.ts` (AK17)
   - `tests/Feature/Vue3/Vue3LogikQuelltextTest.php` (AK15, AK16, AK19)
-- [ ] T1 (AK1–AK5, AK13, AK14, AK17) [pro] Combobox auf Reka UI, Einstieg `vue3/index.ts` — Tests: `tests/vue3/combobox.test.ts`, `tests/vue3/inseln-logik.test.ts`
+- [x] T1 (coder-pro a9b15a6df26b79af3, GATE GRÜN: Vitest 30 pass, JS 24 pass) (AK1–AK5, AK13, AK14, AK17) [pro] Combobox auf Reka UI, Einstieg `vue3/index.ts` — Tests: `tests/vue3/combobox.test.ts`, `tests/vue3/inseln-logik.test.ts`
 - [ ] T2 (AK6–AK14) [pro] Suche, Token-Eingabe, Liste, Einstieg `vue3/index.ts` — Tests: `tests/vue3/search.test.ts`, `tests/vue3/input-token.test.ts`, `tests/vue3/input-list.test.ts`
 - [ ] T3 (AK15, AK16, AK19) [pro] Themes `vue3/themes/tailwind.css`, `vue3/themes/bootstrap5.scss`, README, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3LogikQuelltextTest.php`
 - [ ] T4 (AK18) [pro] Host: Prüfseite `/ui-kit-vue3` um die vier Komponenten erweitern, Build — Tests: Host `tests/Feature/HostGetRoutenTest.php`, `tests/Feature/KitVue3CssTest.php`; Nachweis per Echtlauf (AK18 nicht automatisch prüfbar)
@@ -19,7 +19,10 @@ Bestehende Tests: `tests/vue3/dialog.test.ts`, `tests/vue3/tabs.test.ts`, `tests
 Marketing: entfällt (Bausteine ohne neue öffentliche Seite).
 Design: entfällt (Optik nur über die vorhandenen Theme-Dateien, Prüfseite im Host).
 Offener Punkt a4dffde1e914e5013: AK-fremd (Klassen-Wächter in `Vue3LogikQuelltextTest` doppelt zu `Vue3QuelltextTest` — Refactoring zu Trait später; AK16 verlangt Wurzelregeln einzeln, Hinweis an Coder T3)
+Abweichung a9b15a6df26b79af3: Fehlalarm: keine gemeldet
+Offener Punkt a9b15a6df26b79af3: AK-fremd (Leertext „Keine Treffer“ fest und Trigger `aria-label="Liste öffnen"` — Entscheidungsspielraum, Spec nennt keinen Wortlaut; ganzes Verzeichnis rot nur wegen T2-Tests)
+Echtlauf: folgt in T4 (Host-Prüfseite), Kit hat keine eigene Seite.
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
 ## Stand
-Rote Tests committet. Nächster Schritt: T1 coder-pro (Combobox).
+T1 fertig. Nächster Schritt: T2 coder-pro (Suche, Token-Eingabe, Liste).
