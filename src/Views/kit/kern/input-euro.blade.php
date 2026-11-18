@@ -1,5 +1,5 @@
 {{-- Kern-Theme: Markup wie vue3/components/feld/text-feld.vue, dazu das Suffix „€“ --}}
-@props(['label' => null, 'name' => '', 'step' => 0.01, 'addClass' => '', 'error' => null])
+@props(['label' => null, 'name' => '', 'step' => 0.01, 'invalid' => false, 'addClass' => '', 'error' => null])
 @php
     $z = \ITHilbert\LaravelKit\Kit\KitFeld::zustand((string) $name, null, $attributes, $error);
     $alt = $attributes->has('value') ? null : \ITHilbert\LaravelKit\Kit\KitFeld::alt((string) $name);
