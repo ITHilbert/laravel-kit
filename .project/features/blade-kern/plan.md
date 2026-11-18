@@ -46,4 +46,4 @@ Review 1/2: freigegeben ([pruefung.md](pruefung.md)) — sollte → #1617 (`kern
 Fehlerprotokoll: eingetragen 2026-11-18.
 
 ## Stand
-Freigegeben 2026-11-18. Nächster Schritt: DOKU, dann Merge nach `main`.
+Fertig: freigegeben 2026-11-18, Doku nachgezogen (README Theme `kern`: Klassen und Skript-Bindung), nach `main` gemergt.
