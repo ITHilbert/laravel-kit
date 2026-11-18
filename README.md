@@ -257,6 +257,38 @@ Ein Element wird nur einmal gemountet. Ein zweiter Aufruf auf demselben `root` �
 
 Die Dateien `vue/vueapp_TW.js`, `vue/vueapp_B5.js` und `vue/vueapp_B4.js` registrieren alle Vue-Komponenten des Kits als Komponenten-Plugin für die ganze Seite. Dieser Whole-DOM-Mount ist **veraltet**. Neue Seiten mounten Inseln mit `mountInseln`.
 
+## Vue 3
+
+Der Vue-3-Kern liegt im Ordner `vue3/` (Dialog, Tabs, Accordion auf Basis von Reka UI). Er enthält nur Funktion und Klassen, keine Optik; das Aussehen kommt aus einer Theme-Datei.
+
+### Klassenregel
+
+- Alle Klassen beginnen mit `kit-`, Teile einer Komponente mit `__` (`kit-dialog__content`, `kit-tabs__tab`).
+- Zustände sind `is-open`, `is-active`, `is-invalid` und `disabled`.
+- Der Kern nutzt keine Bootstrap- oder Tailwind-Klassen; die Zuordnung steht in den Themes.
+
+### Einbinden
+
+1. `npm install reka-ui` (dazu `vue` ab 3.4).
+2. Plugin registrieren: `app.use(KitVue3)` (aus `vue3/index.ts`).
+3. Für Inseln im HTML: `kitKomponenten` an `mountInseln` übergeben.
+4. `vue3/kit.css` einbinden und eine Theme-Datei aus `vue3/themes/` (`tailwind.css` oder `bootstrap5.scss`; Bootstrap-Sass vorher importieren).
+
+Das Theme `bootstrap5.scss` setzt Bootstrap 5 mit seinen CSS-Variablen an `:root` voraus (`bootstrap/scss/root`). Nutzt ein Projekt Bootstrap mit eigenem Präfix (z. B. Phoenix mit `--phoenix-*`), kompiliert es das Theme mit seinen eigenen Bootstrap-Sass-Dateien oder bindet `bootstrap/scss/root` ein.
+
+### Npm-Abhängigkeiten des Vue-3-Kerns
+
+| Paket | Art | Version | Wofür |
+|---|---|---|---|
+| `reka-ui` | peerDependency, devDependency | `~2.11` | Verhalten von Dialog, Tabs und Accordion (`vue3/`). Das Projekt installiert es selbst (Einbinden, Schritt 1). |
+| `vue` | peerDependency, devDependency | `^3.4` (Entwicklung `^3.5`) | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
+| `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript` | devDependency | siehe `package.json` | Nur für die Entwicklung des Kits: Tests unter `tests/vue3/` über `npm run test:js` (Umgebung happy-dom). Projekte, die das Kit nutzen, brauchen sie nicht. |
+
+### Hinweise
+
+- `<kit-dialog-trigger>` steht als direktes Kind in `<kit-dialog>`; in einer eigenen Wrapper-Komponente wird er nicht erkannt.
+- Den Dialog steuerst du mit `v-model:open` oder der Prop `open`.
+
 ## Integrations-Voraussetzungen
 
 Das Laravel-Kit bringt Vue-Komponenten (`<data-table>`, `<tabs>`, `<button-*>`) mit, die Abhängigkeiten vom Konsumprojekt haben. Diese müssen explizit geladen werden.

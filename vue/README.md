@@ -1,6 +1,6 @@
 # Laravel-Kit Vue.js Komponenten
 
-Willkommen im zentralen Interface-Repository des `laravel-kit`. Hier liegen alle global wiederverwendbaren Vue 3 Systemkomponenten, die in unseren Laravel-Projekten genutzt werden.
+Hier liegen die älteren Vue-Komponenten des `laravel-kit`. Nur `vue/tailwind/` ist Vue 3. Die Varianten unter `vue/` werden nicht mehr gepflegt; neue Komponenten kommen nach `vue3/`.
 
 Dieses Verzeichnis unterliegt strengen strukturellen und architektonischen Richtlinien, um das Theming, die Performance (Tree-Shaking) und die projektübergreifende Portabilität zu maximieren.
 
