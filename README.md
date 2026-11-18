@@ -299,6 +299,57 @@ Gemeinsame Props: `modelValue` (mit `update:modelValue`, also `v-model`), `name`
 
 Die Combobox filtert ohne Groß-/Kleinschreibung auf das Label; `is-open` steht an der Wurzel, `is-active` am gewählten Eintrag. Die Token-Eingabe zeigt oder verbirgt den Wert über `__toggle` (`is-active`) und kopiert über `__copy`; `__status` meldet „Kopiert“. Das Basis-CSS legt die Combobox-Liste unter das Feld; das Theme gibt ihr Hintergrund und Rahmen.
 
+### Felder
+
+Einfache Formularfelder des Vue-3-Kerns. Gemeinsame Props der Felder: `modelValue` (mit `update:modelValue`, also `v-model`; bei Zahlenfeldern Zahl oder `null` bei leerem Feld, bei `kit-checkbox` und `kit-toggle` Boolean, bei `kit-radio` der `value` des gewählten Knopfs, bei `kit-input-file` die `FileList`), `name`, `label`, `error` (Text), `invalid` (Boolean), `disabled`. Übrige Attribute (`id`, `required`, `placeholder`, `autocomplete`, `aria-*`, `min`, `max`) landen am Eingabefeld, nicht an der Wurzel. Ohne `id`-Attribut erzeugt das Feld eine je Instanz eindeutige `id` für `label` und `aria-describedby`. Zustände: `is-invalid` (bei `error` oder `invalid`), `is-active`, `disabled`.
+
+| Tag | Props (zusätzlich) | Klassen |
+|---|---|---|
+| `kit-input-text` | keine | `kit-input-text`, `kit-input-text__label`, `kit-input-text__input`, `kit-input-text__error` |
+| `kit-input-email` | keine | `kit-input-email`, `kit-input-email__label`, `kit-input-email__input`, `kit-input-email__error` |
+| `kit-input-password` | keine | `kit-input-password`, `kit-input-password__label`, `kit-input-password__input`, `kit-input-password__error`, `kit-input-password__toggle` |
+| `kit-input-number` | `step`, `min`, `max` | `kit-input-number`, `kit-input-number__label`, `kit-input-number__input`, `kit-input-number__error` |
+| `kit-input-int` | keine | `kit-input-int`, `kit-input-int__label`, `kit-input-int__input`, `kit-input-int__error` |
+| `kit-input-euro` | keine | `kit-input-euro`, `kit-input-euro__label`, `kit-input-euro__input`, `kit-input-euro__error`, `kit-input-euro__suffix` |
+| `kit-input-percent` | keine | `kit-input-percent`, `kit-input-percent__label`, `kit-input-percent__input`, `kit-input-percent__error`, `kit-input-percent__suffix` |
+| `kit-input-date` | keine | `kit-input-date`, `kit-input-date__label`, `kit-input-date__input`, `kit-input-date__error` |
+| `kit-input-color` | keine | `kit-input-color`, `kit-input-color__label`, `kit-input-color__input`, `kit-input-color__error` |
+| `kit-input-file` | `accept`, `multiple` | `kit-input-file`, `kit-input-file__label`, `kit-input-file__input`, `kit-input-file__error` |
+| `kit-textarea` | `rows` | `kit-textarea`, `kit-textarea__label`, `kit-textarea__input`, `kit-textarea__error` |
+| `kit-select` | `options`, `placeholder` | `kit-select`, `kit-select__label`, `kit-select__input`, `kit-select__error` |
+| `kit-checkbox` | `value` | `kit-checkbox`, `kit-checkbox__label`, `kit-checkbox__input`, `kit-checkbox__error` |
+| `kit-radio` | `value` | `kit-radio`, `kit-radio__label`, `kit-radio__input`, `kit-radio__error` |
+| `kit-toggle` | keine | `kit-toggle`, `kit-toggle__label`, `kit-toggle__input`, `kit-toggle__error`, `kit-toggle__thumb` |
+| `kit-label` | `for` | `kit-label` |
+| `kit-form` | `action`, `method` (`put`, `patch`, `delete` senden `_method`; `get` sendet weder `_token` noch `_method`) | `kit-form` |
+| `kit-input-group`, `kit-input-group-text` | keine | `kit-input-group`, `kit-input-group-text` |
+
+Besonderheiten: `kit-input-password` zeigt das Passwort über `__toggle` (`aria-pressed`, `is-active`). `kit-input-euro` und `kit-input-percent` setzen den Zusatz „€“ bzw. „%“ als `__suffix` hinter das Feld. `kit-select` bekommt `options` als `{ value, label, disabled? }`; mit `placeholder` steht eine leere erste Option davor. Ohne `placeholder` gibt es keine leere Option: Passt `modelValue` zu keiner Option (auch bei `null`), ist die erste wählbare Option angezeigt, wie bei einem nativen `<select>`. Das Modell (`v-model`) bleibt dabei beim Start unverändert; ein Formular sendet den Wert der angezeigten Option. `kit-toggle` ist eine Schaltfläche mit `role="switch"`; mit `name` sendet sie ein verstecktes Feld (`1` bzw. `0`). `kit-form` ergänzt das `_token` aus dem Meta-Tag `csrf-token`.
+
+#### Ersetzt
+
+| Neu | Ersetzt (alt, `vue/tailwind/forms/`) |
+|---|---|
+| `kit-input-text` | `input-text` |
+| `kit-input-email` | `input-email` |
+| `kit-input-password` | `input-password` |
+| `kit-input-number` | `input-number` |
+| `kit-input-int` | `input-int` |
+| `kit-input-euro` | `input-euro` |
+| `kit-input-percent` | `input-percent` |
+| `kit-input-date` | `input-date` |
+| `kit-input-color` | `input-color` |
+| `kit-input-file` | `input-file`, `input-file-img` |
+| `kit-textarea` | `text-area` |
+| `kit-select` | `combobox` (natives select), `vue-select` |
+| `kit-checkbox` | `checkbox` |
+| `kit-radio` | `radiobox` |
+| `kit-toggle` | `toggle` |
+| `kit-label` | `hlabel` |
+| `kit-form` | `hform` |
+| `kit-input-group` | `input-group` |
+| `kit-input-group-text` | `input-group-text` |
+
 ### Hinweise
 
 - `<kit-dialog-trigger>` steht als direktes Kind in `<kit-dialog>`; in einer eigenen Wrapper-Komponente wird er nicht erkannt.

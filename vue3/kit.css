@@ -76,3 +76,96 @@
   position: absolute;
   right: 0.25em;
 }
+
+/* Textfelder: Wurzel als Block, Passwort-Schalter neben dem Feld. */
+.kit-input-text,
+.kit-input-email,
+.kit-input-password,
+.kit-input-date,
+.kit-input-color,
+.kit-textarea {
+  position: relative;
+}
+
+.kit-input-password {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.kit-input-password__label,
+.kit-input-password__error {
+  flex: 0 0 100%;
+}
+
+.kit-input-password__input {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.kit-input-password__toggle {
+  flex: 0 0 auto;
+}
+
+/* Zahlen-, Auswahl- und Dateifelder: Zusatz neben dem Feld, Haken und Schalter in einer Zeile. */
+.kit-input-euro,
+.kit-input-percent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.kit-input-euro__label,
+.kit-input-euro__error,
+.kit-input-percent__label,
+.kit-input-percent__error {
+  flex: 0 0 100%;
+}
+
+.kit-input-euro__input,
+.kit-input-percent__input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.kit-checkbox,
+.kit-radio,
+.kit-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.kit-checkbox__error,
+.kit-radio__error,
+.kit-toggle__error {
+  flex: 0 0 100%;
+}
+
+.kit-toggle__input {
+  position: relative;
+  display: inline-block;
+}
+
+/* Der Knopf sitzt immer links an der Spur; eingeschaltet verschiebt ihn das Theme um
+ * (Spurbreite - Knopfbreite - Rahmen). Ein zusätzliches right: 0 käme doppelt hinzu. */
+.kit-toggle__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+}
+
+.kit-input-group {
+  display: flex;
+  align-items: stretch;
+}
+
+.kit-input-group > :not(.kit-input-group-text) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.kit-input-group > .kit-input-group-text {
+  flex: 0 0 auto;
+}

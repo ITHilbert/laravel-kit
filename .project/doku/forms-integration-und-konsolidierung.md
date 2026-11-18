@@ -6,6 +6,8 @@ Dieses Dokument hält zwei zusammenhängende Erkenntnisse fest:
 2. **Architektur-Entscheid:** Auflösung des doppelten Ordners `vue/tailwind/input/` zugunsten von `vue/tailwind/forms/`.
 
 > Hintergrund zur Barrel-Architektur und zum 2-Klassen-Semantic-Layer siehe [`../../vue/README.md`](../../vue/README.md) (Abschnitte 2–4). Dieses Dokument ergänzt die dort beschriebene Theorie um den konkreten Fehlerfall.
+>
+> Die Felder des Vue-3-Kerns (`kit-input-*`, `kit-textarea`, `kit-select`, `kit-checkbox`, `kit-radio`, `kit-toggle`, `kit-label`, `kit-form`, `kit-input-group*`) ersetzen die `forms/`-Komponenten. Sie brauchen dieses Barrel-CSS nicht, sondern `vue3/kit.css` und ein Theme aus `vue3/themes/` (Abschnitt „Vue 3“ der README, Tabelle „Ersetzt“).
 
 ---
 

@@ -202,3 +202,300 @@
 .kit-input-list__datalist {
   @apply hidden;
 }
+
+/* Felder: Text, Zahl, Datum, Datei, Auswahl, Kontrollkästchen, Schalter, Label, Formular, Eingabegruppe */
+.kit-input-text {
+  @apply mb-4;
+}
+
+.kit-input-text.is-invalid .kit-input-text__input {
+  @apply border-red-600;
+}
+
+.kit-input-text.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-email {
+  @apply mb-4;
+}
+
+.kit-input-email.is-invalid .kit-input-email__input {
+  @apply border-red-600;
+}
+
+.kit-input-email.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-password {
+  @apply mb-4;
+}
+
+.kit-input-password.is-invalid .kit-input-password__input {
+  @apply border-red-600;
+}
+
+.kit-input-password.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-number {
+  @apply mb-4;
+}
+
+.kit-input-number.is-invalid .kit-input-number__input {
+  @apply border-red-600;
+}
+
+.kit-input-number.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-int {
+  @apply mb-4;
+}
+
+.kit-input-int.is-invalid .kit-input-int__input {
+  @apply border-red-600;
+}
+
+.kit-input-int.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-euro {
+  @apply mb-4;
+}
+
+.kit-input-euro.is-invalid .kit-input-euro__input {
+  @apply border-red-600;
+}
+
+.kit-input-euro.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-percent {
+  @apply mb-4;
+}
+
+.kit-input-percent.is-invalid .kit-input-percent__input {
+  @apply border-red-600;
+}
+
+.kit-input-percent.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-date {
+  @apply mb-4;
+}
+
+.kit-input-date.is-invalid .kit-input-date__input {
+  @apply border-red-600;
+}
+
+.kit-input-date.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-color {
+  @apply mb-4;
+}
+
+.kit-input-color.is-invalid .kit-input-color__input {
+  @apply border-red-600;
+}
+
+.kit-input-color.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-file {
+  @apply mb-4;
+}
+
+.kit-input-file.is-invalid .kit-input-file__input {
+  @apply border-red-600;
+}
+
+.kit-input-file.disabled {
+  @apply opacity-60;
+}
+
+.kit-textarea {
+  @apply mb-4;
+}
+
+.kit-textarea.is-invalid .kit-textarea__input {
+  @apply border-red-600;
+}
+
+.kit-textarea.disabled {
+  @apply opacity-60;
+}
+
+.kit-select {
+  @apply mb-4;
+}
+
+.kit-select.is-invalid .kit-select__input {
+  @apply border-red-600;
+}
+
+.kit-select.disabled {
+  @apply opacity-60;
+}
+
+.kit-checkbox {
+  @apply mb-4;
+}
+
+.kit-checkbox.is-invalid .kit-checkbox__input {
+  @apply border-red-600;
+}
+
+.kit-checkbox.disabled {
+  @apply opacity-60;
+}
+
+.kit-radio {
+  @apply mb-4;
+}
+
+.kit-radio.is-invalid .kit-radio__input {
+  @apply border-red-600;
+}
+
+.kit-radio.disabled {
+  @apply opacity-60;
+}
+
+.kit-toggle {
+  @apply mb-4;
+}
+
+.kit-toggle.is-invalid .kit-toggle__input {
+  @apply border-red-600;
+}
+
+.kit-toggle.disabled {
+  @apply opacity-60;
+}
+
+.kit-input-text__label,
+.kit-input-email__label,
+.kit-input-password__label,
+.kit-input-number__label,
+.kit-input-int__label,
+.kit-input-euro__label,
+.kit-input-percent__label,
+.kit-input-date__label,
+.kit-input-color__label,
+.kit-input-file__label,
+.kit-textarea__label,
+.kit-select__label,
+.kit-checkbox__label,
+.kit-radio__label,
+.kit-toggle__label {
+  @apply mb-2 inline-block text-sm font-medium text-gray-700;
+}
+
+.kit-checkbox__label,
+.kit-radio__label,
+.kit-toggle__label {
+  @apply mb-0 ml-2;
+}
+
+.kit-input-text__input,
+.kit-input-email__input,
+.kit-input-password__input,
+.kit-input-number__input,
+.kit-input-int__input,
+.kit-input-euro__input,
+.kit-input-percent__input,
+.kit-input-date__input,
+.kit-textarea__input,
+.kit-select__input,
+.kit-input-color__input,
+.kit-input-file__input {
+  @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
+}
+
+.kit-input-color__input {
+  @apply h-10 p-1;
+}
+
+.kit-textarea__input {
+  @apply min-h-20;
+}
+
+.kit-checkbox__input,
+.kit-radio__input {
+  @apply h-4 w-4 align-top accent-blue-600;
+}
+
+.kit-input-password__toggle {
+  @apply ml-2 mt-0 cursor-pointer border-0 bg-transparent p-0 text-sm text-blue-600 hover:text-blue-700 disabled:cursor-not-allowed;
+}
+
+.kit-input-password__toggle.is-active {
+  @apply text-blue-800;
+}
+
+.kit-input-euro__suffix,
+.kit-input-percent__suffix {
+  @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+}
+
+.kit-toggle__input {
+  @apply inline-block h-5 w-9 cursor-pointer rounded-full border border-gray-300 bg-gray-300 p-0.5 align-middle disabled:cursor-not-allowed;
+}
+
+.kit-toggle__thumb {
+  @apply block h-4 w-4 rounded-full bg-white transition-transform;
+}
+
+.kit-toggle.is-active .kit-toggle__input {
+  @apply border-blue-600 bg-blue-600;
+}
+
+/* Spurbreite (w-9 = 2.25rem) minus Knopfbreite (w-4 = 1rem) minus beide Rahmen (1px je Seite). */
+.kit-toggle.is-active .kit-toggle__thumb {
+  transform: translateX(calc(2.25rem - 1rem - 2px));
+}
+
+.kit-input-text__error,
+.kit-input-email__error,
+.kit-input-password__error,
+.kit-input-number__error,
+.kit-input-int__error,
+.kit-input-euro__error,
+.kit-input-percent__error,
+.kit-input-date__error,
+.kit-input-color__error,
+.kit-input-file__error,
+.kit-textarea__error,
+.kit-select__error,
+.kit-checkbox__error,
+.kit-radio__error,
+.kit-toggle__error {
+  @apply mt-1 block text-sm text-red-600;
+}
+
+.kit-label {
+  @apply mb-2 inline-block text-sm font-medium text-gray-700;
+}
+
+.kit-form {
+  @apply mb-4;
+}
+
+.kit-input-group {
+  @apply mb-4;
+}
+
+.kit-input-group-text {
+  @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+}

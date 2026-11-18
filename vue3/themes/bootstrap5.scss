@@ -265,3 +265,417 @@
 .kit-input-list__datalist {
   display: none;
 }
+
+// Felder: Text, Zahl, Datum, Datei, Auswahl, Kontrollkästchen, Schalter, Label, Formular, Eingabegruppe
+// Werte aus Bootstrap-Sass-Variablen und var(--bs-*) (an :root, Bootstrap 5.2), kein @extend.
+.kit-input-text {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-text__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-email {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-email__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-password {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-password__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-number {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-number__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-int {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-int__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-euro {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-euro__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-percent {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-percent__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-date {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-date__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-color {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-color__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-file {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-input-file__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-textarea {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-textarea__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-select {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-select__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-checkbox {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-checkbox__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-radio {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-radio__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-toggle {
+  margin-bottom: $spacer;
+
+  &.is-invalid {
+    .kit-toggle__input {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-text__label,
+.kit-input-email__label,
+.kit-input-password__label,
+.kit-input-number__label,
+.kit-input-int__label,
+.kit-input-euro__label,
+.kit-input-percent__label,
+.kit-input-date__label,
+.kit-input-color__label,
+.kit-input-file__label,
+.kit-textarea__label,
+.kit-select__label,
+.kit-checkbox__label,
+.kit-radio__label,
+.kit-toggle__label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: var(--bs-body-color);
+}
+
+.kit-checkbox__label,
+.kit-radio__label,
+.kit-toggle__label {
+  margin-bottom: 0;
+  margin-left: 0.5rem;
+}
+
+.kit-input-text__input,
+.kit-input-email__input,
+.kit-input-password__input,
+.kit-input-number__input,
+.kit-input-int__input,
+.kit-input-euro__input,
+.kit-input-percent__input,
+.kit-input-date__input,
+.kit-textarea__input,
+.kit-select__input,
+.kit-input-color__input,
+.kit-input-file__input {
+  display: block;
+  width: 100%;
+  padding: $input-padding-y $input-padding-x;
+  font-size: $input-font-size;
+  line-height: $input-line-height;
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border: $input-border-width solid var(--bs-border-color);
+  border-radius: $input-border-radius;
+
+  &:focus {
+    outline: 0;
+    border-color: $input-focus-border-color;
+    box-shadow: $input-focus-box-shadow;
+  }
+
+  &:disabled {
+    background-color: $gray-200;
+  }
+}
+
+.kit-input-color__input {
+  height: 2.5rem;
+  padding: 0.25rem;
+}
+
+.kit-textarea__input {
+  min-height: 5rem;
+}
+
+.kit-checkbox__input,
+.kit-radio__input {
+  width: 1em;
+  height: 1em;
+  margin-top: 0.25em;
+  vertical-align: top;
+  accent-color: var(--bs-primary);
+}
+
+.kit-input-password__toggle {
+  margin-top: 0;
+  margin-left: 0.5rem;
+  padding: 0;
+  font-size: $small-font-size;
+  color: var(--bs-link-color);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.is-active {
+    color: var(--bs-primary);
+  }
+}
+
+.kit-input-euro__suffix,
+.kit-input-percent__suffix {
+  padding: $input-padding-y $input-padding-x;
+  font-size: $input-font-size;
+  line-height: $input-line-height;
+  color: var(--bs-body-color);
+  background-color: $gray-100;
+  border: $input-border-width solid var(--bs-border-color);
+  border-radius: $input-border-radius;
+}
+
+.kit-toggle__input {
+  display: inline-block;
+  width: 2em;
+  height: 1.125em;
+  padding: 0.125em;
+  vertical-align: middle;
+  background-color: $gray-300;
+  border: $input-border-width solid var(--bs-border-color);
+  border-radius: 2em;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.kit-toggle__thumb {
+  display: block;
+  width: 0.75em;
+  height: 0.75em;
+  background-color: var(--bs-white);
+  border-radius: 50%;
+  transition: transform 0.15s ease-in-out;
+}
+
+.kit-toggle.is-active {
+  .kit-toggle__input {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+
+  // Spurbreite (2em) minus Knopfbreite (0.75em) minus beide Rahmen: Knopf endet rechts an der Innenkante.
+  .kit-toggle__thumb {
+    transform: translateX(calc(2em - 0.75em - #{$input-border-width * 2}));
+  }
+}
+
+.kit-input-text__error,
+.kit-input-email__error,
+.kit-input-password__error,
+.kit-input-number__error,
+.kit-input-int__error,
+.kit-input-euro__error,
+.kit-input-percent__error,
+.kit-input-date__error,
+.kit-input-color__error,
+.kit-input-file__error,
+.kit-textarea__error,
+.kit-select__error,
+.kit-checkbox__error,
+.kit-radio__error,
+.kit-toggle__error {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: $small-font-size;
+  color: $form-feedback-invalid-color;
+}
+
+.kit-label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: var(--bs-body-color);
+}
+
+.kit-form {
+  margin-bottom: $spacer;
+}
+
+.kit-input-group {
+  margin-bottom: $spacer;
+
+  .kit-input-text,
+  .kit-input-email,
+  .kit-input-password,
+  .kit-input-number,
+  .kit-input-int,
+  .kit-input-euro,
+  .kit-input-percent,
+  .kit-input-date,
+  .kit-select {
+    margin-bottom: 0;
+  }
+}
+
+.kit-input-group-text {
+  padding: $input-padding-y $input-padding-x;
+  font-size: $input-font-size;
+  line-height: $input-line-height;
+  color: var(--bs-body-color);
+  background-color: $gray-100;
+  border: $input-border-width solid var(--bs-border-color);
+  border-radius: $input-border-radius;
+}
