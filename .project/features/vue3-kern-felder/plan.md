@@ -50,5 +50,8 @@ Abweichung afd127e2f103d2729: Fehlalarm: keine gemeldet
 Offener Punkt afd127e2f103d2729: AK-fremd (Knopf vertikal oben statt mittig — im Screenshot nicht sichtbar, Spur und Knopf passen; kann)
 Echtlauf F1/F2: browser: /ui-kit-vue3 — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-toggle__input ausgelöst, .kit-input-text__input: 4 sichtbar, .kit-toggle.is-active: 1 vorhanden → OK. CDP-Sonde (:8225, ohne `v-model`): Toggle `aria-checked=true`, `is-active`, Formular `aktiv=1`; Passwort `type=text`; Checkbox `zustimmung=on`; Radio `art=b`; Text/Zahl/Euro/Textarea/Select per Eingabe gesetzt. Screenshots: Passwort-Schalter rechts neben dem Feld, Input-Group in einer Zeile, Toggle-Knopf innen rechts.
 
+Review 1/2: nicht freigegeben ([pruefung.md](pruefung.md)) — muss: Randfall 3 (`kit-select` ohne `placeholder` startet in Chrome ohne Auswahl, fehlt in FormData). sollte → #1611 (step-Typ, Suffix bricht um). kann nur in pruefung.md.
+Spec-Lücke Randfall 3: ergänzt (Startauswahl wie natives `<select>`), Moderator in Vollmacht → Fix F3: test-writer (Regressionstest), coder-pro.
+
 ## Stand
-NACHWEIS grün (F1, F2, F2b, F2c). Nächster Schritt: vue3-kern-logik nach main, dann main hierher mergen und Review.
+Review 1 nicht freigegeben. Nächster Schritt: Fix F3 (Randfall 3), dann Review 2.

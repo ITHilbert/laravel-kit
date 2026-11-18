@@ -62,7 +62,7 @@ Der Kern `vue3/` bekommt die einfachen Formularfelder. Sie ersetzen die Felder a
 ## Randfälle
 1. Zwei Felder mit gleichem `name` und ohne `id`: verschiedene erzeugte `id`s, jedes Label zeigt auf sein Feld.
 2. Zahlenfeld mit Text, den der Browser nicht als Zahl liest (`valueAsNumber` = `NaN`): Wert `null`, kein Fehler.
-3. `kit-select` ohne `placeholder`: keine leere erste Option.
+3. `kit-select` ohne `placeholder`: keine leere erste Option. Passt kein `modelValue` zu einer Option (auch ohne `v-model` oder mit `null`), ist wie bei einem nativen `<select>` die erste wählbare Option gewählt, und ein Formular sendet unter `name` ihren Wert. (Ergänzt 2026-11-18 nach Review 1, Moderator in Vollmacht.)
 4. `kit-checkbox` ohne `value`: Formular sendet `on` (Browser-Standard).
 5. `kit-toggle` ohne `name`: kein verstecktes Feld.
 
