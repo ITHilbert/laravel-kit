@@ -3,7 +3,7 @@ laravel-kit `feature/blade-kern` (von `main` 4019bd53). Host `packages_dev` `fea
 Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein Dashboard-Task.
 
 ## Aufgaben
-- [ ] TW test-writer (AK1–AK17, Randfälle 1–5) — Tests:
+- [x] TW (test-writer a4e2281b975eed015, rot: PHP 43/44 — Meldung `Unbekanntes Theme "kern"`, `src/Views/kit/kern/ fehlt`, `keine Regel für kit-button`, README/CHANGELOG ohne `kern`; grün 1 = Gegenprobe des Klassen-Prüfers; Host 2/2 `Expected 200 but received 404`; JS 7/9, 2 grün = Wächter für alte Themes; grünbar: JS 5/5 und 4/4, PHP entfällt bei Risiko normal; Hilfs-Trait `KernHilfe.php` für T1–T3) test-writer (AK1–AK17, Randfälle 1–5) — Tests:
   - `tests/Feature/KitComponents/KernFelderTest.php` (AK1, AK2–AK6, Randfälle 1, 2, 4, 5; Feldteil von AK14)
   - `tests/Feature/KitComponents/KernLayoutTest.php` (AK7, AK8, AK13)
   - `tests/Feature/KitComponents/KernTabsComboboxTest.php` (AK9, AK11)
@@ -22,5 +22,7 @@ Marketing: entfällt (Bausteine ohne neue öffentliche Seite).
 Design: entfällt (Optik über die vorhandenen Theme-Dateien, Prüfseite im Host).
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
+Offener Punkt a4e2281b975eed015: AK-fremd (Namen der `data-`-Attribute aus den alten Themes übernommen: `data-kit-tabs`, `data-kit-tab`, `data-kit-tabs-body`, `data-kit-tab-body`, `data-kit-combobox` — Entscheidungsspielraum der Spec; Panel `id=<name>`, Reiter `aria-controls=<name>` wie bisher; Host-Seite bindet Kit-CSS per `<link>`)
+
 ## Stand
-Spec und Plan als Entwurf. Nächster Schritt: test-writer.
+Tests rot committet. Nächster Schritt: T1.
