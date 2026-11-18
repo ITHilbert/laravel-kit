@@ -115,3 +115,59 @@ Nachweise:
 
 ## Fazit: nicht freigegeben
 Grund: Randfall 3 (`kit-select` ohne `placeholder` startet im Browser ohne Auswahl und sendet das Feld nicht). Alle AKs 1–21 und die Randfälle 1, 2, 4 und 5 sind bestanden. Die beiden sollte-Funde stehen in #1611 und blockieren nicht.
+
+---
+
+# Prüfung: vue3-kern-felder — 2026-11-18 (Review 2, Nachprüfung seit 76d5fde1)
+
+Geprüft im Review-Platz `/home/joerg/projekte/.worktrees/packages_dev/reviewer`: Kit `3409a6a9` (Fix-Diff `76d5fde1..HEAD`: `select.vue`, neuer Test `tests/vue3/select-startauswahl.test.ts`, `plan.md`), Host `9d9f05a` (Diff `d45f096..9d9f05a`: Submodul-Stand und `public/js/app.js`). Die Spec ist seit `76d5fde1` unverändert. Randfall 3 wurde in genau diesem Commit ergänzt. Der Fix baut nur die eine Komponente um, darum Nachprüfung statt vollem Review.
+
+Nachweise:
+- **Vitest:** Kit ganz, 16 Dateien / 160 Tests grün (darin `select-startauswahl`, `felder-auswahl`, `felder-rahmen`).
+- **Gegenprobe Test:** `select-startauswahl.test.ts` gegen das alte `select.vue` (Stand `fdecbad4^`) in einer Kopie im Scratchpad: 4 von 5 rot, Meldungen `expected [ '' ] to deeply equal []` bzw. `[ 'zz' ]`. Der Test erkennt den Fehler also. Er bildet das Chrome-Verhalten über einen Spion auf `select.value` nach (happy-dom wählt selbst die erste Option). Darum gilt er nur als angenäherter Nachweis; das Verhalten habe ich im Browser selbst bestätigt.
+- **Browser-Sonde:** Eigenes Headless Chrome, Port 0, eigenes Profil im Scratchpad, `--lang=de-DE`, per CDP. Zwei Ziele:
+  - (a) eigene Seite mit dem Kit-Einstieg (`vue3/index.ts` + `js/mount-inseln.js`, mit Vite gebündelt), zehn `kit-select` in einem `<form>` und eine Insel `data-vue="kit-select"` ohne `v-model`;
+  - (b) Host `http://127.0.0.1:8104/ui-kit-vue3`, Server des Platzes.
+- **Host-Build:** `public/js/app.js` enthält die neue Logik (`if(o.placeholder)return"";var i=…n.find(function(e){return!e.disabled})…`).
+
+Werte der Sonde (a) als `[Optionen, erste Option, selectedIndex, value, FormData]`.
+
+| AK / Aussage (Zitat) | Ergebnis | Nachweis |
+|---|---|---|
+| Randfall 3 „`kit-select` ohne `placeholder`: keine leere erste Option.“ | bestanden | `select-startauswahl` und `felder-auswahl` grün; Browser (a): alle Felder ohne `placeholder` haben als erste Option `de` bzw. `xx`/`1`, keine leere |
+| Randfall 3 „Passt kein `modelValue` zu einer Option (auch ohne `v-model` oder mit `null`), ist wie bei einem nativen `<select>` die erste wählbare Option gewählt“ | bestanden | Browser (a): ohne `v-model` `[2,"de",0,"de","de"]`; `v-model` = `null` `[2,"de",0,"de","de"]`; `v-model` = `'zz'` `[2,"de",0,"de","de"]`; erste Option `disabled` `[3,"xx",1,"de","de"]`; Insel ohne `v-model` `selectedIndex 0`, `de`. Von außen `'at'` → `'zz'` gesetzt: springt auf `de` (Index 0). Optionen erst leer, dann nachgeladen: danach `p` gewählt. Test `select-startauswahl` (3 Fälle + gesperrte erste Option) grün, Gegenprobe rot gegen alten Stand |
+| Randfall 3 „und ein Formular sendet unter `name` ihren Wert.“ | bestanden | Browser (a): `new FormData(form)` liefert in allen vier Fällen `de`, Insel `insel=de`; Test prüft `form.get('land')` |
+| AK9 „hat `.kit-select__input` (`<select>`) drei `<option>`: zuerst „Bitte wählen“ mit leerem Wert, dann die beiden Optionen“ | bestanden | Fix berührt die Komponente, darum erneut: `felder-auswahl` AK9 grün; Browser (a): `["","Bitte wählen"]`, `de`, `at`, Platzhalter gewählt (`[3,"",0,"",""]`) |
+| AK9 „„Österreich“ `disabled`“ | bestanden | Browser (a): `["at","Österreich",true,…]` |
+| AK9 „wenn „Deutschland“ gewählt wird, ist `land` `'de'`“ | bestanden | Browser (a): Fokus + echte Taste `ArrowDown` → `value de`, `land = 'de'` |
+| AK9 „wenn `land` von außen `'at'` ist, ist „Österreich“ ausgewählt“ | bestanden | Browser (a): `v-model` `'at'` → `[2,"de",1,"at","at"]`; `null` → von außen `'at'` → Index 1 |
+| AK9 „Zahlen-Werte kommen als Zahl zurück“ | bestanden | Browser (a): `ArrowDown` auf „Zwei“ → `2`, `typeof number` |
+| Mit `placeholder` und nicht passendem `modelValue` | bestanden | keine Spec-Aussage, Gegenprobe zum Fix: Browser (a) `placeholder` + `'zz'` → `[3,"",0,"",""]`, `ph` von außen `null` → bleibt Platzhalter |
+| AK2, AK4, AK5 für `kit-select` (Tabellen-Tests je Feld) | bestanden | `felder-text` AK2/AK4, `felder-auswahl` AK5 grün (Vitest ganz) |
+| AK19 „`mountInseln(kitKomponenten)` mountet …“ (für `kit-select`) | bestanden | Browser (a): Insel `kit-select` gemountet, 2 Optionen, `insel=de`; Konsole ohne Fehler (nur 404 für `favicon.ico` des Sonden-Servers) |
+| AK20 „die Prüfseite `/ui-kit-vue3` zeigt zusätzlich alle Felder … ohne Konsolenfehler“ | bestanden | Browser (b): 0 unaufgelöste `KIT-`-Elemente; beide `kit-select` der Seite (mit `placeholder`) `[5,"",0,"",""]`; Konsole nur Boost-Logger und Chrome-Hinweise `verbose` zu Passwortfeldern. Host-Build enthält den Fix (s. o.) |
+| Alle übrigen Aussagen (AK1–AK21, Randfälle 1, 2, 4, 5, Vertrag, Nicht-Ziele) | bestanden (Prüfung 76d5fde1) | Code und Tests dieser Aussagen vom Fix nicht berührt; Vitest ganz grün |
+
+## Sicherheit (Diff des Fixes)
+- `anzeigeWert` vergleicht nur Strings aus `options` und `modelValue` und bindet sie an `:value`. Kein `v-html`, keine neue Ausgabe, kein neuer Datenfluss.
+- Kein neues npm-Paket, keine Route, keine Migration.
+
+## Regressionen
+- **Kit, Vitest ganz:** 16 Dateien / 160 Tests grün (`accordion`, `combobox`, `dialog`, `felder-auswahl`, `felder-rahmen`, `felder-text`, `felder-zahl`, `input-list`, `input-token`, `inseln-ids`, `inseln-logik`, `inseln`, `search`, `select-startauswahl`, `tabs`, `toggle-ohne-model`).
+- **Kit, node --test:** `packages/laravel-kit/tests/js/*.test.mjs`: 240 grün.
+- **PHP:** `php artisan test packages/laravel-kit/tests/Feature/Vue3 tests/Feature/HostGetRoutenTest.php tests/Feature/KitVue3CssTest.php`: 32 grün (312 Assertions).
+- Tests der berührten Datei per `git grep` (`select.vue`, `KitSelect`, `kit-select`): `Vue3FelderQuelltextTest.php`, `felder-auswahl.test.ts`, `felder-rahmen.test.ts`, `select-startauswahl.test.ts` — alle oben enthalten.
+- Ganze Suite nicht gelaufen (kein `SUITE: ja`).
+- `storage/logs/laravel.log` des Platzes: nur `Table 'packages_dev_review.telescope_entries' doesn't exist` bei Artisan-Aufrufen (Telescope-Tabelle fehlt in der DB des Platzes). Das ist ein Umgebungsfehler des Platzes, kein Fund zum Feature.
+
+## Funde: 0 muss, 1 sollte, 1 kann
+- **sollte:** `kit-select` ohne `placeholder` mit `v-model` = `null` (oder nicht passend) zeigt „Deutschland“ und sendet `de`, das Modell bleibt aber `null`. Ein Klick auf die schon gewählte Option löst kein `change` aus. Eine Seite, die das Modell per JS sendet, schickt `null`. Die Spec regelt nur Anzeige und Formularversand; `plan.md` nennt „beim Start kein `update:modelValue`“ als Absicht. Beleg: Browser (a) `mNull` bleibt `null` bei `[2,"de",0,"de","de"]` (→ Folge-Task #1612).
+- **kann:** Sind alle Optionen `disabled`, setzt `anzeigeWert` die erste gesperrte Option (`[2,"a",0,"a","<fehlt>"]`); das Feld fehlt in `FormData`. Die Spec regelt den Fall nicht (steht mit in #1612).
+
+## Neue Tasks: #1612 laravel-kit vue3 – Nacharbeit aus Review 2 vue3-kern-felder (kit-select: v-model bleibt null bei Startauswahl)
+
+## Fehlerprotokoll
+- {"schwere":"sollte","ak":"Randfall 3","fund":"kit-select ohne placeholder zeigt und sendet die erste wählbare Option, v-model bleibt aber null bzw. auf dem nicht passenden Wert","ursache":"Fix setzt nur den angezeigten DOM-Wert (anzeigeWert) und meldet ihn bewusst nicht an das Modell; der Unterschied zwischen Anzeige und Modell wurde weder in der Spec noch in der README entschieden","anweisung":"Wenn eine Komponente einen Anzeigewert vom Modellwert abweichend setzt, die Abweichung als Spec-Lücke melden (Modell nachziehen oder dokumentieren) statt sie still als Absicht in plan.md festzuhalten"}
+
+## Fazit: freigegeben
+Der muss-Fund aus Review 1 (Randfall 3) ist behoben und im echten Chrome bestätigt. Der Fix bricht AK9, die Insel und die Prüfseite nicht. Der sollte-Fund steht in #1612 und blockiert nicht.
