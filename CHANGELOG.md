@@ -3,6 +3,7 @@
 ## Unveröffentlicht
 - Neu: Ordner `vue3/` mit Vue-3-Kern aus Dialog, Tabs und Accordion (Reka UI, Klassen `kit-…`, Plugin `KitVue3`, `kitKomponenten` für `mountInseln`), `vue3/kit.css` und Themes `vue3/themes/tailwind.css` und `vue3/themes/bootstrap5.scss`.
 - Neu: Vue-3-Komponenten `kit-combobox` (Reka UI), `kit-search` (mit `verzoegerung`, Ereignis `suche`), `kit-input-token` (anzeigen, kopieren) und `kit-input-list` (Datalist), dazu Regeln in `vue3/kit.css` und beiden Themes.
+- Neu: Vue-3-Felder `kit-input-text`, `kit-input-email`, `kit-input-password`, `kit-input-number`, `kit-input-int`, `kit-input-euro`, `kit-input-percent`, `kit-input-date`, `kit-input-color`, `kit-input-file`, `kit-textarea`, `kit-select`, `kit-checkbox`, `kit-radio`, `kit-toggle`, `kit-label`, `kit-form`, `kit-input-group`, `kit-input-group-text` (Teile `__label`, `__input`, `__error`, Zustände `is-invalid`, `is-active`, `disabled`), dazu Regeln in `vue3/kit.css` und beiden Themes. Sie ersetzen die Felder aus `vue/tailwind/forms/` (Tabelle „Ersetzt“ in der README). Damit ist der Vue-3-Kern vollständig.
 - Neue Abhängigkeit: `reka-ui` (`~2.11`, peerDependency; dazu `vue` ab 3.4).
 
 ## 1.7.0 – 2026-11-16
