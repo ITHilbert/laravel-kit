@@ -15,7 +15,7 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
 - [x] T2 (AK7, AK8, AK13) (zusammengelegt T2+T3+T4: coder-pro a603d65301ee8265f, GATE GRÜN: PHP 161, JS 104; Moderator: Kit-Feature 2227 passed, JS 249/249) [pro] Buttons, Cards, `show-euro`, `show-date`, `breadcrumb` unter `src/Views/kit/kern/` — Tests: `tests/Feature/KitComponents/KernLayoutTest.php`
 - [x] T3 (AK9–AK12) (zusammengelegt T2+T3+T4: coder-pro a603d65301ee8265f, GATE GRÜN: PHP 161, JS 104; Moderator: Kit-Feature 2227 passed, JS 249/249) [pro] Tabs- und Combobox-Templates, `js/tabs.js`, `js/combobox.js` — Tests: `tests/Feature/KitComponents/KernTabsComboboxTest.php`, `tests/js/kernTabs.test.mjs`, `tests/js/kernCombobox.test.mjs`
 - [x] T4 (AK14–AK16) (zusammengelegt T2+T3+T4: coder-pro a603d65301ee8265f, GATE GRÜN: PHP 161, JS 104; Moderator: Kit-Feature 2227 passed, JS 249/249) [pro] Themes, `kit.css`, README, CHANGELOG — Tests: `tests/Feature/KitComponents/KernQuelltextTest.php`
-- [ ] T5 (AK17) [pro] Host: Prüfseite `/ui-kit-blade-kern`, Build — Tests: Host `tests/Feature/UiKitBladeKernTest.php`; Nachweis per Echtlauf (Tabs, Combobox, Konsole)
+- [x] T5 (coder-pro a1ed247cfc4a1b255, siehe unten) (AK17) [pro] Host: Prüfseite `/ui-kit-blade-kern`, Build — Tests: Host `tests/Feature/UiKitBladeKernTest.php`; Nachweis per Echtlauf (Tabs, Combobox, Konsole)
 
 Bestehende Tests: `tests/Feature/KitComponents/*.php` (BausteineTest, ThemeTest, LabelForTest, FormularOldFehlerTest, FehleranzeigeSchalterTest, CheckboxCheckedTest, ComboboxTest, Bootstrap5LabelTest, FormularNeuTest, ReadmeTest), `tests/js/tabs.test.mjs`, `tests/js/combobox.test.mjs`, `tests/js/comboboxAktualisieren.test.mjs`, `tests/js/loeschen.test.mjs`, `tests/Feature/Vue3/*.php`
 Marketing: entfällt (Bausteine ohne neue öffentliche Seite).
@@ -38,5 +38,10 @@ Optik-Fix Kit: coder-junior a9d2c3299a0c03eae (GATE GRÜN: PHP 30, JS 249/249, V
 Abweichung a9d2c3299a0c03eae: Fehlalarm: `tailwind.css` nicht angepasst (Notbremse 3 Dateien) — Layout über `kit.css` korrigiert, AK15 unberührt
 Offener Punkt a9d2c3299a0c03eae: AK-fremd (Zusatz im Tailwind-Theme ohne Anschluss an das Feld → #1611; Vue-Combobox geöffnet vom Moderator im Screenshot geprüft: Liste unter dem Feld, Trigger rechts)
 
+Optik-Fix Host: coder-junior a8c923de4a088b2f0: Buttons der Prüfseite in `d-flex flex-wrap gap-2`.
+Abweichung a8c923de4a088b2f0: Fehlalarm: keine gemeldet
+Offener Punkt a8c923de4a088b2f0: AK-fremd (Abstand vom Moderator im Screenshot geprüft)
+Echtlauf T5: browser: /ui-kit-blade-kern — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-tabs__tab:not(.is-active) ausgelöst, .kit-tabs__tab: 2 sichtbar, .kit-combobox__input: 1 vorhanden → OK; dazu /ui-kit und /ui-kit-vue3 je 0 Konsolenfehler. CDP-Sonde (:8225, echte Klicks): Tab B → Reiter/Panel B `is-active`, Panel A `hidden`, `aria-selected` stimmt; Combobox-Trigger → `is-open`, Liste sichtbar mit 3 `__item`, liegt über dem folgenden Inhalt (`elementFromPoint`), `label for` = id des `__input`. Screenshots: Trigger rechts im Feld, „€“ neben dem Feld, Buttons mit Abstand; Vue-Combobox auf /ui-kit-vue3 geöffnet unverändert.
+
 ## Stand
-T1–T4 fertig. Nächster Schritt: T5 (Host-Prüfseite), dann Echtlauf und Review.
+NACHWEIS grün (T1–T5, Optik-Fixes). Nächster Schritt: Review.
