@@ -57,4 +57,4 @@ NACHWEIS F3 (Moderator): Vitest 53/53, `node --test tests/js/*.test.mjs` 240/240
 Review 1/2 (Nachprüfung seit 61bf96ff, pruefung.md): 0 muss, 0 sollte, 2 kann — freigegeben. #1610 von torrent geschlossen (durch Fix F3 erledigt).
 
 ## Stand
-Freigegeben (Nachprüfung 2026-11-18). Doku-Writer, dann Merge Kit und Host nach `main`.
+Fertig: freigegeben 2026-11-18, Doku (README mountInseln-idPrefix, Hinweise kit-combobox) ergänzt, Entscheidung 0014 (Host), nach `main` gemergt.
