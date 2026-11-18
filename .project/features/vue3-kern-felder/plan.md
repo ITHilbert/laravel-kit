@@ -55,3 +55,5 @@ Spec-Lücke Randfall 3: ergänzt (Startauswahl wie natives `<select>`), Moderato
 
 ## Stand
 Review 1 nicht freigegeben. Nächster Schritt: Fix F3 (Randfall 3), dann Review 2.
+
+Fix F3 Test: test-writer add8bdfb3d226c524, `tests/vue3/select-startauswahl.test.ts` (rot 4/5: `expected [ '' bzw. 'zz' ] to deeply equal []` — Komponente weist dem `<select>` einen Wert ohne passende Option zu; Gegenprobe grün; happy-dom-Eigenheit per Spion auf `value` abgebildet; Grünbar entfällt, Bugfix).
