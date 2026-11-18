@@ -95,3 +95,110 @@
 .kit-accordion__item.is-open .kit-accordion__content {
   @apply block;
 }
+
+/* Felder: Combobox, Suche, Token-Eingabe, Liste */
+.kit-combobox {
+  @apply flex items-stretch;
+}
+
+.kit-combobox.is-invalid .kit-combobox__input {
+  @apply border-red-500;
+}
+
+.kit-combobox.disabled,
+.kit-search.disabled,
+.kit-input-token.disabled,
+.kit-input-list.disabled {
+  @apply opacity-60;
+}
+
+.kit-combobox__input,
+.kit-search__input,
+.kit-input-token__input,
+.kit-input-list__input {
+  @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
+}
+
+.kit-combobox__input {
+  @apply rounded-r-none;
+}
+
+.kit-combobox__trigger,
+.kit-input-token__toggle,
+.kit-input-token__copy {
+  @apply inline-flex cursor-pointer items-center border border-gray-300 bg-gray-50 px-3 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed;
+}
+
+.kit-combobox__trigger {
+  @apply -ml-px rounded-r-md;
+}
+
+.kit-input-token {
+  @apply gap-1;
+}
+
+.kit-input-token__toggle,
+.kit-input-token__copy {
+  @apply rounded-md;
+}
+
+.kit-input-token__toggle.is-active,
+.kit-input-token__copy.is-active {
+  @apply text-blue-600;
+}
+
+.kit-input-token__status {
+  @apply text-xs text-green-600;
+}
+
+.kit-combobox__list {
+  @apply mt-0.5 rounded-md border border-gray-200 bg-white py-1 text-sm text-gray-900 shadow-lg;
+}
+
+.kit-combobox__item {
+  @apply cursor-pointer px-3 py-1.5 hover:bg-gray-100;
+}
+
+.kit-combobox__item[data-highlighted] {
+  @apply bg-gray-100;
+}
+
+.kit-combobox__item.is-active {
+  @apply bg-blue-600 text-white;
+}
+
+.kit-combobox__item.disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.kit-combobox__empty {
+  @apply px-3 py-1.5 text-gray-500;
+}
+
+.kit-search__icon {
+  @apply size-4 text-gray-400;
+}
+
+.kit-search__input {
+  @apply pl-8 pr-8;
+}
+
+.kit-search__clear {
+  @apply cursor-pointer border-0 bg-transparent px-2 leading-none text-gray-400 hover:text-gray-600;
+}
+
+.kit-search.is-invalid .kit-search__input {
+  @apply border-red-500;
+}
+
+.kit-input-token.is-invalid .kit-input-token__input {
+  @apply border-red-500;
+}
+
+.kit-input-list.is-invalid .kit-input-list__input {
+  @apply border-red-500;
+}
+
+.kit-input-list__datalist {
+  @apply hidden;
+}

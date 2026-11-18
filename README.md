@@ -251,6 +251,8 @@ mountInseln({
 
 Ein Element wird nur einmal gemountet. Ein zweiter Aufruf auf demselben `root` überspringt bereits gemountete Inseln. Der Helfer setzt Vue 3 voraus. Vue 2.7 wird nicht unterstützt.
 
+**Eindeutige ids über Inseln:** Jede Insel bekommt ein eigenes `app.config.idPrefix` (`kit1`, `kit2`, …). Die ids, die Vue über `useId()` erzeugt (z. B. `list` und Datalist von `kit-input-list`, `aria-controls` und `aria-labelledby` der Reka-Komponenten), sind dadurch über alle Inseln einer Seite eindeutig, etwa `kit-input-list-kit1-0`. Das Präfix braucht Vue ab 3.5. Der Zähler gilt je geladenem Modul: Bündelt ein Projekt `mountInseln` in zwei getrennte Bundles auf derselben Seite, beginnen beide bei `kit1`, und die ids können sich wiederholen. Vorgesehen ist daher ein Bundle je Seite.
+
 **Fehler isolieren:** Ein unbekannter Name, ein ungültiges `data-props` (kein JSON oder kein JSON-Objekt) oder ein Ladefehler überspringt nur diese Insel. Dabei erscheint eine Warnung in der Konsole (`console.warn`, mit Name und Grund). Die übrigen Inseln werden gemountet.
 
 ### Whole-DOM-Mount (veraltet)
@@ -269,7 +271,7 @@ Der Vue-3-Kern liegt im Ordner `vue3/` (Dialog, Tabs, Accordion auf Basis von Re
 
 ### Einbinden
 
-1. `npm install reka-ui` (dazu `vue` ab 3.4).
+1. `npm install reka-ui` (dazu `vue` ab 3.5).
 2. Plugin registrieren: `app.use(KitVue3)` (aus `vue3/index.ts`).
 3. Für Inseln im HTML: `kitKomponenten` an `mountInseln` übergeben.
 4. `vue3/kit.css` einbinden und eine Theme-Datei aus `vue3/themes/` (`tailwind.css` oder `bootstrap5.scss`; Bootstrap-Sass vorher importieren).
@@ -281,13 +283,28 @@ Das Theme `bootstrap5.scss` setzt Bootstrap 5 mit seinen CSS-Variablen an `:root
 | Paket | Art | Version | Wofür |
 |---|---|---|---|
 | `reka-ui` | peerDependency, devDependency | `~2.11` | Verhalten von Dialog, Tabs und Accordion (`vue3/`). Das Projekt installiert es selbst (Einbinden, Schritt 1). |
-| `vue` | peerDependency, devDependency | `^3.4` (Entwicklung `^3.5`) | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
+| `vue` | peerDependency, devDependency | `^3.5` | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
 | `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript` | devDependency | siehe `package.json` | Nur für die Entwicklung des Kits: Tests unter `tests/vue3/` über `npm run test:js` (Umgebung happy-dom). Projekte, die das Kit nutzen, brauchen sie nicht. |
+
+### Komponenten Combobox, Suche, Token-Eingabe, Liste
+
+Gemeinsame Props: `modelValue` (mit `update:modelValue`, also `v-model`), `name`, `disabled`, `invalid`. Übrige Attribute (`id`, `required`, `placeholder`, `autocomplete`, `aria-*`) landen am Eingabefeld (`__input`), nicht an der Wurzel. Zustände: `is-open`, `is-active`, `is-invalid`, `disabled`. Symbole sind inline-SVG.
+
+| Tag | Props (zusätzlich) | Ereignisse | Klassen |
+|---|---|---|---|
+| `kit-combobox` | `options` (`{ value, label, disabled? }`) | `update:modelValue` (der `value`) | `kit-combobox`, `kit-combobox__input`, `kit-combobox__trigger`, `kit-combobox__list`, `kit-combobox__item`, `kit-combobox__empty` |
+| `kit-search` | `verzoegerung` (ms, Standard 300) | `update:modelValue` (sofort), `suche` (nach der Verzögerung; beim Leeren sofort) | `kit-search`, `kit-search__icon`, `kit-search__input`, `kit-search__clear` |
+| `kit-input-token` | keine | `update:modelValue` | `kit-input-token`, `kit-input-token__input`, `kit-input-token__toggle`, `kit-input-token__copy`, `kit-input-token__status` |
+| `kit-input-list` | `options` (`{ value, label, disabled? }`) | `update:modelValue` | `kit-input-list`, `kit-input-list__input`, `kit-input-list__datalist` |
+
+Die Combobox filtert ohne Groß-/Kleinschreibung auf das Label; `is-open` steht an der Wurzel, `is-active` am gewählten Eintrag. Die Token-Eingabe zeigt oder verbirgt den Wert über `__toggle` (`is-active`) und kopiert über `__copy`; `__status` meldet „Kopiert“. Das Basis-CSS legt die Combobox-Liste unter das Feld; das Theme gibt ihr Hintergrund und Rahmen.
 
 ### Hinweise
 
 - `<kit-dialog-trigger>` steht als direktes Kind in `<kit-dialog>`; in einer eigenen Wrapper-Komponente wird er nicht erkannt.
 - Den Dialog steuerst du mit `v-model:open` oder der Prop `open`.
+- Die Komponenten ersetzen `combobox`/`vue-select`, `search`, `input-token` und `input-list` unter `vue/tailwind/forms/`. Diese Dateien liegen noch im Paket.
+- Die Wurzel `kit-combobox` trägt denselben Klassennamen wie `span.kit-combobox` aus `js/combobox.js` (Abschnitt „Durchsuchbares Select“) und wie die älteren Vue-Varianten unter `vue/`. `vue3/kit.css` schreibt die Zeilen-Regel für die Wurzel deshalb doppelt (`.kit-combobox.kit-combobox`), damit sie die Global-Regel der älteren Varianten übertrumpft. Ist `vue3/kit.css` geladen, trifft die Regel auch `span.kit-combobox` aus `js/combobox.js`: die Wurzel wird zur Zeile ohne Außenabstand.
 
 ## Integrations-Voraussetzungen
 

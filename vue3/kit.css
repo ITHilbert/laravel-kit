@@ -23,3 +23,56 @@
   overflow: auto;
   overscroll-behavior: contain;
 }
+
+/* Combobox: Wurzel als Zeile (Feld füllt die Breite, Trigger rechts daneben) und Bezugspunkt der Liste.
+ * Doppelte Klasse: Der Name `.kit-combobox` trägt auch die Global-Regel der älteren Vue-Komponente
+ * vue/bootstrap5/forms/search.vue (inline-block, margin-right 1.8em). Die wird nach dem Kit-CSS geladen
+ * und gewänne bei einfacher Klasse. */
+.kit-combobox.kit-combobox {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  margin: 0;
+}
+
+.kit-combobox__input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.kit-combobox__list {
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 16rem;
+  overflow: auto;
+}
+
+/* Suche, Token-Eingabe, Liste: Wurzel als Zeile, Symbole und Knöpfe im Feld bzw. daneben. */
+.kit-search,
+.kit-input-token,
+.kit-input-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.kit-search__input,
+.kit-input-token__input,
+.kit-input-list__input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.kit-search__icon {
+  position: absolute;
+  left: 0.5em;
+  pointer-events: none;
+}
+
+.kit-search__clear {
+  position: absolute;
+  right: 0.25em;
+}

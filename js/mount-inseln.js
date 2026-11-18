@@ -1,6 +1,8 @@
 // Mount-Helfer des Kits: mountet jedes Element mit data-vue als eigene Vue-App (Insel).
 // Props kommen aus data-props (JSON-Objekt). Fehler einer Insel überspringen nur diese Insel (console.warn).
 const gemountet = new WeakSet();
+// seitenweit eindeutiges Präfix je Insel: useId() zählt sonst je App ab 0 (doppelte ids)
+let inselZaehler = 0;
 
 function warne(name, grund) {
     console.warn(`[kit] Insel "${name}" übersprungen: ${grund}`);
@@ -51,7 +53,12 @@ export async function mountInseln(verzeichnis, root = document, optionen = {}) {
                 if (!createApp) {
                     createApp = (await import('vue')).createApp;
                 }
-                createApp(modul.default, props).mount(element);
+                const app = createApp(modul.default, props);
+                if (app && app.config) {
+                    inselZaehler += 1;
+                    app.config.idPrefix = `kit${inselZaehler}`;
+                }
+                app.mount(element);
             } catch (fehler) {
                 warne(name, grundVon(fehler));
             }
