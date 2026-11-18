@@ -43,5 +43,9 @@ Rückbau: #1546 (alte Varianten entfernt → `.kit-combobox.kit-combobox` in `vu
 NACHWEIS F2 (Moderator selbst): Vitest 52/52, `node --test tests/js/*.test.mjs` 240/240, Host `KitVue3CssTest` + `HostGetRoutenTest` 8 passed, Kit `Vue3QuelltextTest|Vue3LogikQuelltextTest` 17 passed.
 Echtlauf: browser: /ui-kit-vue3 — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-combobox__trigger ausgelöst, .kit-combobox__list: 1 vorhanden → OK; CDP-Sonde nach F2 (echter Mausklick, :8225): Eingabefeld volle Breite, Trigger in derselben Zeile, Liste 915 px breit über dem Folgeinhalt (letztes Item oben), Auswahl → FormData `land=at`; Screenshot geprüft.
 
+Review 0/2 (pruefung.md): 1 muss, 1 sollte, 3 kann — nicht freigegeben. sollte → Folge-Task #1610.
+Befund Review 0 (muss, AK12): zwei `kit-input-list` als getrennte Inseln (`mountInseln`) bekommen dieselbe Datalist-`id` (`useId()` zählt je Vue-App). → Fix F3: test-writer (Regressionstest zwei Inseln), dann coder-pro.
+Annahme Moderator (F3): zentral in `js/mount-inseln.js` je Insel eine eigene `app.config.idPrefix` setzen statt Zähler in der Komponente. Grund: Das trifft jeden `useId()`-Aufruf, auch die von Reka (Dialog, Tabs, Combobox: `aria-labelledby`, `aria-controls`) und die erzeugten `id`s der Felder aus vue3-kern-felder. `app.config.idPrefix` gibt es ab Vue 3.5 → peerDependency `vue` auf `^3.5` und README angleichen (erledigt damit das sollte aus #1610). Umkehrbar: Zähler auf Modulebene in `input-list.vue`.
+
 ## Stand
-NACHWEIS grün (Fix F1, F2). Nächster Schritt: Review im Review-Platz.
+Review 0 nicht freigegeben (AK12). Nächster Schritt: Fix F3 — test-writer, dann coder-pro, dann Nachprüfung.
