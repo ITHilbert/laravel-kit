@@ -3,7 +3,7 @@ laravel-kit `feature/vue3-kern-felder` (von `feature/vue3-kern-logik` 77e3ba03 �
 Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein Dashboard-Task.
 
 ## Aufgaben
-- [ ] TW test-writer (AK1–AK21, Randfälle 1–5) — Tests:
+- [x] TW (test-writer aed6469519f935f21, rot: Vitest 100/100 neue Fälle rot — Komponenten und Exporte fehlen; PHP 4 rot/3 grün = Gegenproben; Grünbar entfällt) test-writer (AK1–AK21, Randfälle 1–5) — Tests:
   - `tests/vue3/felder-text.test.ts` (AK1–AK4, AK8, Randfall 1; AK2–AK4 je für alle Felder der Tabelle)
   - `tests/vue3/felder-zahl.test.ts` (AK6, AK7, Randfall 2)
   - `tests/vue3/felder-auswahl.test.ts` (AK5, AK9–AK13, Randfälle 3–5)
@@ -20,7 +20,8 @@ Bestehende Tests: `tests/vue3/*.test.ts` aus vue3-kern-grundlage und vue3-kern-l
 Hinweis Aufträge: Kit-Tests (`*.test.ts`) nur mit `PROJEKT: …/packages/laravel-kit` in die `TESTS:`-Zeile (ohne `PROJEKT:` startet das GATE sie per `node --test`, HANDOFF in vue3-kern-logik F2).
 Marketing: entfällt (Bausteine ohne neue öffentliche Seite).
 Design: entfällt (Optik nur über die vorhandenen Theme-Dateien, Prüfseite im Host).
+Offener Punkt aed6469519f935f21: AK-fremd (AK12 „Leertaste“ angenähert über `type=button` + Klick, happy-dom simuliert Leertaste→Klick nicht — Nachweis im Echtlauf T6; Hinweise an Coder: Datei je Tag `vue3/components/<name>/<name>.vue`, `kit-input-group-text` neben `input-group/`, README-Tabelle „Ersetzt“ mit Backticks, Theme-Regeln ohne `@each`/Mixin, `label`-Prop auch an `kit-checkbox`/`kit-radio` — steht im Vertrag „gemeinsame Props der Felder“)
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
 ## Stand
-Spec und Plan angelegt. Nächster Schritt: test-writer.
+Rote Tests committet. Nächster Schritt: T1 coder-pro.
