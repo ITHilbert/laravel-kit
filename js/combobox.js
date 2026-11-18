@@ -38,6 +38,9 @@ function element(tag, attribute = {}) {
     return el;
 }
 
+// Pfeil für den Auslöser im Kern-Theme: festes inline-SVG (keine Nutzerdaten), für Hilfstechnik ausgeblendet.
+const PFEIL = '<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>';
+
 function binde(select) {
     if (gebunden.has(select)) return;
     gebunden.add(select);
@@ -56,6 +59,7 @@ function binde(select) {
     eingabe.value = ausgewaehlt()?.text ?? '';
 
     if (kern) {
+        knopf.innerHTML = PFEIL;
         // Das Label zeigt auf das sichtbare Eingabefeld; Fehlerbezug und Zustand gehen mit.
         if (select.id) {
             eingabe.setAttribute('id', select.id);

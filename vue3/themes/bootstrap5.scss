@@ -576,15 +576,23 @@
   }
 }
 
+// Zusatz schließt rechts an das Feld an: ein gemeinsamer Rand, Feld ohne rechte Rundung.
+.kit-input-euro__input,
+.kit-input-percent__input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .kit-input-euro__suffix,
 .kit-input-percent__suffix {
+  margin-left: -$input-border-width;
   padding: $input-padding-y $input-padding-x;
   font-size: $input-font-size;
   line-height: $input-line-height;
   color: var(--bs-body-color);
   background-color: $gray-100;
   border: $input-border-width solid var(--bs-border-color);
-  border-radius: $input-border-radius;
+  border-radius: 0 $input-border-radius $input-border-radius 0;
 }
 
 .kit-toggle__input {

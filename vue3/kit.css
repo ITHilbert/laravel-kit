@@ -24,23 +24,39 @@
   overscroll-behavior: contain;
 }
 
-/* Combobox: Wurzel als Zeile (Feld füllt die Breite, Trigger rechts daneben) und Bezugspunkt der Liste.
+/* Combobox: Raster mit zwei Spalten (Feld füllt die Restbreite, Trigger rechts daneben). Zeile 1 Label,
+ * Zeile 2 Feld und Trigger, Zeile 3 Fehlermeldung. Die Liste liegt über Zeile 2 und öffnet damit direkt
+ * unter dem Feld, auch wenn eine Fehlermeldung darunter steht. Leere Zeilen sind 0 hoch.
  * Doppelte Klasse: Der Name `.kit-combobox` trägt auch die Global-Regel der älteren Vue-Komponente
  * vue/bootstrap5/forms/search.vue (inline-block, margin-right 1.8em). Die wird nach dem Kit-CSS geladen
  * und gewänne bei einfacher Klasse. */
 .kit-combobox.kit-combobox {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: stretch;
   position: relative;
   margin: 0;
 }
 
+.kit-combobox__label {
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+
 .kit-combobox__input {
-  flex: 1 1 auto;
+  grid-row: 2;
+  grid-column: 1;
   min-width: 0;
 }
 
+.kit-combobox__trigger {
+  grid-row: 2;
+  grid-column: 2;
+}
+
 .kit-combobox__list {
+  grid-row: 2;
+  grid-column: 1 / -1;
   position: absolute;
   z-index: 1000;
   top: 100%;
@@ -48,6 +64,11 @@
   right: 0;
   max-height: 16rem;
   overflow: auto;
+}
+
+.kit-combobox__error {
+  grid-row: 3;
+  grid-column: 1 / -1;
 }
 
 /* Suche, Token-Eingabe, Liste: Wurzel als Zeile, Symbole und Knöpfe im Feld bzw. daneben. */
@@ -122,10 +143,16 @@
   flex: 0 0 100%;
 }
 
+/* Basis 0 statt auto: Das Theme setzt das Feld auf width 100%, bei auto bliebe der Zusatz in der nächsten Zeile. */
 .kit-input-euro__input,
 .kit-input-percent__input {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
+}
+
+.kit-input-euro__suffix,
+.kit-input-percent__suffix {
+  flex: 0 0 auto;
 }
 
 .kit-checkbox,
@@ -170,16 +197,7 @@
   flex: 0 0 auto;
 }
 
-/* Blade-Theme kern: Combobox mit Label und Fehlermeldung in der Wurzel (eigene Zeile), Panels ohne Skript-Zustand. */
-.kit-combobox.kit-combobox {
-  flex-wrap: wrap;
-}
-
-.kit-combobox__label,
-.kit-combobox__error {
-  flex: 0 0 100%;
-}
-
+/* Blade-Theme kern: Panels ohne Skript-Zustand. */
 .kit-tabs__panel[hidden] {
   display: none;
 }

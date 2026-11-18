@@ -30,5 +30,13 @@ Offener Punkt a1938bb19f7597140: AK-fremd (Minimal-Template `kern/combobox` vorg
 Abweichung a603d65301ee8265f: Fehlalarm: keine gemeldet
 Offener Punkt a603d65301ee8265f: AK-fremd (`combobox.js` verschiebt im Kern die `id` vom `<select>` auf `__input` und kopiert `aria-invalid`/`aria-describedby`, damit `label for` nach dem Binden auf das Eingabefeld zeigt — AK11 prüft das Markup vor dem Binden, AK12 regelt es nicht; Annahme Barrierefreiheit. Liste unter einer Fehlermeldung der Combobox → im Echtlauf T5 ansehen. Button-Farben je `data-variant` frei gewählt — Spec legt keine fest)
 
+T5 Host: coder-pro a1ed247cfc4a1b255 (GATE GRÜN: 10 passed). NACHWEIS 1 ROT: `ReferenceError: dt is not defined` auf jeder Seite mit `app.js` (ES-`import` in `resources/js/app.js` machte die Datei zum strikten Modul) → derselbe Coder: `require` statt `import`; danach `/ui-kit`, `/ui-kit-vue3`, `/ui-kit-blade-kern` je 0 Konsolenfehler.
+Abweichung a1ed247cfc4a1b255: Fehlalarm: keine gemeldet
+Offener Punkt a1ed247cfc4a1b255: AK-fremd (`loeschen.js` auf der Prüfseite nicht eingebunden — AK17 verlangt nur Tabs und Combobox; Theme per `config()` je Anfrage, Host ohne Octane)
+Befund Moderator (Screenshot, Optik): Trigger der Kern-Combobox als leeres Kästchen unter dem Feld; „€“ von `input-euro` unter dem Feld (Blade und Vue, = #1611 Punkt 2); Buttons ohne Abstand auf der Prüfseite.
+Optik-Fix Kit: coder-junior a9d2c3299a0c03eae (GATE GRÜN: PHP 30, JS 249/249, Vitest 160/160): `kit.css` Combobox als Grid (Trigger rechts im Feld, Liste direkt unter dem Feld), Zusatz-Felder als Zeile; `bootstrap5.scss` Trigger/Zusatz; `combobox.js` Pfeil-SVG im Kern-Trigger.
+Abweichung a9d2c3299a0c03eae: Fehlalarm: `tailwind.css` nicht angepasst (Notbremse 3 Dateien) — Layout über `kit.css` korrigiert, AK15 unberührt
+Offener Punkt a9d2c3299a0c03eae: AK-fremd (Zusatz im Tailwind-Theme ohne Anschluss an das Feld → #1611; Vue-Combobox geöffnet vom Moderator im Screenshot geprüft: Liste unter dem Feld, Trigger rechts)
+
 ## Stand
 T1–T4 fertig. Nächster Schritt: T5 (Host-Prüfseite), dann Echtlauf und Review.
