@@ -58,4 +58,4 @@ Echtlauf F2: browser: /ui-kit-vue3 — 0 Konsolenfehler, Klick: .kit-dialog__tri
 Review 1/2 (Nachprüfung seit ee4bd590, pruefung.md): 0 muss, 0 sollte, 3 kann — freigegeben.
 
 ## Stand
-Freigegeben (Nachprüfung 2026-11-18). Doku-Writer läuft im Review-Platz; danach Merge Kit und Host nach `main`.
+Fertig: freigegeben 2026-11-18, Doku (README Npm-Abhängigkeiten) ergänzt, nach `main` gemergt.

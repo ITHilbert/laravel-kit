@@ -276,6 +276,14 @@ Der Vue-3-Kern liegt im Ordner `vue3/` (Dialog, Tabs, Accordion auf Basis von Re
 
 Das Theme `bootstrap5.scss` setzt Bootstrap 5 mit seinen CSS-Variablen an `:root` voraus (`bootstrap/scss/root`). Nutzt ein Projekt Bootstrap mit eigenem Präfix (z. B. Phoenix mit `--phoenix-*`), kompiliert es das Theme mit seinen eigenen Bootstrap-Sass-Dateien oder bindet `bootstrap/scss/root` ein.
 
+### Npm-Abhängigkeiten des Vue-3-Kerns
+
+| Paket | Art | Version | Wofür |
+|---|---|---|---|
+| `reka-ui` | peerDependency, devDependency | `~2.11` | Verhalten von Dialog, Tabs und Accordion (`vue3/`). Das Projekt installiert es selbst (Einbinden, Schritt 1). |
+| `vue` | peerDependency, devDependency | `^3.4` (Entwicklung `^3.5`) | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
+| `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript` | devDependency | siehe `package.json` | Nur für die Entwicklung des Kits: Tests unter `tests/vue3/` über `npm run test:js` (Umgebung happy-dom). Projekte, die das Kit nutzen, brauchen sie nicht. |
+
 ### Hinweise
 
 - `<kit-dialog-trigger>` steht als direktes Kind in `<kit-dialog>`; in einer eigenen Wrapper-Komponente wird er nicht erkannt.
