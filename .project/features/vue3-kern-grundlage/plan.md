@@ -55,5 +55,7 @@ Abweichung a0eee4dce854f0831: Fehlalarm: keine gemeldet
 Offener Punkt a0eee4dce854f0831: AK-fremd (Commit-Hinweise README/Build-CSS → Moderator committet; Echtlauf → unten)
 Echtlauf F2: browser: /ui-kit-vue3 — 0 Konsolenfehler, Klick: .kit-dialog__trigger ausgelöst, .kit-dialog__content.is-open: 1 sichtbar → OK. getComputedStyle (eigener Server :8114, Host-Arbeitsordner): `.kit-dialog__content` bg rgb(255,255,255), border 1px solid rgba(0,0,0,0.176), radius 8px, Schatten, position fixed mittig; `.kit-accordion__item` border 1px solid rgb(222,226,230); Tabs unverändert; Phoenix-Textfarbe unverändert rgb(49,55,74). laravel.log ohne neue Zeilen.
 
+Review 1/2 (Nachprüfung seit ee4bd590, pruefung.md): 0 muss, 0 sollte, 3 kann — freigegeben.
+
 ## Stand
-Fix F2 fertig, NACHWEIS grün. Nächster Schritt: Nachprüfung Reviewer (NACHPRUEFUNG: ee4bd590).
+Freigegeben (Nachprüfung 2026-11-18). Doku-Writer läuft im Review-Platz; danach Merge Kit und Host nach `main`.
