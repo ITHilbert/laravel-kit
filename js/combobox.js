@@ -1,8 +1,9 @@
-// Combobox des Kits: macht aus jedem select.selectcb ein durchsuchbares Eingabefeld (Vanilla-JS, keine Abhängigkeiten).
+// Combobox des Kits: macht aus jedem select.selectcb (und im Theme kern aus select[data-kit-combobox]) ein durchsuchbares Eingabefeld (Vanilla-JS, keine Abhängigkeiten).
 // Das Select bleibt ausgeblendet im DOM und trägt weiter den Formularwert.
 const gebunden = new WeakSet();
 const aktualisierer = new WeakMap();
 
+const SELEKTOR = 'select.selectcb, select[data-kit-combobox]';
 const klein = (t) => String(t).toLowerCase();
 
 // Option erscheint in der Liste: nicht leerer value, nicht per style="display: none" ausgeblendet.
@@ -37,6 +38,9 @@ function element(tag, attribute = {}) {
     return el;
 }
 
+// Pfeil für den Auslöser im Kern-Theme: festes inline-SVG (keine Nutzerdaten), für Hilfstechnik ausgeblendet.
+const PFEIL = '<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>';
+
 function binde(select) {
     if (gebunden.has(select)) return;
     gebunden.add(select);
@@ -44,19 +48,36 @@ function binde(select) {
     const optionen = () => Array.from(select.options);
     const ausgewaehlt = () => optionen()[select.selectedIndex] ?? null;
 
-    const box = element('span', { class: 'kit-combobox' });
-    const eingabe = element('input', { type: 'text', class: 'kit-combobox-input', autocomplete: 'off', role: 'combobox', 'aria-expanded': 'false' });
-    const knopf = element('button', { type: 'button', class: 'kit-combobox-button', tabindex: '-1', 'aria-label': 'Liste öffnen' });
-    const liste = element('ul', { class: 'kit-combobox-list', role: 'listbox' });
+    // Kern-Theme (select[data-kit-combobox] in div.kit-combobox): Teile kommen als Geschwister des Selects in die Wurzel.
+    const kern = select.hasAttribute('data-kit-combobox') && select.parentElement?.classList.contains('kit-combobox');
+    const box = kern ? select.parentElement : element('span', { class: 'kit-combobox' });
+    const eingabe = element('input', { type: 'text', class: kern ? 'kit-combobox__input' : 'kit-combobox-input', autocomplete: 'off', role: 'combobox', 'aria-expanded': 'false' });
+    const knopf = element('button', { type: 'button', class: kern ? 'kit-combobox__trigger' : 'kit-combobox-button', tabindex: '-1', 'aria-label': 'Liste öffnen' });
+    const liste = element('ul', { class: kern ? 'kit-combobox__list' : 'kit-combobox-list', role: 'listbox' });
     liste.hidden = true;
     if (select.hasAttribute('tabindex')) eingabe.setAttribute('tabindex', select.getAttribute('tabindex'));
     eingabe.value = ausgewaehlt()?.text ?? '';
 
-    box.appendChild(eingabe);
-    box.appendChild(knopf);
-    box.appendChild(liste);
+    if (kern) {
+        knopf.innerHTML = PFEIL;
+        // Das Label zeigt auf das sichtbare Eingabefeld; Fehlerbezug und Zustand gehen mit.
+        if (select.id) {
+            eingabe.setAttribute('id', select.id);
+            select.removeAttribute('id');
+        }
+        for (const a of ['aria-invalid', 'aria-describedby']) if (select.hasAttribute(a)) eingabe.setAttribute(a, select.getAttribute(a));
+        let anker = select;
+        for (const teil of [eingabe, knopf, liste]) {
+            anker.insertAdjacentElement('afterend', teil);
+            anker = teil;
+        }
+    } else {
+        box.appendChild(eingabe);
+        box.appendChild(knopf);
+        box.appendChild(liste);
+        select.insertAdjacentElement('afterend', box);
+    }
     select.style.display = 'none';
-    select.insertAdjacentElement('afterend', box);
 
     let eintraege = []; // [{ li, option }]
     let aktiv = -1;
@@ -65,12 +86,13 @@ function binde(select) {
 
     function schliessen() {
         liste.hidden = true;
+        if (kern) box.classList.remove('is-open');
         eingabe.setAttribute('aria-expanded', 'false');
         aktiv = -1;
     }
 
     function markiere(index) {
-        eintraege.forEach((e, i) => e.li.classList.toggle('active', i === index));
+        eintraege.forEach((e, i) => e.li.classList.toggle(kern ? 'is-active' : 'active', i === index));
         aktiv = index;
         eintraege[index]?.li.scrollIntoView?.({ block: 'nearest' });
     }
@@ -80,13 +102,14 @@ function binde(select) {
         eintraege = optionen()
             .filter((o) => sichtbar(o) && (!begriff || klein(o.text).includes(klein(begriff))))
             .map((option) => {
-                const li = element('li', { role: 'option' });
+                const li = element('li', kern ? { role: 'option', class: 'kit-combobox__item' } : { role: 'option' });
                 hervorheben(li, option.text, begriff);
                 liste.appendChild(li);
                 return { li, option };
             });
         aktiv = -1;
         liste.hidden = false;
+        if (kern) box.classList.add('is-open');
         eingabe.setAttribute('aria-expanded', 'true');
     }
 
@@ -170,11 +193,11 @@ function binde(select) {
 export function aktualisiereCombobox(element) {
     if (!element) return;
     aktualisierer.get(element)?.();
-    for (const select of Array.from(element.querySelectorAll?.('select.selectcb') ?? [])) aktualisierer.get(select)?.();
+    for (const select of Array.from(element.querySelectorAll?.(SELEKTOR) ?? [])) aktualisierer.get(select)?.();
 }
 
 export function initCombobox(root = document) {
     if (!root) return;
-    if (root.matches?.('select.selectcb')) binde(root);
-    for (const select of Array.from(root.querySelectorAll('select.selectcb'))) binde(select);
+    if (root.matches?.(SELEKTOR)) binde(root);
+    for (const select of Array.from(root.querySelectorAll(SELEKTOR))) binde(select);
 }

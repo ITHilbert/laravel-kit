@@ -34,14 +34,43 @@ Das Markup kommt aus dem Template des konfigurierten Themes. Kit-Components erze
 
 Das Theme legt die Config `laravelkit.theme` fest (Env `LARAVELKIT_THEME`, Paket-Config `src/Config/laravelkit.php`):
 
-- `tailwind` (Default, wenn `LARAVELKIT_THEME` nicht gesetzt ist)
-- `bootstrap5`
+- `kern`: Markup und Klassen `kit-…` wie der Vue-3-Kern, ohne Bootstrap- oder Tailwind-Klassen und ohne Icon-Schrift (Templates unter `src/Views/kit/kern/`). Die Optik kommt aus `vue3/kit.css` (Funktion) und einer Theme-Datei: `vue3/themes/bootstrap5.scss` (Bootstrap-Sass vorher importieren) oder `vue3/themes/tailwind.css`. Tabs und Combobox bindet `js/tabs.js` bzw. `js/combobox.js` über `data-`-Attribute.
+- `tailwind` (Default, wenn `LARAVELKIT_THEME` nicht gesetzt ist): eingefroren, wird nicht mehr gepflegt (Entscheidung 0013)
+- `bootstrap5`: eingefroren, wird nicht mehr gepflegt (Entscheidung 0013)
 
 Jeder andere Wert führt beim Rendern einer Kit-Component zu einer `ITHilbert\LaravelKit\Kit\UnbekanntesThemeException`. Die Meldung nennt den Wert und die erlaubten Werte. Ein leerer Wert (`LARAVELKIT_THEME=` oder `null`) gilt ebenfalls als unbekannt. Ein Rückfall auf ein anderes Theme erfolgt nicht.
 
 ```env
 LARAVELKIT_THEME=bootstrap5
 ```
+
+#### Theme `kern`: Klassen und Skript-Bindung
+
+Jedes gerenderte Element trägt höchstens eine Klasse `kit-<name>` bzw. `kit-<name>__<teil>`. Zustände sind nur `is-invalid`, `is-active`, `is-open` und `disabled`. Symbole sind inline-SVG mit `aria-hidden="true"`, eine Icon-Schrift gibt es nicht.
+
+`vue3/kit.css` liefert die Funktion (z. B. ein ausgeblendetes Panel). Die Optik kommt aus `vue3/themes/bootstrap5.scss` oder `vue3/themes/tailwind.css`; beide Themes haben Regeln für `kit-button`, `kit-card`, `kit-tabs__body`, `kit-breadcrumb`, `kit-show-euro` und `kit-show-date`.
+
+| Baustein(e) | Wurzel | Teile |
+|---|---|---|
+| `input-text`, `input-email`, `input-password`, `input-date`, `input-number` | `kit-<baustein>` | `__label`, `__input`, `__error` |
+| `input-euro` | `kit-input-euro` | `__label`, `__input`, `__suffix` („€“), `__error` |
+| `input-file`, `input-file-img` | `kit-input-file` | `__label`, `__input`, `__error` |
+| `text-area` | `kit-textarea` | `__label`, `__input`, `__error` |
+| `select` | `kit-select` | `__label`, `__input`, `__error` |
+| `checkbox` | `kit-checkbox` | `__input`, `__label`, `__error` |
+| `combobox` | `kit-combobox` | `__label`, `__select` (verstecktes `<select>`), `__error`; das Skript ergänzt `__input`, `__trigger`, `__list`, `__item` |
+| `label` | `kit-label` | — |
+| `input-hidden` | keine Klasse | — |
+| `button`, `button-back`, `button-cancel`, `button-create`, `button-delete`, `button-edit`, `button-save`, `button-show`, `button-submit` | `kit-button` mit `data-variant="<variant>"` (`button`: Prop `variant`, sonst der Name ohne `button-`) | `__icon` (SVG) |
+| `card-main`, `card-main-header`, `card-body`, `card-footer` | `kit-card` | `kit-card__header`, `kit-card__body`, `kit-card__footer` |
+| `tabs-header`, `tab-header`, `tabs-body`, `tab-body` | — | `kit-tabs__list`, `kit-tabs__tab`, `kit-tabs__body`, `kit-tabs__panel` |
+| `show-euro`, `show-date` | `kit-show-euro`, `kit-show-date` | — |
+| `breadcrumb` | `kit-breadcrumb` | `__list` |
+
+Die Skripte binden die Kern-Templates über `data-`-Attribute:
+
+- `js/tabs.js`: `data-kit-tabs` (am `tabs-header`) und `data-kit-tabs-body` (am `tabs-body`) bilden die Gruppe, `data-kit-tab` (Reiter) und `data-kit-tab-body` (Panel) tragen den `name`.
+- `js/combobox.js`: `select[data-kit-combobox]` innerhalb von `div.kit-combobox`. Das Skript setzt `__input`, `__trigger`, `__list` und `__item` als Geschwister des Selects in die Wurzel. Die Ausgabe der Themes `bootstrap5` und `tailwind` bleibt unverändert.
 
 ### Verfügbare Kit-Components
 
@@ -192,7 +221,7 @@ Die Vue-Komponente `search` rendert ein `select.selectcb` und macht es beim Moun
 
 jQuery UI ist dafür nicht mehr nötig: Host-Projekte entfernen `jquery-ui` aus ihrer `package.json` (`npm uninstall jquery-ui`). jQuery selbst bleibt für DataTables.
 
-Select-Elemente mit Klasse `selectcb` außerhalb der Komponente (z. B. in Blade) bindet die Komponente nicht. Das frühere `window.onload` gibt es nicht mehr, das Projekt ruft `initCombobox()` selbst auf:
+Select-Elemente mit Klasse `selectcb` außerhalb der Komponente (z. B. in Blade) bindet die Komponente nicht. `initCombobox()` bindet dagegen jedes `select[data-kit-combobox]` (Theme `kern`, Abschnitt „Theme `kern`: Klassen und Skript-Bindung“). Das frühere `window.onload` gibt es nicht mehr, das Projekt ruft `initCombobox()` selbst auf:
 
 ```javascript
 import { initCombobox } from '../../vendor/ithilbert/laravel-kit/js/combobox.js';

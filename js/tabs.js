@@ -25,7 +25,7 @@ function schalte(knopf) {
 
     for (const k of gruppe.querySelectorAll('[data-kit-tab]')) {
         const an = k.getAttribute('data-kit-tab') === name;
-        k.classList.toggle('active', an);
+        k.classList.toggle(k.classList.contains('kit-tabs__tab') ? 'is-active' : 'active', an);
         k.setAttribute('aria-selected', an ? 'true' : 'false');
     }
     const bodies = id === '' ? [folgenderBody(gruppe, oben)] : [...oben.querySelectorAll('[data-kit-tabs-body]')].filter((b) => b.getAttribute('data-kit-tabs-body') === id);
@@ -33,6 +33,13 @@ function schalte(knopf) {
         if (!body) continue;
         for (const p of body.querySelectorAll('[data-kit-tab-body]')) {
             const an = p.getAttribute('data-kit-tab-body') === name;
+            if (p.classList.contains('kit-tabs__panel')) {
+                // Kern-Theme: is-active und hidden statt active/show
+                p.classList.toggle('is-active', an);
+                if (an) p.removeAttribute('hidden');
+                else p.setAttribute('hidden', '');
+                continue;
+            }
             p.classList.toggle('active', an);
             p.classList.toggle('show', an);
         }

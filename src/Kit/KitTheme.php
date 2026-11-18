@@ -11,6 +11,7 @@ enum KitTheme: string
 {
     case Tailwind = 'tailwind';
     case Bootstrap5 = 'bootstrap5';
+    case Kern = 'kern';
 
     /**
      * @throws UnbekanntesThemeException wenn der Wert kein erlaubtes Theme ist (auch leer oder null)
