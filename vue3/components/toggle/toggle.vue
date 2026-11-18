@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // Schalter als Schaltfläche (role="switch"). Props: modelValue (Boolean), name (versteckt gesendet als 1 bzw. 0), label, error, invalid, disabled.
+import { ref, watch } from 'vue'
 import { useFeld, type FeldProps } from '../feld/feld'
 
 defineOptions({ name: 'KitToggle', inheritAttrs: false })
@@ -9,20 +10,30 @@ const emit = defineEmits<{ 'update:modelValue': [wert: boolean] }>()
 
 const { inputId, errorId, hatFehlertext, ungueltig, eingabeAttribute } = useFeld(props)
 
+const aktiv = ref(!!props.modelValue)
+
+watch(
+  () => props.modelValue,
+  (neu) => {
+    aktiv.value = !!neu
+  },
+)
+
 function umschalten() {
   if (props.disabled) return
-  emit('update:modelValue', !props.modelValue)
+  aktiv.value = !aktiv.value
+  emit('update:modelValue', aktiv.value)
 }
 </script>
 
 <template>
-  <div class="kit-toggle" :class="{ 'is-invalid': ungueltig, 'is-active': !!props.modelValue, disabled: props.disabled }">
-    <input v-if="props.name" type="hidden" :name="props.name" :value="props.modelValue ? 1 : 0" />
+  <div class="kit-toggle" :class="{ 'is-invalid': ungueltig, 'is-active': aktiv, disabled: props.disabled }">
+    <input v-if="props.name" type="hidden" :name="props.name" :value="aktiv ? 1 : 0" />
     <button
       class="kit-toggle__input"
       type="button"
       role="switch"
-      :aria-checked="props.modelValue ? 'true' : 'false'"
+      :aria-checked="aktiv ? 'true' : 'false'"
       v-bind="{ ...$attrs, ...eingabeAttribute, name: undefined }"
       @click="umschalten"
     >

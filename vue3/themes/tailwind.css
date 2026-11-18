@@ -437,7 +437,7 @@
 }
 
 .kit-input-password__toggle {
-  @apply mt-1 cursor-pointer border-0 bg-transparent p-0 text-sm text-blue-600 hover:text-blue-700 disabled:cursor-not-allowed;
+  @apply ml-2 mt-0 cursor-pointer border-0 bg-transparent p-0 text-sm text-blue-600 hover:text-blue-700 disabled:cursor-not-allowed;
 }
 
 .kit-input-password__toggle.is-active {

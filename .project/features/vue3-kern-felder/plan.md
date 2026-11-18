@@ -38,5 +38,9 @@ Befund Moderator (Screenshot, Optik): `kit-input-password__toggle` steht unter d
 
 Fix F1 Test: test-writer afc32203ec6927bd0, `tests/vue3/toggle-ohne-model.test.ts` (rot 2/2: `expected 'false' to be 'true'` nach Klick, Gegenprobe vorher grün; Grünbar entfällt, Bugfix).
 
+Fix F1/F2 Kit: coder-pro a81b626c1bb7d45df (GATE GRÜN: PHP 20, JS 24, Vitest 105 aus TESTS:, ganzes Vitest 155/155): `toggle.vue` mit eigenem Zustand, der `modelValue` folgt; `kit.css` Passwortfeld und Input-Group als Zeile; Themes Abstand des Schalters.
+Abweichung a81b626c1bb7d45df: Fehlalarm: keine gemeldet
+Offener Punkt a81b626c1bb7d45df: AK-fremd (Browser-Nachweis und Host-Build folgen im Host-Schritt F2b; Bootstrap-Theme wird dort mit kompiliert)
+
 ## Stand
 T1–T6 fertig, vue3-kern-logik (Fix F3) gemergt. Echtlauf rot (Toggle ohne v-model) → Fix F1/F2 läuft.

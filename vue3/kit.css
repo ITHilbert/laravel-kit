@@ -99,8 +99,12 @@
 }
 
 .kit-input-password__input {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
+}
+
+.kit-input-password__toggle {
+  flex: 0 0 auto;
 }
 
 /* Zahlen-, Auswahl- und Dateifelder: Zusatz neben dem Feld, Haken und Schalter in einer Zeile. */
@@ -158,4 +162,13 @@
 .kit-input-group {
   display: flex;
   align-items: stretch;
+}
+
+.kit-input-group > :not(.kit-input-group-text) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.kit-input-group > .kit-input-group-text {
+  flex: 0 0 auto;
 }

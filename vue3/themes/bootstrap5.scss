@@ -557,7 +557,8 @@
 }
 
 .kit-input-password__toggle {
-  margin-top: 0.25rem;
+  margin-top: 0;
+  margin-left: 0.5rem;
   padding: 0;
   font-size: $small-font-size;
   color: var(--bs-link-color);
