@@ -284,6 +284,19 @@ Das Theme `bootstrap5.scss` setzt Bootstrap 5 mit seinen CSS-Variablen an `:root
 | `vue` | peerDependency, devDependency | `^3.4` (Entwicklung `^3.5`) | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
 | `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript` | devDependency | siehe `package.json` | Nur für die Entwicklung des Kits: Tests unter `tests/vue3/` über `npm run test:js` (Umgebung happy-dom). Projekte, die das Kit nutzen, brauchen sie nicht. |
 
+### Komponenten Combobox, Suche, Token-Eingabe, Liste
+
+Gemeinsame Props: `modelValue` (mit `update:modelValue`, also `v-model`), `name`, `disabled`, `invalid`. Übrige Attribute (`id`, `required`, `placeholder`, `autocomplete`, `aria-*`) landen am Eingabefeld (`__input`), nicht an der Wurzel. Zustände: `is-open`, `is-active`, `is-invalid`, `disabled`. Symbole sind inline-SVG.
+
+| Tag | Props (zusätzlich) | Ereignisse | Klassen |
+|---|---|---|---|
+| `kit-combobox` | `options` (`{ value, label, disabled? }`) | `update:modelValue` (der `value`) | `kit-combobox`, `kit-combobox__input`, `kit-combobox__trigger`, `kit-combobox__list`, `kit-combobox__item`, `kit-combobox__empty` |
+| `kit-search` | `verzoegerung` (ms, Standard 300) | `update:modelValue` (sofort), `suche` (nach der Verzögerung; beim Leeren sofort) | `kit-search`, `kit-search__icon`, `kit-search__input`, `kit-search__clear` |
+| `kit-input-token` | keine | `update:modelValue` | `kit-input-token`, `kit-input-token__input`, `kit-input-token__toggle`, `kit-input-token__copy`, `kit-input-token__status` |
+| `kit-input-list` | `options` (`{ value, label, disabled? }`) | `update:modelValue` | `kit-input-list`, `kit-input-list__input`, `kit-input-list__datalist` |
+
+Die Combobox filtert ohne Groß-/Kleinschreibung auf das Label; `is-open` steht an der Wurzel, `is-active` am gewählten Eintrag. Die Token-Eingabe zeigt oder verbirgt den Wert über `__toggle` (`is-active`) und kopiert über `__copy`; `__status` meldet „Kopiert“. Das Basis-CSS legt die Combobox-Liste unter das Feld; das Theme gibt ihr Hintergrund und Rahmen.
+
 ### Hinweise
 
 - `<kit-dialog-trigger>` steht als direktes Kind in `<kit-dialog>`; in einer eigenen Wrapper-Komponente wird er nicht erkannt.

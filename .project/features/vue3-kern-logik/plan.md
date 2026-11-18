@@ -12,7 +12,7 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
   - `tests/Feature/Vue3/Vue3LogikQuelltextTest.php` (AK15, AK16, AK19)
 - [x] T1 (coder-pro a9b15a6df26b79af3, GATE GRÜN: Vitest 30 pass, JS 24 pass) (AK1–AK5, AK13, AK14, AK17) [pro] Combobox auf Reka UI, Einstieg `vue3/index.ts` — Tests: `tests/vue3/combobox.test.ts`, `tests/vue3/inseln-logik.test.ts`
 - [x] T2 (coder-pro a25421fd988245892, GATE GRÜN: Vitest 52 pass, JS 24 pass) (AK6–AK14) [pro] Suche, Token-Eingabe, Liste, Einstieg `vue3/index.ts` — Tests: `tests/vue3/search.test.ts`, `tests/vue3/input-token.test.ts`, `tests/vue3/input-list.test.ts`
-- [ ] T3 (AK15, AK16, AK19) [pro] Themes `vue3/themes/tailwind.css`, `vue3/themes/bootstrap5.scss`, README, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3LogikQuelltextTest.php`
+- [x] T3 (coder-pro ac9071cbbebb3cdee, GATE GRÜN: 20 passed; Sass-Probe fehlerfrei) (AK15, AK16, AK19) [pro] Themes `vue3/themes/tailwind.css`, `vue3/themes/bootstrap5.scss`, README, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3LogikQuelltextTest.php`
 - [ ] T4 (AK18) [pro] Host: Prüfseite `/ui-kit-vue3` um die vier Komponenten erweitern, Build — Tests: Host `tests/Feature/HostGetRoutenTest.php`, `tests/Feature/KitVue3CssTest.php`; Nachweis per Echtlauf (AK18 nicht automatisch prüfbar)
 
 Bestehende Tests: `tests/vue3/dialog.test.ts`, `tests/vue3/tabs.test.ts`, `tests/vue3/accordion.test.ts`, `tests/vue3/inseln.test.ts`, `tests/Feature/Vue3/Vue3QuelltextTest.php`, `tests/js/mount-inseln.test.mjs`
@@ -23,8 +23,10 @@ Abweichung a9b15a6df26b79af3: Fehlalarm: keine gemeldet
 Offener Punkt a9b15a6df26b79af3: AK-fremd (Leertext „Keine Treffer“ fest und Trigger `aria-label="Liste öffnen"` — Entscheidungsspielraum, Spec nennt keinen Wortlaut; ganzes Verzeichnis rot nur wegen T2-Tests)
 Abweichung a25421fd988245892: Fehlalarm: keine gemeldet
 Offener Punkt a25421fd988245892: AK-fremd (lokaler Wert folgt `modelValue` per watch — Umsetzungsdetail, AK3/AK8 verlangen nur Verhalten; Leeren meldet `update:modelValue` "" — passt zu AK8; Liste meldet Strings — Freitext der Datalist, AK12 nennt keinen Typ; vue-tsc nicht lauffähig wegen veralteter `moduleResolution` — wie Review vue3-kern-grundlage, Folge-Task #1556)
+Abweichung ac9071cbbebb3cdee: Fehlalarm: keine gemeldet
+Offener Punkt ac9071cbbebb3cdee: AK-fremd (Tailwind-Theme nicht kompiliert — AK16 verlangt nur die Regeln; kein Tailwind im Host, Kompilier-Probe wie in vue3-kern-grundlage durch den Reviewer)
 Echtlauf: folgt in T4 (Host-Prüfseite), Kit hat keine eigene Seite.
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
 ## Stand
-T2 fertig. Nächster Schritt: T3 coder-pro (Themes, README, CHANGELOG).
+T3 fertig. Nächster Schritt: T4 coder-pro (Host-Prüfseite).

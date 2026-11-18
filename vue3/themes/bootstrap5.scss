@@ -94,3 +94,174 @@
 .kit-accordion__content {
   @extend .accordion-body;
 }
+
+// Felder: Combobox, Suche, Token-Eingabe, Liste
+// Werte aus Bootstrap-Sass-Variablen und var(--bs-*) (an :root), kein @extend.
+.kit-combobox {
+  display: flex;
+  align-items: stretch;
+
+  &.is-invalid {
+    .kit-combobox__input {
+      border-color: var(--bs-form-invalid-border-color);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-combobox__input,
+.kit-search__input,
+.kit-input-token__input,
+.kit-input-list__input {
+  display: block;
+  width: 100%;
+  padding: $input-padding-y $input-padding-x;
+  font-size: $input-font-size;
+  line-height: $input-line-height;
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border: $input-border-width solid var(--bs-border-color);
+  border-radius: $input-border-radius;
+
+  &:focus {
+    outline: 0;
+    border-color: var(--bs-primary-border-subtle);
+    box-shadow: $input-focus-box-shadow;
+  }
+
+  &:disabled {
+    background-color: var(--bs-secondary-bg);
+  }
+}
+
+.kit-combobox__input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.kit-combobox__trigger,
+.kit-input-token__toggle,
+.kit-input-token__copy {
+  padding: $input-btn-padding-y $input-btn-padding-x;
+  color: var(--bs-body-color);
+  background-color: var(--bs-tertiary-bg);
+  border: $input-border-width solid var(--bs-border-color);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.is-active {
+    color: var(--bs-primary);
+  }
+}
+
+.kit-combobox__trigger {
+  margin-left: -$input-border-width;
+  border-radius: 0 $input-border-radius $input-border-radius 0;
+}
+
+.kit-combobox__list {
+  margin-top: 0.125rem;
+  padding: 0.25rem 0;
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border: $input-border-width solid var(--bs-border-color-translucent);
+  border-radius: $input-border-radius;
+  box-shadow: $box-shadow;
+}
+
+.kit-combobox__item {
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+
+  &:hover,
+  &[data-highlighted] {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  &.is-active {
+    color: var(--bs-white);
+    background-color: var(--bs-primary);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.kit-combobox__empty {
+  padding: 0.25rem 1rem;
+  color: var(--bs-secondary-color);
+}
+
+.kit-search {
+  &.is-invalid .kit-search__input {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-search__icon {
+  width: 1em;
+  height: 1em;
+  color: var(--bs-secondary-color);
+}
+
+.kit-search__input {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.kit-search__clear {
+  padding: 0 0.5rem;
+  line-height: 1;
+  color: var(--bs-secondary-color);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.kit-input-token {
+  gap: 0.25rem;
+
+  &.is-invalid .kit-input-token__input {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-token__toggle,
+.kit-input-token__copy {
+  border-radius: $input-border-radius;
+}
+
+.kit-input-token__status {
+  font-size: $small-font-size;
+  color: var(--bs-success);
+}
+
+.kit-input-list {
+  &.is-invalid .kit-input-list__input {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+
+  &.disabled {
+    opacity: 0.65;
+  }
+}
+
+.kit-input-list__datalist {
+  display: none;
+}
