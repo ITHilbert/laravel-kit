@@ -13,7 +13,7 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
 - [x] T2+T3 (coder-pro a379461d0f01e857b, GATE GRÜN: Vitest 125 pass, JS 24 pass; T1 mit geprüft) (AK2, AK4, AK5, AK6, AK7, AK9–AK13; zusammengelegt) [pro] — T2: `kit-input-number`, `kit-input-int`, `kit-input-euro`, `kit-input-percent`, Einstieg; T3: `kit-select`, `kit-checkbox`, `kit-radio`, `kit-toggle`, `kit-input-file`, Einstieg — Tests: `tests/vue3/felder-text.test.ts`, `tests/vue3/felder-zahl.test.ts`, `tests/vue3/felder-auswahl.test.ts`
 - [x] T4 (coder-pro af4d8f78135e366b1, GATE GRÜN: Vitest 152 pass) (AK14–AK16, AK19) [pro] `kit-label`, `kit-form`, `kit-input-group`, `kit-input-group-text`, Einstieg vollständig — Tests: `tests/vue3/felder-rahmen.test.ts`
 - [x] T5 (coder-pro a2cf6af8e264f6b59, GATE GRÜN: 24 passed; Sass-Probe fehlerfrei) (AK17, AK18, AK21) [pro] Themes, README, CHANGELOG — Tests: `tests/Feature/Vue3/Vue3FelderQuelltextTest.php`
-- [ ] T6 (AK20) [pro] Host: Prüfseite `/ui-kit-vue3` um alle Felder erweitern, Build — Tests: Host `tests/Feature/HostGetRoutenTest.php`, `tests/Feature/KitVue3CssTest.php`; Nachweis per Echtlauf (AK20 nicht automatisch prüfbar)
+- [x] T6 (coder-pro a7047fc1b090ac61a, GATE GRÜN: 8 passed; Build ok) (AK20) [pro] Host: Prüfseite `/ui-kit-vue3` um alle Felder erweitern, Build — Tests: Host `tests/Feature/HostGetRoutenTest.php`, `tests/Feature/KitVue3CssTest.php`; Nachweis per Echtlauf (AK20 nicht automatisch prüfbar)
 
 Bestehende Tests: `tests/vue3/*.test.ts` aus vue3-kern-grundlage und vue3-kern-logik, `tests/Feature/Vue3/Vue3QuelltextTest.php`, `tests/Feature/Vue3/Vue3LogikQuelltextTest.php`, `tests/js/mount-inseln.test.mjs`
 Hinweis Aufträge: Kit-Tests (`*.test.ts`) nur mit `PROJEKT: …/packages/laravel-kit` in die `TESTS:`-Zeile (ohne `PROJEKT:` startet das GATE sie per `node --test`, HANDOFF in vue3-kern-logik F2).
@@ -30,5 +30,13 @@ Abweichung a2cf6af8e264f6b59: Fehlalarm: keine gemeldet
 Offener Punkt a2cf6af8e264f6b59: AK-fremd (Tailwind-Theme nicht kompiliert — Probe im Review; Optik von Schalter/Suffix → Echtlauf T6)
 Review: nötig (Querschnitt Kit und Host, > 50 Zeilen Produktivcode).
 
+Abweichung a7047fc1b090ac61a: Fehlalarm: keine gemeldet
+Offener Punkt a7047fc1b090ac61a: AK-fremd (keine gemeldet)
+Echtlauf T6: browser: /ui-kit-vue3 — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-toggle__input ausgelöst, .kit-input-text__input: 4 sichtbar, .kit-toggle.is-active: 0 → ROT. CDP-Sonde (echte Klicks/Eingaben, :8225, Felder ohne `v-model` wie in Blade/Inseln): Text, Zahl, Euro, Textarea, Select, Checkbox (Label-Klick → `zustimmung=on`), Radio (`art=b`), Passwort-Schalter (`type=text`) arbeiten; `kit-toggle` bleibt `aria-checked=false`, Formular sendet `aktiv=0`.
+Befund Moderator (Echtlauf, muss, AK12): `kit-toggle` ohne `v-model` ändert bei Klick weder `aria-checked` noch `is-active` noch das versteckte Feld — der Test prüft nur mit `v-model`. → Fix F1: test-writer (Regressionstest ohne `v-model`), coder-pro.
+Befund Moderator (Screenshot, Optik): `kit-input-password__toggle` steht unter dem Eingabefeld statt rechts daneben (Token-Eingabe zeigt, wie es aussehen soll); `kit-input-group` mit einem Feld mit `label`: Label und Feld stehen neben dem Zusatztext, Feld nicht volle Breite. → Fix F2 (Optik) im selben Lauf: Passwortfeld als Zeile, Feld in der Gruppe füllt die Breite; Prüfseite: Gruppen-Beispiele ohne inneres `label` (wie AK16), Beschriftung per `kit-label` davor.
+
+Fix F1 Test: test-writer afc32203ec6927bd0, `tests/vue3/toggle-ohne-model.test.ts` (rot 2/2: `expected 'false' to be 'true'` nach Klick, Gegenprobe vorher grün; Grünbar entfällt, Bugfix).
+
 ## Stand
-T1–T5 fertig. Angehalten: Review-Fund AK12 in vue3-kern-logik (useId je Insel-App) wird zuerst dort behoben und hierher gemergt — trifft auch die erzeugten `id`s der Felder (Randfall 1). Danach T6.
+T1–T6 fertig, vue3-kern-logik (Fix F3) gemergt. Echtlauf rot (Toggle ohne v-model) → Fix F1/F2 läuft.
