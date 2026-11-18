@@ -15,8 +15,11 @@ import KitAccordion from './components/accordion/accordion.vue'
 import KitAccordionItem from './components/accordion/item.vue'
 
 import KitCombobox from './components/combobox/combobox.vue'
+import KitSearch from './components/search/search.vue'
+import KitInputToken from './components/input-token/input-token.vue'
+import KitInputList from './components/input-list/input-list.vue'
 
-export { KitCombobox }
+export { KitCombobox, KitSearch, KitInputToken, KitInputList }
 export { KitTabs, KitTab, KitTabPanel, KitAccordion, KitAccordionItem }
 export { KitDialog, KitDialogClose, KitDialogTitle, KitDialogTrigger }
 
@@ -32,6 +35,9 @@ const komponenten = {
   'kit-accordion': KitAccordion,
   'kit-accordion-item': KitAccordionItem,
   'kit-combobox': KitCombobox,
+  'kit-search': KitSearch,
+  'kit-input-token': KitInputToken,
+  'kit-input-list': KitInputList,
 } satisfies Record<string, Component>
 
 export type KitTag = keyof typeof komponenten
