@@ -24,9 +24,20 @@
   overscroll-behavior: contain;
 }
 
-/* Combobox: Wurzel ist Bezugspunkt, die Liste liegt unter dem Feld über dem folgenden Inhalt. */
-.kit-combobox {
+/* Combobox: Wurzel als Zeile (Feld füllt die Breite, Trigger rechts daneben) und Bezugspunkt der Liste.
+ * Doppelte Klasse: Der Name `.kit-combobox` trägt auch die Global-Regel der älteren Vue-Komponente
+ * vue/bootstrap5/forms/search.vue (inline-block, margin-right 1.8em). Die wird nach dem Kit-CSS geladen
+ * und gewänne bei einfacher Klasse. */
+.kit-combobox.kit-combobox {
+  display: flex;
+  align-items: stretch;
   position: relative;
+  margin: 0;
+}
+
+.kit-combobox__input {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .kit-combobox__list {

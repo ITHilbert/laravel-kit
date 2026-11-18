@@ -103,7 +103,7 @@
 
   &.is-invalid {
     .kit-combobox__input {
-      border-color: var(--bs-form-invalid-border-color);
+      border-color: $form-feedback-invalid-color;
     }
   }
 
@@ -128,12 +128,12 @@
 
   &:focus {
     outline: 0;
-    border-color: var(--bs-primary-border-subtle);
+    border-color: $input-focus-border-color;
     box-shadow: $input-focus-box-shadow;
   }
 
   &:disabled {
-    background-color: var(--bs-secondary-bg);
+    background-color: $gray-200;
   }
 }
 
@@ -147,7 +147,7 @@
 .kit-input-token__copy {
   padding: $input-btn-padding-y $input-btn-padding-x;
   color: var(--bs-body-color);
-  background-color: var(--bs-tertiary-bg);
+  background-color: $gray-100;
   border: $input-border-width solid var(--bs-border-color);
   cursor: pointer;
 
@@ -181,7 +181,7 @@
 
   &:hover,
   &[data-highlighted] {
-    background-color: var(--bs-tertiary-bg);
+    background-color: $gray-100;
   }
 
   &.is-active {
@@ -197,12 +197,12 @@
 
 .kit-combobox__empty {
   padding: 0.25rem 1rem;
-  color: var(--bs-secondary-color);
+  color: rgba($body-color, .75);
 }
 
 .kit-search {
   &.is-invalid .kit-search__input {
-    border-color: var(--bs-form-invalid-border-color);
+    border-color: $form-feedback-invalid-color;
   }
 
   &.disabled {
@@ -213,7 +213,7 @@
 .kit-search__icon {
   width: 1em;
   height: 1em;
-  color: var(--bs-secondary-color);
+  color: rgba($body-color, .75);
 }
 
 .kit-search__input {
@@ -224,7 +224,7 @@
 .kit-search__clear {
   padding: 0 0.5rem;
   line-height: 1;
-  color: var(--bs-secondary-color);
+  color: rgba($body-color, .75);
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -234,7 +234,7 @@
   gap: 0.25rem;
 
   &.is-invalid .kit-input-token__input {
-    border-color: var(--bs-form-invalid-border-color);
+    border-color: $form-feedback-invalid-color;
   }
 
   &.disabled {
@@ -254,7 +254,7 @@
 
 .kit-input-list {
   &.is-invalid .kit-input-list__input {
-    border-color: var(--bs-form-invalid-border-color);
+    border-color: $form-feedback-invalid-color;
   }
 
   &.disabled {
