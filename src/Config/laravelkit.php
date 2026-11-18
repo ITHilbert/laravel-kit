@@ -8,7 +8,7 @@ return [
     | Theme der Kit-Components (<x-kit::…>)
     |--------------------------------------------------------------------------
     |
-    | Bestimmt das Markup aller Kit-Components. Erlaubt: tailwind, bootstrap5.
+    | Bestimmt das Markup aller Kit-Components. Erlaubt: tailwind, bootstrap5, kern.
     | Ein anderer oder leerer Wert führt beim Rendern zu einer Exception.
     |
     */

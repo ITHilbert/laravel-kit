@@ -12,9 +12,9 @@ Spec: [spec.md](spec.md) (freigegeben 2026-11-18, Moderator in Vollmacht). Kein 
   - `tests/Feature/KitComponents/KernQuelltextTest.php` (AK14, AK15, AK16)
   - Host `tests/Feature/UiKitBladeKernTest.php` (AK17: Route 200, Theme `kern` auf der Seite, alle 34 Bausteine mit `kit-`-Markup; Browserteil per Echtlauf)
 - [x] T1 (coder-pro a1938bb19f7597140, HANDOFF Umgebung: GATE ROT nur durch `KernQuelltextTest` (Gruppe `arch`, läuft in jedem GATE, gehört T4) — Plan-Fehler des Moderators; Nachweis Moderator: 7 Dateien aus TESTS: 1802 passed, `--group=arch` 6 rot = nur KernQuelltextTest → T2, T3, T4 zusammengelegt) (AK1–AK6) [pro] `KitTheme::Kern`, Feld-Templates unter `src/Views/kit/kern/` (`input-*`, `text-area`, `select`, `checkbox`, `label`, `input-hidden`, `partials/`) — Tests: `tests/Feature/KitComponents/KernFelderTest.php`
-- [ ] T2 (AK7, AK8, AK13) [pro] Buttons, Cards, `show-euro`, `show-date`, `breadcrumb` unter `src/Views/kit/kern/` — Tests: `tests/Feature/KitComponents/KernLayoutTest.php`
-- [ ] T3 (AK9–AK12) [pro] Tabs- und Combobox-Templates, `js/tabs.js`, `js/combobox.js` — Tests: `tests/Feature/KitComponents/KernTabsComboboxTest.php`, `tests/js/kernTabs.test.mjs`, `tests/js/kernCombobox.test.mjs`
-- [ ] T4 (AK14–AK16) [pro] Themes, `kit.css`, README, CHANGELOG — Tests: `tests/Feature/KitComponents/KernQuelltextTest.php`
+- [x] T2 (AK7, AK8, AK13) (zusammengelegt T2+T3+T4: coder-pro a603d65301ee8265f, GATE GRÜN: PHP 161, JS 104; Moderator: Kit-Feature 2227 passed, JS 249/249) [pro] Buttons, Cards, `show-euro`, `show-date`, `breadcrumb` unter `src/Views/kit/kern/` — Tests: `tests/Feature/KitComponents/KernLayoutTest.php`
+- [x] T3 (AK9–AK12) (zusammengelegt T2+T3+T4: coder-pro a603d65301ee8265f, GATE GRÜN: PHP 161, JS 104; Moderator: Kit-Feature 2227 passed, JS 249/249) [pro] Tabs- und Combobox-Templates, `js/tabs.js`, `js/combobox.js` — Tests: `tests/Feature/KitComponents/KernTabsComboboxTest.php`, `tests/js/kernTabs.test.mjs`, `tests/js/kernCombobox.test.mjs`
+- [x] T4 (AK14–AK16) (zusammengelegt T2+T3+T4: coder-pro a603d65301ee8265f, GATE GRÜN: PHP 161, JS 104; Moderator: Kit-Feature 2227 passed, JS 249/249) [pro] Themes, `kit.css`, README, CHANGELOG — Tests: `tests/Feature/KitComponents/KernQuelltextTest.php`
 - [ ] T5 (AK17) [pro] Host: Prüfseite `/ui-kit-blade-kern`, Build — Tests: Host `tests/Feature/UiKitBladeKernTest.php`; Nachweis per Echtlauf (Tabs, Combobox, Konsole)
 
 Bestehende Tests: `tests/Feature/KitComponents/*.php` (BausteineTest, ThemeTest, LabelForTest, FormularOldFehlerTest, FehleranzeigeSchalterTest, CheckboxCheckedTest, ComboboxTest, Bootstrap5LabelTest, FormularNeuTest, ReadmeTest), `tests/js/tabs.test.mjs`, `tests/js/combobox.test.mjs`, `tests/js/comboboxAktualisieren.test.mjs`, `tests/js/loeschen.test.mjs`, `tests/Feature/Vue3/*.php`
@@ -27,5 +27,8 @@ Offener Punkt a4e2281b975eed015: AK-fremd (Namen der `data-`-Attribute aus den a
 Abweichung a1938bb19f7597140: Fehlalarm: keine gemeldet
 Offener Punkt a1938bb19f7597140: AK-fremd (Minimal-Template `kern/combobox` vorgezogen, weil KernFelderTest AK1/AK14 sie rendert — T3 baut sie nach AK11/AK12 aus; Doku-Zeile in `src/Config/laravelkit.php` → T4; Passwort ohne Schalter = Nicht-Ziel)
 
+Abweichung a603d65301ee8265f: Fehlalarm: keine gemeldet
+Offener Punkt a603d65301ee8265f: AK-fremd (`combobox.js` verschiebt im Kern die `id` vom `<select>` auf `__input` und kopiert `aria-invalid`/`aria-describedby`, damit `label for` nach dem Binden auf das Eingabefeld zeigt — AK11 prüft das Markup vor dem Binden, AK12 regelt es nicht; Annahme Barrierefreiheit. Liste unter einer Fehlermeldung der Combobox → im Echtlauf T5 ansehen. Button-Farben je `data-variant` frei gewählt — Spec legt keine fest)
+
 ## Stand
-T1 fertig. Nächster Schritt: T2+T3+T4 (zusammengelegt, weil der arch-Test `KernQuelltextTest` alle Kit-Teile braucht).
+T1–T4 fertig. Nächster Schritt: T5 (Host-Prüfseite), dann Echtlauf und Review.

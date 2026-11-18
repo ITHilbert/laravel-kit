@@ -34,8 +34,9 @@ Das Markup kommt aus dem Template des konfigurierten Themes. Kit-Components erze
 
 Das Theme legt die Config `laravelkit.theme` fest (Env `LARAVELKIT_THEME`, Paket-Config `src/Config/laravelkit.php`):
 
-- `tailwind` (Default, wenn `LARAVELKIT_THEME` nicht gesetzt ist)
-- `bootstrap5`
+- `kern`: Markup und Klassen `kit-…` wie der Vue-3-Kern, ohne Bootstrap- oder Tailwind-Klassen und ohne Icon-Schrift (Templates unter `src/Views/kit/kern/`). Die Optik kommt aus `vue3/kit.css` (Funktion) und einer Theme-Datei: `vue3/themes/bootstrap5.scss` (Bootstrap-Sass vorher importieren) oder `vue3/themes/tailwind.css`. Tabs und Combobox bindet `js/tabs.js` bzw. `js/combobox.js` über `data-`-Attribute.
+- `tailwind` (Default, wenn `LARAVELKIT_THEME` nicht gesetzt ist): eingefroren, wird nicht mehr gepflegt (Entscheidung 0013)
+- `bootstrap5`: eingefroren, wird nicht mehr gepflegt (Entscheidung 0013)
 
 Jeder andere Wert führt beim Rendern einer Kit-Component zu einer `ITHilbert\LaravelKit\Kit\UnbekanntesThemeException`. Die Meldung nennt den Wert und die erlaubten Werte. Ein leerer Wert (`LARAVELKIT_THEME=` oder `null`) gilt ebenfalls als unbekannt. Ein Rückfall auf ein anderes Theme erfolgt nicht.
 

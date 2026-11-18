@@ -1,4 +1,4 @@
-{{-- Kern-Theme: verstecktes select; js/combobox.js (T3) ergänzt Eingabe, Auslöser und Liste --}}
+{{-- Kern-Theme: verstecktes select; js/combobox.js ergänzt Eingabe, Auslöser und Liste --}}
 @props(['label' => null, 'options' => [], 'value' => null, 'addClass' => '', 'error' => null])
 @php
     $name = (string) $attributes->get('name');
@@ -12,7 +12,7 @@
 
     <select {{ ($mitLabel ? $z['attribute']->merge(['id' => $z['id']]) : $z['attribute'])->merge(['data-kit-combobox' => ''])->class(['kit-combobox__select']) }}>
         {{ $slot }}
-        @foreach (\ITHilbert\LaravelKit\Kit\KitCombobox::optionen($options) as $option)
+        @foreach (\ITHilbert\LaravelKit\Kit\KitCombobox::auswahl($options) as $option)
             <option value="{{ $option['wert'] }}" @selected($gewaehlt !== null && $gewaehlt === $option['wert'])>{{ $option['text'] }}</option>
         @endforeach
     </select>

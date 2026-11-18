@@ -169,3 +169,17 @@
 .kit-input-group > .kit-input-group-text {
   flex: 0 0 auto;
 }
+
+/* Blade-Theme kern: Combobox mit Label und Fehlermeldung in der Wurzel (eigene Zeile), Panels ohne Skript-Zustand. */
+.kit-combobox.kit-combobox {
+  flex-wrap: wrap;
+}
+
+.kit-combobox__label,
+.kit-combobox__error {
+  flex: 0 0 100%;
+}
+
+.kit-tabs__panel[hidden] {
+  display: none;
+}

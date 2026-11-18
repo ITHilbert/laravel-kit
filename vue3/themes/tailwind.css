@@ -396,6 +396,7 @@
 .kit-input-file__label,
 .kit-textarea__label,
 .kit-select__label,
+.kit-combobox__label,
 .kit-checkbox__label,
 .kit-radio__label,
 .kit-toggle__label {
@@ -478,6 +479,7 @@
 .kit-input-file__error,
 .kit-textarea__error,
 .kit-select__error,
+.kit-combobox__error,
 .kit-checkbox__error,
 .kit-radio__error,
 .kit-toggle__error {
@@ -498,4 +500,97 @@
 
 .kit-input-group-text {
   @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+}
+
+/* Blade-Theme kern: Buttons, Cards, Tabs-Inhalt, Breadcrumb, Anzeigen */
+.kit-button {
+  @apply inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white no-underline hover:brightness-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+}
+
+.kit-button:disabled,
+.kit-button.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.kit-button__icon {
+  @apply shrink-0;
+}
+
+.kit-button[data-variant="primary"],
+.kit-button[data-variant="save"] {
+  @apply bg-blue-600;
+}
+
+.kit-button[data-variant="secondary"],
+.kit-button[data-variant="back"] {
+  @apply bg-gray-600;
+}
+
+.kit-button[data-variant="cancel"] {
+  @apply bg-gray-500;
+}
+
+.kit-button[data-variant="create"] {
+  @apply bg-green-600;
+}
+
+.kit-button[data-variant="delete"] {
+  @apply bg-red-600;
+}
+
+.kit-button[data-variant="edit"] {
+  @apply bg-yellow-400 text-gray-900;
+}
+
+.kit-button[data-variant="show"] {
+  @apply bg-cyan-500 text-gray-900;
+}
+
+.kit-button[data-variant="submit"] {
+  @apply bg-blue-700;
+}
+
+.kit-card {
+  @apply mb-4 rounded-md border border-gray-200 bg-white shadow-sm;
+}
+
+.kit-card__header {
+  @apply rounded-t-md border-b border-gray-200 bg-gray-50 px-4 py-3 font-semibold text-gray-900;
+}
+
+.kit-card__body {
+  @apply px-4 py-4 text-sm text-gray-700;
+}
+
+.kit-card__footer {
+  @apply rounded-b-md border-t border-gray-200 bg-gray-50 px-4 py-3;
+}
+
+.kit-tabs__body {
+  @apply rounded-b-md border border-t-0 border-gray-200 px-4;
+}
+
+.kit-breadcrumb {
+  @apply mb-4 text-sm text-gray-500;
+}
+
+.kit-breadcrumb__list {
+  @apply m-0 flex list-none flex-wrap gap-2 p-0;
+}
+
+.kit-breadcrumb__list > li + li::before {
+  @apply mr-2 text-gray-400;
+  content: "/";
+}
+
+.kit-breadcrumb__list > li:last-child {
+  @apply text-gray-900;
+}
+
+.kit-show-euro {
+  @apply whitespace-nowrap text-right tabular-nums;
+}
+
+.kit-show-date {
+  @apply whitespace-nowrap;
 }
