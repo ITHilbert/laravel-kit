@@ -54,6 +54,10 @@ Review 1/2: nicht freigegeben ([pruefung.md](pruefung.md)) — muss: Randfall 3 
 Spec-Lücke Randfall 3: ergänzt (Startauswahl wie natives `<select>`), Moderator in Vollmacht → Fix F3: test-writer (Regressionstest), coder-pro.
 
 ## Stand
-Review 1 nicht freigegeben. Nächster Schritt: Fix F3 (Randfall 3), dann Review 2.
+NACHWEIS Fix F3 grün. Nächster Schritt: Review 2.
 
 Fix F3 Test: test-writer add8bdfb3d226c524, `tests/vue3/select-startauswahl.test.ts` (rot 4/5: `expected [ '' bzw. 'zz' ] to deeply equal []` — Komponente weist dem `<select>` einen Wert ohne passende Option zu; Gegenprobe grün; happy-dom-Eigenheit per Spion auf `value` abgebildet; Grünbar entfällt, Bugfix).
+Fix F3 Kit: coder-pro aa60ea25ce62cb4b2 (GATE GRÜN: 3 passed, Vitest 31 aus TESTS:; ganzes Vitest 160/160): `select.vue` bindet nur noch einen Wert mit passender Option (`anzeigeWert`: passender `modelValue`, sonst mit `placeholder` '', sonst erste wählbare Option); beim Start kein `update:modelValue`.
+Abweichung aa60ea25ce62cb4b2: Fehlalarm: keine gemeldet
+Offener Punkt aa60ea25ce62cb4b2: AK-fremd (keine gemeldet)
+Echtlauf F3: browser: /ui-kit-vue3 — 0 Konsolenfehler, keine XHR/fetch, .kit-select__input: 2 sichtbar → OK. CDP-Sonde in Chrome (:8225, vier `kit-select` ohne `placeholder` per Fetch-Abfang in `kit-form` eingesetzt): ohne `v-model` selectedIndex 0, FormData `de`; `:model-value="null"` 0/`de`; erste Option `disabled` 1/`de`; Gegenprobe `model-value="at"` 1/`at`. Konsole nur zwei `verbose`-Hinweise von Chrome (Passwortfeld außerhalb eines Formulars, Logik-Abschnitt der Prüfseite) — keine Fehler.
