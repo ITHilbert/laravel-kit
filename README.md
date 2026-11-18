@@ -269,7 +269,7 @@ Der Vue-3-Kern liegt im Ordner `vue3/` (Dialog, Tabs, Accordion auf Basis von Re
 
 ### Einbinden
 
-1. `npm install reka-ui` (dazu `vue` ab 3.4).
+1. `npm install reka-ui` (dazu `vue` ab 3.5).
 2. Plugin registrieren: `app.use(KitVue3)` (aus `vue3/index.ts`).
 3. Für Inseln im HTML: `kitKomponenten` an `mountInseln` übergeben.
 4. `vue3/kit.css` einbinden und eine Theme-Datei aus `vue3/themes/` (`tailwind.css` oder `bootstrap5.scss`; Bootstrap-Sass vorher importieren).
@@ -281,7 +281,7 @@ Das Theme `bootstrap5.scss` setzt Bootstrap 5 mit seinen CSS-Variablen an `:root
 | Paket | Art | Version | Wofür |
 |---|---|---|---|
 | `reka-ui` | peerDependency, devDependency | `~2.11` | Verhalten von Dialog, Tabs und Accordion (`vue3/`). Das Projekt installiert es selbst (Einbinden, Schritt 1). |
-| `vue` | peerDependency, devDependency | `^3.4` (Entwicklung `^3.5`) | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
+| `vue` | peerDependency, devDependency | `^3.5` | Laufzeit der Vue-3-Komponenten und der Inseln (`mountInseln`). |
 | `vitest`, `@vue/test-utils`, `happy-dom`, `@vitejs/plugin-vue`, `typescript` | devDependency | siehe `package.json` | Nur für die Entwicklung des Kits: Tests unter `tests/vue3/` über `npm run test:js` (Umgebung happy-dom). Projekte, die das Kit nutzen, brauchen sie nicht. |
 
 ### Komponenten Combobox, Suche, Token-Eingabe, Liste

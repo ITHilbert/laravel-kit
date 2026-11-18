@@ -3,7 +3,7 @@
 ## Unveröffentlicht
 - Neu: Ordner `vue3/` mit Vue-3-Kern aus Dialog, Tabs und Accordion (Reka UI, Klassen `kit-…`, Plugin `KitVue3`, `kitKomponenten` für `mountInseln`), `vue3/kit.css` und Themes `vue3/themes/tailwind.css` und `vue3/themes/bootstrap5.scss`.
 - Neu: Vue-3-Komponenten `kit-combobox` (Reka UI), `kit-search` (mit `verzoegerung`, Ereignis `suche`), `kit-input-token` (anzeigen, kopieren) und `kit-input-list` (Datalist), dazu Regeln in `vue3/kit.css` und beiden Themes.
-- Neue Abhängigkeit: `reka-ui` (`~2.11`, peerDependency; dazu `vue` ab 3.4).
+- Neue Abhängigkeit: `reka-ui` (`~2.11`, peerDependency; dazu `vue` ab 3.5).
 
 ## 1.7.0 – 2026-11-16
 - Änderung: Die Vue-Komponente `search` (Bootstrap 4/5, Klasse `selectcb`) nutzt statt des jQuery-UI-Widgets `ui.combobox` das Vanilla-Skript `js/combobox.js` (`initCombobox(root = document)`). Combobox ohne jQuery UI: Suche ohne Groß-/Kleinschreibung mit Hervorhebung, Knopf öffnet alle Einträge, Tastatur (Pfeile, Enter, Escape), Auswahl löst `change` am Select aus.

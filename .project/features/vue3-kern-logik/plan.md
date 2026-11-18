@@ -49,5 +49,10 @@ Annahme Moderator (F3): zentral in `js/mount-inseln.js` je Insel eine eigene `ap
 
 Fix F3 Test: test-writer aa52bf3907db43008, `tests/vue3/inseln-ids.test.ts` (rot: `expected 'kit-input-list-v-0' not to be 'kit-input-list-v-0'`, Gegenprobe zwei Datalists grün; Grünbar entfällt, Bugfix).
 
+Fix F3: coder-pro aae72914e37445259 (GATE GRÜN: PHP 20, JS 24, Vitest 53): `js/mount-inseln.js` setzt je Insel `app.config.idPrefix = kit<n>`; peerDependency `vue ^3.5`, README und CHANGELOG angeglichen. Host nutzt `mountInseln` nicht → kein neuer Build.
+Abweichung aae72914e37445259: Fehlalarm: keine gemeldet
+Offener Punkt aae72914e37445259: AK-fremd (keine gemeldet)
+NACHWEIS F3 (Moderator): Vitest 53/53, `node --test tests/js/*.test.mjs` 240/240.
+
 ## Stand
-Fix F3: Regressionstest rot committet. Nächster Schritt: coder-pro, dann Nachprüfung.
+Fix F3 fertig, NACHWEIS grün. Nächster Schritt: Nachprüfung Reviewer.
