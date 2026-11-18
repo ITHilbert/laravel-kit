@@ -43,5 +43,16 @@ Rückbau: #1546 (alte Varianten entfernt → `.kit-combobox.kit-combobox` in `vu
 NACHWEIS F2 (Moderator selbst): Vitest 52/52, `node --test tests/js/*.test.mjs` 240/240, Host `KitVue3CssTest` + `HostGetRoutenTest` 8 passed, Kit `Vue3QuelltextTest|Vue3LogikQuelltextTest` 17 passed.
 Echtlauf: browser: /ui-kit-vue3 — 0 Konsolenfehler, keine XHR/fetch, Klick: .kit-combobox__trigger ausgelöst, .kit-combobox__list: 1 vorhanden → OK; CDP-Sonde nach F2 (echter Mausklick, :8225): Eingabefeld volle Breite, Trigger in derselben Zeile, Liste 915 px breit über dem Folgeinhalt (letztes Item oben), Auswahl → FormData `land=at`; Screenshot geprüft.
 
+Review 0/2 (pruefung.md): 1 muss, 1 sollte, 3 kann — nicht freigegeben. sollte → Folge-Task #1610.
+Befund Review 0 (muss, AK12): zwei `kit-input-list` als getrennte Inseln (`mountInseln`) bekommen dieselbe Datalist-`id` (`useId()` zählt je Vue-App). → Fix F3: test-writer (Regressionstest zwei Inseln), dann coder-pro.
+Annahme Moderator (F3): zentral in `js/mount-inseln.js` je Insel eine eigene `app.config.idPrefix` setzen statt Zähler in der Komponente. Grund: Das trifft jeden `useId()`-Aufruf, auch die von Reka (Dialog, Tabs, Combobox: `aria-labelledby`, `aria-controls`) und die erzeugten `id`s der Felder aus vue3-kern-felder. `app.config.idPrefix` gibt es ab Vue 3.5 → peerDependency `vue` auf `^3.5` und README angleichen (erledigt damit das sollte aus #1610). Umkehrbar: Zähler auf Modulebene in `input-list.vue`.
+
+Fix F3 Test: test-writer aa52bf3907db43008, `tests/vue3/inseln-ids.test.ts` (rot: `expected 'kit-input-list-v-0' not to be 'kit-input-list-v-0'`, Gegenprobe zwei Datalists grün; Grünbar entfällt, Bugfix).
+
+Fix F3: coder-pro aae72914e37445259 (GATE GRÜN: PHP 20, JS 24, Vitest 53): `js/mount-inseln.js` setzt je Insel `app.config.idPrefix = kit<n>`; peerDependency `vue ^3.5`, README und CHANGELOG angeglichen. Host nutzt `mountInseln` nicht → kein neuer Build.
+Abweichung aae72914e37445259: Fehlalarm: keine gemeldet
+Offener Punkt aae72914e37445259: AK-fremd (keine gemeldet)
+NACHWEIS F3 (Moderator): Vitest 53/53, `node --test tests/js/*.test.mjs` 240/240.
+
 ## Stand
-NACHWEIS grün (Fix F1, F2). Nächster Schritt: Review im Review-Platz.
+Fix F3 fertig, NACHWEIS grün. Nächster Schritt: Nachprüfung Reviewer.
