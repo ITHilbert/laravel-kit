@@ -2,6 +2,7 @@
 
 namespace ITHilbert\LaravelKit;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
@@ -19,6 +20,7 @@ use ITHilbert\LaravelKit\Commands\LaravelKitInstalliSeed;
 use ITHilbert\LaravelKit\Commands\LaravelKitInstallMix;
 use ITHilbert\LaravelKit\Commands\LaravelKitInstallUserAuth;
 use ITHilbert\LaravelKit\Commands\LaravelKitPaths;
+use ITHilbert\LaravelKit\Commands\LogPruneCommand;
 use ITHilbert\LaravelKit\Commands\OpenFtp;
 use ITHilbert\LaravelKit\Commands\OpenSsh;
 use ITHilbert\LaravelKit\Components\AGB;
@@ -44,6 +46,8 @@ class LaravelKitServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerCommands();
+        $this->stelleLoggingAufTaeglichUm();
+        $this->registerLogZeitplan();
 
         $this->loadKitMigrations();
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
@@ -91,6 +95,63 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->setAliase();
 
         $this->registerMcpTools();
+    }
+
+    /**
+     * Stellt `single` auf `daily` um und setzt `days`, ohne config/logging.php des Projekts zu ändern.
+     * Läuft als Erstes in boot(), vor dem ersten Log-Eintrag der App; wirkt auch bei gecachter Config.
+     */
+    protected function stelleLoggingAufTaeglichUm(): void
+    {
+        $tage = config('laravelkit.logs.tage');
+        $tage = is_numeric($tage) && (int) $tage > 0 ? (int) $tage : 30;
+
+        $daily = config('logging.channels.daily');
+        $single = config('logging.channels.single');
+
+        if (! config('laravelkit.logs.taeglich', true)) {
+            return;
+        }
+
+        if (! is_array($daily)) {
+            $daily = ['driver' => 'daily'];
+
+            if (is_array($single)) {
+                $daily['path'] = $single['path'] ?? storage_path('logs/laravel.log');
+                if (isset($single['level'])) {
+                    $daily['level'] = $single['level'];
+                }
+            } else {
+                $daily['path'] = storage_path('logs/laravel.log');
+            }
+        }
+
+        $daily['days'] = $tage;
+        config(['logging.channels.daily' => $daily]);
+
+        $default = config('logging.default');
+        if ($default === 'single') {
+            config(['logging.default' => 'daily']);
+        }
+
+        $kanaele = config('logging.channels.stack.channels');
+        if (is_array($kanaele)) {
+            config(['logging.channels.stack.channels' => array_map(
+                static fn ($kanal) => $kanal === 'single' ? 'daily' : $kanal,
+                $kanaele,
+            )]);
+        }
+    }
+
+    protected function registerLogZeitplan(): void
+    {
+        if (! config('laravelkit.logs.zeitplan', true)) {
+            return;
+        }
+
+        $this->callAfterResolving(Schedule::class, static function (Schedule $schedule): void {
+            $schedule->command('log:prune')->dailyAt('03:17');
+        });
     }
 
     protected function registerMcpTools()
@@ -201,6 +262,7 @@ class LaravelKitServiceProvider extends ServiceProvider
         $this->commands(AuditFetchCommand::class);
         $this->commands(AuditFeedbackCommand::class);
         $this->commands(ChangelogShowCommand::class);
+        $this->commands(LogPruneCommand::class);
     }
 
     protected function registerBladeExtensions()

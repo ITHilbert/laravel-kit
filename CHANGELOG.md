@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unveröffentlicht
+### Log-Dateien
+- Neu: Das Kit stellt den Log-Kanal `single` auf `daily` um (eine Datei je Tag, `days` 30), ohne Änderung an `.env` oder `config/logging.php`. Config `laravelkit.logs.taeglich`, `.tage`, `.zeitplan` (Env `LARAVELKIT_LOGS_TAEGLICH`, `_TAGE`, `_ZEITPLAN`); Details in der README „Log-Dateien“ (#1716).
+- Neu: `php artisan log:prune [--days=N] [--dry-run]` löscht `.log`-Dateien in `storage/logs`, die älter als N Tage sind; läuft täglich im Scheduler (abschaltbar).
+
 ### Deprecated
 - Auslaufend, Entfernung mit einer neuen Major-Version; Ersatz siehe README „Auslaufend“ (#1715): `vue/bootstrap4`, `vue/bootstrap5`, `vue/tailwind` (Ersatz `vue3/`), `vue/vueapp_TW.js`, `vue/vueapp_B5.js`, `vue/vueapp_B4.js` (Ersatz `vue3/` mit `mountInseln`) und die Blade-Themes `bootstrap5` und `tailwind` (Ersatz Theme `kern`).
 - Neu dazu: Bei aktivem Blade-Theme `bootstrap5` oder `tailwind` löst das Kit je Request einmal `E_USER_DEPRECATED` aus; die `vueapp_*.js` warnen beim Laden per `console.warn` (nicht mit `NODE_ENV=production`).
