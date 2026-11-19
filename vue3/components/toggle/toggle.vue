@@ -28,7 +28,7 @@ function umschalten() {
 
 <template>
   <div class="kit-toggle" :class="{ 'is-invalid': ungueltig, 'is-active': aktiv, disabled: props.disabled }">
-    <input v-if="props.name" type="hidden" :name="props.name" :value="aktiv ? 1 : 0" />
+    <input v-if="props.name" type="hidden" :name="props.name" :value="aktiv ? 1 : 0" :disabled="props.disabled || undefined" />
     <button
       class="kit-toggle__input"
       type="button"

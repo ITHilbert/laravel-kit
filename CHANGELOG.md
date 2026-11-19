@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unveröffentlicht
+- Fix: `kit-toggle` mit `name` und `disabled` sendet nichts mehr; das versteckte Feld ist ebenfalls `disabled`.
+- Fix: Zahlenfelder (`kit-input-number`, `-int`, `-euro`, `-percent`) nehmen `step` als Zahl oder Text an, ohne Vue-Warnung (#1611).
+- Fix: Alle `kit-`-Regeln in `vue3/themes/tailwind.css` stehen in `@layer components`, Tailwind-Utilities können sie überschreiben.
+- Fix: Der Zusatz „€“/„%“ von `kit-input-euro` und `kit-input-percent` schließt im Theme `tailwind` bündig rechts ans Feld an, wie im Theme `bootstrap5` (#1611).
+- Doku: README „Vue 3“ nennt die Grenzen der Inseln (nur `data-props`, HTML-Inhalt verworfen, Slots über `KitVue3`); die alten Tailwind-CSS-Dateien unter `vue/tailwind/` werden mit `layer(components)` importiert (#679); `kit-form` ohne `method` sendet per `post`.
 - Neu: Theme `kern` für die Blade-Components (`LARAVELKIT_THEME=kern`, `KitTheme::Kern`, Templates unter `src/Views/kit/kern/`): gleiches Markup und gleiche `kit-`-Klassen wie der Vue-3-Kern, Symbole als inline-SVG. `js/tabs.js` und `js/combobox.js` binden die Kern-Templates über `data-`-Attribute (Ausgabe für die alten Themes unverändert); Regeln für Buttons, Cards, Tabs-Inhalt, Breadcrumb und Anzeigen in `vue3/themes/bootstrap5.scss` und `vue3/themes/tailwind.css`. Die Themes `bootstrap5` und `tailwind` sind eingefroren (Entscheidung 0013).
 - Neu: Ordner `vue3/` mit Vue-3-Kern aus Dialog, Tabs und Accordion (Reka UI, Klassen `kit-…`, Plugin `KitVue3`, `kitKomponenten` für `mountInseln`), `vue3/kit.css` und Themes `vue3/themes/tailwind.css` und `vue3/themes/bootstrap5.scss`.
 - Neu: Vue-3-Komponenten `kit-combobox` (Reka UI), `kit-search` (mit `verzoegerung`, Ereignis `suche`), `kit-input-token` (anzeigen, kopieren) und `kit-input-list` (Datalist), dazu Regeln in `vue3/kit.css` und beiden Themes.

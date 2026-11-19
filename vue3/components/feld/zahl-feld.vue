@@ -9,7 +9,7 @@ defineOptions({ name: 'KitZahlFeld', inheritAttrs: false })
 const props = defineProps<
   FeldProps & {
     basis: string
-    step?: string
+    step?: string | number
     inputmode?: string
     suffix?: string
     standardAria?: string
