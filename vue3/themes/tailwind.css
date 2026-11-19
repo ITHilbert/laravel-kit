@@ -4,593 +4,601 @@
  */
 @reference "tailwindcss";
 
-/* Dialog */
-.kit-dialog__trigger {
-  @apply inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
-}
-
-.kit-dialog__trigger:disabled {
-  @apply cursor-not-allowed opacity-50;
-}
-
-.kit-dialog__overlay {
-  @apply bg-black/50;
-}
-
-.kit-dialog__content {
-  @apply w-full max-w-lg rounded-md border border-gray-200 bg-white p-6 shadow-lg focus:outline-none;
-}
-
-.kit-dialog__content.is-open {
-  @apply block;
-}
-
-.kit-dialog__title {
-  @apply mb-4 text-lg font-semibold text-gray-900;
-}
-
-.kit-dialog__close {
-  @apply mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
-}
-
-.kit-dialog__close:disabled {
-  @apply cursor-not-allowed opacity-50;
-}
-
-/* Tabs */
-.kit-tabs {
-  @apply w-full;
-}
-
-.kit-tabs__list {
-  @apply flex border-b border-gray-200;
-}
-
-.kit-tabs__tab {
-  @apply -mb-px border-b-2 border-transparent px-4 py-2 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
-}
-
-.kit-tabs__tab.is-active {
-  @apply border-blue-600 text-blue-600;
-}
-
-.kit-tabs__tab.disabled,
-.kit-tabs__tab:disabled {
-  @apply cursor-not-allowed opacity-50;
-}
-
-.kit-tabs__panel {
-  @apply py-4 focus:outline-none;
-}
-
-/* Accordion */
-.kit-accordion {
-  @apply w-full divide-y divide-gray-200 rounded-md border border-gray-200;
-}
-
-.kit-accordion__item {
-  @apply bg-white;
-}
-
-.kit-accordion__item.disabled {
-  @apply opacity-50;
-}
-
-.kit-accordion__item.disabled .kit-accordion__trigger {
-  @apply cursor-not-allowed;
-}
-
-.kit-accordion__trigger {
-  @apply flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
-}
-
-.kit-accordion__item.is-open .kit-accordion__trigger {
-  @apply bg-gray-50;
-}
-
-.kit-accordion__content {
-  @apply px-4 py-3 text-sm text-gray-700;
-}
-
-.kit-accordion__item.is-open .kit-accordion__content {
-  @apply block;
-}
-
-/* Felder: Combobox, Suche, Token-Eingabe, Liste */
-.kit-combobox {
-  @apply flex items-stretch;
-}
-
-.kit-combobox.is-invalid .kit-combobox__input {
-  @apply border-red-500;
-}
-
-.kit-combobox.disabled,
-.kit-search.disabled,
-.kit-input-token.disabled,
-.kit-input-list.disabled {
-  @apply opacity-60;
-}
-
-.kit-combobox__input,
-.kit-search__input,
-.kit-input-token__input,
-.kit-input-list__input {
-  @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
-}
-
-.kit-combobox__input {
-  @apply rounded-r-none;
-}
-
-.kit-combobox__trigger,
-.kit-input-token__toggle,
-.kit-input-token__copy {
-  @apply inline-flex cursor-pointer items-center border border-gray-300 bg-gray-50 px-3 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed;
-}
-
-.kit-combobox__trigger {
-  @apply -ml-px rounded-r-md;
-}
-
-.kit-input-token {
-  @apply gap-1;
-}
-
-.kit-input-token__toggle,
-.kit-input-token__copy {
-  @apply rounded-md;
-}
-
-.kit-input-token__toggle.is-active,
-.kit-input-token__copy.is-active {
-  @apply text-blue-600;
-}
-
-.kit-input-token__status {
-  @apply text-xs text-green-600;
-}
-
-.kit-combobox__list {
-  @apply mt-0.5 rounded-md border border-gray-200 bg-white py-1 text-sm text-gray-900 shadow-lg;
-}
-
-.kit-combobox__item {
-  @apply cursor-pointer px-3 py-1.5 hover:bg-gray-100;
-}
-
-.kit-combobox__item[data-highlighted] {
-  @apply bg-gray-100;
-}
-
-.kit-combobox__item.is-active {
-  @apply bg-blue-600 text-white;
-}
-
-.kit-combobox__item.disabled {
-  @apply cursor-not-allowed opacity-50;
-}
-
-.kit-combobox__empty {
-  @apply px-3 py-1.5 text-gray-500;
-}
-
-.kit-search__icon {
-  @apply size-4 text-gray-400;
-}
-
-.kit-search__input {
-  @apply pl-8 pr-8;
-}
-
-.kit-search__clear {
-  @apply cursor-pointer border-0 bg-transparent px-2 leading-none text-gray-400 hover:text-gray-600;
-}
-
-.kit-search.is-invalid .kit-search__input {
-  @apply border-red-500;
-}
-
-.kit-input-token.is-invalid .kit-input-token__input {
-  @apply border-red-500;
-}
-
-.kit-input-list.is-invalid .kit-input-list__input {
-  @apply border-red-500;
-}
-
-.kit-input-list__datalist {
-  @apply hidden;
-}
-
-/* Felder: Text, Zahl, Datum, Datei, Auswahl, Kontrollkästchen, Schalter, Label, Formular, Eingabegruppe */
-.kit-input-text {
-  @apply mb-4;
-}
-
-.kit-input-text.is-invalid .kit-input-text__input {
-  @apply border-red-600;
-}
-
-.kit-input-text.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-email {
-  @apply mb-4;
-}
-
-.kit-input-email.is-invalid .kit-input-email__input {
-  @apply border-red-600;
-}
-
-.kit-input-email.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-password {
-  @apply mb-4;
-}
-
-.kit-input-password.is-invalid .kit-input-password__input {
-  @apply border-red-600;
-}
-
-.kit-input-password.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-number {
-  @apply mb-4;
-}
-
-.kit-input-number.is-invalid .kit-input-number__input {
-  @apply border-red-600;
-}
-
-.kit-input-number.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-int {
-  @apply mb-4;
-}
-
-.kit-input-int.is-invalid .kit-input-int__input {
-  @apply border-red-600;
-}
-
-.kit-input-int.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-euro {
-  @apply mb-4;
-}
-
-.kit-input-euro.is-invalid .kit-input-euro__input {
-  @apply border-red-600;
-}
-
-.kit-input-euro.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-percent {
-  @apply mb-4;
-}
-
-.kit-input-percent.is-invalid .kit-input-percent__input {
-  @apply border-red-600;
-}
-
-.kit-input-percent.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-date {
-  @apply mb-4;
-}
-
-.kit-input-date.is-invalid .kit-input-date__input {
-  @apply border-red-600;
-}
-
-.kit-input-date.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-color {
-  @apply mb-4;
-}
-
-.kit-input-color.is-invalid .kit-input-color__input {
-  @apply border-red-600;
-}
-
-.kit-input-color.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-file {
-  @apply mb-4;
-}
-
-.kit-input-file.is-invalid .kit-input-file__input {
-  @apply border-red-600;
-}
-
-.kit-input-file.disabled {
-  @apply opacity-60;
-}
-
-.kit-textarea {
-  @apply mb-4;
-}
-
-.kit-textarea.is-invalid .kit-textarea__input {
-  @apply border-red-600;
-}
-
-.kit-textarea.disabled {
-  @apply opacity-60;
-}
-
-.kit-select {
-  @apply mb-4;
-}
-
-.kit-select.is-invalid .kit-select__input {
-  @apply border-red-600;
-}
-
-.kit-select.disabled {
-  @apply opacity-60;
-}
-
-.kit-checkbox {
-  @apply mb-4;
-}
-
-.kit-checkbox.is-invalid .kit-checkbox__input {
-  @apply border-red-600;
-}
-
-.kit-checkbox.disabled {
-  @apply opacity-60;
-}
-
-.kit-radio {
-  @apply mb-4;
-}
-
-.kit-radio.is-invalid .kit-radio__input {
-  @apply border-red-600;
-}
-
-.kit-radio.disabled {
-  @apply opacity-60;
-}
-
-.kit-toggle {
-  @apply mb-4;
-}
-
-.kit-toggle.is-invalid .kit-toggle__input {
-  @apply border-red-600;
-}
-
-.kit-toggle.disabled {
-  @apply opacity-60;
-}
-
-.kit-input-text__label,
-.kit-input-email__label,
-.kit-input-password__label,
-.kit-input-number__label,
-.kit-input-int__label,
-.kit-input-euro__label,
-.kit-input-percent__label,
-.kit-input-date__label,
-.kit-input-color__label,
-.kit-input-file__label,
-.kit-textarea__label,
-.kit-select__label,
-.kit-combobox__label,
-.kit-checkbox__label,
-.kit-radio__label,
-.kit-toggle__label {
-  @apply mb-2 inline-block text-sm font-medium text-gray-700;
-}
-
-.kit-checkbox__label,
-.kit-radio__label,
-.kit-toggle__label {
-  @apply mb-0 ml-2;
-}
-
-.kit-input-text__input,
-.kit-input-email__input,
-.kit-input-password__input,
-.kit-input-number__input,
-.kit-input-int__input,
-.kit-input-euro__input,
-.kit-input-percent__input,
-.kit-input-date__input,
-.kit-textarea__input,
-.kit-select__input,
-.kit-input-color__input,
-.kit-input-file__input {
-  @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
-}
-
-.kit-input-color__input {
-  @apply h-10 p-1;
-}
-
-.kit-textarea__input {
-  @apply min-h-20;
-}
-
-.kit-checkbox__input,
-.kit-radio__input {
-  @apply h-4 w-4 align-top accent-blue-600;
-}
-
-.kit-input-password__toggle {
-  @apply ml-2 mt-0 cursor-pointer border-0 bg-transparent p-0 text-sm text-blue-600 hover:text-blue-700 disabled:cursor-not-allowed;
-}
-
-.kit-input-password__toggle.is-active {
-  @apply text-blue-800;
-}
-
-.kit-input-euro__suffix,
-.kit-input-percent__suffix {
-  @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
-}
-
-.kit-toggle__input {
-  @apply inline-block h-5 w-9 cursor-pointer rounded-full border border-gray-300 bg-gray-300 p-0.5 align-middle disabled:cursor-not-allowed;
-}
-
-.kit-toggle__thumb {
-  @apply block h-4 w-4 rounded-full bg-white transition-transform;
-}
-
-.kit-toggle.is-active .kit-toggle__input {
-  @apply border-blue-600 bg-blue-600;
-}
-
-/* Spurbreite (w-9 = 2.25rem) minus Knopfbreite (w-4 = 1rem) minus beide Rahmen (1px je Seite). */
-.kit-toggle.is-active .kit-toggle__thumb {
-  transform: translateX(calc(2.25rem - 1rem - 2px));
-}
-
-.kit-input-text__error,
-.kit-input-email__error,
-.kit-input-password__error,
-.kit-input-number__error,
-.kit-input-int__error,
-.kit-input-euro__error,
-.kit-input-percent__error,
-.kit-input-date__error,
-.kit-input-color__error,
-.kit-input-file__error,
-.kit-textarea__error,
-.kit-select__error,
-.kit-combobox__error,
-.kit-checkbox__error,
-.kit-radio__error,
-.kit-toggle__error {
-  @apply mt-1 block text-sm text-red-600;
-}
-
-.kit-label {
-  @apply mb-2 inline-block text-sm font-medium text-gray-700;
-}
-
-.kit-form {
-  @apply mb-4;
-}
-
-.kit-input-group {
-  @apply mb-4;
-}
-
-.kit-input-group-text {
-  @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
-}
-
-/* Blade-Theme kern: Buttons, Cards, Tabs-Inhalt, Breadcrumb, Anzeigen */
-.kit-button {
-  @apply inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white no-underline hover:brightness-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
-}
-
-.kit-button:disabled,
-.kit-button.disabled {
-  @apply pointer-events-none opacity-50;
-}
-
-.kit-button__icon {
-  @apply shrink-0;
-}
-
-.kit-button[data-variant="primary"],
-.kit-button[data-variant="save"] {
-  @apply bg-blue-600;
-}
-
-.kit-button[data-variant="secondary"],
-.kit-button[data-variant="back"] {
-  @apply bg-gray-600;
-}
-
-.kit-button[data-variant="cancel"] {
-  @apply bg-gray-500;
-}
-
-.kit-button[data-variant="create"] {
-  @apply bg-green-600;
-}
-
-.kit-button[data-variant="delete"] {
-  @apply bg-red-600;
-}
-
-.kit-button[data-variant="edit"] {
-  @apply bg-yellow-400 text-gray-900;
-}
-
-.kit-button[data-variant="show"] {
-  @apply bg-cyan-500 text-gray-900;
-}
-
-.kit-button[data-variant="submit"] {
-  @apply bg-blue-700;
-}
-
-.kit-card {
-  @apply mb-4 rounded-md border border-gray-200 bg-white shadow-sm;
-}
-
-.kit-card__header {
-  @apply rounded-t-md border-b border-gray-200 bg-gray-50 px-4 py-3 font-semibold text-gray-900;
-}
-
-.kit-card__body {
-  @apply px-4 py-4 text-sm text-gray-700;
-}
-
-.kit-card__footer {
-  @apply rounded-b-md border-t border-gray-200 bg-gray-50 px-4 py-3;
-}
-
-.kit-tabs__body {
-  @apply rounded-b-md border border-t-0 border-gray-200 px-4;
-}
-
-.kit-breadcrumb {
-  @apply mb-4 text-sm text-gray-500;
-}
-
-.kit-breadcrumb__list {
-  @apply m-0 flex list-none flex-wrap gap-2 p-0;
-}
-
-.kit-breadcrumb__list > li + li::before {
-  @apply mr-2 text-gray-400;
-  content: "/";
-}
-
-.kit-breadcrumb__list > li:last-child {
-  @apply text-gray-900;
-}
-
-.kit-show-euro {
-  @apply whitespace-nowrap text-right tabular-nums;
-}
-
-.kit-show-date {
-  @apply whitespace-nowrap;
+@layer components {
+  /* Dialog */
+  .kit-dialog__trigger {
+    @apply inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+  }
+
+  .kit-dialog__trigger:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .kit-dialog__overlay {
+    @apply bg-black/50;
+  }
+
+  .kit-dialog__content {
+    @apply w-full max-w-lg rounded-md border border-gray-200 bg-white p-6 shadow-lg focus:outline-none;
+  }
+
+  .kit-dialog__content.is-open {
+    @apply block;
+  }
+
+  .kit-dialog__title {
+    @apply mb-4 text-lg font-semibold text-gray-900;
+  }
+
+  .kit-dialog__close {
+    @apply mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+  }
+
+  .kit-dialog__close:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  /* Tabs */
+  .kit-tabs {
+    @apply w-full;
+  }
+
+  .kit-tabs__list {
+    @apply flex border-b border-gray-200;
+  }
+
+  .kit-tabs__tab {
+    @apply -mb-px border-b-2 border-transparent px-4 py-2 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+  }
+
+  .kit-tabs__tab.is-active {
+    @apply border-blue-600 text-blue-600;
+  }
+
+  .kit-tabs__tab.disabled,
+  .kit-tabs__tab:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .kit-tabs__panel {
+    @apply py-4 focus:outline-none;
+  }
+
+  /* Accordion */
+  .kit-accordion {
+    @apply w-full divide-y divide-gray-200 rounded-md border border-gray-200;
+  }
+
+  .kit-accordion__item {
+    @apply bg-white;
+  }
+
+  .kit-accordion__item.disabled {
+    @apply opacity-50;
+  }
+
+  .kit-accordion__item.disabled .kit-accordion__trigger {
+    @apply cursor-not-allowed;
+  }
+
+  .kit-accordion__trigger {
+    @apply flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+  }
+
+  .kit-accordion__item.is-open .kit-accordion__trigger {
+    @apply bg-gray-50;
+  }
+
+  .kit-accordion__content {
+    @apply px-4 py-3 text-sm text-gray-700;
+  }
+
+  .kit-accordion__item.is-open .kit-accordion__content {
+    @apply block;
+  }
+
+  /* Felder: Combobox, Suche, Token-Eingabe, Liste */
+  .kit-combobox {
+    @apply flex items-stretch;
+  }
+
+  .kit-combobox.is-invalid .kit-combobox__input {
+    @apply border-red-500;
+  }
+
+  .kit-combobox.disabled,
+  .kit-search.disabled,
+  .kit-input-token.disabled,
+  .kit-input-list.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-combobox__input,
+  .kit-search__input,
+  .kit-input-token__input,
+  .kit-input-list__input {
+    @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
+  }
+
+  .kit-combobox__input {
+    @apply rounded-r-none;
+  }
+
+  .kit-combobox__trigger,
+  .kit-input-token__toggle,
+  .kit-input-token__copy {
+    @apply inline-flex cursor-pointer items-center border border-gray-300 bg-gray-50 px-3 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed;
+  }
+
+  .kit-combobox__trigger {
+    @apply -ml-px rounded-r-md;
+  }
+
+  .kit-input-token {
+    @apply gap-1;
+  }
+
+  .kit-input-token__toggle,
+  .kit-input-token__copy {
+    @apply rounded-md;
+  }
+
+  .kit-input-token__toggle.is-active,
+  .kit-input-token__copy.is-active {
+    @apply text-blue-600;
+  }
+
+  .kit-input-token__status {
+    @apply text-xs text-green-600;
+  }
+
+  .kit-combobox__list {
+    @apply mt-0.5 rounded-md border border-gray-200 bg-white py-1 text-sm text-gray-900 shadow-lg;
+  }
+
+  .kit-combobox__item {
+    @apply cursor-pointer px-3 py-1.5 hover:bg-gray-100;
+  }
+
+  .kit-combobox__item[data-highlighted] {
+    @apply bg-gray-100;
+  }
+
+  .kit-combobox__item.is-active {
+    @apply bg-blue-600 text-white;
+  }
+
+  .kit-combobox__item.disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .kit-combobox__empty {
+    @apply px-3 py-1.5 text-gray-500;
+  }
+
+  .kit-search__icon {
+    @apply size-4 text-gray-400;
+  }
+
+  .kit-search__input {
+    @apply pl-8 pr-8;
+  }
+
+  .kit-search__clear {
+    @apply cursor-pointer border-0 bg-transparent px-2 leading-none text-gray-400 hover:text-gray-600;
+  }
+
+  .kit-search.is-invalid .kit-search__input {
+    @apply border-red-500;
+  }
+
+  .kit-input-token.is-invalid .kit-input-token__input {
+    @apply border-red-500;
+  }
+
+  .kit-input-list.is-invalid .kit-input-list__input {
+    @apply border-red-500;
+  }
+
+  .kit-input-list__datalist {
+    @apply hidden;
+  }
+
+  /* Felder: Text, Zahl, Datum, Datei, Auswahl, Kontrollkästchen, Schalter, Label, Formular, Eingabegruppe */
+  .kit-input-text {
+    @apply mb-4;
+  }
+
+  .kit-input-text.is-invalid .kit-input-text__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-text.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-email {
+    @apply mb-4;
+  }
+
+  .kit-input-email.is-invalid .kit-input-email__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-email.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-password {
+    @apply mb-4;
+  }
+
+  .kit-input-password.is-invalid .kit-input-password__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-password.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-number {
+    @apply mb-4;
+  }
+
+  .kit-input-number.is-invalid .kit-input-number__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-number.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-int {
+    @apply mb-4;
+  }
+
+  .kit-input-int.is-invalid .kit-input-int__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-int.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-euro {
+    @apply mb-4;
+  }
+
+  .kit-input-euro.is-invalid .kit-input-euro__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-euro.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-percent {
+    @apply mb-4;
+  }
+
+  .kit-input-percent.is-invalid .kit-input-percent__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-percent.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-date {
+    @apply mb-4;
+  }
+
+  .kit-input-date.is-invalid .kit-input-date__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-date.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-color {
+    @apply mb-4;
+  }
+
+  .kit-input-color.is-invalid .kit-input-color__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-color.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-file {
+    @apply mb-4;
+  }
+
+  .kit-input-file.is-invalid .kit-input-file__input {
+    @apply border-red-600;
+  }
+
+  .kit-input-file.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-textarea {
+    @apply mb-4;
+  }
+
+  .kit-textarea.is-invalid .kit-textarea__input {
+    @apply border-red-600;
+  }
+
+  .kit-textarea.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-select {
+    @apply mb-4;
+  }
+
+  .kit-select.is-invalid .kit-select__input {
+    @apply border-red-600;
+  }
+
+  .kit-select.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-checkbox {
+    @apply mb-4;
+  }
+
+  .kit-checkbox.is-invalid .kit-checkbox__input {
+    @apply border-red-600;
+  }
+
+  .kit-checkbox.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-radio {
+    @apply mb-4;
+  }
+
+  .kit-radio.is-invalid .kit-radio__input {
+    @apply border-red-600;
+  }
+
+  .kit-radio.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-toggle {
+    @apply mb-4;
+  }
+
+  .kit-toggle.is-invalid .kit-toggle__input {
+    @apply border-red-600;
+  }
+
+  .kit-toggle.disabled {
+    @apply opacity-60;
+  }
+
+  .kit-input-text__label,
+  .kit-input-email__label,
+  .kit-input-password__label,
+  .kit-input-number__label,
+  .kit-input-int__label,
+  .kit-input-euro__label,
+  .kit-input-percent__label,
+  .kit-input-date__label,
+  .kit-input-color__label,
+  .kit-input-file__label,
+  .kit-textarea__label,
+  .kit-select__label,
+  .kit-combobox__label,
+  .kit-checkbox__label,
+  .kit-radio__label,
+  .kit-toggle__label {
+    @apply mb-2 inline-block text-sm font-medium text-gray-700;
+  }
+
+  .kit-checkbox__label,
+  .kit-radio__label,
+  .kit-toggle__label {
+    @apply mb-0 ml-2;
+  }
+
+  .kit-input-text__input,
+  .kit-input-email__input,
+  .kit-input-password__input,
+  .kit-input-number__input,
+  .kit-input-int__input,
+  .kit-input-euro__input,
+  .kit-input-percent__input,
+  .kit-input-date__input,
+  .kit-textarea__input,
+  .kit-select__input,
+  .kit-input-color__input,
+  .kit-input-file__input {
+    @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
+  }
+
+  .kit-input-color__input {
+    @apply h-10 p-1;
+  }
+
+  .kit-textarea__input {
+    @apply min-h-20;
+  }
+
+  .kit-checkbox__input,
+  .kit-radio__input {
+    @apply h-4 w-4 align-top accent-blue-600;
+  }
+
+  .kit-input-password__toggle {
+    @apply ml-2 mt-0 cursor-pointer border-0 bg-transparent p-0 text-sm text-blue-600 hover:text-blue-700 disabled:cursor-not-allowed;
+  }
+
+  .kit-input-password__toggle.is-active {
+    @apply text-blue-800;
+  }
+
+  /* Zusatz schließt rechts an das Feld an: ein gemeinsamer Rand, Feld ohne rechte Rundung. */
+  .kit-input-euro__input,
+  .kit-input-percent__input {
+    @apply rounded-r-none;
+  }
+
+  .kit-input-euro__suffix,
+  .kit-input-percent__suffix {
+    @apply -ml-px rounded-l-none rounded-r-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+  }
+
+  .kit-toggle__input {
+    @apply inline-block h-5 w-9 cursor-pointer rounded-full border border-gray-300 bg-gray-300 p-0.5 align-middle disabled:cursor-not-allowed;
+  }
+
+  .kit-toggle__thumb {
+    @apply block h-4 w-4 rounded-full bg-white transition-transform;
+  }
+
+  .kit-toggle.is-active .kit-toggle__input {
+    @apply border-blue-600 bg-blue-600;
+  }
+
+  /* Spurbreite (w-9 = 2.25rem) minus Knopfbreite (w-4 = 1rem) minus beide Rahmen (1px je Seite). */
+  .kit-toggle.is-active .kit-toggle__thumb {
+    transform: translateX(calc(2.25rem - 1rem - 2px));
+  }
+
+  .kit-input-text__error,
+  .kit-input-email__error,
+  .kit-input-password__error,
+  .kit-input-number__error,
+  .kit-input-int__error,
+  .kit-input-euro__error,
+  .kit-input-percent__error,
+  .kit-input-date__error,
+  .kit-input-color__error,
+  .kit-input-file__error,
+  .kit-textarea__error,
+  .kit-select__error,
+  .kit-combobox__error,
+  .kit-checkbox__error,
+  .kit-radio__error,
+  .kit-toggle__error {
+    @apply mt-1 block text-sm text-red-600;
+  }
+
+  .kit-label {
+    @apply mb-2 inline-block text-sm font-medium text-gray-700;
+  }
+
+  .kit-form {
+    @apply mb-4;
+  }
+
+  .kit-input-group {
+    @apply mb-4;
+  }
+
+  .kit-input-group-text {
+    @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+  }
+
+  /* Blade-Theme kern: Buttons, Cards, Tabs-Inhalt, Breadcrumb, Anzeigen */
+  .kit-button {
+    @apply inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white no-underline hover:brightness-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+  }
+
+  .kit-button:disabled,
+  .kit-button.disabled {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .kit-button__icon {
+    @apply shrink-0;
+  }
+
+  .kit-button[data-variant="primary"],
+  .kit-button[data-variant="save"] {
+    @apply bg-blue-600;
+  }
+
+  .kit-button[data-variant="secondary"],
+  .kit-button[data-variant="back"] {
+    @apply bg-gray-600;
+  }
+
+  .kit-button[data-variant="cancel"] {
+    @apply bg-gray-500;
+  }
+
+  .kit-button[data-variant="create"] {
+    @apply bg-green-600;
+  }
+
+  .kit-button[data-variant="delete"] {
+    @apply bg-red-600;
+  }
+
+  .kit-button[data-variant="edit"] {
+    @apply bg-yellow-400 text-gray-900;
+  }
+
+  .kit-button[data-variant="show"] {
+    @apply bg-cyan-500 text-gray-900;
+  }
+
+  .kit-button[data-variant="submit"] {
+    @apply bg-blue-700;
+  }
+
+  .kit-card {
+    @apply mb-4 rounded-md border border-gray-200 bg-white shadow-sm;
+  }
+
+  .kit-card__header {
+    @apply rounded-t-md border-b border-gray-200 bg-gray-50 px-4 py-3 font-semibold text-gray-900;
+  }
+
+  .kit-card__body {
+    @apply px-4 py-4 text-sm text-gray-700;
+  }
+
+  .kit-card__footer {
+    @apply rounded-b-md border-t border-gray-200 bg-gray-50 px-4 py-3;
+  }
+
+  .kit-tabs__body {
+    @apply rounded-b-md border border-t-0 border-gray-200 px-4;
+  }
+
+  .kit-breadcrumb {
+    @apply mb-4 text-sm text-gray-500;
+  }
+
+  .kit-breadcrumb__list {
+    @apply m-0 flex list-none flex-wrap gap-2 p-0;
+  }
+
+  .kit-breadcrumb__list > li + li::before {
+    @apply mr-2 text-gray-400;
+    content: "/";
+  }
+
+  .kit-breadcrumb__list > li:last-child {
+    @apply text-gray-900;
+  }
+
+  .kit-show-euro {
+    @apply whitespace-nowrap text-right tabular-nums;
+  }
+
+  .kit-show-date {
+    @apply whitespace-nowrap;
+  }
 }

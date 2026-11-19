@@ -38,11 +38,17 @@ Im Kit entsteht der Ordner `vue3/` mit Einstieg, Basis-CSS, zwei Theme-Dateien u
 - **AK13** Gegeben der Host `packages_dev` (Vue 3, Laravel Mix 6), Wenn er `vue3/index.ts` einbindet und `npm run production` läuft, Dann baut er ohne Fehler, und die Seite `/ui-kit-vue3` (neu, nur im Host) zeigt Dialog, Tabs und Accordion mit dem Bootstrap-5-Theme ohne Konsolenfehler.
 - **AK14** Gegeben README und CHANGELOG des Kits, Wenn gelesen wird, Dann beschreibt die README den Ordner `vue3/`, die Klassenregel (`kit-`, `__`, Zustände), das Einbinden (`KitVue3`, `kitKomponenten` mit `mountInseln`, Theme-Datei, `npm install reka-ui`), und `vue/README.md` sagt, dass nur `vue/tailwind/` Vue 3 ist und die Varianten unter `vue/` nicht mehr gepflegt werden.
 
+- **AK15** (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht; Joerg, Chat 2026-11-19: „stelle das laravel-kit nun fertig ohne weitere Rückfragen“) (#679) Gegeben `vue3/themes/tailwind.css`, Wenn sie gelesen wird, Dann stehen alle Regeln für `kit-`-Klassen in `@layer components`, sodass Tailwind-Utilities aus `@layer utilities` (z. B. `hidden`, `mt-4`) an einem Kit-Element die Theme-Regel überschreiben.
+- **AK16** (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht; Joerg, Chat 2026-11-19: „stelle das laravel-kit nun fertig ohne weitere Rückfragen“) (#1556) Gegeben beide Theme-Dateien, Wenn der Test sie mit den echten Werkzeugen übersetzt (`vue3/themes/bootstrap5.scss` mit Dart Sass und dem Bootstrap-5.2-Sass, `vue3/themes/tailwind.css` mit Tailwind 4), Dann übersetzen beide ohne Fehler.
+- **AK17** (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht; Joerg, Chat 2026-11-19: „stelle das laravel-kit nun fertig ohne weitere Rückfragen“) (#1556) Gegeben das Kit, Wenn `npm run typecheck` läuft (`vue-tsc --noEmit` über `vue3/`), Dann endet es ohne Typfehler.
+- **AK18** (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht; Joerg, Chat 2026-11-19: „stelle das laravel-kit nun fertig ohne weitere Rückfragen“) (#1556) Gegeben die README, Abschnitt „Vue 3“, Einbinden über `mountInseln`, Wenn gelesen wird, Dann steht dort, dass eine Insel nur ihre `data-props` bekommt und HTML-Inhalt im Insel-Element verworfen wird; Komponenten mit Slots (Dialog, Tabs, Accordion) bindet man über das Plugin `KitVue3` in einer Vue-App ein.
+
 ## Randfälle
 1. Ein Dialog ohne `<kit-dialog-title>`: kein Fehler, Reka-Warnung in der Konsole ist erlaubt.
 2. Tabs ohne `default-value`: kein Tab aktiv, kein Fehler.
 3. Zwei Dialoge auf einer Seite: Es ist immer nur der zuletzt geöffnete fokussiert; Escape schließt nur ihn.
 4. Der Dialog rendert per Teleport an `body`; im Insel-Betrieb liegt der Inhalt trotzdem außerhalb der Insel.
+5. Konfiguration der Typprüfung (AK17): Das Kit legt sie nicht als `tsconfig.json` ab, sondern unter eigenem Namen (z. B. `tsconfig.typecheck.json`), und `typecheck` nennt sie per `-p`. Grund: ts-loader, Vite und esbuild eines einbindenden Projekts lesen die nächstgelegene `tsconfig.json`; der Host `packages_dev` (TypeScript 4.9) brach am `moduleResolution: Bundler` des Kits ab. Ein Projekt baut die Kit-Dateien mit seiner eigenen Konfiguration. (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht)
 
 ## Nicht-Ziele
 - Combobox, Token-Eingabe, Suche, Liste/DataTable und die einfachen Felder (eigene Features danach).
@@ -51,4 +57,4 @@ Im Kit entsteht der Ordner `vue3/` mit Einstieg, Basis-CSS, zwei Theme-Dateien u
 - Eigene Optik über die Theme-Dateien hinaus; das Aussehen der Themes ist schlicht und an Bootstrap 5 bzw. Tailwind-Standardwerte angelehnt.
 
 ## Entscheidungsspielraum
-Interne Struktur der Komponenten, Namen von Props über die genannten hinaus, Aufbau des Basis-CSS. Neue npm-Pakete nur: `reka-ui` (Laufzeit) und die Testwerkzeuge Vitest, `@vue/test-utils`, `happy-dom` (nur Entwicklung).
+Interne Struktur der Komponenten, Namen von Props über die genannten hinaus, Aufbau des Basis-CSS. Neue npm-Pakete nur: `reka-ui` (Laufzeit) und die Testwerkzeuge Vitest, `@vue/test-utils`, `happy-dom` (nur Entwicklung). Ergänzt 2026-11-19 (#1556, Moderator in Vollmacht): als Entwicklungs-Pakete außerdem `vue`, `@vitejs/plugin-vue`, `typescript` (Tests), `vue-tsc` (AK17), `sass`, `bootstrap` 5.2, `tailwindcss` und `@tailwindcss/node` (AK16).

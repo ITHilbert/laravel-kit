@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:js": "vitest run --reporter=tap-flat"
+    "test:js": "vitest run --reporter=tap-flat",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.typecheck.json"
   },
   "keywords": [],
   "author": "",
@@ -20,16 +21,21 @@
     "marked": "^18.0.0"
   },
   "peerDependencies": {
-    "vue": "^3.5",
-    "reka-ui": "~2.11"
+    "reka-ui": "~2.11",
+    "vue": "^3.5"
   },
   "devDependencies": {
-    "vue": "^3.5",
-    "reka-ui": "~2.11",
-    "vitest": "^5.1",
-    "@vue/test-utils": "^2.4",
-    "happy-dom": "^21.0.4",
+    "@tailwindcss/node": "^4.3.5",
     "@vitejs/plugin-vue": "^6.0.11",
-    "typescript": "^5"
+    "@vue/test-utils": "^2.4",
+    "bootstrap": "~5.2",
+    "happy-dom": "^21.0.4",
+    "reka-ui": "~2.11",
+    "sass": "^1.108.2",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5",
+    "vitest": "^5.1",
+    "vue": "^3.5",
+    "vue-tsc": "^3.3.14"
   }
 }

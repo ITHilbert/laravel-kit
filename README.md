@@ -298,6 +298,10 @@ Der Vue-3-Kern liegt im Ordner `vue3/` (Dialog, Tabs, Accordion auf Basis von Re
 - Zustände sind `is-open`, `is-active`, `is-invalid` und `disabled`.
 - Der Kern nutzt keine Bootstrap- oder Tailwind-Klassen; die Zuordnung steht in den Themes.
 
+### Grenzen der Inseln
+
+Eine Insel bekommt nur ihre `data-props` (JSON-Objekt); `mountInseln` übergibt nichts anderes. HTML-Inhalt im Insel-Element wird beim Mounten verworfen, er erscheint nicht als Slot. Komponenten mit Slots (Dialog, Tabs, Accordion) bindet man daher nicht als Insel, sondern in einer eigenen Vue-Komponente über das Plugin `KitVue3` ein (`app.use(KitVue3)`).
+
 ### Einbinden
 
 1. `npm install reka-ui` (dazu `vue` ab 3.5).
@@ -350,7 +354,7 @@ Einfache Formularfelder des Vue-3-Kerns. Gemeinsame Props der Felder: `modelValu
 | `kit-radio` | `value` | `kit-radio`, `kit-radio__label`, `kit-radio__input`, `kit-radio__error` |
 | `kit-toggle` | keine | `kit-toggle`, `kit-toggle__label`, `kit-toggle__input`, `kit-toggle__error`, `kit-toggle__thumb` |
 | `kit-label` | `for` | `kit-label` |
-| `kit-form` | `action`, `method` (`put`, `patch`, `delete` senden `_method`; `get` sendet weder `_token` noch `_method`) | `kit-form` |
+| `kit-form` | `action`, `method` (`put`, `patch`, `delete` senden `_method`; `get` sendet weder `_token` noch `_method`; ohne `method` sendet das Formular per `post`, bewusst abweichend vom HTML-Standard `get`) | `kit-form` |
 | `kit-input-group`, `kit-input-group-text` | keine | `kit-input-group`, `kit-input-group-text` |
 
 Besonderheiten: `kit-input-password` zeigt das Passwort über `__toggle` (`aria-pressed`, `is-active`). `kit-input-euro` und `kit-input-percent` setzen den Zusatz „€“ bzw. „%“ als `__suffix` hinter das Feld. `kit-select` bekommt `options` als `{ value, label, disabled? }`; mit `placeholder` steht eine leere erste Option davor. Ohne `placeholder` gibt es keine leere Option: Passt `modelValue` zu keiner Option (auch bei `null`), ist die erste wählbare Option angezeigt, wie bei einem nativen `<select>`. Diese Option wird auch an `v-model` gemeldet (`update:modelValue` beim Start und wenn `options` oder `modelValue` nicht mehr passen); ein Formular sendet den Wert der angezeigten Option. `kit-toggle` ist eine Schaltfläche mit `role="switch"`; mit `name` sendet sie ein verstecktes Feld (`1` bzw. `0`). `kit-form` ergänzt das `_token` aus dem Meta-Tag `csrf-token`.
@@ -424,6 +428,12 @@ In `resources/css/app.css` folgende Imports hinzufügen (NACH `@import 'tailwind
 **Auswirkung wenn fehlend:**
 - Ohne `buttons.css`: `<button-edit>`, `<button-delete>` etc. sind unsichtbar
 - Ohne `tabs.css`: Alle Tab-Inhalte sichtbar untereinander (CSS-Regeln `.tab-body.active` fehlen)
+
+Die übrigen alten Tailwind-CSS-Dateien unter `vue/tailwind/` (`dialog`, `card`, `tabs`, `breadcrumb`; eingefroren) bindet man mit `layer(components)` ein, sonst schlagen ihre Regeln die Utilities von Tailwind (z. B. `.dialog-overlay` das `.hidden`):
+
+```css
+@import '../../vendor/ithilbert/laravel-kit/vue/tailwind/dialog/dialog.css' layer(components);
+```
 
 #### 3. Vue globalProperty für window
 

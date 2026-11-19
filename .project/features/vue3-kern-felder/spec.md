@@ -66,6 +66,8 @@ Der Kern `vue3/` bekommt die einfachen Formularfelder. Sie ersetzen die Felder a
 3. `kit-select` ohne `placeholder`: keine leere erste Option. Passt kein `modelValue` zu einer Option (auch ohne `v-model` oder mit `null`), ist wie bei einem nativen `<select>` die erste wählbare Option gewählt, und ein Formular sendet unter `name` ihren Wert. (Ergänzt 2026-11-18 nach Review 1, Moderator in Vollmacht.)
 4. `kit-checkbox` ohne `value`: Formular sendet `on` (Browser-Standard).
 5. `kit-toggle` ohne `name`: kein verstecktes Feld.
+6. `kit-toggle` mit `name` und `disabled`: Das versteckte Feld ist ebenfalls `disabled`; ein Formular sendet unter `name` nichts, wie bei einem deaktivierten nativen Feld. (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht; Joerg, Chat 2026-11-19: „stelle das laravel-kit nun fertig ohne weitere Rückfragen“)
+7. Zahlenfelder (`kit-input-number`, `kit-input-int`, `kit-input-euro`, `kit-input-percent`): `step`, `min` und `max` nehmen Zahl oder Text an (`:step="0.5"` wie `step="0.5"`), ohne Vue-Warnung; das Attribut am Eingabefeld ist gleich. (#1611) (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht; Joerg, Chat 2026-11-19: „stelle das laravel-kit nun fertig ohne weitere Rückfragen“)
 
 ## Nicht-Ziele
 - Rich-Text-Editor, Markdown-Viewer, Anzeige-Komponenten (`show-*`), Karten, Raster, Navigation, Schaltflächen-Sammlung (`button-*`) — eigene Features bei Bedarf.

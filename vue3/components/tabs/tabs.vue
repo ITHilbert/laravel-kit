@@ -13,7 +13,7 @@ const props = defineProps<{
   orientation?: 'horizontal' | 'vertical'
 }>()
 
-const modell = defineModel<string>({ default: undefined })
+const modell = defineModel<string>()
 
 const slots = useSlots()
 
