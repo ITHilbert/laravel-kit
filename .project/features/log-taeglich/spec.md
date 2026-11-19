@@ -45,7 +45,7 @@ Laravel bringt beides schon mit (Treiber `daily`, Option `days`). Die Projekte n
 5. Ein großes `laravel.log` aus der Zeit vor der Umstellung wird nicht mehr beschrieben und nach N Tagen von `log:prune` gelöscht.
 6. Gecachte Config (`php artisan config:cache`): Die Umstellung aus AK1–AK7 wirkt trotzdem.
 7. Ein eigener `daily`-Kanal des Projekts mit anderem `path` bleibt bei seinem `path`; nur `days` folgt AK4.
-8. `LARAVELKIT_LOGS_TAGE` leer gesetzt (`LARAVELKIT_LOGS_TAGE=`): Es gilt der Standard 30 — für `days` des Kanals `daily` und für `log:prune` ohne `--days`. (Moderator 2026-11-19, Annahme aus dem Test-Writer-Bericht, Joerg zur Bestätigung gemeldet.)
+8. `LARAVELKIT_LOGS_TAGE` leer gesetzt (`LARAVELKIT_LOGS_TAGE=`): Es gilt der Standard 30 — für `days` des Kanals `daily` und für `log:prune` ohne `--days`. (Moderator 2026-11-19, bestätigt von Joerg, Chat 2026-11-19: „1. ja“.)
 
 ## Nicht-Ziele
 - `.env` oder `config/logging.php` der Projekte ändern.
