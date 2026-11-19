@@ -39,8 +39,10 @@ class LogPruneCommand extends Command
 
         if ($anzahl === 0 && $ergebnis['fehlgeschlagen'] === []) {
             $this->info('nichts zu tun');
+        } elseif ($anzahl === 1) {
+            $this->info('1 Datei '.($trocken ? 'würde gelöscht' : 'gelöscht'));
         } else {
-            $this->info($anzahl.' Dateien '.($trocken ? 'würde gelöscht' : 'gelöscht'));
+            $this->info($anzahl.' Dateien '.($trocken ? 'würden gelöscht' : 'gelöscht'));
         }
 
         return $ergebnis['fehlgeschlagen'] === [] ? self::SUCCESS : self::FAILURE;
