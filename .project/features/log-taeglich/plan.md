@@ -25,5 +25,8 @@ Offener Punkt a22a3a65c6d5a49f7: AK-fremd (Umstellung in boot() statt register()
 ## Nacharbeit #1732 (Review-Funde)
 Branch `fix/log-nacharbeit` (von `main` 22d243a1). Spec: AK6 neu formuliert, Randfall 9 ergänzt (Joerg, Chat 2026-11-19). Ablauf wie Bugfix.
 - [x] TW (test-writer a35fc8f17afcb3d48, rot: Randfall 9 3/4 — „1 Dateien gelöscht“ enthält nicht „1 Datei gelöscht“, „Dateien würde“ statt „würden“; AK6 und Randfall 8 geschärft, heute grün (Verhalten schon umgesetzt); grünbar: entfällt (Platz ohne Testbefehl für das Kit, Grünbarkeit Randfall 9 per GATE des Coders)) test-writer (AK6, Randfall 8, Randfall 9; abdeckung.md Zeilen Randfall 8 und 9) — Tests: `tests/Feature/Logs/LogTaeglichTest.php` (AK6), `tests/Feature/Logs/LogPruneCommandTest.php` (Randfall 8, Randfall 9)
-- [ ] T3 (Randfall 9) [junior] Schlusszeile von `log:prune` nach Anzahl — Tests: `tests/Feature/Logs/LogPruneCommandTest.php`, `tests/Feature/Logs/LogTaeglichTest.php`
+- [x] T3 (coder-junior a6a9bd94e48072784, GATE GRÜN: 48 passed) (Randfall 9) [junior] Schlusszeile von `log:prune` nach Anzahl — Tests: `tests/Feature/Logs/LogPruneCommandTest.php`, `tests/Feature/Logs/LogTaeglichTest.php`
+NACHWEIS (#1732): GATE GRÜN a6a9bd94e48072784; tests/Feature/Logs 43 OK; Echtlauf im Host `php artisan log:prune --dry-run` → „1 Datei würde gelöscht“ (browser.log), nichts gelöscht.
+Abweichung a6a9bd94e48072784: Fehlalarm: keine gemeldet
+Offener Punkt a6a9bd94e48072784: AK-fremd (0 Treffer mit nur Fehlschlägen → „0 Dateien gelöscht“ bzw. „0 Dateien würden gelöscht“ — korrektes Deutsch, Randfall 9 regelt 1 und N≥2)
 Review (#1732): entfällt (Text der Ausgabe und Testschärfung, kein Sicherheitsbezug).
