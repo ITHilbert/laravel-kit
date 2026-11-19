@@ -4,6 +4,7 @@
 - [zeitzone](zeitzone/spec.md) — #92 MyDateTime setzt die Zeitzone nicht mehr global, `HForm::date()` mit Wert repariert
 
 ## Geplant
+- [log-taeglich](log-taeglich/spec.md) — #1716 Log-Dateien je Tag (Kit stellt `single` auf `daily` um), `log:prune --days=30`, täglich im Scheduler
 
 ## Fertig
 - [combobox-ohne-jquery-ui](combobox-ohne-jquery-ui/spec.md) — #1359/#1366 Vue-Komponente `search`: Vanilla-Combobox statt jQuery UI, Installer ohne `jquery-ui`, Auswahl bleibt beim Neu-Rendern — gemergt 2026-11-16 (1.7.0)
