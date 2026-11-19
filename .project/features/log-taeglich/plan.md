@@ -1,6 +1,6 @@
 # Plan log-taeglich
 laravel-kit `feature/log-taeglich` (von `main` 2cf8248e). Dashboard #1716.
-Spec: [spec.md](spec.md) — Freigabe offen.
+Spec: [spec.md](spec.md) — freigegeben (Joerg, Chat 2026-11-19).
 
 ## Aufgaben
 - [ ] TW test-writer (AK1–AK14, Randfälle 1–7) — Tests:
@@ -16,4 +16,4 @@ Design: entfällt (keine Oberfläche).
 Review: nötig (Risiko kritisch: löscht Dateien, Querschnitt über alle Projekte).
 
 ## Stand
-Spec geschrieben, wartet auf Freigabe durch Joerg.
+Spec freigegeben. Nächster Schritt: test-writer (nach #1715).

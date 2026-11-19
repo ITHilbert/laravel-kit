@@ -1,7 +1,7 @@
 # Spec log-taeglich
 Risiko: kritisch (löscht Dateien; ändert das Logging jedes Projekts, das das Kit einbindet)
 Art: Feature — #1716 (Joerg, Chat 2026-11-19: „für jeden Tag eine Log-Datei“, „wenn das laravel-kit installiert ist, dann automatisch daily“, Command zum Löschen älterer Log-Dateien, „die 30 ein Übergabe-Parameter“).
-Status: Entwurf — Freigabe durch Joerg offen.
+Status: freigegeben (Joerg, Chat 2026-11-19: „1. ja“).
 Rückbau: entfällt (kein Übergangsstand)
 
 ## Ziel
