@@ -10,7 +10,7 @@ const props = defineProps<
   FeldProps & {
     basis: string
     step?: string | number
-    inputmode?: string
+    inputmode?: 'search' | 'text' | 'none' | 'email' | 'tel' | 'url' | 'numeric' | 'decimal'
     suffix?: string
     standardAria?: string
     modelValue?: number | null

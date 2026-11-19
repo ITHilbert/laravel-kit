@@ -13,7 +13,7 @@ const props = withDefaults(
   { type: 'single', collapsible: false, defaultValue: undefined },
 )
 
-const modell = defineModel<string | string[]>({ default: undefined })
+const modell = defineModel<string | string[]>()
 </script>
 
 <template>

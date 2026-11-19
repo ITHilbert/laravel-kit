@@ -23,7 +23,7 @@ export function useFeld(props: FeldProps) {
     id: inputId.value,
     name: props.name,
     disabled: props.disabled || undefined,
-    'aria-invalid': ungueltig.value ? 'true' : undefined,
+    'aria-invalid': ungueltig.value ? ('true' as const) : undefined,
     'aria-describedby': hatFehlertext.value ? errorId.value : undefined,
   }))
   return { inputId, errorId, hatFehlertext, ungueltig, eingabeAttribute }
