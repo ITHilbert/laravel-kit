@@ -1,7 +1,7 @@
 # Spec blade-kern
 Risiko: normal
 Art: Feature — letzter Schritt aus Entscheidung 0013 (Host `packages_dev`, `.project/doku/decisions/0013-laravel-kit-vue3-kern-ohne-framework-optik.md`, Punkt 5 und 6): Blade-Components ohne Framework-Optik. Kein Dashboard-Task.
-Status: freigegeben (Moderator in Vollmacht; Joerg, Chat 2026-11-18: „die Komponenten zu Ende umbauen ohne weitere Rückfragen“). AK18–AK21, Randfälle 6–7: Spec-Lücke #1715 (Joerg, Chat 2026-11-19: alte Komponenten klar als auslaufend kennzeichnen, Laufzeit-Hinweis „ja“) — Freigabe offen.
+Status: freigegeben (Moderator in Vollmacht; Joerg, Chat 2026-11-18: „die Komponenten zu Ende umbauen ohne weitere Rückfragen“). AK18–AK21, Randfälle 6–7: Spec-Lücke #1715 (Joerg, Chat 2026-11-19: alte Komponenten klar als auslaufend kennzeichnen, Laufzeit-Hinweis „ja“) — freigegeben (Joerg, Chat 2026-11-19: „2. ja“).
 Rückbau: entfällt (kein Übergangsstand; der Rückbau der alten Themes ist #1546)
 
 ## Ziel

@@ -49,7 +49,7 @@ Fehlerprotokoll: eingetragen 2026-11-18.
 Fertig: freigegeben 2026-11-18, Doku nachgezogen (README Theme `kern`: Klassen und Skript-Bindung), nach `main` gemergt.
 
 ## Nacharbeit #1715 — alte Komponenten als auslaufend kennzeichnen
-Branch `fix/auslauf-hinweise` (von `main` 2cf8248e). Ablauf Spec-Lücke → wie Bugfix (Regressions-Tests, CODE, GATE, NACHWEIS, Merge). Freigabe der AK18–AK21: offen.
+Branch `fix/auslauf-hinweise` (von `main` 2cf8248e). Ablauf Spec-Lücke → wie Bugfix (Regressions-Tests, CODE, GATE, NACHWEIS, Merge). Freigabe der AK18–AK21: Joerg, Chat 2026-11-19.
 - [ ] TW test-writer (AK18–AK21, Randfälle 6–7) — Tests:
   - `tests/Feature/KitComponents/AuslaufHinweisTest.php` (AK18, Randfälle 6, 7)
   - `tests/js/vueappAuslauf.test.mjs` (AK19)
