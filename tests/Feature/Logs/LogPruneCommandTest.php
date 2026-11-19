@@ -168,10 +168,42 @@ final class LogPruneCommandTest extends TestCase
         $this->dateienAusAk8();
         $this->datei('frisch.log', $this->tage(1));
 
-        $this->prune();
+        [$exit] = $this->prune();
 
+        $this->assertSame(0, $exit);
+        $this->assertFileDoesNotExist($this->logs().'/a.log');
         $this->assertFileExists($this->logs().'/b.log');
         $this->assertFileExists($this->logs().'/frisch.log');
+    }
+
+    // Randfall 9
+    #[DataProvider('schlusszeilen')]
+    public function test_schlusszeile_richtet_sich_nach_der_anzahl(int $anzahl, bool $trocken, string $erwartet, string $falsch): void
+    {
+        for ($i = 1; $i <= $anzahl; $i++) {
+            $this->datei("alt{$i}.log", $this->tage(40));
+        }
+        $this->datei('jung.log', $this->tage(1));
+
+        [$exit, $ausgabe] = $this->prune(['--days' => 30] + ($trocken ? ['--dry-run' => true] : []));
+
+        $this->assertSame(0, $exit);
+        $this->assertStringContainsString($erwartet, $ausgabe);
+        $this->assertStringNotContainsString($falsch, $ausgabe);
+        $this->assertStringContainsString(($trocken ? 'würde gelöscht: ' : 'gelöscht: ').'alt1.log', $ausgabe);
+    }
+
+    /**
+     * @return array<string, array{int, bool, string, string}>
+     */
+    public static function schlusszeilen(): array
+    {
+        return [
+            '1 Datei' => [1, false, '1 Datei gelöscht', '1 Dateien'],
+            '2 Dateien' => [2, false, '2 Dateien gelöscht', '2 Datei gelöscht'],
+            '1 Datei, dry-run' => [1, true, '1 Datei würde gelöscht', '1 Dateien'],
+            '2 Dateien, dry-run' => [2, true, '2 Dateien würden gelöscht', 'Dateien würde gelöscht'],
+        ];
     }
 
     // AK10

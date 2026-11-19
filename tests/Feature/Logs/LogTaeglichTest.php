@@ -232,12 +232,13 @@ final class LogTaeglichTest extends TestCase
 
     // AK6
     #[DataProvider('andereKanaele')]
-    public function test_anderer_default_bleibt_und_nur_days_folgt(string $default): void
+    public function test_anderer_default_bleibt_stack_und_days_folgen_der_umstellung(string $default): void
     {
         $logging = $this->logging(['single'], $default);
         $this->starte($logging, ['tage' => 45]);
 
         $this->assertSame($default, config('logging.default'));
+        $this->assertSame(['daily'], config('logging.channels.stack.channels'));
         $this->assertEquals(45, config('logging.channels.daily.days'));
     }
 
