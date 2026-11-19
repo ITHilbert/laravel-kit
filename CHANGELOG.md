@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unveröffentlicht
+### Deprecated
+- Auslaufend, Entfernung mit einer neuen Major-Version; Ersatz siehe README „Auslaufend“ (#1715): `vue/bootstrap4`, `vue/bootstrap5`, `vue/tailwind` (Ersatz `vue3/`), `vue/vueapp_TW.js`, `vue/vueapp_B5.js`, `vue/vueapp_B4.js` (Ersatz `vue3/` mit `mountInseln`) und die Blade-Themes `bootstrap5` und `tailwind` (Ersatz Theme `kern`).
+- Neu dazu: Bei aktivem Blade-Theme `bootstrap5` oder `tailwind` löst das Kit je Request einmal `E_USER_DEPRECATED` aus; die `vueapp_*.js` warnen beim Laden per `console.warn` (nicht mit `NODE_ENV=production`).
+
+### Weitere Änderungen
 - Fix: `kit-toggle` mit `name` und `disabled` sendet nichts mehr; das versteckte Feld ist ebenfalls `disabled`.
 - Fix: Zahlenfelder (`kit-input-number`, `-int`, `-euro`, `-percent`) nehmen `step` als Zahl oder Text an, ohne Vue-Warnung (#1611).
 - Fix: Alle `kit-`-Regeln in `vue3/themes/tailwind.css` stehen in `@layer components`, Tailwind-Utilities können sie überschreiben.

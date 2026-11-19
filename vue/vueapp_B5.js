@@ -177,3 +177,8 @@ Vue.component('group', require('./bootstrap5/group.vue').default);
 const app = new Vue({
     el: '#vue-app',
 });
+if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+        'laravel-kit: vue/vueapp_B5.js läuft aus und wird mit einer neuen Major-Version entfernt. Neue Seiten nutzen vue3/ mit mountInseln.',
+    );
+}

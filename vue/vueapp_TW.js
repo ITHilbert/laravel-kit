@@ -354,3 +354,9 @@ export default {
         });
     },
 };
+
+if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+        'laravel-kit: vue/vueapp_TW.js läuft aus und wird mit einer neuen Major-Version entfernt. Neue Seiten nutzen vue3/ mit mountInseln.',
+    );
+}
