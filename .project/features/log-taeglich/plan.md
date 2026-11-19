@@ -21,3 +21,9 @@ Tests rot committet. Randfall 8 (leeres `LARAVELKIT_LOGS_TAGE` → 30) vom Moder
 NACHWEIS: GATE GRÜN a22a3a65c6d5a49f7 (82 passed). Echtlauf im Host (`php artisan`, Kit-Arbeitsstand): `logging.default` stack, `stack.channels` ["daily"], `daily.days` 30; `Log::info` → `storage/logs/laravel-2026-11-19.log` (1 Treffer), `laravel.log` unverändert (16:44 vom 18.11.); `log:prune --dry-run` → „würde gelöscht: browser.log“, „1 Dateien würde gelöscht“, Exit 0, nichts gelöscht; `log:prune --days=0` → Fehler mit „--days“, Exit 1; `schedule:list` → `17 3 * * * php artisan log:prune`; nach `config:cache` stack.channels weiter ["daily"] (Randfall 6), danach `config:clear`.
 Abweichung a22a3a65c6d5a49f7: Fehlalarm: keine gemeldet
 Offener Punkt a22a3a65c6d5a49f7: AK-fremd (Umstellung in boot() statt register(): Paket-Provider booten vor den App-Providern, Kanäle entstehen erst beim ersten Log-Aufruf — Echtlauf und Randfall 6 bestätigen; Zeitpunkt 03:17 frei gewählt, Spec sagt „täglich“; Ordner `src/Logs/` für die Action = Entscheidungsspielraum; bei `taeglich=false` bleibt auch `days` unverändert = AK5 „unverändert“; Pint im Submodul läuft nur im Paketordner — GATE-Hinweis, kein AK)
+
+## Nacharbeit #1732 (Review-Funde)
+Branch `fix/log-nacharbeit` (von `main` 22d243a1). Spec: AK6 neu formuliert, Randfall 9 ergänzt (Joerg, Chat 2026-11-19). Ablauf wie Bugfix.
+- [ ] TW test-writer (AK6, Randfall 8, Randfall 9; abdeckung.md Zeilen Randfall 8 und 9) — Tests: `tests/Feature/Logs/LogTaeglichTest.php` (AK6), `tests/Feature/Logs/LogPruneCommandTest.php` (Randfall 8, Randfall 9)
+- [ ] T3 (Randfall 9) [junior] Schlusszeile von `log:prune` nach Anzahl — Tests: `tests/Feature/Logs/LogPruneCommandTest.php`, `tests/Feature/Logs/LogTaeglichTest.php`
+Review (#1732): entfällt (Text der Ausgabe und Testschärfung, kein Sicherheitsbezug).

@@ -23,7 +23,7 @@ Laravel bringt beides schon mit (Treiber `daily`, Option `days`). Die Projekte n
 - **AK3** Gegeben `logging.channels.stack.channels = ['single', 'slack']`, Wenn die App bootet, Dann ist der Wert `['daily', 'slack']` — nur `single` wird ersetzt, Reihenfolge und andere Kanäle bleiben.
 - **AK4** Gegeben `laravelkit.logs.tage = 45`, Wenn die App bootet, Dann ist `logging.channels.daily.days = 45`; ohne Angabe ist er `30`.
 - **AK5** Gegeben `laravelkit.logs.taeglich = false`, Wenn die App bootet, Dann sind `logging.default`, `logging.channels.stack.channels` und `logging.channels.daily` unverändert, und ein Eintrag landet in `laravel.log`.
-- **AK6** Gegeben `logging.default` ist ein anderer Kanal als `single` oder `stack` (z. B. `stderr`, `syslog`, `daily`), Wenn die App bootet, Dann ändert das Kit `logging.default` nicht; nur `logging.channels.daily.days` folgt AK4.
+- **AK6** Gegeben `logging.default` ist ein anderer Kanal als `single` oder `stack` (z. B. `stderr`, `syslog`, `daily`), Wenn die App bootet, Dann ändert das Kit `logging.default` nicht; `logging.channels.stack.channels` folgt AK3, `logging.channels.daily.days` folgt AK4. (Wortlaut geändert #1732, Joerg, Chat 2026-11-19: „1. ja“.)
 - **AK7** Gegeben `logging.channels.daily` fehlt in der Config des Projekts, Wenn die App bootet, Dann legt das Kit ihn an: Treiber `daily`, `path` und `level` aus `logging.channels.single`, `days` nach AK4.
 
 ### Command `log:prune`
@@ -46,6 +46,7 @@ Laravel bringt beides schon mit (Treiber `daily`, Option `days`). Die Projekte n
 6. Gecachte Config (`php artisan config:cache`): Die Umstellung aus AK1–AK7 wirkt trotzdem.
 7. Ein eigener `daily`-Kanal des Projekts mit anderem `path` bleibt bei seinem `path`; nur `days` folgt AK4.
 8. `LARAVELKIT_LOGS_TAGE` leer gesetzt (`LARAVELKIT_LOGS_TAGE=`): Es gilt der Standard 30 — für `days` des Kanals `daily` und für `log:prune` ohne `--days`. (Moderator 2026-11-19, bestätigt von Joerg, Chat 2026-11-19: „1. ja“.)
+9. (#1732, Joerg, Chat 2026-11-19: „2. ja“) Die Schlusszeile von `log:prune` richtet sich nach der Anzahl: „1 Datei gelöscht“, „2 Dateien gelöscht“; mit `--dry-run` „1 Datei würde gelöscht“, „2 Dateien würden gelöscht“. Die Zeile je Datei bleibt „gelöscht: <pfad>“ bzw. „würde gelöscht: <pfad>“.
 
 ## Nicht-Ziele
 - `.env` oder `config/logging.php` der Projekte ändern.
