@@ -108,7 +108,7 @@ final class AuslaufDokuTest extends TestCase
 
     // AK21
     #[DataProvider('teile')]
-    public function test_changelog_nennt_unter_unveroeffentlicht_deprecated_jedes_alte_teil(string $alt): void
+    public function test_changelog_nennt_unter_unveroeffentlicht_deprecated_jedes_alte_teil(string $alt, string $ersatz): void
     {
         $unveroeffentlicht = $this->abschnitt($this->datei('CHANGELOG.md'), 'Unveröffentlicht', 2);
         $deprecated = $this->abschnitt($unveroeffentlicht, 'Deprecated', 3);
