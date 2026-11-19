@@ -3,7 +3,7 @@ laravel-kit `feature/log-taeglich` (von `main` 2cf8248e). Dashboard #1716.
 Spec: [spec.md](spec.md) — freigegeben (Joerg, Chat 2026-11-19).
 
 ## Aufgaben
-- [ ] TW test-writer (AK1–AK14, Randfälle 1–7) — Tests:
+- [x] TW (test-writer a90bf8e12c3594f88, rot: 36/39 — „14 matches expected 45/30“, „null is identical to 'daily'“, Tagesdatei fehlt, „The command \"log:prune\" does not exist“ (14), README/CHANGELOG ohne Log-Abschnitt; 3 grün = Wächter AK5/Stack ohne `single`; grünbar 19/19, 14/14, 6/6; Hilfs-Trait `tests/Feature/Logs/ConfigMitEnv.php` für T1 und T2) test-writer (AK1–AK14, Randfälle 1–8) — Tests:
   - `tests/Feature/Logs/LogTaeglichTest.php` (AK1–AK7, Randfälle 6, 7)
   - `tests/Feature/Logs/LogPruneCommandTest.php` (AK8–AK12, Randfälle 1–5)
   - `tests/Feature/Logs/LogZeitplanDokuTest.php` (AK13, AK14)
@@ -16,4 +16,4 @@ Design: entfällt (keine Oberfläche).
 Review: nötig (Risiko kritisch: löscht Dateien, Querschnitt über alle Projekte).
 
 ## Stand
-Spec freigegeben. Nächster Schritt: test-writer (nach #1715).
+Tests rot committet. Randfall 8 (leeres `LARAVELKIT_LOGS_TAGE` → 30) vom Moderator ergänzt, Joerg zur Bestätigung gemeldet. Nächster Schritt: T1.
