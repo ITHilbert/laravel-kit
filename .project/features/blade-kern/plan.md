@@ -47,3 +47,18 @@ Fehlerprotokoll: eingetragen 2026-11-18.
 
 ## Stand
 Fertig: freigegeben 2026-11-18, Doku nachgezogen (README Theme `kern`: Klassen und Skript-Bindung), nach `main` gemergt.
+
+## Nacharbeit #1715 — alte Komponenten als auslaufend kennzeichnen
+Branch `fix/auslauf-hinweise` (von `main` 2cf8248e). Ablauf Spec-Lücke → wie Bugfix (Regressions-Tests, CODE, GATE, NACHWEIS, Merge). Freigabe der AK18–AK21: Joerg, Chat 2026-11-19.
+- [x] TW (test-writer a7c582c0022a4fa91, rot: PHP 6/6 „actual size 0 matches expected size 1“, Doku 15/15 „Abschnitt Auslaufend fehlt“ bzw. „### Deprecated fehlt“, JS 3/3 „0 !== 1“; grünbar 6/6, 15/15, 3/3) test-writer (AK18–AK21, Randfälle 6–7) — Tests:
+  - `tests/Feature/KitComponents/AuslaufHinweisTest.php` (AK18, Randfälle 6, 7)
+  - `tests/js/vueappAuslauf.test.mjs` (AK19)
+  - `tests/Feature/KitComponents/AuslaufDokuTest.php` (AK20, AK21)
+- [x] T6 (coder-pro affc8faeed7cc92a2, GATE ROT 1/3 nur durch PHPUnit-Warning im Test (Signatur AuslaufDokuTest) → test-writer korrigiert (ce55a3fc) → GATE GRÜN: PHP 546, JS 3) (AK18–AK21) [pro] `E_USER_DEPRECATED` bei alten Blade-Themes, `console.warn` in `vue/vueapp_*.js`, README-Abschnitt „Auslaufend“, CHANGELOG „Deprecated“ — Tests: `tests/Feature/KitComponents/AuslaufHinweisTest.php`, `tests/js/vueappAuslauf.test.mjs`, `tests/Feature/KitComponents/AuslaufDokuTest.php`
+
+Bestehende Tests (#1715): `tests/Feature/KitComponents/ThemeTest.php`, `tests/Feature/KitComponents/BausteineTest.php`, `tests/Feature/KitComponents/ReadmeTest.php`, `tests/Feature/KitComponents/KernQuelltextTest.php`
+NACHWEIS (#1715): GATE GRÜN affc8faeed7cc92a2; Host-Suite 6801 OK, Kit-JS 252/252.
+Echtlauf: artisan tinker mit `LOG_DEPRECATIONS_CHANNEL=single`: Theme `tailwind`, zwei `<x-kit::input-text>` → genau eine Meldung „laravel-kit: Das Theme tailwind läuft aus … LARAVELKIT_THEME=kern“ (KitView.php:42); Theme `kern` → keine. Host hat keine Seite mit altem Blade-Theme; `vueapp_*.js` nutzt der Host nicht mehr (Warnung nur per Test geprüft).
+Abweichung affc8faeed7cc92a2: Fehlalarm: keine gemeldet
+Offener Punkt affc8faeed7cc92a2: AK-fremd (CHANGELOG-Überschrift „### Weitere Änderungen“ für die bisherigen Einträge unter „Unveröffentlicht“; README-Satz „neue Seiten nutzen `vue3/` und das Theme `kern`“ — beides Form, AK20/AK21 erfüllt)
+Review (#1715): entfällt (Spec-Lücke ohne Sicherheitsbezug, < 50 Zeilen Produktivcode erwartet).

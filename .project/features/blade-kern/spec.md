@@ -1,7 +1,7 @@
 # Spec blade-kern
 Risiko: normal
 Art: Feature — letzter Schritt aus Entscheidung 0013 (Host `packages_dev`, `.project/doku/decisions/0013-laravel-kit-vue3-kern-ohne-framework-optik.md`, Punkt 5 und 6): Blade-Components ohne Framework-Optik. Kein Dashboard-Task.
-Status: freigegeben (Moderator in Vollmacht; Joerg, Chat 2026-11-18: „die Komponenten zu Ende umbauen ohne weitere Rückfragen“).
+Status: freigegeben (Moderator in Vollmacht; Joerg, Chat 2026-11-18: „die Komponenten zu Ende umbauen ohne weitere Rückfragen“). AK18–AK21, Randfälle 6–7: Spec-Lücke #1715 (Joerg, Chat 2026-11-19: alte Komponenten klar als auslaufend kennzeichnen, Laufzeit-Hinweis „ja“) — freigegeben (Joerg, Chat 2026-11-19: „2. ja“).
 Rückbau: entfällt (kein Übergangsstand; der Rückbau der alten Themes ist #1546)
 
 ## Ziel
@@ -52,6 +52,10 @@ Die Blade-Components `<x-kit::…>` bekommen ein drittes Theme `kern`. Es erzeug
 - **AK15** Gegeben `vue3/themes/bootstrap5.scss` und `vue3/themes/tailwind.css`, Wenn sie gelesen werden, Dann enthält jede eine Regel für `kit-button`, `kit-card`, `kit-card__header`, `kit-card__body`, `kit-card__footer`, `kit-tabs__body`, `kit-breadcrumb`, `kit-breadcrumb__list`, `kit-show-euro`, `kit-show-date` und für `kit-button` je `data-variant` aus AK7; `bootstrap5.scss` nutzt nur Variablen aus Bootstrap 5.2.
 - **AK16** Gegeben README und CHANGELOG des Kits, Wenn gelesen wird, Dann nennt die README im Abschnitt „Theme-Schalter“ den Wert `kern` mit den CSS-Dateien, die ihn stylen, und sagt bei `bootstrap5` und `tailwind` „eingefroren, wird nicht mehr gepflegt (Entscheidung 0013)“; der CHANGELOG nennt das Theme unter „Unveröffentlicht“.
 - **AK17** Gegeben der Host `packages_dev`, Wenn `npm run production` läuft, Dann baut er ohne Fehler, und die neue Prüfseite `/ui-kit-blade-kern` zeigt alle 34 Bausteine im Theme `kern` mit dem Bootstrap-5-Theme ohne Konsolenfehler; Tabs schalten per Klick, die Combobox öffnet eine sichtbare Liste.
+- **AK18** (#1715, Spec-Lücke 2026-11-19) Gegeben `laravelkit.theme = bootstrap5` oder `tailwind` (auch `tailwind` als Standard ohne `LARAVELKIT_THEME`), Wenn in einem Request zwei Kit-Components rendern, Dann löst das Kit genau ein `E_USER_DEPRECATED` aus; die Meldung beginnt mit `laravel-kit:`, nennt das Theme, „läuft aus“ und `LARAVELKIT_THEME=kern`. Gegeben `laravelkit.theme = kern`, Wenn Kit-Components rendern, Dann gibt es kein `E_USER_DEPRECATED` des Kits.
+- **AK19** (#1715) Gegeben `vue/vueapp_TW.js`, `vue/vueapp_B5.js` und `vue/vueapp_B4.js`, Wenn eine davon geladen wird und `process.env.NODE_ENV` nicht `production` ist, Dann gibt sie genau einmal `console.warn` mit einer Meldung aus, die mit `laravel-kit:` beginnt und `vue3/` und `mountInseln` nennt; mit `NODE_ENV = production` gibt sie keine Warnung aus.
+- **AK20** (#1715) Gegeben die README des Kits, Wenn sie gelesen wird, Dann steht vor dem Abschnitt „Installation“ ein Abschnitt „Auslaufend“. Er nennt `vue/bootstrap4`, `vue/bootstrap5`, `vue/tailwind`, die Blade-Themes `bootstrap5` und `tailwind` und `vue/vueapp_TW.js`, `vueapp_B5.js`, `vueapp_B4.js` je mit Ersatz (`vue3/`, Theme `kern`, `mountInseln`). Er sagt, dass neue Seiten sie nicht mehr verwenden und dass eine neue Major-Version sie entfernt; er nennt den Laufzeit-Hinweis aus AK18 und den Kanal `LOG_DEPRECATIONS_CHANNEL`.
+- **AK21** (#1715) Gegeben der CHANGELOG des Kits, Wenn er gelesen wird, Dann gibt es unter „Unveröffentlicht“ einen Abschnitt „Deprecated“ mit denselben alten Teilen wie AK20.
 
 ## Randfälle
 1. Theme `kern` und ein Feld ohne `label`: kein `__label`-Element.
@@ -59,6 +63,8 @@ Die Blade-Components `<x-kit::…>` bekommen ein drittes Theme `kern`. Es erzeug
 3. `tab-body` ohne `active` in einer Gruppe ohne aktiven Reiter: alle Panels `hidden`, kein Fehler im Skript.
 4. Ein Wert mit HTML (`<b>`) in `label`, `value` oder Option: escaped ausgegeben wie im Theme `bootstrap5`.
 5. `laravelkit.fehleranzeige` aus (Standard, `FehleranzeigeSchalterTest`): wie im Theme `bootstrap5` kein `__error`-Span, kein `is-invalid`, kein `aria-invalid`, ein übergebenes `aria-describedby` bleibt unverändert.
+6. (#1715) Ein Request ohne Kit-Component: kein `E_USER_DEPRECATED` des Kits. Ein ungültiger Theme-Wert wirft weiter die bisherige Exception, ohne vorherige Meldung.
+7. (#1715) Laravel leitet `E_USER_DEPRECATED` an den Kanal `deprecations` weiter (ab Werk `null`); das Kit schreibt nicht selbst in ein Log und ändert `LOG_DEPRECATIONS_CHANNEL` nicht.
 
 ## Nicht-Ziele
 - Standard-Theme ändern, `userauth` oder andere Projekte umstellen, Release-Version.

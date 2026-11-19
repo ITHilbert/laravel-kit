@@ -10,6 +10,20 @@ Die ausführliche Dokumentation befindet sich im Ordner `.project/doku/`:
 ### Vue-Komponenten (Tailwind)
 - [DataTable-Komponente](.project/doku/vue-datatable.md) — generische DataTables.net-Kapselung mit Filter-Zeile, Aktions-Spalte und Server-/Client-side Modus
 
+## Auslaufend
+
+Diese Teile laufen aus. Neue Seiten verwenden sie nicht mehr: neue Seiten nutzen `vue3/` und das Theme `kern`; eine neue Major-Version entfernt sie. Bis dahin bleiben sie unverändert.
+
+- `vue/bootstrap4`: Ersatz ist `vue3/` (Vue-3-Kern).
+- `vue/bootstrap5`: Ersatz ist `vue3/` (Vue-3-Kern).
+- `vue/tailwind`: Ersatz ist `vue3/` (Vue-3-Kern).
+- `vue/vueapp_TW.js`: Ersatz ist `vue3/` mit `mountInseln`.
+- `vue/vueapp_B5.js`: Ersatz ist `vue3/` mit `mountInseln`.
+- `vue/vueapp_B4.js`: Ersatz ist `vue3/` mit `mountInseln`.
+- Blade-Themes `bootstrap5` und `tailwind`: Ersatz ist das Theme `kern` (`LARAVELKIT_THEME=kern`).
+
+Laufzeit-Hinweis: Bei aktivem Blade-Theme `bootstrap5` oder `tailwind` löst das Kit je Request einmal ein `E_USER_DEPRECATED` aus (Meldung beginnt mit `laravel-kit:`). Die `vueapp_*.js` geben beim Laden außerhalb von `production` eine `console.warn`-Warnung aus. Laravel leitet `E_USER_DEPRECATED` an den Kanal `deprecations` weiter (ab Werk `null`); sichtbar wird die Meldung mit `LOG_DEPRECATIONS_CHANNEL=stack` (oder einem anderen Kanal) in der `.env`. Das Kit schreibt nicht selbst ins Log.
+
 ## Installation
 
 ```bash

@@ -131,3 +131,8 @@ Vue.component('col-12', require('./bootstrap4/grid/col-12.vue').default);
 const app = new Vue({
     el: '#vue-app',
 });
+if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+        'laravel-kit: vue/vueapp_B4.js läuft aus und wird mit einer neuen Major-Version entfernt. Neue Seiten nutzen vue3/ mit mountInseln.',
+    );
+}
