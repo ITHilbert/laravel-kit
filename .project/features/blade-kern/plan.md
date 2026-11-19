@@ -50,7 +50,7 @@ Fertig: freigegeben 2026-11-18, Doku nachgezogen (README Theme `kern`: Klassen u
 
 ## Nacharbeit #1715 — alte Komponenten als auslaufend kennzeichnen
 Branch `fix/auslauf-hinweise` (von `main` 2cf8248e). Ablauf Spec-Lücke → wie Bugfix (Regressions-Tests, CODE, GATE, NACHWEIS, Merge). Freigabe der AK18–AK21: Joerg, Chat 2026-11-19.
-- [ ] TW test-writer (AK18–AK21, Randfälle 6–7) — Tests:
+- [x] TW (test-writer a7c582c0022a4fa91, rot: PHP 6/6 „actual size 0 matches expected size 1“, Doku 15/15 „Abschnitt Auslaufend fehlt“ bzw. „### Deprecated fehlt“, JS 3/3 „0 !== 1“; grünbar 6/6, 15/15, 3/3) test-writer (AK18–AK21, Randfälle 6–7) — Tests:
   - `tests/Feature/KitComponents/AuslaufHinweisTest.php` (AK18, Randfälle 6, 7)
   - `tests/js/vueappAuslauf.test.mjs` (AK19)
   - `tests/Feature/KitComponents/AuslaufDokuTest.php` (AK20, AK21)
