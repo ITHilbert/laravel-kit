@@ -48,6 +48,7 @@ Im Kit entsteht der Ordner `vue3/` mit Einstieg, Basis-CSS, zwei Theme-Dateien u
 2. Tabs ohne `default-value`: kein Tab aktiv, kein Fehler.
 3. Zwei Dialoge auf einer Seite: Es ist immer nur der zuletzt geöffnete fokussiert; Escape schließt nur ihn.
 4. Der Dialog rendert per Teleport an `body`; im Insel-Betrieb liegt der Inhalt trotzdem außerhalb der Insel.
+5. Konfiguration der Typprüfung (AK17): Das Kit legt sie nicht als `tsconfig.json` ab, sondern unter eigenem Namen (z. B. `tsconfig.typecheck.json`), und `typecheck` nennt sie per `-p`. Grund: ts-loader, Vite und esbuild eines einbindenden Projekts lesen die nächstgelegene `tsconfig.json`; der Host `packages_dev` (TypeScript 4.9) brach am `moduleResolution: Bundler` des Kits ab. Ein Projekt baut die Kit-Dateien mit seiner eigenen Konfiguration. (ergänzt 2026-11-19, Spec-Lücke, Moderator in Vollmacht)
 
 ## Nicht-Ziele
 - Combobox, Token-Eingabe, Suche, Liste/DataTable und die einfachen Felder (eigene Features danach).
