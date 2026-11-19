@@ -565,6 +565,21 @@ Unverändert bleiben vollständige Formate (`2018-05-25`, `25.05.2018`, mit Uhrz
 
 **Upgrade-Hinweis:** Bisher wurden `Client-IP` und `X-Forwarded-For` ungeprüft übernommen. Hosts hinter einem Proxy oder Load-Balancer müssen jetzt die Trusted Proxies konfigurieren (Laravel: `trustProxies` in `bootstrap/app.php`), sonst liefert `getIP()` die Adresse des Proxys statt die des Besuchers.
 
+## Log-Dateien
+Mit dem Kit schreibt Laravel je Tag eine Datei (`storage/logs/laravel-JJJJ-MM-TT.log`, Treiber `daily`). Das Kit stellt dafür zur Laufzeit den Kanal `single` auf `daily` um (`logging.default` und `single` im `stack`); `.env` und `config/logging.php` des Projekts bleiben unverändert. Fehlt der Kanal `daily`, legt das Kit ihn aus `single` an. Ein eigener `daily`-Kanal behält seinen `path`, nur `days` wird gesetzt.
+
+| Config (`laravelkit.logs.…`) | Env | Standard | Wirkung |
+|---|---|---|---|
+| `logs.taeglich` | `LARAVELKIT_LOGS_TAEGLICH` | `true` | Umstellung auf `daily` |
+| `logs.tage` | `LARAVELKIT_LOGS_TAGE` | `30` | `days` von `daily` und Standard von `log:prune --days` (leer = 30) |
+| `logs.zeitplan` | `LARAVELKIT_LOGS_ZEITPLAN` | `true` | `log:prune` täglich im Scheduler |
+
+`php artisan log:prune` löscht `.log`-Dateien in `storage/logs` (auch in Unterordnern), die älter als N Tage sind; andere Dateien und Symlinks bleiben.
+- `--days=N`: Aufbewahrung in Tagen (ganze Zahl größer 0), sonst `logs.tage`.
+- `--dry-run`: nur anzeigen, nichts löschen.
+
+Der Scheduler braucht den Cron-Eintrag `* * * * * php artisan schedule:run`; ohne ihn räumt Laravel die Tagesdateien nach `days` trotzdem selbst auf.
+
 ## db:backup-seeders
 
 Exportiert alle Tabellen per `iseed` (je Tabelle, `--orderby` nach Primärschlüssel bzw. erster Spalte, `--skip-fk-checks`, `--force`).

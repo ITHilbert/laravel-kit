@@ -48,6 +48,22 @@ return [
     'legal_text_base_url' => env('LARAVELKIT_LEGAL_TEXT_BASE_URL', 'https://center.it-hilbert.com'),
     'legal_text_timeout' => env('LARAVELKIT_LEGAL_TEXT_TIMEOUT', 5),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Log-Dateien
+    |--------------------------------------------------------------------------
+    |
+    | taeglich: stellt den Kanal `single` auf `daily` um (eine Datei je Tag).
+    | tage:     Aufbewahrung in Tagen (`days` von `daily`, Standard von `log:prune`).
+    | zeitplan: trägt `log:prune` täglich im Scheduler ein.
+    |
+    */
+    'logs' => [
+        'taeglich' => filter_var(env('LARAVELKIT_LOGS_TAEGLICH', true), FILTER_VALIDATE_BOOLEAN),
+        'tage' => (int) (env('LARAVELKIT_LOGS_TAGE') ?: 30),
+        'zeitplan' => filter_var(env('LARAVELKIT_LOGS_ZEITPLAN', true), FILTER_VALIDATE_BOOLEAN),
+    ],
+
     'breadcrumb' => [
         'root_name' => env('APP_NAME'),
     ],
