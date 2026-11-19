@@ -16,7 +16,7 @@ Design: entfällt (keine Oberfläche).
 Review: nötig (Risiko kritisch: löscht Dateien, Querschnitt über alle Projekte).
 
 ## Stand
-Tests rot committet. Randfall 8 (leeres `LARAVELKIT_LOGS_TAGE` → 30) vom Moderator ergänzt, von Joerg bestätigt (2026-11-19); Zeitpunkt 03:17 von Joerg ok. T1+T2 umgesetzt (zusammengelegt, teilen Config und ServiceProvider). Nächster Schritt: Review.
+Tests rot committet. Randfall 8 (leeres `LARAVELKIT_LOGS_TAGE` → 30) vom Moderator ergänzt, von Joerg bestätigt (2026-11-19); Zeitpunkt 03:17 von Joerg ok. T1+T2 umgesetzt (zusammengelegt, teilen Config und ServiceProvider). Review freigegeben (reviewer ae2a748d6628d7ded, pruefung.md: 0 muss, 2 sollte → #1732, 5 kann). Doku: README „Log-Dateien“ und CHANGELOG im Feature erledigt, kein doku-writer nötig. Gemergt in main.
 
 NACHWEIS: GATE GRÜN a22a3a65c6d5a49f7 (82 passed). Echtlauf im Host (`php artisan`, Kit-Arbeitsstand): `logging.default` stack, `stack.channels` ["daily"], `daily.days` 30; `Log::info` → `storage/logs/laravel-2026-11-19.log` (1 Treffer), `laravel.log` unverändert (16:44 vom 18.11.); `log:prune --dry-run` → „würde gelöscht: browser.log“, „1 Dateien würde gelöscht“, Exit 0, nichts gelöscht; `log:prune --days=0` → Fehler mit „--days“, Exit 1; `schedule:list` → `17 3 * * * php artisan log:prune`; nach `config:cache` stack.channels weiter ["daily"] (Randfall 6), danach `config:clear`.
 Abweichung a22a3a65c6d5a49f7: Fehlalarm: keine gemeldet
