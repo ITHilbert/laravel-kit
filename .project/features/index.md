@@ -6,6 +6,7 @@
 ## Geplant
 
 ## Fertig
+- [backup-seeders-only-tables](backup-seeders-only-tables/spec.md) — #1780 `backup_seeders.only_tables` (Positivliste) und keine doppelten call-Zeilen im DatabaseSeeder — gemergt 2026-11-20
 - [log-taeglich](log-taeglich/spec.md) — #1716 Log-Dateien je Tag (Kit stellt `single` auf `daily` um), `log:prune --days=30`, täglich im Scheduler — gemergt 2026-11-19
 - [combobox-ohne-jquery-ui](combobox-ohne-jquery-ui/spec.md) — #1359/#1366 Vue-Komponente `search`: Vanilla-Combobox statt jQuery UI, Installer ohne `jquery-ui`, Auswahl bleibt beim Neu-Rendern — gemergt 2026-11-16 (1.7.0)
 - [hlogger-fix](hlogger-fix/spec.md) — Dateiname mit vierstelligem Jahr, Verzeichnis bei Bedarf anlegen; lokal gemergt

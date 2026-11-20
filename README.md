@@ -584,5 +584,7 @@ Der Scheduler braucht den Cron-Eintrag `* * * * * php artisan schedule:run`; ohn
 
 Exportiert alle Tabellen per `iseed` (je Tabelle, `--orderby` nach Primärschlüssel bzw. erster Spalte, `--skip-fk-checks`, `--force`).
 `laravelkit.backup_seeders.ignore_tables` nimmt u. a. `migrations` und `sessions` aus. Fehlt eine Tabelle im Export wegen eines iseed-Fehlers, läuft der Rest weiter und der Befehl endet mit Exit-Code 1.
+`laravelkit.backup_seeders.only_tables` (Standard `[]`): Ist die Liste nicht leer, werden nur diese Tabellen exportiert und `ignore_tables` gilt nicht; unbekannte Namen warnen („existiert nicht“), der Exit-Code bleibt 0. So landen neue Tabellen nicht ungefragt im Git (#1780).
+Nach dem Export entfernt der Befehl in `DatabaseSeeder.php` Zeilen `$this->call(X::class);`, die iseed neu ergänzt hat, obwohl der Seeder dort schon vorkommt (z. B. in `$this->call([...])`); schon vorhandene Zeilen und neue Aufrufe bleiben.
 Der Befehl fügt in `database/seeders/DatabaseSeeder.php` (falls vorhanden) am Anfang von `run()` eine Sperre (`// laravelkit:seed-sperre`) ein: `db:seed` bricht außerhalb von `local` und `testing` ab, da iseed-Seeder Tabellen leeren.
 `install:iSeed` installiert `orangehill/iseed` als Dev-Abhängigkeit (`composer require --dev`).
