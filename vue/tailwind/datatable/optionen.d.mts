@@ -6,6 +6,7 @@ export interface OptionenEingabe {
     datatableOptions?: Record<string, unknown> | null;
     ajaxUrl?: string;
     rows?: unknown[];
+    aktionsSpalte?: string;
 }
 
 export function baueOptionen(

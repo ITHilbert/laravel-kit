@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unveröffentlicht
+### DataTable (vue/tailwind)
+- Neu: Prop `aktionsSpalte` (Datenfeld mit Aktions-HTML vom Server, z. B. Yajra `addColumn('action', …)`; ersetzt die Standard-Buttons) und Prop `zeilenLink` (URL-Vorlage mit `:id`, Klick auf eine Zeile öffnet sie) (#1794).
+
 ### HButton
 - Fix: `HButton` (project, create, show, edit, delete, save, back) gibt Inline-SVG statt Font Awesome (`<i class="fas …">`) aus, Pfade wie die Vue-Buttons; bei leerem Text setzt es `aria-label` mit dem Tooltip, ein übergebenes `aria-label` gewinnt (#1795). Hinweis: Die Blade-Components `bootstrap5` und `Classes/Bootstrap4/Button` nutzen noch `fas`.
 
