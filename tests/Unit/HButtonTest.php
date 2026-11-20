@@ -21,7 +21,8 @@ final class HButtonTest extends TestCase
         $this->assertInstanceOf(HtmlString::class, $button);
         $this->assertStringContainsString('href="/neu"', (string) $button);
         $this->assertStringContainsString('btn btn-create', (string) $button);
-        $this->assertStringContainsString('fa-plus-circle', (string) $button);
+        $this->assertStringContainsString('<svg', (string) $button);
+        $this->assertStringNotContainsString('fa-', (string) $button);
         $this->assertStringContainsString('Erstellen</a>', (string) $button);
     }
 
@@ -65,7 +66,8 @@ final class HButtonTest extends TestCase
         $this->assertStringContainsString('type="submit" class="btn btn-submit', $submit);
         $this->assertStringContainsString('>Speichern</button>', $submit);
         $this->assertStringContainsString('type="submit" class="btn btn-save', $save);
-        $this->assertStringContainsString('fa-save', $save);
+        $this->assertStringContainsString('<svg', $save);
+        $this->assertStringNotContainsString('fa-', $save);
     }
 
     // Charakterisierung
