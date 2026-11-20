@@ -29,6 +29,9 @@ class LaravelKitBackupSeeders extends Command
 
         $this->info('Starte Export für: '.count($tabellen).' Tabellen...');
 
+        $seederPfad = database_path('seeders/DatabaseSeeder.php');
+        $vorher = is_file($seederPfad) ? (string) file_get_contents($seederPfad) : null;
+
         $fehler = [];
         foreach ($tabellen as $tabelle) {
             $sortierung = $this->sortierSpalte($tabelle);
@@ -52,6 +55,10 @@ class LaravelKitBackupSeeders extends Command
             }
         }
 
+        if ($vorher !== null) {
+            $this->doppelteAufrufeEntfernen($seederPfad, $vorher);
+        }
+
         $this->sperreEinfuegen();
 
         if ($fehler !== []) {
@@ -72,7 +79,11 @@ class LaravelKitBackupSeeders extends Command
         $dbName = DB::connection($connection)->getDatabaseName();
         $ignore = config('laravelkit.backup_seeders.ignore_tables', []);
 
+        $only = config('laravelkit.backup_seeders.only_tables', []);
+        $nurAuswahl = is_array($only) && $only !== [];
+
         $export = [];
+        $vorhanden = [];
         foreach (Schema::connection($connection)->getTableListing() as $tabelle) {
             $name = $tabelle;
 
@@ -84,12 +95,53 @@ class LaravelKitBackupSeeders extends Command
                 }
             }
 
-            if (! in_array($name, $ignore, true)) {
+            $vorhanden[] = $name;
+
+            if ($nurAuswahl ? in_array($name, $only, true) : ! in_array($name, $ignore, true)) {
                 $export[] = $name;
             }
         }
 
+        if ($nurAuswahl) {
+            foreach ($only as $name) {
+                if (! in_array($name, $vorhanden, true)) {
+                    $this->warn("Tabelle {$name} aus only_tables existiert nicht – übersprungen.");
+                }
+            }
+        }
+
         return $export;
+    }
+
+    /**
+     * iseed trägt jeden Seeder als Einzelzeile ein, auch wenn DatabaseSeeder ihn schon aufruft.
+     * Entfernt werden nur Zeilen, die der Lauf ergänzt hat und deren Klasse vorher schon vorkam.
+     */
+    private function doppelteAufrufeEntfernen(string $pfad, string $vorher): void
+    {
+        $nachher = (string) file_get_contents($pfad);
+        if ($nachher === $vorher) {
+            return;
+        }
+
+        $vorherZeilen = array_count_values(preg_split('/\R/', $vorher) ?: []);
+        $neu = [];
+        foreach (preg_split('/(?<=\n)/', $nachher) ?: [] as $zeile) {
+            $roh = rtrim($zeile, "\r\n");
+            if (preg_match('/^\s*\$this->call\(\s*([\\\\\w]+)::class\s*\);\s*$/', $roh, $m)) {
+                if (($vorherZeilen[$roh] ?? 0) > 0) {
+                    $vorherZeilen[$roh]--;
+                } elseif (preg_match('/(?<![\w])'.preg_quote($m[1], '/').'::class/', $vorher) === 1) {
+                    continue;
+                }
+            }
+            $neu[] = $zeile;
+        }
+
+        $ergebnis = implode('', $neu);
+        if ($ergebnis !== $nachher) {
+            file_put_contents($pfad, $ergebnis);
+        }
     }
 
     private function sortierSpalte(string $tabelle): string

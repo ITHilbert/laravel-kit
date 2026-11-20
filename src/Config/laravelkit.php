@@ -69,6 +69,8 @@ return [
     ],
 
     'backup_seeders' => [
+        // Gesetzt (nicht leer): nur diese Tabellen werden exportiert, ignore_tables gilt dann nicht.
+        'only_tables' => [],
         'ignore_tables' => [
             'jobs',
             'failed_jobs',

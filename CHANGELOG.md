@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unveröffentlicht
+### db:backup-seeders
+- Neu: Config `laravelkit.backup_seeders.only_tables` (Standard `[]`): nicht leer = nur diese Tabellen exportieren, `ignore_tables` gilt dann nicht; unbekannte Tabellen warnen, Exit-Code 0 (#1780).
+- Neu: Der Befehl entfernt von iseed doppelt ergänzte `$this->call(X::class);`-Zeilen in `DatabaseSeeder.php`, wenn der Seeder dort schon vorkommt (z. B. in `call([...])`); vorhandene Zeilen und neue Aufrufe bleiben (#1780).
+
 ### Log-Dateien
 - Neu: Das Kit stellt den Log-Kanal `single` auf `daily` um (eine Datei je Tag, `days` 30), ohne Änderung an `.env` oder `config/logging.php`. Config `laravelkit.logs.taeglich`, `.tage`, `.zeitplan` (Env `LARAVELKIT_LOGS_TAEGLICH`, `_TAGE`, `_ZEITPLAN`); Details in der README „Log-Dateien“ (#1716).
 - Neu: `php artisan log:prune [--days=N] [--dry-run]` löscht `.log`-Dateien in `storage/logs`, die älter als N Tage sind; läuft täglich im Scheduler (abschaltbar).
