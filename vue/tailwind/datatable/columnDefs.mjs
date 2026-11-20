@@ -42,15 +42,22 @@ function renderFor(col) {
 /**
  * @param {Array<{key: string, sortable?: boolean, html?: boolean, render?: Function, defaultContent?: string}>} columns
  * @param {boolean} hasActions hängt die Aktionsspalte als letzte Definition an
+ * @param {string} [aktionsSpalte] Datenfeld mit fertigem Aktions-HTML vom Server; ersetzt die Standard-Aktionsspalte
  * @returns {unknown[]}
  */
-export function buildColumnDefs(columns, hasActions) {
+export function buildColumnDefs(columns, hasActions, aktionsSpalte) {
     const defs = columns.map((col) => ({
         data: col.key,
         orderable: col.sortable !== false,
         render: renderFor(col),
         defaultContent: col.defaultContent ?? '',
     }));
+
+    if (aktionsSpalte) {
+        // Ohne render: der Zellwert erscheint unverändert als HTML (Konsument verantwortet es).
+        defs.push({ data: aktionsSpalte, orderable: false, searchable: false });
+        return defs;
+    }
 
     if (hasActions) {
         defs.push({

@@ -2,6 +2,7 @@
 - [vue3-kern-grundlage](vue3-kern-grundlage/spec.md) — Vue-3-Kern: Ordner `vue3/`, Basis-CSS, Themes, Dialog, Tabs, Accordion auf Reka UI (Host-Entscheidung 0013)
 - [timestop](timestop/spec.md) — #93 TimeStop speichert die Startzeit als Zahl (Laravel 13, `serializable_classes = false`)
 - [hbutton-svg](hbutton-svg/spec.md) — #1795 HButton gibt Inline-SVG statt Font-Awesome-Icons aus, aria-label ohne Text
+- [datatable-aktionen](datatable-aktionen/spec.md) — #1794 DataTable-Props `aktionsSpalte` (Server-HTML) und `zeilenLink` (URL mit `:id`)
 - [zeitzone](zeitzone/spec.md) — #92 MyDateTime setzt die Zeitzone nicht mehr global, `HForm::date()` mit Wert repariert
 
 ## Geplant

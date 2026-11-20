@@ -6,7 +6,7 @@ import { buildColumnDefs } from './columnDefs.mjs';
  * und nur über ajaxUrl bzw. rows gesetzt.
  */
 export function baueOptionen(eingabe, defaultLanguage) {
-    const { columns, hasActions, pageLength, language, datatableOptions, ajaxUrl, rows } = eingabe;
+    const { columns, hasActions, pageLength, language, datatableOptions, ajaxUrl, rows, aktionsSpalte } = eingabe;
     const { ajax, data, serverSide, ...benutzer } = datatableOptions ?? {};
 
     const options = {
@@ -16,7 +16,7 @@ export function baueOptionen(eingabe, defaultLanguage) {
         searching: true,
         orderCellsTop: true,
         ...benutzer,
-        columns: buildColumnDefs(columns, hasActions),
+        columns: buildColumnDefs(columns, hasActions, aktionsSpalte),
     };
 
     if (ajaxUrl) {

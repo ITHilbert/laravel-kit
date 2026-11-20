@@ -41,6 +41,27 @@ Diese Datei muss im jeweiligen Blade-Layout per `@vite` oder `<script>` eingebun
 | `pageLength` | `number` | `25` | Zeilen pro Seite. |
 | `language` | `Record<string,unknown>?` | Deutsch | DataTables `language`-Objekt (partiell oder vollständig). |
 | `datatableOptions` | `Record<string,unknown>?` | — | Zusätzliche DataTables-Optionen (überschreiben die internen Vorgaben; `columns`, `ajax`, `data` und `serverSide` werden immer intern gesetzt und aus `datatableOptions` verworfen). |
+| `aktionsSpalte` | `string?` | — | Name eines Datenfelds mit fertigem Aktions-HTML vom Server. Wird als letzte Spalte angehängt (Kopfzelle `actionsLabel`, leere Filterzelle, nicht sortier- und durchsuchbar). Das HTML wird unverändert eingesetzt, Escaping verantwortet der Konsument. Annahme: Server-HTML ersetzt die Standard-Buttons. |
+| `zeilenLink` | `string?` | — | URL-Vorlage mit `:id`. Ein Klick auf eine Zeile öffnet die URL (ID aus den Zeilendaten, URL-kodiert). Klicks auf `a`, `button`, `input`, `select`, `textarea`, `label` zählen nicht. Zeilen bekommen `cursor-pointer`. |
+
+#### Beispiel: Aktionsspalte vom Server und Zeilen-Link
+
+```php
+// Yajra
+return DataTables::eloquent($query)
+    ->addColumn('action', fn ($u) => HButton::edit(route('users.edit', $u), '', 'Bearbeiten') . HButton::delete($u->id, '', 'Löschen'))
+    ->escapeColumns([])
+    ->toJson();
+```
+
+```html
+<data-table
+    :columns="[{ key: 'name', label: 'Name' }]"
+    ajax-url="/users/data"
+    aktions-spalte="action"
+    zeilen-link="/users/:id/edit"
+/>
+```
 
 ### ColumnDefinition
 
