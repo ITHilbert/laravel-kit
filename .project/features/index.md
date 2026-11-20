@@ -4,6 +4,7 @@
 - [zeitzone](zeitzone/spec.md) — #92 MyDateTime setzt die Zeitzone nicht mehr global, `HForm::date()` mit Wert repariert
 
 ## Geplant
+- [backup-seeders-only-tables](backup-seeders-only-tables/spec.md) — #1780 `backup_seeders.only_tables` (Positivliste) und keine doppelten call-Zeilen im DatabaseSeeder
 
 ## Fertig
 - [log-taeglich](log-taeglich/spec.md) — #1716 Log-Dateien je Tag (Kit stellt `single` auf `daily` um), `log:prune --days=30`, täglich im Scheduler — gemergt 2026-11-19
