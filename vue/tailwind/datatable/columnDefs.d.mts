@@ -6,4 +6,4 @@ export interface ColumnDefSource {
     render?: (data: unknown, type: string, row: Record<string, unknown>) => string;
 }
 
-export function buildColumnDefs(columns: ColumnDefSource[], hasActions: boolean): unknown[];
+export function buildColumnDefs(columns: ColumnDefSource[], hasActions: boolean, aktionsSpalte?: string | null): unknown[];

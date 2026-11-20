@@ -240,22 +240,22 @@ JS;
         $a = ['data-x' => '1', 'aria-describedby' => 'y'];
 
         return [
-            'project' => [fn () => HButton::project('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-create  cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y"  ><i class="fas fa-parking"></i> Text</a>'],
-            'create' => [fn () => HButton::create('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-create  cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><i class="fas fa-plus-circle"></i> Text</a>'],
-            'show' => [fn () => HButton::show('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-show cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><i class="fas fa-file-contract"></i> Text</a>'],
-            'edit' => [fn () => HButton::edit('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" data-toggle="tooltip" title="Tipp" class="btn btn-edit" data-x="1" aria-describedby="y" ><i class="fas fa-pencil-alt"></i> Text</a>'],
-            'delete' => [fn () => HButton::delete(42, 'Text', 'Tipp', 'cls', $a), '<button data-kit-delete="42" data-toggle="tooltip" title="Tipp" class="btn btn-delete cls" data-x="1" aria-describedby="y" ><i class="fas fa-minus-circle"></i> Text</button>'."\n"],
+            'project' => [fn () => HButton::project('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-create  cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y"  ><svg/> Text</a>'],
+            'create' => [fn () => HButton::create('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-create  cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><svg/> Text</a>'],
+            'show' => [fn () => HButton::show('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-show cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><svg/> Text</a>'],
+            'edit' => [fn () => HButton::edit('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" data-toggle="tooltip" title="Tipp" class="btn btn-edit" data-x="1" aria-describedby="y" ><svg/> Text</a>'],
+            'delete' => [fn () => HButton::delete(42, 'Text', 'Tipp', 'cls', $a), '<button data-kit-delete="42" data-toggle="tooltip" title="Tipp" class="btn btn-delete cls" data-x="1" aria-describedby="y" ><svg/> Text</button>'."\n"],
             'submit' => [fn () => HButton::submit('Text', 'Tipp', 'cls', $a), '<button type="submit" class="btn btn-submit cls" data-x="1" aria-describedby="y"  data-toggle="tooltip" title="Tipp">Text</button>'],
-            'save' => [fn () => HButton::save('Text', 'Tipp', 'cls', $a), '<button type="submit" class="btn btn-save cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><i class="fas fa-save"></i> Text</button>'],
-            'back' => [fn () => HButton::back('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-back cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><i class="fas fa-undo"></i> Text</a>'],
-            'project Vorgaben' => [fn () => HButton::project(), '<a href="#" class="btn btn-create  " data-toggle="tooltip" title="Projekte"  ><i class="fas fa-parking"></i> Projete</a>'],
-            'create Vorgaben' => [fn () => HButton::create(), '<a href="#" class="btn btn-create  " data-toggle="tooltip" title="Erstellen" ><i class="fas fa-plus-circle"></i> Erstellen</a>'],
-            'show Vorgaben' => [fn () => HButton::show(), '<a href="#" class="btn btn-show " data-toggle="tooltip" title="Anzeigen" ><i class="fas fa-file-contract"></i> Anzeigen</a>'],
-            'edit Vorgaben' => [fn () => HButton::edit(), '<a href="#" data-toggle="tooltip" title="Bearbeiten" class="btn btn-edit" ><i class="fas fa-pencil-alt"></i> Bearbeiten</a>'],
-            'delete Vorgaben' => [fn () => HButton::delete(7), '<button data-kit-delete="7" data-toggle="tooltip" title="L&ouml;schen" class="btn btn-delete " ><i class="fas fa-minus-circle"></i> L&ouml;schen</button>'."\n"],
+            'save' => [fn () => HButton::save('Text', 'Tipp', 'cls', $a), '<button type="submit" class="btn btn-save cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><svg/> Text</button>'],
+            'back' => [fn () => HButton::back('/p', 'Text', 'Tipp', 'cls', $a), '<a href="/p" class="btn btn-back cls" data-toggle="tooltip" title="Tipp" data-x="1" aria-describedby="y" ><svg/> Text</a>'],
+            'project Vorgaben' => [fn () => HButton::project(), '<a href="#" class="btn btn-create  " data-toggle="tooltip" title="Projekte"  ><svg/> Projete</a>'],
+            'create Vorgaben' => [fn () => HButton::create(), '<a href="#" class="btn btn-create  " data-toggle="tooltip" title="Erstellen" ><svg/> Erstellen</a>'],
+            'show Vorgaben' => [fn () => HButton::show(), '<a href="#" class="btn btn-show " data-toggle="tooltip" title="Anzeigen" ><svg/> Anzeigen</a>'],
+            'edit Vorgaben' => [fn () => HButton::edit(), '<a href="#" data-toggle="tooltip" title="Bearbeiten" class="btn btn-edit" ><svg/> Bearbeiten</a>'],
+            'delete Vorgaben' => [fn () => HButton::delete(7), '<button data-kit-delete="7" data-toggle="tooltip" title="L&ouml;schen" class="btn btn-delete " ><svg/> L&ouml;schen</button>'."\n"],
             'submit Vorgaben' => [fn () => HButton::submit(), '<button type="submit" class="btn btn-submit "  data-toggle="tooltip" title="Speichern">Speichern</button>'],
-            'save Vorgaben' => [fn () => HButton::save(), '<button type="submit" class="btn btn-save " data-toggle="tooltip" title="Speichern" ><i class="fas fa-save"></i> Speichern</button>'],
-            'back Vorgaben' => [fn () => HButton::back(), '<a href="#" class="btn btn-back " data-toggle="tooltip" title="Zur&uuml;ck" ><i class="fas fa-undo"></i> Zur&uuml;ck</a>'],
+            'save Vorgaben' => [fn () => HButton::save(), '<button type="submit" class="btn btn-save " data-toggle="tooltip" title="Speichern" ><svg/> Speichern</button>'],
+            'back Vorgaben' => [fn () => HButton::back(), '<a href="#" class="btn btn-back " data-toggle="tooltip" title="Zur&uuml;ck" ><svg/> Zur&uuml;ck</a>'],
         ];
     }
 
@@ -418,7 +418,10 @@ JS;
     #[DataProvider('referenzen')]
     public function test_harmlose_werte_ergeben_dieselbe_ausgabe_wie_vorher(callable $render, string $erwartet): void
     {
-        $this->assertSame($erwartet, $this->ohneOnclick((string) $render()));
+        // Das Icon (SVG-Pfade) ist hier ein Platzhalter; Escaping und Attributreihenfolge davor/danach bleiben wörtlich.
+        $html = preg_replace('#<svg\b.*?</svg>#s', '<svg/>', $this->ohneOnclick((string) $render()));
+
+        $this->assertSame($erwartet, $html);
     }
 
     // ---------------------------------------------------------------- AK5

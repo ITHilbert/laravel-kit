@@ -17,6 +17,12 @@
                     >
                         {{ actionsLabel }}
                     </th>
+                    <th
+                        v-if="aktionsSpalte"
+                        class="px-4 py-3 border-b border-gray-200 font-semibold whitespace-nowrap text-right"
+                    >
+                        {{ actionsLabel }}
+                    </th>
                 </tr>
                 <!-- Zeile 2: Filter-Zeile -->
                 <tr class="bg-white">
@@ -34,9 +40,10 @@
                         />
                     </th>
                     <th v-if="hasActions" class="px-2 py-2 border-b border-gray-200"></th>
+                    <th v-if="aktionsSpalte" class="px-2 py-2 border-b border-gray-200"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody :class="{ 'cursor-pointer': zeilenLink }" @click="onZeilenKlick">
                 <!-- Wird von DataTables.net befüllt (client-side: rows-Prop; server-side: ajaxUrl) -->
             </tbody>
         </table>
@@ -51,6 +58,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { baueOptionen } from './optionen.mjs';
+import { zeilenUrl, klickIstZeilenKlick } from './zeilenLink.mjs';
 
 // ─── Typen ────────────────────────────────────────────────────────────────────
 
@@ -119,6 +127,14 @@ export interface DataTableProps {
      * hier nicht überschrieben; alle anderen Schlüssel überschreiben die internen Vorgaben.
      */
     datatableOptions?: Record<string, unknown>;
+    /**
+     * Name eines Datenfelds mit fertigem Aktions-HTML vom Server (z. B. Yajra addColumn('action', …)).
+     * Wird als letzte Spalte angehängt und ersetzt die Standard-Buttons. Das HTML wird unverändert
+     * eingesetzt (Escaping verantwortet der Konsument).
+     */
+    aktionsSpalte?: string;
+    /** URL-Vorlage mit `:id`, z. B. "/users/:id/edit". Ein Klick auf eine Zeile öffnet die URL. */
+    zeilenLink?: string;
 }
 
 // ─── Props & Emits ────────────────────────────────────────────────────────────
@@ -173,6 +189,9 @@ let dtInstance: any = null;
 // ─── Computed ─────────────────────────────────────────────────────────────────
 
 const hasActions = computed<boolean>(() => {
+    if (props.aktionsSpalte) {
+        return false;
+    }
     return (props.actions && props.actions.length > 0) || !!slots.actions;
 });
 
@@ -216,6 +235,20 @@ const columnIndexMap = computed<Record<string, number>>(() => {
     });
     return map;
 });
+
+function onZeilenKlick(event: MouseEvent): void {
+    if (!props.zeilenLink || !dtInstance || !klickIstZeilenKlick(event.target as Element | null)) {
+        return;
+    }
+    const tr = (event.target as Element).closest('tr');
+    if (!tr) {
+        return;
+    }
+    const url = zeilenUrl(props.zeilenLink, dtInstance.row(tr).data());
+    if (url) {
+        window.location.assign(url);
+    }
+}
 
 function onFilterInput(event: Event, key: string): void {
     if (!dtInstance) {
@@ -334,6 +367,7 @@ function initDataTable(): void {
         datatableOptions: props.datatableOptions,
         ajaxUrl:          props.ajaxUrl,
         rows:             props.rows,
+        aktionsSpalte:    props.aktionsSpalte,
     }, defaultLanguage);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
