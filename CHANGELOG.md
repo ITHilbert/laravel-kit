@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unveröffentlicht
+
+## 1.10.0 – 2026-11-21
 ### DataTable (vue/tailwind)
 - Neu: Prop `aktionsSpalte` (Datenfeld mit Aktions-HTML vom Server, z. B. Yajra `addColumn('action', …)`; ersetzt die Standard-Buttons) und Prop `zeilenLink` (URL-Vorlage mit `:id`, Klick auf eine Zeile öffnet sie) (#1794).
 
