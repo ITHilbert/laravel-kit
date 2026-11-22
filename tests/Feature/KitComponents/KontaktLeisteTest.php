@@ -58,6 +58,55 @@ final class KontaktLeisteTest extends TestCase
         return preg_match('#<script|whatsapp\.com|whatsapp\.net|facebook\.com|facebook\.net|meta\.com#i', $html) === 1;
     }
 
+    /**
+     * Prüfhilfe AK8: Regeln als Selektor => Deklarationen (Medienblöcke flach, Kommentare entfernt).
+     *
+     * @return list<array{0: string, 1: string}>
+     */
+    private function regeln(string $css): array
+    {
+        $css = preg_replace('#/\*.*?\*/#s', '', $css);
+        preg_match_all('/([^{}@;]+)\{([^{}]*)\}/', $css, $m, PREG_SET_ORDER);
+
+        return array_map(static fn (array $r): array => [trim($r[1]), strtolower(preg_replace('/\s+/', '', $r[2]))], $m);
+    }
+
+    /** Prüfhilfe AK8: Hat ein Selektor box-sizing:border-box, wo er seine Größe festlegt? */
+    private function rahmenInGroesse(string $css, string $selektor): bool
+    {
+        foreach ($this->regeln($css) as [$sel, $deklaration]) {
+            if (in_array($selektor, array_map('trim', explode(',', $sel)), true) && str_contains($deklaration, 'box-sizing:border-box')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Prüfhilfe AK10: Farbliterale außerhalb der Variablen-Definition.
+     *
+     * @return list<string>
+     */
+    private function farbliterale(string $css): array
+    {
+        $css = preg_replace('#/\*.*?\*/#s', '', $css);
+        $css = preg_replace('/:where\(\.kontakt-leiste\)\s*\{[^}]*\}/', '', $css);
+        $css = preg_replace('/var\(\s*--[a-z0-9-]+/i', 'var(', $css);
+        $treffer = [];
+        preg_match_all('/#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(/i', $css, $m);
+        array_push($treffer, ...$m[0]);
+        $benannt = 'white|black|red|green|blue|gray|grey|silver|yellow|orange|purple|pink|brown|navy|teal|lime|aqua|cyan|magenta|maroon|olive|gold|crimson|tomato|coral|salmon|indigo|violet|whitesmoke|lightgray|lightgrey|darkgray|darkgrey|dimgray|slategray';
+        preg_match_all('/(?:^|[;{\s])(?:color|background(?:-color|-image)?|border(?:-[a-z]+)*|outline(?:-color)?|box-shadow|text-shadow|fill|stroke)\s*:([^;}]*)/i', $css, $d);
+        foreach ($d[1] as $wert) {
+            if (preg_match_all('/\b(?:'.$benannt.')\b/i', $wert, $n)) {
+                array_push($treffer, ...$n[0]);
+            }
+        }
+
+        return $treffer;
+    }
+
     // AK1
     public function test_genau_eine_nav_mit_drei_links_in_reihenfolge(): void
     {
@@ -164,6 +213,29 @@ final class KontaktLeisteTest extends TestCase
             $this->assertMatchesRegularExpression('/--kontakt-leiste-'.$name.'\s*:/', $css, $name);
         }
         $this->assertStringContainsString('var(--kontakt-leiste-bg', $css);
+    }
+
+    // AK8 (CSS-Inhalt; echte Messung im Browser macht der Moderator)
+    public function test_faehnchen_und_fahne_enthalten_den_rahmen_in_52_mal_52_ohne_projekt_reset(): void
+    {
+        $css = $this->css($this->leiste());
+
+        $this->assertFalse($this->rahmenInGroesse('.kontakt-leiste a{width:52px;height:52px;border:1px solid var(--x)}', '.kontakt-leiste a'), 'Gegenprobe');
+        $this->assertTrue($this->rahmenInGroesse('.kontakt-leiste a{box-sizing:border-box;width:52px}', '.kontakt-leiste a'), 'Gegenprobe');
+        $this->assertTrue($this->rahmenInGroesse($css, '.kontakt-leiste a'), 'Fähnchen ohne box-sizing:border-box: Rahmen kommt zu 52 px dazu');
+        $this->assertTrue($this->rahmenInGroesse($css, '.kontakt-leiste .lang'), 'Fahne ohne box-sizing:border-box: Rahmen kommt zur Höhe 52 px dazu');
+    }
+
+    // AK10
+    public function test_css_hat_ausserhalb_der_variablen_keine_farbliterale(): void
+    {
+        $this->assertNotSame([], $this->farbliterale('.x{box-shadow:0 0 4px rgba(0,0,0,.2)}'), 'Gegenprobe rgba');
+        $this->assertNotSame([], $this->farbliterale('.x{color:#fff}'), 'Gegenprobe hex');
+        $this->assertNotSame([], $this->farbliterale('.x{border:1px solid white}'), 'Gegenprobe benannt');
+        $this->assertNotSame([], $this->farbliterale('.x{color:var(--a,#fff)}'), 'Gegenprobe Rückfallwert');
+        $this->assertSame([], $this->farbliterale(':where(.kontakt-leiste){--kontakt-leiste-bg:#1f2937}.x{color:var(--kontakt-leiste-bg);outline:2px solid var(--a)}'), 'Gegenprobe sauber');
+
+        $this->assertSame([], $this->farbliterale($this->css($this->leiste())));
     }
 
     // AK11
