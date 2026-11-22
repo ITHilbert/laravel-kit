@@ -1,4 +1,5 @@
 ## In Arbeit
+- [kontakt-leiste](kontakt-leiste/spec.md) — `<x-kit::kontakt-leiste />`: Telefon, E-Mail, WhatsApp als Fähnchen bzw. mobile Leiste, Farben per CSS-Variablen im Projekt
 - [vue3-kern-grundlage](vue3-kern-grundlage/spec.md) — Vue-3-Kern: Ordner `vue3/`, Basis-CSS, Themes, Dialog, Tabs, Accordion auf Reka UI (Host-Entscheidung 0013)
 - [timestop](timestop/spec.md) — #93 TimeStop speichert die Startzeit als Zahl (Laravel 13, `serializable_classes = false`)
 - [hbutton-svg](hbutton-svg/spec.md) — #1795 HButton gibt Inline-SVG statt Font-Awesome-Icons aus, aria-label ohne Text
