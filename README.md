@@ -101,6 +101,33 @@ Die Skripte binden die Kern-Templates über `data-`-Attribute:
 
 Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `button-save` ohne Text), gilt derselbe Default.
 
+### Kontakt-Leiste
+
+Feste Leiste mit Telefon, E-Mail und WhatsApp, themenunabhängig, mit Inline-CSS und Inline-SVG (kein Script, keine externen Quellen). Mobil am unteren Rand, ab 768 px rechts am Rand mit ausklappender Fahne. Einbinden im Layout vor `</body>`:
+
+```blade
+<x-kit::kontakt-leiste />
+```
+
+Config `laravelkit.kontakt_leiste` (leere Werte lassen den Link entfallen, ohne jeden Kontaktweg keine Ausgabe):
+
+| Schlüssel | Env | Bedeutung |
+|---|---|---|
+| `aktiv` | `LARAVELKIT_KONTAKT_AKTIV` | Standard `true` |
+| `telefon` | `LARAVELKIT_KONTAKT_TELEFON` | internationale Nummer, z. B. `+49 4344 3899378` |
+| `telefon_anzeige` | `LARAVELKIT_KONTAKT_TELEFON_ANZEIGE` | Anzeigeform |
+| `email` | `LARAVELKIT_KONTAKT_EMAIL` | Adresse |
+| `whatsapp` | `LARAVELKIT_KONTAKT_WHATSAPP` | leer = `telefon` |
+| `whatsapp_text` | `LARAVELKIT_KONTAKT_WHATSAPP_TEXT` | vorbelegter Nachrichtentext |
+
+Farben, Rahmen, Schrift und Abstand oben lassen sich über CSS-Variablen anpassen (`--kontakt-leiste-bg`, `-text`, `-rand`, `-font`, `-top`, `-z`):
+
+```css
+.kontakt-leiste { --kontakt-leiste-bg: #107c41; }
+```
+
+Hinweise: Für WhatsApp empfiehlt sich ein WhatsApp-Business-Konto. Der Link ruft erst beim Klick wa.me (Meta) auf; die Datenschutzerklärung des Projekts muss das nennen (siehe Spec, „Offen vor dem Livegang“).
+
 ### Beispiel
 
 ```blade
