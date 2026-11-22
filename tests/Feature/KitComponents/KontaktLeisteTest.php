@@ -205,7 +205,7 @@ final class KontaktLeisteTest extends TestCase
     }
 
     // AK10
-    public function test_css_setzt_farben_nur_ueber_variablen(): void
+    public function test_css_definiert_die_variablen_mit_standardwerten(): void
     {
         $css = $this->css($this->leiste());
 
@@ -236,6 +236,43 @@ final class KontaktLeisteTest extends TestCase
         $this->assertSame([], $this->farbliterale(':where(.kontakt-leiste){--kontakt-leiste-bg:#1f2937}.x{color:var(--kontakt-leiste-bg);outline:2px solid var(--a)}'), 'Gegenprobe sauber');
 
         $this->assertSame([], $this->farbliterale($this->css($this->leiste())));
+    }
+
+    // AK10
+    public function test_standardfarben_text_auf_hintergrund_haben_kontrast_mindestens_4_5_zu_1(): void
+    {
+        $this->assertEqualsWithDelta(21.0, $this->kontrast('#000', '#fff'), 0.01, 'Gegenprobe schwarz auf weiss');
+        $this->assertEqualsWithDelta(4.48, $this->kontrast('#777', '#fff'), 0.01, 'Gegenprobe #777 auf weiss');
+        $this->assertLessThan(4.5, $this->kontrast('#777', '#fff'), 'Gegenprobe: schlechtes Paar wird erkannt');
+
+        $css = $this->css($this->leiste());
+        $this->assertSame(1, preg_match('/:where\(\.kontakt-leiste\)\s*\{([^}]*)\}/', $css, $block));
+        $this->assertSame(1, preg_match('/--kontakt-leiste-bg\s*:\s*(#[0-9a-f]{3}|#[0-9a-f]{6})\s*[;}]/i', $block[1], $bg), 'bg als Hex');
+        $this->assertSame(1, preg_match('/--kontakt-leiste-text\s*:\s*(#[0-9a-f]{3}|#[0-9a-f]{6})\s*[;}]/i', $block[1].';', $text), 'text als Hex');
+
+        $this->assertGreaterThanOrEqual(4.5, $this->kontrast($text[1], $bg[1]), 'Kontrast '.$text[1].' auf '.$bg[1]);
+    }
+
+    /** Prüfhilfe AK10: WCAG-Kontrastverhältnis zweier Hex-Farben (#rgb/#rrggbb). */
+    private function kontrast(string $a, string $b): float
+    {
+        $luminanz = static function (string $hex): float {
+            $hex = ltrim($hex, '#');
+            if (strlen($hex) === 3) {
+                $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+            }
+            $kanal = array_map(static function (string $c): float {
+                $v = hexdec($c) / 255;
+
+                return $v <= 0.03928 ? $v / 12.92 : (($v + 0.055) / 1.055) ** 2.4;
+            }, str_split($hex, 2));
+
+            return 0.2126 * $kanal[0] + 0.7152 * $kanal[1] + 0.0722 * $kanal[2];
+        };
+        $la = $luminanz($a);
+        $lb = $luminanz($b);
+
+        return (max($la, $lb) + 0.05) / (min($la, $lb) + 0.05);
     }
 
     // AK11
