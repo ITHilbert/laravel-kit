@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unveröffentlicht
+### Kontakt-Leiste
+- Doku: README nennt den Fallstrick Vue-2-Wurzel (Vue 2 verwirft das `<style>` der Komponente): Include hinter der Wurzel, vor `</body>` (#2107).
 
 ## 1.11.0 – 2026-11-22
 ### Kontakt-Leiste
