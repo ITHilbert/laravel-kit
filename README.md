@@ -109,6 +109,8 @@ Feste Leiste mit Telefon, E-Mail und WhatsApp, themenunabhängig, mit Inline-CSS
 <x-kit::kontakt-leiste />
 ```
 
+**Nicht innerhalb einer Vue-2-Wurzel einbinden** (z. B. `<div id="vue-app">` mit `el: '#vue-app'`): Vue 2 kompiliert den Inhalt der Wurzel als Template und verwirft dabei das `<style>` der Komponente, die Leiste erscheint ungestylt. Das Include steht hinter dem schließenden Tag der Wurzel, direkt vor `</body>`. Das Server-HTML ist korrekt, nur das DOM nach dem Kompilieren verliert das CSS; PHPUnit-Tests sehen das nicht. Vue 3 ist nicht betroffen.
+
 Config `laravelkit.kontakt_leiste` (leere Werte lassen den Link entfallen, ohne jeden Kontaktweg keine Ausgabe):
 
 | Schlüssel | Env | Bedeutung |
