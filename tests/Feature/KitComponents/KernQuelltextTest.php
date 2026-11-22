@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Feature\KitComponents;
 
+use ITHilbert\LaravelKit\Tests\Feature\ChangelogHilfe;
 use ITHilbert\LaravelKit\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -14,6 +15,8 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('arch')]
 final class KernQuelltextTest extends TestCase
 {
+    use ChangelogHilfe;
+
     private const VARIANTEN = ['back', 'cancel', 'create', 'delete', 'edit', 'save', 'show', 'submit'];
 
     private const REGELN = [
@@ -185,13 +188,11 @@ final class KernQuelltextTest extends TestCase
     // AK16
     public function test_changelog_nennt_das_theme_kern_unter_unveroeffentlicht(): void
     {
-        $changelog = $this->lesen('CHANGELOG.md');
-        $teile = preg_split('/^## Unveröffentlicht\s*$/m', $changelog);
-        $this->assertCount(2, $teile, 'Abschnitt „Unveröffentlicht“ fehlt');
-        $abschnitt = preg_split('/^## /m', $teile[1])[0];
+        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
+        $abschnitt = $this->changelogAktuell($this->lesen('CHANGELOG.md'));
 
         $this->assertStringContainsString('kern', $abschnitt);
-        // Gegenprobe: der Abschnitt ist nicht der ganze Changelog
+        // Gegenprobe: die Abschnitte sind nicht der ganze Changelog
         $this->assertStringNotContainsString('## 1.7.0', $abschnitt);
     }
 }

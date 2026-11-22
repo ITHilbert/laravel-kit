@@ -8,6 +8,7 @@ use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
+use ITHilbert\LaravelKit\Tests\Feature\ChangelogHilfe;
 use ITHilbert\LaravelKit\Tests\TestCase;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 
@@ -16,6 +17,7 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
  */
 final class LogZeitplanDokuTest extends TestCase
 {
+    use ChangelogHilfe;
     use ConfigMitEnv;
 
     /**
@@ -135,11 +137,12 @@ final class LogZeitplanDokuTest extends TestCase
     // AK14
     public function test_changelog_nennt_umstellung_und_command_unter_unveroeffentlicht(): void
     {
-        $text = $this->abschnitt(dirname(__DIR__, 3).'/CHANGELOG.md', 'Unveröffentlicht');
+        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
+        $text = $this->changelogAktuell((string) file_get_contents(dirname(__DIR__, 3).'/CHANGELOG.md'));
 
         // Gegenprobe: der Abschnitt ist der richtige (bestehender Eintrag) und endet vor der Version 1.7.0
         $this->assertStringContainsString('Deprecated', $text);
-        // einzelwort: jquery-ui steht nur im Eintrag 1.7.0, nie unter „Unveröffentlicht“
+        // einzelwort: jquery-ui steht nur im Eintrag 1.7.0, nie unter „Unveröffentlicht“ oder in der letzten Version
         $this->assertStringNotContainsString('jquery-ui', $text);
 
         $this->assertStringContainsString('log:prune', $text);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Feature\Vue3;
 
+use ITHilbert\LaravelKit\Tests\Feature\ChangelogHilfe;
 use PHPUnit\Framework\TestCase;
 
 // testebene: Quelltext-Wächter (Arch) — liest nur Dateien des Kits, braucht keine App.
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class Vue3QuelltextTest extends TestCase
 {
+    use ChangelogHilfe;
+
     private const ZUSTAENDE = ['is-open', 'is-active', 'is-invalid', 'disabled'];
 
     private const BOOTSTRAP = '/^(btn|modal|card|row)(-.*)?$|^(nav|form|col)-/';
@@ -244,8 +247,8 @@ final class Vue3QuelltextTest extends TestCase
         $this->assertStringContainsString('vue/tailwind/', $vueReadme);
         $this->assertMatchesRegularExpression('/nicht mehr gepflegt/i', $vueReadme);
 
-        $changelog = (string) file_get_contents($this->kit('CHANGELOG.md'));
-        $erster = (string) preg_split('/^## /m', $changelog, 3)[1];
+        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
+        $erster = $this->changelogAktuell((string) file_get_contents($this->kit('CHANGELOG.md')));
         $this->assertStringContainsString('vue3/', $erster);
         $this->assertStringContainsString('reka-ui', $erster);
     }

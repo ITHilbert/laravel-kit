@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Feature\Vue3;
 
+use ITHilbert\LaravelKit\Tests\Feature\ChangelogHilfe;
 use PHPUnit\Framework\TestCase;
 
 // testebene: Quelltext-Wächter (Arch) — liest nur Dateien des Kits, braucht keine App.
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class Vue3FelderQuelltextTest extends TestCase
 {
+    use ChangelogHilfe;
+
     /** Felder mit __label, __input, __error. */
     private const FELDER = [
         'input-text', 'input-email', 'input-password', 'input-number', 'input-int', 'input-euro', 'input-percent',
@@ -242,10 +245,11 @@ final class Vue3FelderQuelltextTest extends TestCase
     // AK21
     public function test_changelog_nennt_die_komponenten_unter_unveroeffentlicht(): void
     {
-        $abschnitt = $this->abschnitt((string) file_get_contents($this->kit('CHANGELOG.md')), '/^Unveröffentlicht/');
+        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
+        $abschnitt = $this->changelogAktuell((string) file_get_contents($this->kit('CHANGELOG.md')));
         $this->assertNotSame('', $abschnitt);
         foreach ($this->wurzeln() as $tag) {
-            $this->assertStringContainsString($tag, $abschnitt, "CHANGELOG nennt {$tag} nicht unter Unveröffentlicht");
+            $this->assertStringContainsString($tag, $abschnitt, "CHANGELOG nennt {$tag} nicht unter Unveröffentlicht oder in der letzten Version");
         }
     }
 }
