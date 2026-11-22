@@ -16,14 +16,14 @@
 @if ($zeigen)
 @once
 <style>
-:where(.kontakt-leiste){--kontakt-leiste-bg:#1f2937;--kontakt-leiste-text:#fff;--kontakt-leiste-rand:rgba(255,255,255,.28);--kontakt-leiste-font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--kontakt-leiste-top:40vh;--kontakt-leiste-z:1030}
+:where(.kontakt-leiste){--kontakt-leiste-bg:#1f2937;--kontakt-leiste-text:#fff;--kontakt-leiste-rand:rgba(255,255,255,.28);--kontakt-leiste-schatten:rgba(17,24,39,.18);--kontakt-leiste-font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--kontakt-leiste-top:40vh;--kontakt-leiste-z:1030}
 .kontakt-leiste{position:fixed;z-index:var(--kontakt-leiste-z);font-family:var(--kontakt-leiste-font)}
-.kontakt-leiste a{display:flex;color:var(--kontakt-leiste-text);background:var(--kontakt-leiste-bg);font-weight:600;line-height:1.2;text-decoration:none}
+.kontakt-leiste a{display:flex;box-sizing:border-box;color:var(--kontakt-leiste-text);background:var(--kontakt-leiste-bg);font-weight:600;line-height:1.2;text-decoration:none}
 .kontakt-leiste a:focus-visible{outline:2px solid var(--kontakt-leiste-text);outline-offset:-4px}
 .kontakt-leiste svg{width:22px;height:22px;flex-shrink:0}
 .kontakt-leiste .lang{display:none}
 @media (max-width:767.98px){
-.kontakt-leiste{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom);background:var(--kontakt-leiste-bg);box-shadow:0 -4px 14px rgba(17,24,39,.18)}
+.kontakt-leiste{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom);background:var(--kontakt-leiste-bg);box-shadow:0 -4px 14px var(--kontakt-leiste-schatten)}
 .kontakt-leiste a{flex-direction:column;justify-content:center;align-items:center;gap:2px;height:60px;font-size:13px}
 .kontakt-leiste a+a{border-left:1px solid var(--kontakt-leiste-rand)}
 body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
@@ -32,7 +32,7 @@ body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
 .kontakt-leiste{display:flex;flex-direction:column;gap:4px;top:var(--kontakt-leiste-top);right:0}
 .kontakt-leiste a{width:52px;height:52px;position:relative;justify-content:center;align-items:center;border:1px solid var(--kontakt-leiste-rand);border-right:0;border-radius:8px 0 0 8px}
 .kontakt-leiste .kurz{display:none}
-.kontakt-leiste .lang{display:flex;align-items:center;position:absolute;right:100%;top:-1px;height:52px;padding:0 1rem;white-space:nowrap;font-size:15px;background:var(--kontakt-leiste-bg);color:var(--kontakt-leiste-text);border:1px solid var(--kontakt-leiste-rand);border-right:0;border-radius:8px 0 0 8px;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(12px);transition:opacity .2s ease-out,transform .25s cubic-bezier(.16,1,.3,1),visibility 0s linear .25s}
+.kontakt-leiste .lang{display:flex;box-sizing:border-box;align-items:center;position:absolute;right:100%;top:-1px;height:52px;padding:0 1rem;white-space:nowrap;font-size:15px;background:var(--kontakt-leiste-bg);color:var(--kontakt-leiste-text);border:1px solid var(--kontakt-leiste-rand);border-right:0;border-radius:8px 0 0 8px;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(12px);transition:opacity .2s ease-out,transform .25s cubic-bezier(.16,1,.3,1),visibility 0s linear .25s}
 .kontakt-leiste a:hover .lang,.kontakt-leiste a:focus-visible .lang{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}
 .kontakt-leiste a:hover,.kontakt-leiste a:focus-visible{border-radius:0}
 }

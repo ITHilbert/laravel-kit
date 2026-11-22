@@ -120,7 +120,7 @@ Config `laravelkit.kontakt_leiste` (leere Werte lassen den Link entfallen, ohne 
 | `whatsapp` | `LARAVELKIT_KONTAKT_WHATSAPP` | leer = `telefon` |
 | `whatsapp_text` | `LARAVELKIT_KONTAKT_WHATSAPP_TEXT` | vorbelegter Nachrichtentext |
 
-Farben, Rahmen, Schrift und Abstand oben lassen sich über CSS-Variablen anpassen (`--kontakt-leiste-bg`, `-text`, `-rand`, `-font`, `-top`, `-z`):
+Farben, Rahmen, Schrift und Abstand oben lassen sich über CSS-Variablen anpassen (`--kontakt-leiste-bg`, `-text`, `-rand`, `-schatten`, `-font`, `-top`, `-z`):
 
 ```css
 .kontakt-leiste { --kontakt-leiste-bg: #107c41; }
