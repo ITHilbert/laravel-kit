@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Feature\Vue3;
 
+use ITHilbert\LaravelKit\Tests\Feature\ChangelogHilfe;
 use PHPUnit\Framework\TestCase;
 
 // testebene: Quelltext-Wächter (Arch) — liest nur Dateien des Kits, braucht keine App.
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class Vue3LogikQuelltextTest extends TestCase
 {
+    use ChangelogHilfe;
+
     private const VERTRAG = [
         'combobox' => ['kit-combobox', 'kit-combobox__input', 'kit-combobox__trigger', 'kit-combobox__list', 'kit-combobox__item', 'kit-combobox__empty'],
         'search' => ['kit-search', 'kit-search__icon', 'kit-search__input', 'kit-search__clear'],
@@ -227,10 +230,11 @@ final class Vue3LogikQuelltextTest extends TestCase
     // AK19
     public function test_changelog_nennt_die_komponenten_unter_unveroeffentlicht(): void
     {
-        $abschnitt = $this->abschnitt((string) file_get_contents($this->kit('CHANGELOG.md')), '/^Unveröffentlicht/');
+        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
+        $abschnitt = $this->changelogAktuell((string) file_get_contents($this->kit('CHANGELOG.md')));
         $this->assertNotSame('', $abschnitt);
         foreach (['kit-combobox', 'kit-search', 'kit-input-token', 'kit-input-list'] as $tag) {
-            $this->assertStringContainsString($tag, $abschnitt, "CHANGELOG nennt {$tag} nicht unter Unveröffentlicht");
+            $this->assertStringContainsString($tag, $abschnitt, "CHANGELOG nennt {$tag} nicht unter Unveröffentlicht oder in der letzten Version");
         }
     }
 }

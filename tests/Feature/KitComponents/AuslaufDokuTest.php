@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace ITHilbert\LaravelKit\Tests\Feature\KitComponents;
 
+use ITHilbert\LaravelKit\Tests\Feature\ChangelogHilfe;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * #1715: README (Abschnitt „Auslaufend“) und CHANGELOG (Unveröffentlicht → „Deprecated“)
+ * #1715: README (Abschnitt „Auslaufend“) und CHANGELOG (Unveröffentlicht bzw. letzte Version → „Deprecated“)
  * nennen die auslaufenden Teile mit Ersatz.
  */
 final class AuslaufDokuTest extends TestCase
 {
+    use ChangelogHilfe;
+
     /** Altes Teil => Ersatz, der in derselben oder der folgenden Zeile stehen muss. */
     private const MIT_ERSATZ = [
         'vue/bootstrap4' => 'vue3/',
@@ -110,10 +113,10 @@ final class AuslaufDokuTest extends TestCase
     #[DataProvider('teile')]
     public function test_changelog_nennt_unter_unveroeffentlicht_deprecated_jedes_alte_teil(string $alt, string $ersatz): void
     {
-        $unveroeffentlicht = $this->abschnitt($this->datei('CHANGELOG.md'), 'Unveröffentlicht', 2);
+        $unveroeffentlicht = $this->changelogAktuell($this->datei('CHANGELOG.md'));
         $deprecated = $this->abschnitt($unveroeffentlicht, 'Deprecated', 3);
 
-        // Gegenprobe: der Ausschnitt ist nicht der ganze Abschnitt „Unveröffentlicht“
+        // Gegenprobe: der Ausschnitt ist nicht der ganze Abschnitt („Unveröffentlicht“ + letzte Version)
         $this->assertNotSame($unveroeffentlicht, $deprecated);
         $this->assertStringContainsString($alt, $deprecated);
     }
@@ -121,7 +124,7 @@ final class AuslaufDokuTest extends TestCase
     // AK21
     public function test_changelog_deprecated_nennt_die_blade_themes(): void
     {
-        $unveroeffentlicht = $this->abschnitt($this->datei('CHANGELOG.md'), 'Unveröffentlicht', 2);
+        $unveroeffentlicht = $this->changelogAktuell($this->datei('CHANGELOG.md'));
         $rest = $this->ohneVerzeichnisse($this->abschnitt($unveroeffentlicht, 'Deprecated', 3));
 
         $this->assertStringContainsString('bootstrap5', $rest);
