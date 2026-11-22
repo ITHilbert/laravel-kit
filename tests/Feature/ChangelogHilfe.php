@@ -5,37 +5,25 @@ declare(strict_types=1);
 namespace ITHilbert\LaravelKit\Tests\Feature;
 
 /**
- * Gemeinsamer Helfer der Doku-Tests zum CHANGELOG (#2038).
+ * Gemeinsamer Helfer der Doku-Tests zum CHANGELOG (#2038, #2100).
  *
- * Neue Einträge stehen bis zum Release unter „## Unveröffentlicht“ und danach unter „## <x.y.z> – <datum>“.
- * Die Tests lesen deshalb beide Abschnitte: „Unveröffentlicht“ und die jeweils letzte veröffentlichte Version
- * (erster Versions-Abschnitt). Ältere Versionen zählen nicht.
+ * Jeder Test liest den Abschnitt „## <x.y.z> – <datum>“ der Version, in der sein Feature erschien. Dieser Abschnitt
+ * ändert sich nach dem Release nicht mehr; ein neuer Versionsabschnitt darüber (nächster Release) lässt ihn unberührt.
+ * Fehlt der Abschnitt oder der Eintrag darin, wird der Test rot.
  */
 trait ChangelogHilfe
 {
-    private function changelogAktuell(string $changelog): string
+    private function changelogVersion(string $changelog, string $version): string
     {
-        preg_match_all('/^## .*$/m', $changelog, $treffer, PREG_OFFSET_CAPTURE);
-        $ueberschriften = $treffer[0];
+        $this->assertSame(
+            1,
+            preg_match('/^## '.preg_quote($version, '/').'\b.*$/m', $changelog, $treffer, PREG_OFFSET_CAPTURE),
+            "Abschnitt „{$version}“ fehlt im CHANGELOG",
+        );
+        $start = $treffer[0][1];
+        $rest = substr($changelog, $start + strlen($treffer[0][0]));
+        $ende = preg_match('/^## /m', $rest, $n, PREG_OFFSET_CAPTURE) ? $n[0][1] : strlen($rest);
 
-        $teile = [];
-        $versionGefunden = false;
-        $unveroeffentlichtGefunden = false;
-        foreach ($ueberschriften as $i => [$titel, $start]) {
-            $istUnveroeffentlicht = (bool) preg_match('/^## Unveröffentlicht\s*$/u', $titel);
-            $istVersion = ! $versionGefunden && preg_match('/^## \d+\.\d+\.\d+\b/', $titel);
-            if (! $istUnveroeffentlicht && ! $istVersion) {
-                continue;
-            }
-            $ende = isset($ueberschriften[$i + 1]) ? $ueberschriften[$i + 1][1] : strlen($changelog);
-            $teile[] = substr($changelog, $start, $ende - $start);
-            $unveroeffentlichtGefunden = $unveroeffentlichtGefunden || $istUnveroeffentlicht;
-            $versionGefunden = $versionGefunden || $istVersion;
-        }
-
-        $this->assertTrue($unveroeffentlichtGefunden, 'Abschnitt „Unveröffentlicht“ fehlt im CHANGELOG');
-        $this->assertTrue($versionGefunden, 'Abschnitt der letzten veröffentlichten Version fehlt im CHANGELOG');
-
-        return implode("\n", $teile);
+        return substr($changelog, $start, strlen($treffer[0][0]) + $ende);
     }
 }

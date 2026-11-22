@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unveröffentlicht
+
+## 1.11.0 – 2026-11-22
 ### Kontakt-Leiste
 - Neu: `<x-kit::kontakt-leiste />` (themenunabhängig): feste Leiste mit Telefon, E-Mail und WhatsApp, Inline-CSS und -SVG, kein Script, keine externen Quellen. Mobil unten, ab 768 px rechts mit ausklappender Fahne. Config `laravelkit.kontakt_leiste` (Env `LARAVELKIT_KONTAKT_AKTIV`, `_TELEFON`, `_TELEFON_ANZEIGE`, `_EMAIL`, `_WHATSAPP`, `_WHATSAPP_TEXT`), Farben über CSS-Variablen `--kontakt-leiste-*`. Unter 768 px bekommt `body` unten Innenabstand in Leistenhöhe; im Druck ist die Leiste ausgeblendet.
 

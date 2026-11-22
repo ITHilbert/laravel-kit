@@ -243,13 +243,13 @@ final class Vue3FelderQuelltextTest extends TestCase
     }
 
     // AK21
-    public function test_changelog_nennt_die_komponenten_unter_unveroeffentlicht(): void
+    public function test_changelog_nennt_die_komponenten(): void
     {
-        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
-        $abschnitt = $this->changelogAktuell((string) file_get_contents($this->kit('CHANGELOG.md')));
+        // Einträge dieses Features stehen im Abschnitt der Version 1.10.0
+        $abschnitt = $this->changelogVersion((string) file_get_contents($this->kit('CHANGELOG.md')), '1.10.0');
         $this->assertNotSame('', $abschnitt);
         foreach ($this->wurzeln() as $tag) {
-            $this->assertStringContainsString($tag, $abschnitt, "CHANGELOG nennt {$tag} nicht unter Unveröffentlicht oder in der letzten Version");
+            $this->assertStringContainsString($tag, $abschnitt, "CHANGELOG nennt {$tag} nicht in Version 1.10.0");
         }
     }
 }

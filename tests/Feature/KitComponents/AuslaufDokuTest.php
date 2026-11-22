@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * #1715: README (Abschnitt „Auslaufend“) und CHANGELOG (Unveröffentlicht bzw. letzte Version → „Deprecated“)
+ * #1715: README (Abschnitt „Auslaufend“) und CHANGELOG (Abschnitt der Version 1.10.0 → „Deprecated“)
  * nennen die auslaufenden Teile mit Ersatz.
  */
 final class AuslaufDokuTest extends TestCase
@@ -111,12 +111,12 @@ final class AuslaufDokuTest extends TestCase
 
     // AK21
     #[DataProvider('teile')]
-    public function test_changelog_nennt_unter_unveroeffentlicht_deprecated_jedes_alte_teil(string $alt, string $ersatz): void
+    public function test_changelog_nennt_unter_deprecated_jedes_alte_teil(string $alt, string $ersatz): void
     {
-        $unveroeffentlicht = $this->changelogAktuell($this->datei('CHANGELOG.md'));
+        $unveroeffentlicht = $this->changelogVersion($this->datei('CHANGELOG.md'), '1.10.0');
         $deprecated = $this->abschnitt($unveroeffentlicht, 'Deprecated', 3);
 
-        // Gegenprobe: der Ausschnitt ist nicht der ganze Abschnitt („Unveröffentlicht“ + letzte Version)
+        // Gegenprobe: der Ausschnitt ist nicht der ganze Abschnitt (Abschnitt der Version 1.10.0)
         $this->assertNotSame($unveroeffentlicht, $deprecated);
         $this->assertStringContainsString($alt, $deprecated);
     }
@@ -124,7 +124,7 @@ final class AuslaufDokuTest extends TestCase
     // AK21
     public function test_changelog_deprecated_nennt_die_blade_themes(): void
     {
-        $unveroeffentlicht = $this->changelogAktuell($this->datei('CHANGELOG.md'));
+        $unveroeffentlicht = $this->changelogVersion($this->datei('CHANGELOG.md'), '1.10.0');
         $rest = $this->ohneVerzeichnisse($this->abschnitt($unveroeffentlicht, 'Deprecated', 3));
 
         $this->assertStringContainsString('bootstrap5', $rest);

@@ -135,14 +135,14 @@ final class LogZeitplanDokuTest extends TestCase
     }
 
     // AK14
-    public function test_changelog_nennt_umstellung_und_command_unter_unveroeffentlicht(): void
+    public function test_changelog_nennt_umstellung_und_command(): void
     {
-        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
-        $text = $this->changelogAktuell((string) file_get_contents(dirname(__DIR__, 3).'/CHANGELOG.md'));
+        // Einträge dieses Features stehen im Abschnitt der Version 1.10.0
+        $text = $this->changelogVersion((string) file_get_contents(dirname(__DIR__, 3).'/CHANGELOG.md'), '1.10.0');
 
         // Gegenprobe: der Abschnitt ist der richtige (bestehender Eintrag) und endet vor der Version 1.7.0
         $this->assertStringContainsString('Deprecated', $text);
-        // einzelwort: jquery-ui steht nur im Eintrag 1.7.0, nie unter „Unveröffentlicht“ oder in der letzten Version
+        // einzelwort: jquery-ui steht nur im Eintrag 1.7.0, nie in Version 1.10.0
         $this->assertStringNotContainsString('jquery-ui', $text);
 
         $this->assertStringContainsString('log:prune', $text);

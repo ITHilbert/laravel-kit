@@ -186,13 +186,13 @@ final class KernQuelltextTest extends TestCase
     }
 
     // AK16
-    public function test_changelog_nennt_das_theme_kern_unter_unveroeffentlicht(): void
+    public function test_changelog_nennt_das_theme_kern(): void
     {
-        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
-        $abschnitt = $this->changelogAktuell($this->lesen('CHANGELOG.md'));
+        // Einträge dieses Features stehen im Abschnitt der Version 1.10.0
+        $abschnitt = $this->changelogVersion($this->lesen('CHANGELOG.md'), '1.10.0');
 
         $this->assertStringContainsString('kern', $abschnitt);
-        // Gegenprobe: die Abschnitte sind nicht der ganze Changelog
+        // Gegenprobe: der Abschnitt ist nicht der ganze Changelog
         $this->assertStringNotContainsString('## 1.7.0', $abschnitt);
     }
 }
