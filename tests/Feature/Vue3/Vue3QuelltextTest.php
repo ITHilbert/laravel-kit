@@ -247,8 +247,8 @@ final class Vue3QuelltextTest extends TestCase
         $this->assertStringContainsString('vue/tailwind/', $vueReadme);
         $this->assertMatchesRegularExpression('/nicht mehr gepflegt/i', $vueReadme);
 
-        // „Unveröffentlicht“ und letzte veröffentlichte Version (nach einem Release stehen die Einträge dort)
-        $erster = $this->changelogAktuell((string) file_get_contents($this->kit('CHANGELOG.md')));
+        // Einträge dieses Features stehen im Abschnitt der Version 1.10.0
+        $erster = $this->changelogVersion((string) file_get_contents($this->kit('CHANGELOG.md')), '1.10.0');
         $this->assertStringContainsString('vue3/', $erster);
         $this->assertStringContainsString('reka-ui', $erster);
     }
