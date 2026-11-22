@@ -64,6 +64,25 @@ return [
         'zeitplan' => filter_var(env('LARAVELKIT_LOGS_ZEITPLAN', true), FILTER_VALIDATE_BOOLEAN),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Kontakt-Leiste (<x-kit::kontakt-leiste />)
+    |--------------------------------------------------------------------------
+    |
+    | Feste Leiste mit Telefon, E-Mail und WhatsApp. Leere Werte lassen den
+    | jeweiligen Link entfallen; ohne jeden Kontaktweg gibt es keine Ausgabe.
+    | whatsapp leer = telefon.
+    |
+    */
+    'kontakt_leiste' => [
+        'aktiv' => filter_var(env('LARAVELKIT_KONTAKT_AKTIV', true), FILTER_VALIDATE_BOOLEAN),
+        'telefon' => env('LARAVELKIT_KONTAKT_TELEFON'),
+        'telefon_anzeige' => env('LARAVELKIT_KONTAKT_TELEFON_ANZEIGE'),
+        'email' => env('LARAVELKIT_KONTAKT_EMAIL'),
+        'whatsapp' => env('LARAVELKIT_KONTAKT_WHATSAPP'),
+        'whatsapp_text' => env('LARAVELKIT_KONTAKT_WHATSAPP_TEXT'),
+    ],
+
     'breadcrumb' => [
         'root_name' => env('APP_NAME'),
     ],
