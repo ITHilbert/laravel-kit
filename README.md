@@ -97,7 +97,7 @@ Die Skripte binden die Kern-Templates über `data-`-Attribute:
   - Theme `bootstrap5`: `input-text`, `input-email`, `input-password`, `input-date`, `input-number`, `input-euro`, `text-area` und `combobox` erzeugen mit `label="Text"` davor ein `<label for="<feld-id>" class="form-label">` (über `kit::label`, Text escaped, leer = kein Label). `for` zeigt auf die id des Feldes; die `combobox` bekommt mit `label` ohne `id` die id aus dem Namen.
   - `input-file`: `accept`, `multiple` und `required` gehen an das `<input>`. Ein Wert wird nie vorbelegt.
 - Tabs: `tabs-header`, `tab-header`, `tabs-body`, `tab-body`
-- Sonstiges: `breadcrumb`, `show-euro`, `show-date`
+- Sonstiges: `breadcrumb`, `show-euro`, `show-date`, `kontakt-leiste` (eigener Abschnitt „Kontakt-Leiste“)
 
 Fehlt ein Pflicht-Attribut, das die Vue-Komponente mit Default hat (z. B. `button-save` ohne Text), gilt derselbe Default.
 
@@ -114,19 +114,33 @@ Config `laravelkit.kontakt_leiste` (leere Werte lassen den Link entfallen, ohne 
 | Schlüssel | Env | Bedeutung |
 |---|---|---|
 | `aktiv` | `LARAVELKIT_KONTAKT_AKTIV` | Standard `true` |
-| `telefon` | `LARAVELKIT_KONTAKT_TELEFON` | internationale Nummer, z. B. `+49 4344 3899378` |
-| `telefon_anzeige` | `LARAVELKIT_KONTAKT_TELEFON_ANZEIGE` | Anzeigeform |
+| `telefon` | `LARAVELKIT_KONTAKT_TELEFON` | internationale Nummer, z. B. `+49 4344 3899378`; für `tel:` und WhatsApp werden nur die Ziffern verwendet |
+| `telefon_anzeige` | `LARAVELKIT_KONTAKT_TELEFON_ANZEIGE` | Anzeigeform als Text; leer = `telefon` |
 | `email` | `LARAVELKIT_KONTAKT_EMAIL` | Adresse |
-| `whatsapp` | `LARAVELKIT_KONTAKT_WHATSAPP` | leer = `telefon` |
-| `whatsapp_text` | `LARAVELKIT_KONTAKT_WHATSAPP_TEXT` | vorbelegter Nachrichtentext |
+| `whatsapp` | `LARAVELKIT_KONTAKT_WHATSAPP` | eigene Nummer für WhatsApp; leer = `telefon` |
+| `whatsapp_text` | `LARAVELKIT_KONTAKT_WHATSAPP_TEXT` | vorbelegter Nachrichtentext, wird URL-kodiert |
 
-Farben, Rahmen, Schrift und Abstand oben lassen sich über CSS-Variablen anpassen (`--kontakt-leiste-bg`, `-text`, `-rand`, `-schatten`, `-font`, `-top`, `-z`):
+Farben, Rahmen, Schrift und Abstand lassen sich über CSS-Variablen am Element `.kontakt-leiste` anpassen, ohne das Paket-CSS zu überschreiben:
+
+| Variable | Wirkung |
+|---|---|
+| `--kontakt-leiste-bg` | Hintergrund der Links |
+| `--kontakt-leiste-text` | Symbol- und Textfarbe |
+| `--kontakt-leiste-rand` | Trennlinien und Rahmen |
+| `--kontakt-leiste-schatten` | Schattenfarbe der mobilen Leiste |
+| `--kontakt-leiste-font` | Schriftfamilie |
+| `--kontakt-leiste-top` | Abstand oben der Fähnchen, ab 768 px |
+| `--kontakt-leiste-z` | `z-index` der Leiste |
 
 ```css
 .kontakt-leiste { --kontakt-leiste-bg: #107c41; }
 ```
 
-Hinweise: Für WhatsApp empfiehlt sich ein WhatsApp-Business-Konto. Der Link ruft erst beim Klick wa.me (Meta) auf; die Datenschutzerklärung des Projekts muss das nennen (siehe Spec, „Offen vor dem Livegang“).
+Hinweise:
+
+- Unter 768 px bekommt `body` unten Innenabstand in Leistenhöhe; im Druck ist die Leiste ausgeblendet.
+- Der WhatsApp-Link ruft beim Klick `wa.me` (Meta) auf, dabei werden Daten an Meta übertragen. Die Datenschutzerklärung des Projekts muss WhatsApp nennen.
+- Vor dem Livegang `https://wa.me/<nummer>` am Handy öffnen; der Chat muss mit der eingetragenen Nummer erscheinen. Ein WhatsApp-Business-Konto wird empfohlen.
 
 ### Beispiel
 

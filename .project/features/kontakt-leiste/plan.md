@@ -12,7 +12,7 @@ Design: entfällt (Vorlage it-entwickler-hilbert.de `kontakt-leiste`, vom User v
 - [x] T5 (AK8, AK10) test-writer: Regressionstests zu den muss-Funden aus `pruefung.md` — Tests: `tests/Feature/KitComponents/KontaktLeisteTest.php`
 - [x] T6 (AK8, AK10) [junior] Behebung im Paket-CSS `src/Views/components/kit/kontakt-leiste.blade.php` — Tests: `tests/Feature/KitComponents/KontaktLeisteTest.php`
 - [x] T7 NACHWEIS (Moderator)
-- [ ] T8 Nachprüfung (reviewer, `NACHPRUEFUNG:`)
+- [x] T8 Nachprüfung (reviewer, `NACHPRUEFUNG: 500faf49`) → `pruefung-nachpruefung.md` — freigegeben
 
 Bestehende Tests: `tests/Feature/KitComponents/BausteineTest.php`, `tests/Feature/BootTest.php`
 
@@ -32,4 +32,4 @@ Offener Punkt a258442981b09bde2: AK-fremd (Browsermessung 52 × 52 px und Schatt
 Annahme Moderator: neue Variable `--kontakt-leiste-schatten` statt Rahmenfarbe für den Schatten. AK10 verlangt „mindestens“ die genannten Variablen, eine weitere ist zulässig.
 
 ## Stand
-2026-11-22: T4 REVIEW nicht freigegeben. Review 0/2: 2 muss, 1 sollte, 3 kann. Fehlerprotokoll eingetragen (Wiki `agents/fehlerprotokoll/2026-11-22/packages_dev`). sollte → #2098. Rechtshinweis WhatsApp/Meta: steht in der Spec unter „Offen vor dem Livegang“; Rechtsprüfung im Projekt `nein`, daher kein Eintrag in `hinweise.md`. T5–T7 erledigt (Regressionstests, CSS-Fix, Nachweis grün). Als Nächstes T8 Nachprüfung.
+2026-11-22: T4 REVIEW nicht freigegeben. Review 0/2: 2 muss, 1 sollte, 3 kann. Fehlerprotokoll eingetragen (Wiki `agents/fehlerprotokoll/2026-11-22/packages_dev`). sollte → #2098. Rechtshinweis WhatsApp/Meta: steht in der Spec unter „Offen vor dem Livegang“; Rechtsprüfung im Projekt `nein`, daher kein Eintrag in `hinweise.md`. T5–T7 erledigt (Regressionstests, CSS-Fix, Nachweis grün). T8 Nachprüfung freigegeben: Review 1/2: 0 muss, 0 sollte, 3 kann. Doku eingespielt (README, CHANGELOG, Feature-Index), gemergt 2026-11-22.
