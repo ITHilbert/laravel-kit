@@ -1,0 +1,23 @@
+/*
+ * Design-Tokens der IT-Hilbert GmbH (Quelle der Werte: https://wiki.lan/it-hilbert/corporate-design).
+ * Werte zuerst im Wiki ändern, dann hier nachziehen. Reines CSS ohne At-Regeln, ohne Tailwind nutzbar.
+ * Die Schrift Inter wird nicht mitgeliefert, sondern in der App selbst gehostet (@fontsource/inter).
+ */
+:root {
+  --ith-navy: #073259;
+  --ith-blue: #0062a1;
+  --ith-blue-dark: #004e81;
+  --ith-sky: #1075b7;
+  --ith-cyan: #2ba8db;
+  --ith-ice: #e8f4fc;
+  --ith-mist: #bbe2f4;
+  --ith-text: #212529;
+  --ith-text-muted: #6c757d;
+  --ith-border: #dee2e6;
+  --ith-surface: #f7f7f7;
+  --ith-success: #198754;
+  --ith-warning: #9a5b00;
+  --ith-danger: #b02a37;
+  --ith-radius: 0.25rem;
+  --ith-font: "Inter", "Ubuntu", Arial, sans-serif;
+}

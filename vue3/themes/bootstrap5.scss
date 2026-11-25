@@ -2,11 +2,19 @@
 // Voraussetzung: Das Projekt importiert Bootstrap-Sass (functions, variables, mixins und
 // den Rest von bootstrap) VOR dieser Datei, damit @extend und die Variablen verfügbar sind.
 // Zusammen mit ../kit.css einbinden.
+// Die Design-Tokens (css/ith-tokens.css) werden hier eingebunden: Sass liest die Datei ohne Endung ein.
+@import "../../css/ith-tokens";
 
 // Dialog
 .kit-dialog__trigger {
   @extend .btn;
   @extend .btn-primary;
+  --bs-btn-bg: var(--ith-navy);
+  --bs-btn-border-color: var(--ith-navy);
+  --bs-btn-hover-bg: var(--ith-blue);
+  --bs-btn-hover-border-color: var(--ith-blue);
+  --bs-btn-active-bg: var(--ith-blue-dark);
+  --bs-btn-active-border-color: var(--ith-blue-dark);
 }
 
 .kit-dialog__overlay {
@@ -39,6 +47,15 @@
 .kit-dialog__close {
   @extend .btn;
   @extend .btn-secondary;
+  --bs-btn-color: var(--ith-blue);
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: var(--ith-blue);
+  --bs-btn-hover-color: var(--ith-blue);
+  --bs-btn-hover-bg: var(--ith-ice);
+  --bs-btn-hover-border-color: var(--ith-blue);
+  --bs-btn-active-color: var(--ith-blue);
+  --bs-btn-active-bg: var(--ith-mist);
+  --bs-btn-active-border-color: var(--ith-blue);
   margin-top: $spacer;
 }
 
@@ -103,7 +120,7 @@
 
   &.is-invalid {
     .kit-combobox__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -156,7 +173,7 @@
   }
 
   &.is-active {
-    color: var(--bs-primary);
+    color: var(--ith-blue);
   }
 }
 
@@ -186,7 +203,7 @@
 
   &.is-active {
     color: var(--bs-white);
-    background-color: var(--bs-primary);
+    background-color: var(--ith-blue);
   }
 
   &.disabled {
@@ -202,7 +219,7 @@
 
 .kit-search {
   &.is-invalid .kit-search__input {
-    border-color: $form-feedback-invalid-color;
+    border-color: var(--ith-danger);
   }
 
   &.disabled {
@@ -234,7 +251,7 @@
   gap: 0.25rem;
 
   &.is-invalid .kit-input-token__input {
-    border-color: $form-feedback-invalid-color;
+    border-color: var(--ith-danger);
   }
 
   &.disabled {
@@ -249,12 +266,12 @@
 
 .kit-input-token__status {
   font-size: $small-font-size;
-  color: var(--bs-success);
+  color: var(--ith-success);
 }
 
 .kit-input-list {
   &.is-invalid .kit-input-list__input {
-    border-color: $form-feedback-invalid-color;
+    border-color: var(--ith-danger);
   }
 
   &.disabled {
@@ -273,7 +290,7 @@
 
   &.is-invalid {
     .kit-input-text__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -287,7 +304,7 @@
 
   &.is-invalid {
     .kit-input-email__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -301,7 +318,7 @@
 
   &.is-invalid {
     .kit-input-password__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -315,7 +332,7 @@
 
   &.is-invalid {
     .kit-input-number__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -329,7 +346,7 @@
 
   &.is-invalid {
     .kit-input-int__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -343,7 +360,7 @@
 
   &.is-invalid {
     .kit-input-euro__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -357,7 +374,7 @@
 
   &.is-invalid {
     .kit-input-percent__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -371,7 +388,7 @@
 
   &.is-invalid {
     .kit-input-date__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -385,7 +402,7 @@
 
   &.is-invalid {
     .kit-input-color__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -399,7 +416,7 @@
 
   &.is-invalid {
     .kit-input-file__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -413,7 +430,7 @@
 
   &.is-invalid {
     .kit-textarea__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -427,7 +444,7 @@
 
   &.is-invalid {
     .kit-select__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -441,7 +458,7 @@
 
   &.is-invalid {
     .kit-checkbox__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -455,7 +472,7 @@
 
   &.is-invalid {
     .kit-radio__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -469,7 +486,7 @@
 
   &.is-invalid {
     .kit-toggle__input {
-      border-color: $form-feedback-invalid-color;
+      border-color: var(--ith-danger);
     }
   }
 
@@ -554,7 +571,7 @@
   height: 1em;
   margin-top: 0.25em;
   vertical-align: top;
-  accent-color: var(--bs-primary);
+  accent-color: var(--ith-blue);
 }
 
 .kit-input-password__toggle {
@@ -572,7 +589,7 @@
   }
 
   &.is-active {
-    color: var(--bs-primary);
+    color: var(--ith-blue);
   }
 }
 
@@ -622,8 +639,8 @@
 
 .kit-toggle.is-active {
   .kit-toggle__input {
-    background-color: var(--bs-primary);
-    border-color: var(--bs-primary);
+    background-color: var(--ith-blue);
+    border-color: var(--ith-blue);
   }
 
   // Spurbreite (2em) minus Knopfbreite (0.75em) minus beide Rahmen: Knopf endet rechts an der Innenkante.
@@ -651,7 +668,7 @@
   display: block;
   margin-top: 0.25rem;
   font-size: $small-font-size;
-  color: $form-feedback-invalid-color;
+  color: var(--ith-danger);
 }
 
 .kit-label {
@@ -693,7 +710,7 @@
 // Blade-Theme kern: Buttons, Cards, Tabs-Inhalt, Breadcrumb, Anzeigen.
 // Werte aus Bootstrap-Sass-Variablen, kein @extend. Die Farbe je Variante steht in Custom Properties.
 .kit-button {
-  --kit-button-bg: #{$primary};
+  --kit-button-bg: var(--ith-navy);
   --kit-button-color: #{$white};
   display: inline-flex;
   align-items: center;
@@ -718,7 +735,7 @@
 
   &:focus-visible {
     outline: 0;
-    box-shadow: 0 0 0 $btn-focus-width rgba($primary, 0.5);
+    box-shadow: 0 0 0 $btn-focus-width color-mix(in srgb, var(--ith-blue) 50%, transparent);
   }
 
   &:disabled,
@@ -733,36 +750,37 @@
 }
 
 .kit-button[data-variant="primary"] {
-  --kit-button-bg: #{$primary};
+  --kit-button-bg: var(--ith-navy);
 }
 
-.kit-button[data-variant="secondary"] {
-  --kit-button-bg: #{$secondary};
-}
-
-.kit-button[data-variant="back"] {
-  --kit-button-bg: #{$secondary};
-}
-
+.kit-button[data-variant="secondary"],
+.kit-button[data-variant="back"],
 .kit-button[data-variant="cancel"] {
-  --kit-button-bg: #{$gray-600};
+  --kit-button-bg: #fff;
+  --kit-button-color: var(--ith-blue);
+  border-color: var(--ith-blue);
+
+  &:hover {
+    --kit-button-bg: var(--ith-ice);
+    filter: none;
+  }
 }
 
 .kit-button[data-variant="create"] {
-  --kit-button-bg: #{$success};
+  --kit-button-bg: var(--ith-success);
 }
 
 .kit-button[data-variant="delete"] {
-  --kit-button-bg: #{$danger};
+  --kit-button-bg: var(--ith-danger);
 }
 
 .kit-button[data-variant="edit"] {
-  --kit-button-bg: #{$warning};
-  --kit-button-color: #{$black};
+  --kit-button-bg: var(--ith-warning);
+  --kit-button-color: #{$white};
 }
 
 .kit-button[data-variant="save"] {
-  --kit-button-bg: #{$success};
+  --kit-button-bg: var(--ith-success);
 }
 
 .kit-button[data-variant="show"] {
@@ -771,7 +789,7 @@
 }
 
 .kit-button[data-variant="submit"] {
-  --kit-button-bg: #{$primary};
+  --kit-button-bg: var(--ith-navy);
 }
 
 .kit-card {

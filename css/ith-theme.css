@@ -1,0 +1,23 @@
+/*
+ * Tailwind-4-Teil der Design-Tokens der IT-Hilbert GmbH (Quelle der Werte:
+ * https://wiki.lan/it-hilbert/corporate-design). Nach `@import "tailwindcss";` einbinden.
+ * Liefert Utilities wie bg-brand-navy, text-brand-blue, rounded-brand. Ohne Tailwind: nur ith-tokens.css.
+ */
+@theme {
+  --color-brand-navy: #073259;
+  --color-brand-blue: #0062a1;
+  --color-brand-blue-dark: #004e81;
+  --color-brand-sky: #1075b7;
+  --color-brand-cyan: #2ba8db;
+  --color-brand-ice: #e8f4fc;
+  --color-brand-mist: #bbe2f4;
+  --color-ink: #212529;
+  --color-ink-muted: #6c757d;
+  --color-line: #dee2e6;
+  --color-surface: #f7f7f7;
+  --color-success: #198754;
+  --color-warning: #9a5b00;
+  --color-danger: #b02a37;
+  --font-sans: "Inter", "Ubuntu", Arial, sans-serif;
+  --radius-brand: 0.25rem;
+}
