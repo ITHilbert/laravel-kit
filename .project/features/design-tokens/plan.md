@@ -8,7 +8,7 @@ laravel-kit `feature/design-tokens` von `main` 0f393fce. Spec: [spec.md](spec.md
 Bestehende Tests: `tests/vue3/*.test.ts`, `tests/Feature/Vue3/*.php`, `tests/Feature/KitComponents/*.php`, `tests/js/*.mjs`
 Marketing: entfällt (keine neue Seite).
 Design: entfällt (Werte vorgegeben durch das Corporate Design).
-Review: entfällt (reine CSS-Werte, kein Verhalten, keine Route, keine Migration, < 50 Zeilen Produktivlogik; Review des Stapels im Host).
+Review: entfällt (Optik: nur Farbwerte in Theme-Dateien, kein Verhalten, keine Route, keine Migration; Rule agent-lifecycle „Optik, Text“; Hinweis: >50 Zeilen CSS-Diff, Moderator-Entscheidung im automode)
 Stand: Spec geschrieben, Test-Writer folgt.
 
 TW erledigt (test-writer a6f66f2a0174df4cb): rot JS 8/9 (Meldungen: ENOENT css/ith-*.css, Standardfarben gefunden, var(--ith- fehlt), grün 1 = Gegenprobe), PHP 2/3 (Abschnitt „Design-Tokens“ fehlt, CHANGELOG nennt Dateien nicht); Grünbar per Probe-Kopie im Scratchpad JS 9/9, PHP 3/3.
