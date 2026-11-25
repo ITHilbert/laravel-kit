@@ -1,13 +1,14 @@
 /*
  * Theme Tailwind (v4) für den Vue-3-Kern. Nach `@import "tailwindcss";` einbinden,
- * zusammen mit ../kit.css. Optik schlicht, an Tailwind-Standardwerten angelehnt.
+ * zusammen mit ../kit.css. Farben und Ecken kommen aus den Design-Tokens (css/ith-tokens.css, wird hier eingebunden).
  */
+@import "../../css/ith-tokens.css";
 @reference "tailwindcss";
 
 @layer components {
   /* Dialog */
   .kit-dialog__trigger {
-    @apply inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    @apply inline-flex items-center rounded-(--ith-radius) bg-(--ith-navy) px-4 py-2 text-sm font-medium text-white hover:bg-(--ith-blue) focus:outline-none focus-visible:ring-2 focus-visible:ring-(color:--ith-blue) focus-visible:ring-offset-2;
   }
 
   .kit-dialog__trigger:disabled {
@@ -19,7 +20,7 @@
   }
 
   .kit-dialog__content {
-    @apply w-full max-w-lg rounded-md border border-gray-200 bg-white p-6 shadow-lg focus:outline-none;
+    @apply w-full max-w-lg rounded-(--ith-radius) border border-(color:--ith-border) bg-white p-6 shadow-lg focus:outline-none;
   }
 
   .kit-dialog__content.is-open {
@@ -27,11 +28,11 @@
   }
 
   .kit-dialog__title {
-    @apply mb-4 text-lg font-semibold text-gray-900;
+    @apply mb-4 text-lg font-semibold text-(color:--ith-text);
   }
 
   .kit-dialog__close {
-    @apply mt-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+    @apply mt-4 inline-flex items-center rounded-(--ith-radius) border border-(color:--ith-border) bg-white px-4 py-2 text-sm font-medium text-(color:--ith-blue) hover:border-(color:--ith-blue) hover:bg-(--ith-ice) focus:outline-none focus-visible:ring-2 focus-visible:ring-(color:--ith-blue);
   }
 
   .kit-dialog__close:disabled {
@@ -44,15 +45,15 @@
   }
 
   .kit-tabs__list {
-    @apply flex border-b border-gray-200;
+    @apply flex border-b border-(color:--ith-border);
   }
 
   .kit-tabs__tab {
-    @apply -mb-px border-b-2 border-transparent px-4 py-2 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+    @apply -mb-px border-b-2 border-transparent px-4 py-2 text-sm font-medium text-(color:--ith-text-muted) hover:border-(color:--ith-border) hover:text-(color:--ith-text) focus:outline-none focus-visible:ring-2 focus-visible:ring-(color:--ith-blue);
   }
 
   .kit-tabs__tab.is-active {
-    @apply border-blue-600 text-blue-600;
+    @apply border-(color:--ith-blue) text-(color:--ith-blue);
   }
 
   .kit-tabs__tab.disabled,
@@ -66,7 +67,7 @@
 
   /* Accordion */
   .kit-accordion {
-    @apply w-full divide-y divide-gray-200 rounded-md border border-gray-200;
+    @apply w-full divide-y divide-(color:--ith-border) rounded-(--ith-radius) border border-(color:--ith-border);
   }
 
   .kit-accordion__item {
@@ -82,15 +83,15 @@
   }
 
   .kit-accordion__trigger {
-    @apply flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
+    @apply flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-(color:--ith-text) hover:bg-(--ith-ice) focus:outline-none focus-visible:ring-2 focus-visible:ring-(color:--ith-blue);
   }
 
   .kit-accordion__item.is-open .kit-accordion__trigger {
-    @apply bg-gray-50;
+    @apply bg-(--ith-surface);
   }
 
   .kit-accordion__content {
-    @apply px-4 py-3 text-sm text-gray-700;
+    @apply px-4 py-3 text-sm text-(color:--ith-text);
   }
 
   .kit-accordion__item.is-open .kit-accordion__content {
@@ -103,7 +104,7 @@
   }
 
   .kit-combobox.is-invalid .kit-combobox__input {
-    @apply border-red-500;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-combobox.disabled,
@@ -117,7 +118,7 @@
   .kit-search__input,
   .kit-input-token__input,
   .kit-input-list__input {
-    @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
+    @apply block w-full rounded-(--ith-radius) border border-(color:--ith-border) bg-white px-3 py-2 text-sm text-(color:--ith-text) focus:border-(color:--ith-blue) focus:outline-none focus:ring-2 focus:ring-(color:--ith-blue)/30 disabled:cursor-not-allowed disabled:bg-(--ith-surface);
   }
 
   .kit-combobox__input {
@@ -127,11 +128,11 @@
   .kit-combobox__trigger,
   .kit-input-token__toggle,
   .kit-input-token__copy {
-    @apply inline-flex cursor-pointer items-center border border-gray-300 bg-gray-50 px-3 text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed;
+    @apply inline-flex cursor-pointer items-center border border-(color:--ith-border) bg-(--ith-surface) px-3 text-(color:--ith-text-muted) hover:bg-(--ith-ice) focus:outline-none focus-visible:ring-2 focus-visible:ring-(color:--ith-blue) disabled:cursor-not-allowed;
   }
 
   .kit-combobox__trigger {
-    @apply -ml-px rounded-r-md;
+    @apply -ml-px rounded-r-(--ith-radius);
   }
 
   .kit-input-token {
@@ -140,32 +141,32 @@
 
   .kit-input-token__toggle,
   .kit-input-token__copy {
-    @apply rounded-md;
+    @apply rounded-(--ith-radius);
   }
 
   .kit-input-token__toggle.is-active,
   .kit-input-token__copy.is-active {
-    @apply text-blue-600;
+    @apply text-(color:--ith-blue);
   }
 
   .kit-input-token__status {
-    @apply text-xs text-green-600;
+    @apply text-xs text-(color:--ith-success);
   }
 
   .kit-combobox__list {
-    @apply mt-0.5 rounded-md border border-gray-200 bg-white py-1 text-sm text-gray-900 shadow-lg;
+    @apply mt-0.5 rounded-(--ith-radius) border border-(color:--ith-border) bg-white py-1 text-sm text-(color:--ith-text) shadow-lg;
   }
 
   .kit-combobox__item {
-    @apply cursor-pointer px-3 py-1.5 hover:bg-gray-100;
+    @apply cursor-pointer px-3 py-1.5 hover:bg-(--ith-ice);
   }
 
   .kit-combobox__item[data-highlighted] {
-    @apply bg-gray-100;
+    @apply bg-(--ith-surface);
   }
 
   .kit-combobox__item.is-active {
-    @apply bg-blue-600 text-white;
+    @apply bg-(--ith-blue) text-white;
   }
 
   .kit-combobox__item.disabled {
@@ -173,11 +174,11 @@
   }
 
   .kit-combobox__empty {
-    @apply px-3 py-1.5 text-gray-500;
+    @apply px-3 py-1.5 text-(color:--ith-text-muted);
   }
 
   .kit-search__icon {
-    @apply size-4 text-gray-400;
+    @apply size-4 text-(color:--ith-text-muted);
   }
 
   .kit-search__input {
@@ -185,19 +186,19 @@
   }
 
   .kit-search__clear {
-    @apply cursor-pointer border-0 bg-transparent px-2 leading-none text-gray-400 hover:text-gray-600;
+    @apply cursor-pointer border-0 bg-transparent px-2 leading-none text-(color:--ith-text-muted) hover:text-(color:--ith-text);
   }
 
   .kit-search.is-invalid .kit-search__input {
-    @apply border-red-500;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-token.is-invalid .kit-input-token__input {
-    @apply border-red-500;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-list.is-invalid .kit-input-list__input {
-    @apply border-red-500;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-list__datalist {
@@ -210,7 +211,7 @@
   }
 
   .kit-input-text.is-invalid .kit-input-text__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-text.disabled {
@@ -222,7 +223,7 @@
   }
 
   .kit-input-email.is-invalid .kit-input-email__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-email.disabled {
@@ -234,7 +235,7 @@
   }
 
   .kit-input-password.is-invalid .kit-input-password__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-password.disabled {
@@ -246,7 +247,7 @@
   }
 
   .kit-input-number.is-invalid .kit-input-number__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-number.disabled {
@@ -258,7 +259,7 @@
   }
 
   .kit-input-int.is-invalid .kit-input-int__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-int.disabled {
@@ -270,7 +271,7 @@
   }
 
   .kit-input-euro.is-invalid .kit-input-euro__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-euro.disabled {
@@ -282,7 +283,7 @@
   }
 
   .kit-input-percent.is-invalid .kit-input-percent__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-percent.disabled {
@@ -294,7 +295,7 @@
   }
 
   .kit-input-date.is-invalid .kit-input-date__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-date.disabled {
@@ -306,7 +307,7 @@
   }
 
   .kit-input-color.is-invalid .kit-input-color__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-color.disabled {
@@ -318,7 +319,7 @@
   }
 
   .kit-input-file.is-invalid .kit-input-file__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-input-file.disabled {
@@ -330,7 +331,7 @@
   }
 
   .kit-textarea.is-invalid .kit-textarea__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-textarea.disabled {
@@ -342,7 +343,7 @@
   }
 
   .kit-select.is-invalid .kit-select__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-select.disabled {
@@ -354,7 +355,7 @@
   }
 
   .kit-checkbox.is-invalid .kit-checkbox__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-checkbox.disabled {
@@ -366,7 +367,7 @@
   }
 
   .kit-radio.is-invalid .kit-radio__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-radio.disabled {
@@ -378,7 +379,7 @@
   }
 
   .kit-toggle.is-invalid .kit-toggle__input {
-    @apply border-red-600;
+    @apply border-(color:--ith-danger);
   }
 
   .kit-toggle.disabled {
@@ -401,7 +402,7 @@
   .kit-checkbox__label,
   .kit-radio__label,
   .kit-toggle__label {
-    @apply mb-2 inline-block text-sm font-medium text-gray-700;
+    @apply mb-2 inline-block text-sm font-medium text-(color:--ith-text);
   }
 
   .kit-checkbox__label,
@@ -422,7 +423,7 @@
   .kit-select__input,
   .kit-input-color__input,
   .kit-input-file__input {
-    @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:cursor-not-allowed disabled:bg-gray-100;
+    @apply block w-full rounded-(--ith-radius) border border-(color:--ith-border) bg-white px-3 py-2 text-sm text-(color:--ith-text) focus:border-(color:--ith-blue) focus:outline-none focus:ring-2 focus:ring-(color:--ith-blue)/30 disabled:cursor-not-allowed disabled:bg-(--ith-surface);
   }
 
   .kit-input-color__input {
@@ -435,15 +436,15 @@
 
   .kit-checkbox__input,
   .kit-radio__input {
-    @apply h-4 w-4 align-top accent-blue-600;
+    @apply h-4 w-4 align-top accent-(--ith-blue);
   }
 
   .kit-input-password__toggle {
-    @apply ml-2 mt-0 cursor-pointer border-0 bg-transparent p-0 text-sm text-blue-600 hover:text-blue-700 disabled:cursor-not-allowed;
+    @apply ml-2 mt-0 cursor-pointer border-0 bg-transparent p-0 text-sm text-(color:--ith-blue) hover:text-(color:--ith-blue-dark) disabled:cursor-not-allowed;
   }
 
   .kit-input-password__toggle.is-active {
-    @apply text-blue-800;
+    @apply text-(color:--ith-blue-dark);
   }
 
   /* Zusatz schließt rechts an das Feld an: ein gemeinsamer Rand, Feld ohne rechte Rundung. */
@@ -454,11 +455,11 @@
 
   .kit-input-euro__suffix,
   .kit-input-percent__suffix {
-    @apply -ml-px rounded-l-none rounded-r-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+    @apply -ml-px rounded-l-none rounded-r-(--ith-radius) border border-(color:--ith-border) bg-(--ith-surface) px-3 py-2 text-sm text-(color:--ith-text-muted);
   }
 
   .kit-toggle__input {
-    @apply inline-block h-5 w-9 cursor-pointer rounded-full border border-gray-300 bg-gray-300 p-0.5 align-middle disabled:cursor-not-allowed;
+    @apply inline-block h-5 w-9 cursor-pointer rounded-full border border-(color:--ith-border) bg-(--ith-border) p-0.5 align-middle disabled:cursor-not-allowed;
   }
 
   .kit-toggle__thumb {
@@ -466,7 +467,7 @@
   }
 
   .kit-toggle.is-active .kit-toggle__input {
-    @apply border-blue-600 bg-blue-600;
+    @apply border-(color:--ith-blue) bg-(--ith-blue);
   }
 
   /* Spurbreite (w-9 = 2.25rem) minus Knopfbreite (w-4 = 1rem) minus beide Rahmen (1px je Seite). */
@@ -490,11 +491,11 @@
   .kit-checkbox__error,
   .kit-radio__error,
   .kit-toggle__error {
-    @apply mt-1 block text-sm text-red-600;
+    @apply mt-1 block text-sm text-(color:--ith-danger);
   }
 
   .kit-label {
-    @apply mb-2 inline-block text-sm font-medium text-gray-700;
+    @apply mb-2 inline-block text-sm font-medium text-(color:--ith-text);
   }
 
   .kit-form {
@@ -506,12 +507,12 @@
   }
 
   .kit-input-group-text {
-    @apply rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600;
+    @apply rounded-(--ith-radius) border border-(color:--ith-border) bg-(--ith-surface) px-3 py-2 text-sm text-(color:--ith-text-muted);
   }
 
   /* Blade-Theme kern: Buttons, Cards, Tabs-Inhalt, Breadcrumb, Anzeigen */
   .kit-button {
-    @apply inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white no-underline hover:brightness-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    @apply inline-flex items-center gap-1.5 rounded-(--ith-radius) bg-(--ith-navy) px-4 py-2 text-sm font-medium text-white no-underline hover:brightness-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-(color:--ith-blue) focus-visible:ring-offset-2;
   }
 
   .kit-button:disabled,
@@ -523,62 +524,65 @@
     @apply shrink-0;
   }
 
-  .kit-button[data-variant="primary"],
+  .kit-button[data-variant="primary"] {
+    @apply bg-(--ith-navy);
+  }
+
   .kit-button[data-variant="save"] {
-    @apply bg-blue-600;
+    @apply bg-(--ith-success);
   }
 
   .kit-button[data-variant="secondary"],
   .kit-button[data-variant="back"] {
-    @apply bg-gray-600;
+    @apply border border-(color:--ith-blue) bg-white text-(color:--ith-blue) hover:bg-(--ith-ice);
   }
 
   .kit-button[data-variant="cancel"] {
-    @apply bg-gray-500;
+    @apply border border-(color:--ith-blue) bg-white text-(color:--ith-blue) hover:bg-(--ith-ice);
   }
 
   .kit-button[data-variant="create"] {
-    @apply bg-green-600;
+    @apply bg-(--ith-success);
   }
 
   .kit-button[data-variant="delete"] {
-    @apply bg-red-600;
+    @apply bg-(--ith-danger);
   }
 
   .kit-button[data-variant="edit"] {
-    @apply bg-yellow-400 text-gray-900;
+    @apply bg-(--ith-warning) text-white;
   }
 
   .kit-button[data-variant="show"] {
-    @apply bg-cyan-500 text-gray-900;
+    @apply bg-(--ith-cyan) text-(color:--ith-text);
   }
 
   .kit-button[data-variant="submit"] {
-    @apply bg-blue-700;
+    @apply bg-(--ith-navy);
   }
 
   .kit-card {
-    @apply mb-4 rounded-md border border-gray-200 bg-white shadow-sm;
+    @apply mb-4 rounded-(--ith-radius) border border-(color:--ith-border) bg-white shadow-sm;
   }
 
   .kit-card__header {
-    @apply rounded-t-md border-b border-gray-200 bg-gray-50 px-4 py-3 font-semibold text-gray-900;
+    @apply rounded-t-(--ith-radius) border-b border-(color:--ith-border) bg-(--ith-surface) px-4 py-3 font-semibold text-(color:--ith-text);
   }
 
   .kit-card__body {
-    @apply px-4 py-4 text-sm text-gray-700;
+    @apply px-4 py-4 text-sm text-(color:--ith-text);
   }
 
   .kit-card__footer {
-    @apply rounded-b-md border-t border-gray-200 bg-gray-50 px-4 py-3;
+    @apply rounded-b-(--ith-radius) border-t border-(color:--ith-border) bg-(--ith-surface) px-4 py-3;
   }
 
   .kit-tabs__body {
-    @apply rounded-b-md border border-t-0 border-gray-200 px-4;
+    @apply rounded-b-(--ith-radius) border border-t-0 border-(color:--ith-border) px-4;
   }
 
   .kit-breadcrumb {
-    @apply mb-4 text-sm text-gray-500;
+    @apply mb-4 text-sm text-(color:--ith-text-muted);
   }
 
   .kit-breadcrumb__list {
@@ -586,12 +590,12 @@
   }
 
   .kit-breadcrumb__list > li + li::before {
-    @apply mr-2 text-gray-400;
+    @apply mr-2 text-(color:--ith-text-muted);
     content: "/";
   }
 
   .kit-breadcrumb__list > li:last-child {
-    @apply text-gray-900;
+    @apply text-(color:--ith-text);
   }
 
   .kit-show-euro {

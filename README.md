@@ -364,7 +364,7 @@ Eine Insel bekommt nur ihre `data-props` (JSON-Objekt); `mountInseln` übergibt 
 1. `npm install reka-ui` (dazu `vue` ab 3.5).
 2. Plugin registrieren: `app.use(KitVue3)` (aus `vue3/index.ts`).
 3. Für Inseln im HTML: `kitKomponenten` an `mountInseln` übergeben.
-4. `vue3/kit.css` einbinden und eine Theme-Datei aus `vue3/themes/` (`tailwind.css` oder `bootstrap5.scss`; Bootstrap-Sass vorher importieren).
+4. `vue3/kit.css` einbinden und eine Theme-Datei aus `vue3/themes/` (`tailwind.css` oder `bootstrap5.scss`; Bootstrap-Sass vorher importieren). Die Themes binden die Design-Tokens (`css/ith-tokens.css`, siehe „Design-Tokens“) selbst ein; eine eigene Einbindung der Tokens ist dafür nicht nötig.
 
 Das Theme `bootstrap5.scss` setzt Bootstrap 5 mit seinen CSS-Variablen an `:root` voraus (`bootstrap/scss/root`). Nutzt ein Projekt Bootstrap mit eigenem Präfix (z. B. Phoenix mit `--phoenix-*`), kompiliert es das Theme mit seinen eigenen Bootstrap-Sass-Dateien oder bindet `bootstrap/scss/root` ein.
 
@@ -446,6 +446,51 @@ Besonderheiten: `kit-input-password` zeigt das Passwort über `__toggle` (`aria-
 - Den Dialog steuerst du mit `v-model:open` oder der Prop `open`.
 - Die Komponenten ersetzen `combobox`/`vue-select`, `search`, `input-token` und `input-list` unter `vue/tailwind/forms/`. Diese Dateien liegen noch im Paket.
 - Die Wurzel `kit-combobox` trägt denselben Klassennamen wie `span.kit-combobox` aus `js/combobox.js` (Abschnitt „Durchsuchbares Select“) und wie die älteren Vue-Varianten unter `vue/`. `vue3/kit.css` schreibt die Zeilen-Regel für die Wurzel deshalb doppelt (`.kit-combobox.kit-combobox`), damit sie die Global-Regel der älteren Varianten übertrumpft. Ist `vue3/kit.css` geladen, trifft die Regel auch `span.kit-combobox` aus `js/combobox.js`: die Wurzel wird zur Zeile ohne Außenabstand.
+
+## Design-Tokens
+
+Das Kit liefert die Design-Tokens der IT-Hilbert GmbH in zwei Dateien aus. Quelle der Werte ist die Wiki-Seite https://wiki.lan/it-hilbert/corporate-design (Abschnitt „Design-Tokens“). Werte zuerst im Wiki ändern, danach die Dateien nachziehen.
+
+- `css/ith-tokens.css`: ein `:root`-Block mit den 16 Variablen `--ith-*` (Farben, `--ith-radius`, `--ith-font`). Reines CSS, ohne Tailwind nutzbar.
+- `css/ith-theme.css`: der Tailwind-4-Teil (`@theme`) mit `--color-brand-*`, `--color-ink`, `--color-line`, `--color-surface`, `--color-success|warning|danger`, `--font-sans` und `--radius-brand`; daraus entstehen Utilities wie `bg-brand-navy`, `text-brand-blue`, `rounded-brand`. Ohne Tailwind wird sie nicht gebraucht.
+
+Die Vue-3-Themes (`vue3/themes/tailwind.css`, `bootstrap5.scss`) und damit das Blade-Theme `kern` setzen ihre Farben aus diesen Tokens und binden `css/ith-tokens.css` selbst ein.
+
+### Einbinden
+
+Tailwind/Vite (Tokens und `@theme`):
+
+```css
+@import "tailwindcss";
+@import "../../vendor/ithilbert/laravel-kit/css/ith-tokens.css";
+@import "../../vendor/ithilbert/laravel-kit/css/ith-theme.css";
+```
+
+Sass/Bootstrap (nur die Variablen; Sass liest die Datei ohne Endung ein und fügt sie in die Ausgabe ein):
+
+```scss
+@import "../../vendor/ithilbert/laravel-kit/css/ith-tokens";
+```
+
+Klartext-CSS (ohne Build):
+
+```css
+@import url("/css/ith-tokens.css"); /* Datei aus css/ ins public-Verzeichnis kopieren */
+body { font-family: var(--ith-font); color: var(--ith-text); }
+```
+
+### Schrift Inter
+
+Die Schrift Inter liefert das Kit nicht mit. Die App hostet sie selbst über `@fontsource/inter` (`npm install @fontsource/inter`) und importiert die Schnitte 400, 500, 600 und 700:
+
+```js
+import '@fontsource/inter/400.css'
+import '@fontsource/inter/500.css'
+import '@fontsource/inter/600.css'
+import '@fontsource/inter/700.css'
+```
+
+Das Google-Fonts-CDN ist nicht erlaubt (DSGVO): keine Einbindung von `fonts.googleapis.com` oder `fonts.gstatic.com`.
 
 ## Integrations-Voraussetzungen
 
