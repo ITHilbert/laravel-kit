@@ -4,6 +4,7 @@
 ### Design-Tokens
 - Neu: `css/ith-tokens.css` (`:root` mit den 16 Variablen `--ith-*` der IT-Hilbert GmbH, Werte aus https://wiki.lan/it-hilbert/corporate-design) und `css/ith-theme.css` (Tailwind-4-`@theme`: `--color-brand-*`, `--color-ink`, `--color-line`, `--color-surface`, `--color-success|warning|danger`, `--font-sans`, `--radius-brand`). README-Abschnitt „Design-Tokens“ mit Einbindung und Inter über `@fontsource/inter` (#2195).
 - Geändert: Vue-3-Themes `vue3/themes/tailwind.css` und `bootstrap5.scss` setzen Farben und Ecken aus den Tokens (statt Tailwind-Standardfarben bzw. `--bs-primary`, `--bs-success`, `$form-feedback-invalid-color`) und binden `ith-tokens.css` selbst ein. Damit ändert sich auch die Optik des Blade-Themes `kern` (dieselben Theme-Dateien): Primär Navy, Sekundär weiß mit blauem Rahmen. Klassennamen `kit-…` bleiben. Eingefrorene Varianten (`vue/*`, Blade `tailwind`, `bootstrap5`) unverändert.
+- Geändert: Knöpfe `save` und `create` Navy (Primär), `edit` Sekundär (weiß mit blauem Rahmen); Grün bleibt Statusfarbe (#2266).
 
 ### Kontakt-Leiste
 - Doku: README nennt den Fallstrick Vue-2-Wurzel (Vue 2 verwirft das `<style>` der Komponente): Include hinter der Wurzel, vor `</body>` (#2107).
