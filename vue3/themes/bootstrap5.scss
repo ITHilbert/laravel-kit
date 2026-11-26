@@ -755,7 +755,8 @@
 
 .kit-button[data-variant="secondary"],
 .kit-button[data-variant="back"],
-.kit-button[data-variant="cancel"] {
+.kit-button[data-variant="cancel"],
+.kit-button[data-variant="edit"] {
   --kit-button-bg: #fff;
   --kit-button-color: var(--ith-blue);
   border-color: var(--ith-blue);
@@ -767,20 +768,15 @@
 }
 
 .kit-button[data-variant="create"] {
-  --kit-button-bg: var(--ith-success);
+  --kit-button-bg: var(--ith-navy);
 }
 
 .kit-button[data-variant="delete"] {
   --kit-button-bg: var(--ith-danger);
 }
 
-.kit-button[data-variant="edit"] {
-  --kit-button-bg: var(--ith-warning);
-  --kit-button-color: #{$white};
-}
-
 .kit-button[data-variant="save"] {
-  --kit-button-bg: var(--ith-success);
+  --kit-button-bg: var(--ith-navy);
 }
 
 .kit-button[data-variant="show"] {

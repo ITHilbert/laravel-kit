@@ -529,11 +529,12 @@
   }
 
   .kit-button[data-variant="save"] {
-    @apply bg-(--ith-success);
+    @apply bg-(--ith-navy);
   }
 
   .kit-button[data-variant="secondary"],
-  .kit-button[data-variant="back"] {
+  .kit-button[data-variant="back"],
+  .kit-button[data-variant="edit"] {
     @apply border border-(color:--ith-blue) bg-white text-(color:--ith-blue) hover:bg-(--ith-ice);
   }
 
@@ -542,15 +543,11 @@
   }
 
   .kit-button[data-variant="create"] {
-    @apply bg-(--ith-success);
+    @apply bg-(--ith-navy);
   }
 
   .kit-button[data-variant="delete"] {
     @apply bg-(--ith-danger);
-  }
-
-  .kit-button[data-variant="edit"] {
-    @apply bg-(--ith-warning) text-white;
   }
 
   .kit-button[data-variant="show"] {
