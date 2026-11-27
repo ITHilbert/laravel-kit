@@ -80,15 +80,18 @@ Jedes gerenderte Element trägt höchstens eine Klasse `kit-<name>` bzw. `kit-<n
 | `tabs-header`, `tab-header`, `tabs-body`, `tab-body` | — | `kit-tabs__list`, `kit-tabs__tab`, `kit-tabs__body`, `kit-tabs__panel` |
 | `show-euro`, `show-date` | `kit-show-euro`, `kit-show-date` | — |
 | `breadcrumb` | `kit-breadcrumb` | `__list` |
+| `dialog-delete` | `kit-dialog` | `__overlay`, `__content`, `__title` |
 
 Die Skripte binden die Kern-Templates über `data-`-Attribute:
 
 - `js/tabs.js`: `data-kit-tabs` (am `tabs-header`) und `data-kit-tabs-body` (am `tabs-body`) bilden die Gruppe, `data-kit-tab` (Reiter) und `data-kit-tab-body` (Panel) tragen den `name`.
 - `js/combobox.js`: `select[data-kit-combobox]` innerhalb von `div.kit-combobox`. Das Skript setzt `__input`, `__trigger`, `__list` und `__item` als Geschwister des Selects in die Wurzel. Die Ausgabe der Themes `bootstrap5` und `tailwind` bleibt unverändert.
+- `js/loesch-dialog.js`: `data-kit-delete-dialog` (Wurzel des Lösch-Dialogs), `data-kit-delete-abbrechen` und `data-kit-delete-bestaetigen` an den Schließ- und Bestätigen-Elementen.
 
 ### Verfügbare Kit-Components
 
 - Karten: `card-main`, `card-main-header`, `card-body`, `card-footer`
+- Dialog: `dialog-delete`
 - Buttons: `button-create`, `button-edit`, `button-show`, `button-delete`, `button-save`, `button-back`, `button-submit`, `button-cancel`, `button` (`variant` ergibt die Klasse `btn-<variant>`, Default `primary`; `type` den Typ, Default `button`)
 - Formularfelder: `label`, `input-text`, `input-email`, `input-password`, `input-date`, `input-euro`, `input-number`, `input-hidden`, `input-file`, `input-file-img`, `text-area`, `checkbox`, `combobox`, `select`
   - `combobox`: `options` als Array, Collection oder JSON-Text mit `cbKey`/`cbCaption`; `value` wählt die Option.
@@ -326,7 +329,7 @@ Die Insel wird mit dem Mount-Helfer gemountet (siehe unten).
 <x-kit::dialog-delete titel="Kunde löschen" body="Den Kunden wirklich löschen?" :route="route('kunden.destroy', 0)" />
 ```
 
-- **Theme `kern`:** Die Component gibt einen Blade-Dialog aus (`div.kit-dialog` mit `data-kit-delete-dialog`, offen/zu über das Attribut `hidden`), ohne Vue. `initLoeschDialog()` aus `js/loesch-dialog.js` verdrahtet ihn und muss einmal pro Seite laufen; es ruft `initLoeschen()` selbst auf. Abbrechen, Klick auf das Overlay und Escape schließen den Dialog, „Löschen“ setzt die `action` von `#formDelete` und sendet. Die Zustandslogik kommt aus `erzeugeLoeschDialog()`.
+- **Theme `kern`:** Die Component gibt einen Blade-Dialog aus (`div.kit-dialog` mit `data-kit-delete-dialog`, offen/zu über das Attribut `hidden`), ohne Vue. `initLoeschDialog()` aus `js/loesch-dialog.js` verdrahtet ihn und muss einmal pro Seite laufen; es ruft `initLoeschen()` selbst auf. Abbrechen, Klick auf das Overlay und Escape schließen den Dialog, „Löschen“ setzt die `action` von `#formDelete` und sendet. Die Zustandslogik kommt aus `erzeugeLoeschDialog()`. Beim Öffnen steht der Fokus auf „Abbrechen“, beim Schließen geht er an den auslösenden Button zurück (sofern dieser noch in der Seite hängt), und Tab bleibt im offenen Dialog. `vue3/kit.css` muss geladen sein; sie liefert die feste Ebene des Dialogs.
 - **Themes `bootstrap5` und `tailwind` (eingefroren):** Die Component gibt die Vue-Insel `dialog-delete` mit `data-props` aus, danach `#formDelete`. Gemountet wird wie oben über den Mount-Helfer, `initLoeschDialog()` ist dort nicht nötig.
 
 ```javascript
