@@ -40,5 +40,8 @@ abstract class TestCase extends Orchestra
         $app['config']->set('session.driver', 'array');
         $app['config']->set('cache.default', 'array');
         $app['config']->set('queue.default', 'sync');
+        // Sprache der Tests ist de (Spec dialog-delete-sprache, AK6); Sprach-Tests setzen sie selbst
+        $app['config']->set('app.locale', 'de');
+        $app['config']->set('app.fallback_locale', 'de');
     }
 }
