@@ -329,6 +329,8 @@ Die Insel wird mit dem Mount-Helfer gemountet (siehe unten).
 <x-kit::dialog-delete titel="Kunde löschen" body="Den Kunden wirklich löschen?" :route="route('kunden.destroy', 0)" />
 ```
 
+**Sprache:** Fehlen `titel` und `body`, kommen die Texte (und die Buttons „Abbrechen“/„Löschen“ im Theme `kern`) aus den Sprachdateien `laravelkit::dialog.*` (`titel`, `body`, `abbrechen`, `loeschen`; `de` und `en`, nach `app()->getLocale()`). Überschreiben per Props oder durch eigene Dateien unter `lang/vendor/laravelkit/<sprache>/dialog.php`. Die Vue-Themes bekommen die aufgelösten Texte in `data-props`.
+
 - **Theme `kern`:** Die Component gibt einen Blade-Dialog aus (`div.kit-dialog` mit `data-kit-delete-dialog`, offen/zu über das Attribut `hidden`), ohne Vue. `initLoeschDialog()` aus `js/loesch-dialog.js` verdrahtet ihn und muss einmal pro Seite laufen; es ruft `initLoeschen()` selbst auf. Abbrechen, Klick auf das Overlay und Escape schließen den Dialog, „Löschen“ setzt die `action` von `#formDelete` und sendet. Die Zustandslogik kommt aus `erzeugeLoeschDialog()`. Beim Öffnen steht der Fokus auf „Abbrechen“, beim Schließen geht er an den auslösenden Button zurück (sofern dieser noch in der Seite hängt), und Tab bleibt im offenen Dialog. `vue3/kit.css` muss geladen sein; sie liefert die feste Ebene des Dialogs.
 - **Themes `bootstrap5` und `tailwind` (eingefroren):** Die Component gibt die Vue-Insel `dialog-delete` mit `data-props` aus, danach `#formDelete`. Gemountet wird wie oben über den Mount-Helfer, `initLoeschDialog()` ist dort nicht nötig.
 
