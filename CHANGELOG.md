@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.13.1 – 2026-11-27
+- Tests: CHANGELOG-Tests lesen den Abschnitt 1.13.0 statt „Unveröffentlicht“ (#2439).
+
 ## 1.13.0 – 2026-11-27
 ### Lösch-Dialog
 - Neu: `<x-kit::dialog-delete>` (Props `titel`, `body`, `route`) mit Formular `#formDelete`: Theme `kern` als Blade-Dialog (`kit-dialog`, offen/zu über `hidden`, JS `initLoeschDialog()` aus `js/loesch-dialog.js`), Themes `bootstrap5`/`tailwind` als Vue-Insel `dialog-delete`; `vue3/kit.css` blendet `.kit-dialog[hidden]` aus (#2298).
