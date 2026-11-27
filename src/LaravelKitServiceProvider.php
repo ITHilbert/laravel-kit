@@ -51,6 +51,7 @@ class LaravelKitServiceProvider extends ServiceProvider
 
         $this->loadKitMigrations();
         $this->loadViewsFrom(__DIR__.'/Views', 'laravelkit');
+        $this->loadTranslationsFrom(__DIR__.'/Lang', 'laravelkit');
         $this->publishAssets();
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->registerResponseMacros();

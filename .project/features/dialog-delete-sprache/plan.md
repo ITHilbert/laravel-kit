@@ -1,6 +1,6 @@
 # Plan dialog-delete-sprache (#2451)
 
-Stand: Spec geschrieben (selbst freigegeben, automode), Tests offen.
+Stand: T1 umgesetzt, GATE GRÜN, Tests DialogDelete* 22/22, Kit-Feature-Suite 2352 grün; Merge in kit main.
 Branch `feature/dialog-delete-sprache` (Paket-Repo laravel-kit).
 
 ## Aufgaben

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.0 – 2026-11-27
+- Neu: Texte von `<x-kit::dialog-delete>` (Titel, Text, Buttons) über Sprachdateien `laravelkit::dialog.*` (de/en); Props überschreiben weiterhin (#2451).
+
 ## 1.13.1 – 2026-11-27
 - Tests: CHANGELOG-Tests lesen den Abschnitt 1.13.0 statt „Unveröffentlicht“ (#2439).
 
