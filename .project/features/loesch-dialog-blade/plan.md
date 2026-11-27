@@ -14,3 +14,5 @@ Abweichung a29a1c6c17db91f22: Fehlalarm: Coder meldet „keine“
 Echtlauf: browser: /index.html (statische Seite mit echtem vue3/kit.css, js/loesch-dialog.js; Fixture in Scratchpad) — 0 Konsolenfehler, Klick: #auf ausgelöst, Klick: #ok ausgelöst, Dialog sichtbar nach Öffnen, danach hidden/display none, Formular-action /kunden/5; Abbrechen schließt ohne Senden → OK
 Review: ausstehend (am Ende des Stapels)
 Stand: T1 umgesetzt, Tests grün (PHP 483, JS 43), Echtlauf im Browser OK, Review am Ende.
+
+Review 0/2: 1 muss, 3 sollte, 2 kann (nicht freigegeben: Risiko kritisch + Fehlerpfad-Tests; Sollte → Folge-Task #2435). Behebung: Spec-Kopf kritisch, Tests Fehlerpfade (Öffnen ohne ID, fehlendes #formDelete, leere ID).

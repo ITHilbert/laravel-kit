@@ -1,5 +1,6 @@
 # Spec loesch-dialog-blade (#2298)
-Risiko: normal
+Risiko: kritisch — die Component legt fest, an welche Route die DELETE-Anfrage geht (Löschen, Datenverlust bei falscher ID oder Route); Review-Fund 0/2
+Rechtegrenze: entfällt — Rechte prüft der Host-Controller der Lösch-Route, die Component sendet nur das Formular
 Art: Feature — Blade-Component `<x-kit::dialog-delete>` für den Lösch-Dialog, damit userauth und kunden.lan keine eigenen Kopien pflegen.
 Status: freigegeben (Task #2298 Modus `umsetzung`, Joerg/Admin „ja“ im Chat 2026-11-27; Moderator selbst im automode)
 Rückbau: entfällt (kein Übergangsstand; Umstellung von userauth und kunden.lan sind eigene Tasks)
