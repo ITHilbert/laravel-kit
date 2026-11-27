@@ -156,6 +156,26 @@ describe('Blade-Lösch-Dialog', () => {
         assert.equal(d.gesendet.length, 2);
     });
 
+    // AK13
+    test('leere ID öffnet den Dialog nicht und sendet nichts, eine gültige ID danach schon', async () => {
+        const { initLoeschDialog } = await laden();
+        const d = baue();
+        const leer = knopf('');
+        const b = knopf('5');
+        doc.body.append(leer, b);
+        initLoeschDialog(doc);
+
+        leer.click();
+        assert.equal(d.wurzel.hidden, true, 'Dialog darf bei leerer ID nicht offen sein');
+        d.bestaetigen.click();
+        assert.deepEqual(d.gesendet, [], 'bei leerer ID darf nichts gesendet werden (Ist: /kunden/)');
+
+        b.click();
+        assert.equal(d.wurzel.hidden, false, 'Gegenprobe: gültige ID öffnet');
+        d.bestaetigen.click();
+        assert.deepEqual(d.gesendet, ['/kunden/5']);
+    });
+
     // AK8
     test('ohne #formDelete auf der Seite gibt „Löschen“ keinen Fehler und schließt', async () => {
         const { initLoeschDialog } = await laden();
