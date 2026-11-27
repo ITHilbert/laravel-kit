@@ -21,3 +21,5 @@ Spec-Lücke AK13 (leere ID sendete an Route ohne ID, Fund des test-writer): AK e
 
 Layout: entfällt (Dialog ist ohne Seitenlayout; Markup/CSS im echten Browser und vom Reviewer mit eigenem Chrome geprüft, Öffnen, Schließen, Senden)
 Korrektur Review 0/2: Risiko kritisch, Tests Fehlerpfade, AK13 leere ID (Fix js/loesch-dialog.js); JS 46/46 grün. Nachprüfung folgt.
+
+Review 1/2: 0 muss, 0 sollte, 1 kann (freigegeben, Nachprüfung inkl. AK13).
