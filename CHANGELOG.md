@@ -1,6 +1,6 @@
 # Changelog
 
-## Unveröffentlicht
+## 1.13.0 – 2026-11-27
 ### Lösch-Dialog
 - Neu: `<x-kit::dialog-delete>` (Props `titel`, `body`, `route`) mit Formular `#formDelete`: Theme `kern` als Blade-Dialog (`kit-dialog`, offen/zu über `hidden`, JS `initLoeschDialog()` aus `js/loesch-dialog.js`), Themes `bootstrap5`/`tailwind` als Vue-Insel `dialog-delete`; `vue3/kit.css` blendet `.kit-dialog[hidden]` aus (#2298).
 - Geändert: Blade-Lösch-Dialog: Fokus auf „Abbrechen“ beim Öffnen, Rückgabe an den Auslöser, Fokusfalle (#2435)
