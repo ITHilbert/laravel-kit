@@ -122,11 +122,11 @@ final class KernQuelltextTest extends TestCase
         }
     }
 
-    // AK1 (Vertrag: gleiche 34 Templates wie bootstrap5)
+    // AK1 (Vertrag: gleiche 35 Templates wie bootstrap5)
     public function test_kern_hat_zu_jedem_bootstrap5_template_ein_gleichnamiges(): void
     {
         $bootstrap = $this->templates('bootstrap5');
-        $this->assertCount(34, $bootstrap, 'Gegenprobe: bootstrap5 hat 34 Templates');
+        $this->assertCount(35, $bootstrap, 'Gegenprobe: bootstrap5 hat 35 Templates');
 
         $this->assertSame($bootstrap, $this->templates('kern'));
     }

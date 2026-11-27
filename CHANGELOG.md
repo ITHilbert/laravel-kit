@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unveröffentlicht
+### Lösch-Dialog
+- Neu: `<x-kit::dialog-delete>` (Props `titel`, `body`, `route`) mit Formular `#formDelete`: Theme `kern` als Blade-Dialog (`kit-dialog`, offen/zu über `hidden`, JS `initLoeschDialog()` aus `js/loesch-dialog.js`), Themes `bootstrap5`/`tailwind` als Vue-Insel `dialog-delete`; `vue3/kit.css` blendet `.kit-dialog[hidden]` aus (#2298).
+
 ### Design-Tokens
 - Geändert: Knöpfe `save` und `create` Navy (Primär), `edit` Sekundär (weiß mit blauem Rahmen); Grün bleibt Statusfarbe (#2266).
 - Neu: `css/ith-tokens.css` (`:root` mit den 16 Variablen `--ith-*` der IT-Hilbert GmbH, Werte aus https://wiki.lan/it-hilbert/corporate-design) und `css/ith-theme.css` (Tailwind-4-`@theme`: `--color-brand-*`, `--color-ink`, `--color-line`, `--color-surface`, `--color-success|warning|danger`, `--font-sans`, `--radius-brand`). README-Abschnitt „Design-Tokens“ mit Einbindung und Inter über `@fontsource/inter` (#2195).

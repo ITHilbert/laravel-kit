@@ -4,6 +4,20 @@
  * Die Scroll-Sperre des Body setzt Reka beim Öffnen eines modalen Dialogs selbst.
  */
 
+/*
+ * Blade-Lösch-Dialog (<x-kit::dialog-delete>, Theme kern): Wurzel .kit-dialog, offen/zu über das Attribut hidden.
+ * Overlay und Inhalt nutzen die Regeln des Vue-Dialogs darunter (gleiche Optik aus dem Theme).
+ */
+.kit-dialog[hidden] {
+  display: none;
+}
+
+.kit-dialog:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+}
+
 /* Dialog: Overlay deckt das Fenster ab, der Inhalt liegt darüber in der Mitte. */
 .kit-dialog__overlay {
   position: fixed;
