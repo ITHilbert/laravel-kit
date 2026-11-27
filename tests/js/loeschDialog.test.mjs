@@ -136,4 +136,40 @@ describe('Blade-Lösch-Dialog', () => {
         b.click();
         assert.equal(d.wurzel.hidden, false);
     });
+
+    // AK7
+    test('eine ID mit Sonderzeichen wird kodiert in die action übernommen', async () => {
+        const { initLoeschDialog } = await laden();
+        const d = baue('/kunden/0?x=1');
+        const normal = knopf('5');
+        const b = knopf('a/b?c');
+        doc.body.append(normal, b);
+        initLoeschDialog(doc);
+
+        normal.click();
+        d.bestaetigen.click();
+        assert.deepEqual(d.gesendet, ['/kunden/5?x=1'], 'Gegenprobe: Normalfall sendet');
+
+        b.click();
+        d.bestaetigen.click();
+        assert.deepEqual(d.gesendet[1], '/kunden/a%2Fb%3Fc?x=1');
+        assert.equal(d.gesendet.length, 2);
+    });
+
+    // AK8
+    test('ohne #formDelete auf der Seite gibt „Löschen“ keinen Fehler und schließt', async () => {
+        const { initLoeschDialog } = await laden();
+        const d = baue();
+        d.formular.remove();
+        const b = knopf('5');
+        doc.body.append(b);
+        initLoeschDialog(doc);
+
+        b.click();
+        assert.equal(d.wurzel.hidden, false, 'Gegenprobe: Dialog war offen');
+        assert.doesNotThrow(() => d.bestaetigen.click());
+        assert.equal(d.wurzel.hidden, true);
+        assert.deepEqual(d.gesendet, []);
+        assert.equal(d.formular.getAttribute('action'), null);
+    });
 });

@@ -29,6 +29,7 @@ Für das Theme `kern` gibt es eine Blade-Component `<x-kit::dialog-delete titel=
 - **AK10** Gegeben `vue3/kit.css`, Wenn sie gelesen wird, Dann gibt es Regeln, die `.kit-dialog[hidden]` ausblenden und ein sichtbares `.kit-dialog` als feste, die Seite deckende Ebene mit zentriertem `.kit-dialog__content` darstellen.
 - **AK11** Gegeben README und CHANGELOG des Kits, Wenn gelesen wird, Dann beschreibt die README im Abschnitt „Lösch-Button und Lösch-Dialog“ `<x-kit::dialog-delete>` (Props, Formular `#formDelete` kommt aus der Component, `initLoeschDialog()`), und der CHANGELOG nennt „Neu: `<x-kit::dialog-delete>` …“ unter „Unveröffentlicht“ mit Verweis `#2298`.
 - **AK12** Gegeben die bestehenden Tests `tests/js/loeschen.test.mjs` und die Template-Prüfungen für Theme `kern` (Quelltext, Anzahl der Bausteine), Wenn sie laufen, Dann sind sie grün (der Baustein `dialog-delete` ist in der Liste der Bausteine aller drei Themes enthalten; die Vue-Insel und `erzeugeLoeschDialog()` bleiben unverändert).
+- **AK13** (Spec-Lücke aus Review 0/2, 2026-11-27, im automode selbst freigegeben) Gegeben die Component aus AK1 und `initLoeschDialog()`, Wenn ein Element mit `data-kit-delete=""` (leere ID) angeklickt wird, Dann öffnet der Dialog nicht, und es wird nichts gesendet; ein danach angeklicktes `data-kit-delete="5"` öffnet ihn und sendet wie in AK7. Die Vue-Insel `dialog-delete` und `js/loeschen.js` bleiben unverändert (Fix nur in `js/loesch-dialog.js`).
 
 ## Randfälle
 - Mehrere `data-kit-delete`-Buttons und ein Dialog: gilt die zuletzt geklickte ID.

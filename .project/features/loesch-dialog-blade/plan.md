@@ -16,3 +16,5 @@ Review: ausstehend (am Ende des Stapels)
 Stand: T1 umgesetzt, Tests grün (PHP 483, JS 43), Echtlauf im Browser OK, Review am Ende.
 
 Review 0/2: 1 muss, 3 sollte, 2 kann (nicht freigegeben: Risiko kritisch + Fehlerpfad-Tests; Sollte → Folge-Task #2435). Behebung: Spec-Kopf kritisch, Tests Fehlerpfade (Öffnen ohne ID, fehlendes #formDelete, leere ID).
+
+Spec-Lücke AK13 (leere ID sendete an Route ohne ID, Fund des test-writer): AK ergänzt, im automode selbst freigegeben (User-Freigabe nicht möglich, umkehrbar). Test (rot) → Coder-Fix nur in js/loesch-dialog.js.
