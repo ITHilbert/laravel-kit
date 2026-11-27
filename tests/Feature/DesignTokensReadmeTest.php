@@ -118,7 +118,7 @@ final class DesignTokensReadmeTest extends TestCase
     // AK9
     public function test_changelog_unveroeffentlicht_nennt_dateien_und_themes(): void
     {
-        $this->assertSame([], $this->changelogMaengel($this->abschnitt($this->datei('CHANGELOG.md'), 'Unveröffentlicht')));
+        $this->assertSame([], $this->changelogMaengel($this->abschnitt($this->datei('CHANGELOG.md'), '1.13.0 – 2026-11-27')));
     }
 
     // AK4, AK9 (Gegenprobe der Prüfer)

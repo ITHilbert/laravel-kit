@@ -174,7 +174,7 @@ final class DialogDeleteTest extends TestCase
         // Gegenprobe: der Abschnitt ist nicht die ganze README
         $this->assertLessThan(strlen($readme), strlen($abschnitt));
 
-        $neu = $this->changelogVersion($this->paketDatei('CHANGELOG.md'), 'Unveröffentlicht');
+        $neu = $this->changelogVersion($this->paketDatei('CHANGELOG.md'), '1.13.0');
         $this->assertMatchesRegularExpression('/^- Neu: `<x-kit::dialog-delete>`.*#2298/m', $neu);
         $this->assertStringNotContainsString('## 1.11.0', $neu);
     }
