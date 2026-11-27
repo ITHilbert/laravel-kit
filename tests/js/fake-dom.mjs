@@ -9,6 +9,7 @@ export class FakeEvent {
         this.detail = init.detail;
         this.key = init.key;
         this.keyCode = init.keyCode;
+        this.shiftKey = init.shiftKey ?? false;
         this.defaultPrevented = false;
         this.target = null;
         this.currentTarget = null;
@@ -331,7 +332,15 @@ export class FakeElement {
         else if (t === 'OPTION') this.setAttribute('value', v);
         else this._value = String(v);
     }
-    focus() {}
+    // Fokus wie im Browser: nur für Elemente im Dokument und ohne `hidden`-Vorfahr; sonst bleibt der Fokus, wo er ist.
+    focus() {
+        let wurzel = this;
+        for (let e = this; e; e = e.parentElement) {
+            if (e.hasAttribute?.('hidden')) return;
+            wurzel = e;
+        }
+        if (wurzel instanceof FakeDocument) wurzel._aktiv = this;
+    }
     select() {}
     append(...cs) {
         cs.forEach((c) => this.appendChild(c));
@@ -388,6 +397,13 @@ export class FakeDocument extends FakeElement {
     constructor() {
         super('#document');
         this.body = this.appendChild(new FakeElement('body'));
+    }
+    // Entfernte oder ausgeblendete Elemente haben keinen Fokus; dann gilt body.
+    get activeElement() {
+        const a = this._aktiv;
+        if (!a || !this.contains(a)) return this.body;
+        for (let e = a; e; e = e.parentElement) if (e.hasAttribute?.('hidden')) return this.body;
+        return a;
     }
     createElement(t) {
         return new FakeElement(t);

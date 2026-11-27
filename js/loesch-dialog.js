@@ -4,15 +4,40 @@
 import { erzeugeLoeschDialog, initLoeschen, onLoeschen } from './loeschen.js';
 
 const gebunden = new WeakSet();
+const ausloeserBeobachtet = new WeakSet();
+let ausloeser = null;
+
+// Merkt den Lösch-Button, der den Dialog öffnet. Muss vor initLoeschen() registriert sein, weil dessen Click-Handler
+// das Öffnen-Ereignis synchron auslöst.
+function beobachteAusloeser(root) {
+    if (ausloeserBeobachtet.has(root)) return;
+    ausloeserBeobachtet.add(root);
+    root.addEventListener('click', (e) => {
+        const knopf = e.target?.closest?.('[data-kit-delete]');
+        if (knopf) ausloeser = knopf;
+    });
+}
+
+function fokussierbare(wurzel) {
+    return Array.from(wurzel.querySelectorAll('button')).filter((el) => !el.disabled);
+}
 
 function hiddenAdapter(wurzel) {
     return {
         classList: {
             add: (name) => {
-                if (name === 'hidden') wurzel.hidden = true;
+                if (name !== 'hidden') return;
+                const war = !wurzel.hidden;
+                wurzel.hidden = true;
+                if (!war) return;
+                const ziel = ausloeser;
+                ausloeser = null;
+                if (ziel && globalThis.document.body?.contains?.(ziel)) ziel.focus();
             },
             remove: (name) => {
-                if (name === 'hidden') wurzel.hidden = false;
+                if (name !== 'hidden') return;
+                wurzel.hidden = false;
+                wurzel.querySelector('[data-kit-delete-abbrechen][data-variant="cancel"]')?.focus();
             },
         },
     };
@@ -44,12 +69,29 @@ function binde(wurzel) {
     });
 
     globalThis.document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !wurzel.hidden) dialog.schliessen();
+        if (wurzel.hidden) return;
+        if (e.key === 'Escape') {
+            dialog.schliessen();
+        } else if (e.key === 'Tab') {
+            const liste = fokussierbare(wurzel);
+            if (liste.length === 0) return;
+            const erstes = liste[0];
+            const letztes = liste[liste.length - 1];
+            const aktiv = globalThis.document.activeElement;
+            if (e.shiftKey && aktiv === erstes) {
+                e.preventDefault();
+                letztes.focus();
+            } else if (!e.shiftKey && aktiv === letztes) {
+                e.preventDefault();
+                erstes.focus();
+            }
+        }
     });
 }
 
 // Einmal pro Seite aufrufen; mehrfache Aufrufe binden nichts doppelt. Ohne Dialog auf der Seite passiert nichts.
 export function initLoeschDialog(root = document) {
+    beobachteAusloeser(root);
     initLoeschen(root);
     root.querySelectorAll('[data-kit-delete-dialog]').forEach(binde);
 }
