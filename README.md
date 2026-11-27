@@ -320,6 +320,21 @@ Die Zustandslogik des Dialogs steht in `erzeugeLoeschDialog()` aus `js/loeschen.
 
 Die Insel wird mit dem Mount-Helfer gemountet (siehe unten).
 
+**Blade-Component `<x-kit::dialog-delete>`:** Statt Insel und eigenem Formular bindet das Projekt eine Component ein. Die Props sind `titel` (Standard „Löschen“), `body` (Standard „Diesen Eintrag wirklich löschen?“) und `route` (Pflicht, endet auf ein Pfadsegment, das durch die ID ersetzt wird). Alle Werte werden escaped ausgegeben. Das Formular `#formDelete` (CSRF, `DELETE`) kommt aus der Component, das Projekt legt kein eigenes an. Ein Dialog pro Seite:
+
+```blade
+<x-kit::dialog-delete titel="Kunde löschen" body="Den Kunden wirklich löschen?" :route="route('kunden.destroy', 0)" />
+```
+
+- **Theme `kern`:** Die Component gibt einen Blade-Dialog aus (`div.kit-dialog` mit `data-kit-delete-dialog`, offen/zu über das Attribut `hidden`), ohne Vue. `initLoeschDialog()` aus `js/loesch-dialog.js` verdrahtet ihn und muss einmal pro Seite laufen; es ruft `initLoeschen()` selbst auf. Abbrechen, Klick auf das Overlay und Escape schließen den Dialog, „Löschen“ setzt die `action` von `#formDelete` und sendet. Die Zustandslogik kommt aus `erzeugeLoeschDialog()`.
+- **Themes `bootstrap5` und `tailwind` (eingefroren):** Die Component gibt die Vue-Insel `dialog-delete` mit `data-props` aus, danach `#formDelete`. Gemountet wird wie oben über den Mount-Helfer, `initLoeschDialog()` ist dort nicht nötig.
+
+```javascript
+import { initLoeschDialog } from '../../vendor/ithilbert/laravel-kit/js/loesch-dialog.js';
+
+initLoeschDialog();
+```
+
 ### Mount-Helfer `mountInseln`
 
 `mountInseln(verzeichnis, root = document)` aus `js/mount-inseln.js` mountet Vue-Inseln (Vue 3). Für jedes Element mit `data-vue` unter `root` lädt er die Komponente aus dem Insel-Verzeichnis und mountet sie als eigene App. Die Props kommen aus `data-props` (JSON-Objekt). Fehlt `data-props`, hat die Insel keine Props.

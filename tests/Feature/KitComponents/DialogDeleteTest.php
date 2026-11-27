@@ -69,6 +69,9 @@ final class DialogDeleteTest extends TestCase
     // AK2
     public function test_kern_hat_genau_ein_lösch_formular_mit_csrf_und_delete_ohne_action(): void
     {
+        // Im Testbench-Render läuft keine Session: ohne Token gibt @csrf ein leeres value aus
+        $this->startSession();
+        session()->put('_token', 'abc123');
         $html = $this->kernRendern(self::BLADE);
 
         $this->assertSame(1, (int) $this->dom($html)->evaluate('count(//form[@id="formDelete"])'));
@@ -76,7 +79,7 @@ final class DialogDeleteTest extends TestCase
         $form = '//form[@id="formDelete"]';
         $this->assertSame('POST', strtoupper((string) $this->attribut($html, $form, 'method')));
         $this->sieHat($html, $form.'//input[@name="_token"]');
-        $this->assertNotSame('', (string) $this->attribut($html, $form.'//input[@name="_token"]', 'value'));
+        $this->assertSame('abc123', $this->attribut($html, $form.'//input[@name="_token"]', 'value'));
         $this->sieHat($html, $form.'//input[@name="_method"][@value="DELETE"]');
         $this->sieHatNicht($html, $form.'[@action]');
     }
