@@ -29,7 +29,11 @@ function binde(wurzel) {
         globalThis: null,
     });
 
-    onLoeschen(({ id }) => dialog.oeffnenPerEreignis(id));
+    onLoeschen(({ id }) => {
+        // Leere oder fehlende ID (AK13): Dialog bleibt zu, es wird nichts gesendet.
+        if (id === null || id === undefined || String(id).trim() === '') return;
+        dialog.oeffnenPerEreignis(id);
+    });
 
     wurzel.addEventListener('click', (e) => {
         if (e.target?.closest?.('[data-kit-delete-bestaetigen]')) {

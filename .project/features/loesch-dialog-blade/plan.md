@@ -18,3 +18,6 @@ Stand: T1 umgesetzt, Tests grün (PHP 483, JS 43), Echtlauf im Browser OK, Revie
 Review 0/2: 1 muss, 3 sollte, 2 kann (nicht freigegeben: Risiko kritisch + Fehlerpfad-Tests; Sollte → Folge-Task #2435). Behebung: Spec-Kopf kritisch, Tests Fehlerpfade (Öffnen ohne ID, fehlendes #formDelete, leere ID).
 
 Spec-Lücke AK13 (leere ID sendete an Route ohne ID, Fund des test-writer): AK ergänzt, im automode selbst freigegeben (User-Freigabe nicht möglich, umkehrbar). Test (rot) → Coder-Fix nur in js/loesch-dialog.js.
+
+Layout: entfällt (Dialog ist ohne Seitenlayout; Markup/CSS im echten Browser und vom Reviewer mit eigenem Chrome geprüft, Öffnen, Schließen, Senden)
+Korrektur Review 0/2: Risiko kritisch, Tests Fehlerpfade, AK13 leere ID (Fix js/loesch-dialog.js); JS 46/46 grün. Nachprüfung folgt.
