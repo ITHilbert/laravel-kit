@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.1 – 2026-11-28
+- Behoben: `RemoteExecuteTool` und `RemoteSyncTool` nehmen `Laravel\Mcp\Request` statt Einzelparametern (`handle(Request $request)`); fehlender oder leerer `command` bzw. `files` liefert eine Fehlermeldung ohne Prozessstart (#2470).
+
 ## 1.14.0 – 2026-11-27
 - Neu: Texte von `<x-kit::dialog-delete>` (Titel, Text, Buttons) über Sprachdateien `laravelkit::dialog.*` (de/en); Props überschreiben weiterhin (#2451).
 
