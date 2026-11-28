@@ -1,6 +1,6 @@
 # Plan boost-tools-request (#2470)
 
-Stand: Tests rot (5 von 6), Coder als Nächstes.
+Stand: T1 umgesetzt, Tests 15 grün (BoostToolsRequestTest, BootTest), Pint grün; Merge in kit main.
 Branch `bugfix/2470-boost-tools-request` (Paket-Repo laravel-kit).
 
 ## Aufgaben

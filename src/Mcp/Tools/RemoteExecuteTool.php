@@ -6,6 +6,7 @@ namespace ITHilbert\LaravelKit\Mcp\Tools;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\Process;
+use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
@@ -13,8 +14,14 @@ use Laravel\Mcp\Server\Tool;
 #[Description('Führt einen Bash-Befehl auf dem Live-Server des aktuellen Projekts aus. Basiert auf der mcp_remote config und lokalen SSH-Keys.')]
 class RemoteExecuteTool extends Tool
 {
-    public function handle(string $command): Response
+    public function handle(Request $request): Response
     {
+        $command = $request->get('command');
+
+        if (! is_string($command) || trim($command) === '') {
+            return Response::text('Fehler: Der Parameter command fehlt oder ist leer.');
+        }
+
         $command = escapeshellarg($command);
 
         $host = config('mcp_remote.host');

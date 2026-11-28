@@ -6,6 +6,7 @@ namespace ITHilbert\LaravelKit\Mcp\Tools;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\Process;
+use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
@@ -13,12 +14,11 @@ use Laravel\Mcp\Server\Tool;
 #[Description('Synchronisiert lokale Dateien mit dem Live-Server via rsyc. Lädt Modifikationen selektiv auf das Live-System.')]
 class RemoteSyncTool extends Tool
 {
-    /**
-     * @param  array<int, string>  $files
-     */
-    public function handle(array $files): Response
+    public function handle(Request $request): Response
     {
-        if (empty($files)) {
+        $files = $request->get('files');
+
+        if (! is_array($files) || $files === []) {
             return Response::text('Fehler: Mindestens eine Datei muss im files-Array übergeben werden.');
         }
 
